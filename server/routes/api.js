@@ -26,8 +26,8 @@ router.post('/resultsPart1', function(req,res){
   res.json(); // TODO: Submit results to db and return testId
 })
 
-router.post('/resultsPart2', function'req,res){
+router.post('/resultsPart2', function(req,res){
   // TODO: submit results to db
-}
+})
 
 module.exports = router;
