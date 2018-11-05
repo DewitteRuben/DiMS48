@@ -1,0 +1,18 @@
+{
+    "tests": [
+        {
+            "id": 1,
+            "title": "Verwerkingsfase en onmiddellijke herkenningsfase",
+            "duration": 360,
+            "description": "Testen van het kortetermijngeheugen",
+            "name": "dims48a"
+        },
+        {
+            "id": 2,
+            "title": "Uitgestelde herkenningsfase",
+            "duration": 420,
+            "description": "Testen van het langetermijngeheugen",
+            "name": "dims48b"
+        }
+    ]
+}
