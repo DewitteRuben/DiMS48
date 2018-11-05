@@ -5,14 +5,14 @@
             "title": "Verwerkingsfase en onmiddellijke herkenningsfase",
             "duration": 360,
             "description": "Testen van het kortetermijngeheugen",
-            "name": "dims48a"
+            "route": "dims48a"
         },
         {
             "id": 2,
-            "title": "Uitgestelde herkenningsfase",
+            "title": "Uitgese herkenningsfase",
             "duration": 420,
             "description": "Testen van het langetermijngeheugen",
-            "name": "dims48b"
+            "route": "dims48b"
         }
     ]
 }

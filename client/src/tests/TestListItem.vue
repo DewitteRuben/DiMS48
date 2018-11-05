@@ -9,7 +9,7 @@
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-btn :to=testRoute large color="primary">Start</v-btn>
+        <v-btn :to="testRoute" large color="primary">Start</v-btn>
       </v-card-actions>
     </v-card>
   </v-flex>
@@ -27,11 +27,12 @@ export default {
     id: { type: Number },
     title: { type: String },
     duration: { type: Number },
-    description: { type: String }
+    description: { type: String },
+    route: { type: String }
   },
   computed: {
     testRoute: function() {
-      return this.config.baseTestRoute + this.id;
+      return this.config.baseTestRoute + this.route;
     }
   }
 };
