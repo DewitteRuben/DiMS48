@@ -2,7 +2,7 @@
   <v-flex xs12 sm5>
     <v-card color="#FFFFFF">
       <v-card-title primary-title>
-        <div class="text-md-left">
+        <div class="text-lg-left">
           <div class="headline">{{title}}</div>
           <div>{{description}}</div>
           <span class="grey--text">Duratie: {{duration}}</span>

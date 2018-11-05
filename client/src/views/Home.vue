@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid grid-list-lg>
     <h1 class="text-lg-center">How To Test Apps</h1>
-    <v-layout row wrap="">
-      <TestListItem
+    <v-layout row wrap justify-center>
+      <TestListItem 
         v-for="(test) in tests"
         :key="test.id"
         :id="test.id"
