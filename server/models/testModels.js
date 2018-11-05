@@ -13,28 +13,28 @@ const ImagesSchema = new Schema({
 
 const ClientInfoSchema = new Schema({
   age: Number,
-  SchooledTill: Number,
-  SchooledFrom: Number,
-  Sex: String,
-  Notes: String
+  schooledTill: Number,
+  schooledFrom: Number,
+  gender: String,
+  notes: String
 });
 
 const AnswerSchema = new Schema({
   id: String,
   answer: String,
   correctAnswer: String
-})
+});
 
 const ResultsPart1Schema = new Schema({
   id: Number,
-  AnswersPhase1: [Answer],
-  AnswersPhase2: [Answer]
+  answersPhase1: [Answer],
+  answersPhase2: [Answer]
 });
 
 const ResultsPart2Schema = new Schema({
   id: Number,
-  Answers: [Answer]
-})
+  answers: [Answer]
+});
 
 module.exports = {
   Instruction: mongoose.model('Instruction', InstructionsSchema),
@@ -43,4 +43,4 @@ module.exports = {
   Answer: mongoose.model('Answer', AnswerSchema),
   ResultsPart1: mongoose.model('ResultsPart1', ResultsPart1Schema),
   ResultsPart2: mongoose.model('ResultsPart2', ResultsPart2Schema)
-}
+};
