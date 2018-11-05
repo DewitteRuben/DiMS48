@@ -9,7 +9,7 @@
               <v-btn
                 @click="submit"
                 >
-                Doorgaan
+                {{ buttonText }}
             </v-btn>
         </v-form>
     </v-form>
@@ -20,6 +20,7 @@ export default {
     props: {
     personTitle: { type: String },
     instructions: { type: String },
+    buttonText: {type: String}
   },
   methods: {
       submit() {
