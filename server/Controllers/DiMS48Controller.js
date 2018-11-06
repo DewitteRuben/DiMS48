@@ -53,10 +53,21 @@ function getResult(id){
   })
 }
 
+function getUnfinishedTests(){
+  return new Promise(function(s,f){
+    let query = DiMS48Models.Result.find({ $where: "this.answersPhase3.length <= 0"});
+    query.exec(function(err,data){
+      if(err)f(err);
+      s(data);
+    })
+  })
+}
+
 module.exports = {
   getImages,
   getInstructions,
   getOptions,
   getResults,
-  getResult
+  getResult,
+  getUnfinishedTests
 }

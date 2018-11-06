@@ -14,6 +14,10 @@ router.get('/dims48Part2', function(req,res){
   getBeginObject('part2').then(data=>res.json(data));
 })
 
+router.get('/unfinishedTests', function(req,res){
+  DiMS48Controller.getUnfinishedTests().then(data=>res.json(data));
+})
+
 router.get('/results', function(req,res){
   DiMS48Controller.getResults()
     .then(results=>res.json(results));
