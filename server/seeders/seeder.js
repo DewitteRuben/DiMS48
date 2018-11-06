@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Images = require('../models/DiMS48Models').Images;
 const getImages = require('./imagesSeeder').getImages;
 
-const Instuctions = require('../models/DiMS48Models').Instructions;
+const Instuction = require('../models/DiMS48Models').Instruction;
 const instructionSeeder = require('../seeders/instructionsSeeder');
 
 function checkImages() {
@@ -14,10 +14,11 @@ function checkImages() {
 }
 
 function checkInstructions() {
-    const queryInstructions = Instuctions.find();
+    const queryInstructions = Instuction.find();
     queryInstructions.exec((err, data) => {
         if (data.length <= 0) {
-            instructionSeeder.getInstructions().save();
+            console.log(instructionSeeder.getInstructions());
+            instructionSeeder.getInstructions().forEach((instruction) => instruction.save());
         }
     })
 }
