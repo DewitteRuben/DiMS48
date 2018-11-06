@@ -33,7 +33,18 @@ const InstructionSchema = new Schema({
     }
 }, {_id: false});
 
+const ButtonOptionSchema = new Schema({
+    btnText: String,
+    btnValue: String,
+}, {_id: false});
+
+const OptionSchema = new Schema({
+   _id: String,
+   options: [ButtonOptionSchema]
+});
+
 module.exports = {
     Results: mongoose.model('Results', Results),
     Instruction: mongoose.model('Instuction', InstructionSchema),
+    Option: mongoose.model('Option', OptionSchema),
 };

@@ -1,0 +1,12 @@
+[
+    {
+        "id":1,
+        "2 of minder kleuren": "lessOrEqualThanTwo",
+        "3 of meer kleuren": "moreOrEqualThanThree"
+    },
+    {
+        "id":2,
+        "links ": "links",
+        "rechts": "rechts"
+    }
+]

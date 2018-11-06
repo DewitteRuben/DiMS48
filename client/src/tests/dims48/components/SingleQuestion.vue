@@ -1,13 +1,11 @@
 <template>
     <div class="question">
-        <img
-            src="https://www.howtotest.be/sites/all/themes/howtotest/extensions/dms-48/images/single/afbeelding-1.jpg"
-            alt="picture"
-        >
-        <div class="answers">
-            <v-btn large flat color="primary">3 of minder kleuren</v-btn>
-            <v-btn large flat color="primary">meer dan 3 kleuren</v-btn>
-        </div>
+        <img :src="image" alt="picture"> 
+        <div class="answers"> 
+            <v-btn v-for="(option, index) in options" class="answers" :key="index" large :data-value="option.btnValue" flat color="primary" >
+                {{option.btnText}}
+            </v-btn> 
+        </div> 
     </div>
 </template>
 
@@ -15,9 +13,9 @@
 export default {
   props: {
     image: { type: String },
-    possibleAnswers: { type: Array },
+    options: { type: Array },
     buttonText: { type: String }
-  }
+  },
 };
 </script>
 

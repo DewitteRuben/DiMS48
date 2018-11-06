@@ -8,6 +8,9 @@ const getImages = require('./imagesSeeder').getImages;
 const Instuction = DiMS48Models.Instruction;
 const getInstructions = require('./instructionsSeeder').getInstructions;
 
+const Option = require('../models/DiMS48Models').Option;
+const optionSeeder = require('../seeders/optionsSeeder');
+
 const Test = defaultModels.Test;
 const getTests = require('./testsSeeder').getTests;
 
@@ -28,6 +31,15 @@ function checkInstructions() {
     })
 }
 
+function checkOptions() {
+    const queryOptions = Option.find();
+    queryOptions.exec((err, data) => {
+        if(data.length <= 0){
+            optionSeeder.getOptions().forEach((option) => option.save());
+        }
+    })
+}
+
 function checkTests(){
   const queryTests = Test.find();
   queryTests.exec((err, data)=>{
@@ -40,6 +52,7 @@ function checkTests(){
 function checkAll() {
     checkImages();
     checkInstructions();
+    checkOptions();
     checkTests();
 }
 
