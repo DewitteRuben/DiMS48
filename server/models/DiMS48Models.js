@@ -5,23 +5,23 @@ const defaultModels = require('./defaultModels.js');
 
 const ResultsPart1Schema = new Schema({
   id: Number,
-  answersPhase1: [defaultModels.Answer],
-  answersPhase2: [defaultModels.Answer]
+  answersPhase1: [defaultModels.AnswerSchema],
+  answersPhase2: [defaultModels.AnswerSchema]
 });
 
 const ResultsPart2Schema = new Schema({
   id: Number,
-  answers: [Answer]
+  answers: [defaultModels.AnswerSchema]
 });
 
 
 const ImagesSchema = new Schema({
-    images: [defaultModels.Image]
+    images: [defaultModels.ImageSchema]
 });
 
 const Result = new Schema({
     timestamp: {type: Date, default: Date.now},
-    clientInfo: defaultModels.ClientInfo,
+    clientInfo: defaultModels.ClientInfoSchema,
     phase1: ResultsPart1Schema,
     phase2: ResultsPart1Schema,
 });
@@ -31,8 +31,8 @@ const Results = new Schema({
 });
 
 const InstructionSchema = new Schema({
-    clientInstruction: defaultModels.Instruction,
-    leaderInstruction: defaultModels.Instruction
+    clientInstruction: defaultModels.InstructionsSchema,
+    leaderInstruction: defaultModels.InstructionsSchema
 });
 
 const InstructionsSchema = new Schema({

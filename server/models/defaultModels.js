@@ -6,7 +6,7 @@ const InstructionsSchema = new Schema({
   text: String
 });
 
-const ImagesSchema = new Schema({
+const ImageSchema = new Schema({
   id: Number,
   imgUrl: String
 });
@@ -27,7 +27,11 @@ const AnswerSchema = new Schema({
 
 module.exports = {
   Instruction: mongoose.model('Instruction', InstructionsSchema),
-  Image: mongoose.model('Image', ImagesSchema),
+  Image: mongoose.model('Image', ImageSchema),
   ClientInfo: mongoose.model('ClientInfo', ClientInfoSchema),
-  Answer: mongoose.model('Answer', AnswerSchema)
+  Answer: mongoose.model('Answer', AnswerSchema),
+  AnswerSchema,
+  ImageSchema,
+  ClientInfoSchema,
+  InstructionsSchema
 };
