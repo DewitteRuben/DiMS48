@@ -12,7 +12,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    image: { type: String },
+    possibleAnswers: { type: Array },
+    buttonText: { type: String }
+  }
+};
 </script>
 
 <style>

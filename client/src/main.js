@@ -1,11 +1,9 @@
-/* eslint-env node */
-
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'; // Ensure you are using css-loader
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import store from './store/store.js';
 
 
 Vue.use(Vuetify);
