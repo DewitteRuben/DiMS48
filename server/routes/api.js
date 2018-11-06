@@ -44,7 +44,11 @@ function getBeginObject(part){
         DiMS48Controller.getInstructions(part)
           .then(instructions=>{
             beginObject.instructions = instructions;
-            s(beginObject);
+            DiMS48Controller.getOptions(part)
+              .then(options =>{
+                beginObject.options = options;
+                s(beginObject);
+              })
           }) // TODO: get options for buttons
       }).catch(err=>f(err));
   })

@@ -22,7 +22,19 @@ function getInstructions(part){
   })
 }
 
+function getOptions(part){
+  let whereClause = part === 'begin' ? {$or:[{_id: "phase1Options"},{_id: "phase2Options"}]} : {_id: "phase2Options"};
+  return new Promise(function(s,f){
+    let query = DiMS48Models.Option.find(whereClause);
+    query.exec(function(err,data){
+      if(err)f(err);
+      s(data);
+    })
+  })
+}
+
 module.exports = {
   getImages,
-  getInstructions
+  getInstructions,
+  getOptions
 }
