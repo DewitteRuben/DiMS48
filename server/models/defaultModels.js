@@ -7,9 +7,9 @@ const InstructionsSchema = new Schema({
 });
 
 const ImageSchema = new Schema({
-  id: Number,
+  id: String,
   imgUrl: String
-});
+}, {_id: false});
 
 const ClientInfoSchema = new Schema({
   age: Number,
