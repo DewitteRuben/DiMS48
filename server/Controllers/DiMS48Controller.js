@@ -33,8 +33,30 @@ function getOptions(part){
   })
 }
 
+function getResults(){
+  return new Promise(function(s,f){
+    let query = DiMS48Models.Result.find();
+    query.exec(function(err,data){
+      if(err)f(err);
+      s(data);
+    })
+  })
+}
+
+function getResult(id){
+  return new Promise(function(s,f){
+    let query = DiMS48Models.Result.find({_id: id});
+    query.exec(function(err,data){
+      if(err)f(err);
+      s(data);
+    })
+  })
+}
+
 module.exports = {
   getImages,
   getInstructions,
-  getOptions
+  getOptions,
+  getResults,
+  getResult
 }
