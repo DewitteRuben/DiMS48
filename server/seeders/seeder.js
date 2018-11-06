@@ -17,7 +17,6 @@ function checkInstructions() {
     const queryInstructions = Instuction.find();
     queryInstructions.exec((err, data) => {
         if (data.length <= 0) {
-            console.log(instructionSeeder.getInstructions());
             instructionSeeder.getInstructions().forEach((instruction) => instruction.save());
         }
     })
