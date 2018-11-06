@@ -1,12 +1,26 @@
 var express = require('express');
 var router = express.Router();
+const DiMS48Controller = require('../Controllers/DiMS48Controller');
 
 router.get('/listTests', function(req,res){
   res.json(''); // TODO: Send actual data
 })
 
 router.get('/dims48Begin', function(req,res){
-  res.json(); // TODO: Send all related instructions + images
+  let beginObject = {
+    images: null,
+    instructions: null,
+    options: null
+  }
+  DiMS48Controller.getImages()
+    .then(images=>{
+      beginObject.images = images;
+      DiMS48Models.getInstructions()
+        .then(instructions=>{
+          beginObject.instructions = instructions;
+        }) // TODO: get options for buttons
+    }).catch(err=>console.error(err));
+
 })
 
 router.get('/dims48Part2', function(req,res){
