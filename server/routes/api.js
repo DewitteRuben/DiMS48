@@ -30,8 +30,11 @@ router.get('/results/:id', function(req,res){
 })
 
 router.post('/resultsPart1', function(req,res){
-  res.json(); // TODO: Submit results to db and return testId
-})
+  DiMS48Controller.addResult(req.body)
+      .then((data) => {
+          res.json({testId: data._id});
+      });
+});
 
 router.post('/resultsPart2', function(req,res){
   // TODO: submit results to db

@@ -63,6 +63,19 @@ function getUnfinishedTests(){
   })
 }
 
+function addResult(data){
+  return new Promise((resolve, reject) => {
+    const newResult = new DiMS48Models.Result(data);
+    newResult.save((err, data) => {
+      if(err){
+        reject(err);
+      }else{
+        resolve(data);
+      }
+    });
+  })
+}
+
 module.exports = {
   getImages,
   getInstructions,
@@ -70,4 +83,6 @@ module.exports = {
   getResults,
   getResult,
   getUnfinishedTests
+  getResult,
+  addResult
 }
