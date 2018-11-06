@@ -5,6 +5,9 @@ const getImages = require('./imagesSeeder').getImages;
 const Instuction = require('../models/DiMS48Models').Instruction;
 const instructionSeeder = require('../seeders/instructionsSeeder');
 
+const Option = require('../models/DiMS48Models').Option;
+const optionSeeder = require('../seeders/optionsSeeder');
+
 function checkImages() {
     let queryImages = Image.find();
     queryImages.exec(function (err, data) {
@@ -22,9 +25,19 @@ function checkInstructions() {
     })
 }
 
+function checkOptions() {
+    const queryOptions = Option.find();
+    queryOptions.exec((err, data) => {
+        if(data.length <= 0){
+            optionSeeder.getOptions().forEach((option) => option.save());
+        }
+    })
+}
+
 function checkAll() {
     checkImages();
     checkInstructions();
+    checkOptions();
 }
 
 module.exports = {checkAll};
