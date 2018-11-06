@@ -2,14 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const InstructionsSchema = new Schema({
-  id: Number,
   text: String
-});
+}, {_id: false});
 
 const ImageSchema = new Schema({
-  id: Number,
+  _id: String,
   imgUrl: String
-});
+}, {_id: false});
 
 const ClientInfoSchema = new Schema({
   age: Number,
