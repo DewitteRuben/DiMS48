@@ -1,6 +1,16 @@
 const DiMS48Models = require('../models/DiMS48Models');
 const defaultModels = require('../models/defaultModels');
 
+function getTests(){
+  return new Promise(function(s,f){
+    let query = defaultModels.Test.find();
+    query.exec(function(err,data){
+      if(err)f(err);
+      s(data);
+    })
+  })
+}
+
 function getImages(){
   return new Promise(function(s,f){
     let query = defaultModels.Image.find();
@@ -64,6 +74,7 @@ function getUnfinishedTests(){
 }
 
 module.exports = {
+  getTests,
   getImages,
   getInstructions,
   getOptions,

@@ -3,7 +3,7 @@ var router = express.Router();
 const DiMS48Controller = require('../Controllers/DiMS48Controller');
 
 router.get('/listTests', function(req,res){
-  res.json(''); // TODO: Send actual data
+  DiMS48Controller.getTests().then(tests=>res.json(tests));
 })
 
 router.get('/dims48Begin', function(req,res){
