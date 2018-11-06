@@ -32,13 +32,18 @@ router.get('/results/:id', function(req,res){
 router.post('/resultsPart1', function(req,res){
   DiMS48Controller.addResult(req.body)
       .then((data) => {
+          res.status(201);
           res.json({testId: data._id});
       });
 });
 
 router.post('/resultsPart2', function(req,res){
-  // TODO: submit results to db
-})
+  DiMS48Controller.appendResult(req.body)
+      .then(() => {
+          res.status(201);
+          res.json({created: true});
+      })
+});
 
 function getBeginObject(part){
   let beginObject = {

@@ -54,14 +54,26 @@ function addResult(data){
   })
 }
 
+function appendResult(data){
+    return new Promise((resolve, reject) => {
+        DiMS48Models.Result.findByIdAndUpdate(data._id, {answersPhase3: data.answersPhase3}, (err, data) => {
+           if(err){
+               reject(err);
+           }else{
+               resolve();
+           }
+        })
+    })
+}
+
 module.exports = {
   getTests,
   getImages,
   getInstructions,
   getOptions,
   getResults,
-  getResult,
   getUnfinishedTests,
   getResult,
-  addResult
+  addResult,
+  appendResult,
 };
