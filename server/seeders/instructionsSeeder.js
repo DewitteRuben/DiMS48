@@ -29,12 +29,17 @@ const instructionPhase3 = new DiMS48Instruction({
     }
 });
 
-const instructions = new Instructions({
-   instructions: [
-       instructionPhase1,
-       instructionPhase2,
-       instructionPhase3
-   ]
-});
+const getInstructions = function getInstructions() {
+    return new Instructions({
+        instructions: [
+            instructionPhase1,
+            instructionPhase2,
+            instructionPhase3
+        ]
+    });
+};
 
-instructions.save();
+
+module.exports = {
+    getInstructions
+};

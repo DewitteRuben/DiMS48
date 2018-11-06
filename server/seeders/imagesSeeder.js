@@ -22,7 +22,7 @@ function getImages(){
   })
 }
 
-module.exports = { getImages }
+module.exports = { getImages };
 
 function makeImage(localSrc, id){
   return new Image({
