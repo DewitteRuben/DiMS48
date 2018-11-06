@@ -3,37 +3,30 @@ const Schema = mongoose.Schema;
 
 const defaultModels = require('./defaultModels.js');
 
-
-const AnwserSchema = new Schema({
-    _id: String,
-    answer: String,
-    correctAnswer: String
-});
-
 const ResultSchema = new Schema({
     timestamp: {type: Date, default: Date.now()},
-    clientInfo: defaultModels.ClientInfoSchema,
-    answersPhase1: [AnwserSchema],
-    answersPhase2: [AnwserSchema],
-    answersPhase3: [AnwserSchema],
+    clientInfo: {type: defaultModels.ClientInfoSchema, required: true},
+    answersPhase1: {type: [defaultModels.AnswerSchema], required: true},
+    answersPhase2: {type: [defaultModels.AnswerSchema], required: true},
+    answersPhase3: [defaultModels.AnswerSchema],
 });
 
 const InstructionSchema = new Schema({
     _id: String,
     instructions: {
-        client: String,
-        leader: String
+        client: {type: String, required: true},
+        leader: {type: String, required: true}
     }
 }, {_id: false});
 
 const ButtonOptionSchema = new Schema({
-    btnText: String,
-    btnValue: String,
+    btnText: {type: String, required: true},
+    btnValue: {type: String, required: true},
 }, {_id: false});
 
 const OptionSchema = new Schema({
    _id: String,
-   options: [ButtonOptionSchema]
+   options: {type: [ButtonOptionSchema], required: true}
 });
 
 module.exports = {

@@ -1,5 +1,3 @@
-Required objects
-
 Error handling
 
 Tests
