@@ -15,6 +15,7 @@ const ResultSchema = new Schema({
     clientInfo: defaultModels.ClientInfoSchema,
     answersPhase1: [AnwserSchema],
     answersPhase2: [AnwserSchema],
+    answersPhase3: [AnwserSchema],
 });
 
 const InstructionSchema = new Schema({
