@@ -5,10 +5,7 @@
             <v-btn v-for="(option, index) in options" class="answers" :key="index" large :data-value="option.btnValue" flat color="primary" >
                 {{option.btnText}}
             </v-btn> 
-                
-            </div> 
-        </div>
-        
+        </div> 
     </div>
 </template>
 
