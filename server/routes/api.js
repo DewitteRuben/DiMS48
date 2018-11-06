@@ -58,7 +58,7 @@ function getBeginObject(part){
                 beginObject.options = options;
                 s(beginObject);
               })
-          }) // TODO: get options for buttons
+          })
       }).catch(err=>f(err));
   })
 }

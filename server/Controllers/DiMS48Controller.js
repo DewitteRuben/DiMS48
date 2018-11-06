@@ -1,9 +1,9 @@
 const DiMS48Models = require('../models/DiMS48Models');
 const defaultModels = require('../models/defaultModels');
 
-function getTests(){
+function makeGetter(model, whereClause){
   return new Promise(function(s,f){
-    let query = defaultModels.Test.find();
+    let query = model.find(whereClause);
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
@@ -11,66 +11,34 @@ function getTests(){
   })
 }
 
+function getTests(){
+  return makeGetter(defaultModels.Test, null);
+}
+
 function getImages(){
-  return new Promise(function(s,f){
-    let query = defaultModels.Image.find();
-    query.exec(function(err, data){
-      if(err)f(err);
-      s(data);
-    })
-  })
+  return makeGetter(defaultModels.Image, null);
 }
 
 function getInstructions(part){
   let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "phase2"}]} : {_id: "phase3"};
-  return new Promise(function(s,f){
-    let query = DiMS48Models.Instruction.find(whereClause);
-    query.exec(function(err,data){
-      if(err)f(err);
-      s(data);
-    })
-  })
+  return makeGetter(DiMS48Models.Instruction, whereClause);
 }
 
 function getOptions(part){
   let whereClause = part === 'begin' ? {$or:[{_id: "phase1Options"},{_id: "phase2Options"}]} : {_id: "phase2Options"};
-  return new Promise(function(s,f){
-    let query = DiMS48Models.Option.find(whereClause);
-    query.exec(function(err,data){
-      if(err)f(err);
-      s(data);
-    })
-  })
+  return makeGetter(DiMS48Models.Option, whereClause);
 }
 
 function getResults(){
-  return new Promise(function(s,f){
-    let query = DiMS48Models.Result.find();
-    query.exec(function(err,data){
-      if(err)f(err);
-      s(data);
-    })
-  })
+  return makeGetter(DiMS48Models.Result, null);
 }
 
 function getResult(id){
-  return new Promise(function(s,f){
-    let query = DiMS48Models.Result.find({_id: id});
-    query.exec(function(err,data){
-      if(err)f(err);
-      s(data);
-    })
-  })
+  return makeGetter(DiMS48Models.Result, {_id: id});
 }
 
 function getUnfinishedTests(){
-  return new Promise(function(s,f){
-    let query = DiMS48Models.Result.find({ $where: "this.answersPhase3.length <= 0"});
-    query.exec(function(err,data){
-      if(err)f(err);
-      s(data);
-    })
-  })
+  return makeGetter(DiMS48Models.Result, { $where: "this.answersPhase3.length <= 0"})
 }
 
 function addResult(data){
