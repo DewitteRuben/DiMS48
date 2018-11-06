@@ -16,7 +16,7 @@ const ClientInfoSchema = new Schema({
   schooledFrom: Number,
   gender: String,
   notes: String
-});
+}, {_id: false});
 
 const AnswerSchema = new Schema({
   _id: String,

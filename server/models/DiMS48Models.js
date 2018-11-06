@@ -3,26 +3,18 @@ const Schema = mongoose.Schema;
 
 const defaultModels = require('./defaultModels.js');
 
-const ResultsPart1Schema = new Schema({
-    id: Number,
-    answersPhase1: [defaultModels.AnswerSchema],
-    answersPhase2: [defaultModels.AnswerSchema]
+
+const AnwserSchema = new Schema({
+    _id: String,
+    answer: String,
+    correctAnswer: String
 });
 
-const ResultsPart2Schema = new Schema({
-    id: Number,
-    answers: [defaultModels.AnswerSchema]
-});
-
-const Result = new Schema({
-    timestamp: {type: Date, default: Date.now},
+const ResultSchema = new Schema({
+    timestamp: {type: Date, default: Date.now()},
     clientInfo: defaultModels.ClientInfoSchema,
-    phase1: ResultsPart1Schema,
-    phase2: ResultsPart1Schema,
-});
-
-const Results = new Schema({
-    results: [Result]
+    answersPhase1: [AnwserSchema],
+    answersPhase2: [AnwserSchema],
 });
 
 const InstructionSchema = new Schema({
@@ -44,7 +36,7 @@ const OptionSchema = new Schema({
 });
 
 module.exports = {
-    Results: mongoose.model('Results', Results),
+    Result: mongoose.model('Results', ResultSchema),
     Instruction: mongoose.model('Instuction', InstructionSchema),
     Option: mongoose.model('Option', OptionSchema),
 };
