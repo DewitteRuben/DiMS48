@@ -26,20 +26,14 @@ const Results = new Schema({
 });
 
 const InstructionSchema = new Schema({
-    id: String,
+    _id: String,
     instructions: {
         client: String,
         leader: String
     }
 }, {_id: false});
 
-const InstructionsSchema = new Schema({
-    instructions: {
-    }
-});
-
 module.exports = {
     Results: mongoose.model('Results', Results),
     Instruction: mongoose.model('Instuction', InstructionSchema),
-    Instructions: mongoose.model('Instructions', InstructionsSchema),
 };
