@@ -10,9 +10,9 @@ function getImages(){
   })
 }
 
-function getInstructions(){
+function getInstructions(part){
   return new Promise(function(s,f){
-    let query = DiMS48Models.Instructions.find();
+    let query = DiMS48Models.Instructions.find(); // TODO: get instructions for part
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
