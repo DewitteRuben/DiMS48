@@ -2,16 +2,29 @@ const mongoose = require('mongoose');
 const Images = require('../models/DiMS48Models').Images;
 const getImages = require('./imagesSeeder').getImages;
 
-function checkImages(){
-  let queryImages = Images.find();
-  queryImages.exec(function(err,data){
-    if(data.length >= 1) return;
-    getImages().save();
-  })
+const Instuctions = require('../models/DiMS48Models').Instructions;
+const instructionSeeder = require('../seeders/instructionsSeeder');
+
+function checkImages() {
+    let queryImages = Images.find();
+    queryImages.exec(function (err, data) {
+        if (data.length >= 1) return;
+        getImages().save();
+    })
 }
 
-function checkAll(){
-  checkImages();
+function checkInstructions() {
+    const queryInstructions = Instuctions.find();
+    queryInstructions.exec((err, data) => {
+        if (data.length <= 0) {
+            instructionSeeder.getInstructions().save();
+        }
+    })
 }
 
-module.exports = { checkAll };
+function checkAll() {
+    checkImages();
+    checkInstructions();
+}
+
+module.exports = {checkAll};
