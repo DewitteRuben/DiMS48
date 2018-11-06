@@ -4,28 +4,24 @@
         <h2>{{ personTitle }}</h2>
         <v-form>
             <div>
-                <p> {{ instructions }} </p>
+                <p>{{ instructions }}</p>
             </div>
-              <v-btn
-                @click="submit"
-                >
-                {{ buttonText }}
-            </v-btn>
+            <v-btn @click="submit">{{ buttonText }}</v-btn>
         </v-form>
     </v-form>
 </template>
 
 <script>
 export default {
-    props: {
+  props: {
     personTitle: { type: String },
     instructions: { type: String },
-    buttonText: {type: String}
+    buttonText: { type: String }
   },
   methods: {
-      submit() {
-          console.log("Clicked on 'doorgaan'");
-      },
+    submit() {
+      this.$store.commit("dimsInstructions/getNextInstruction");
+    }
   }
-}
+};
 </script>
