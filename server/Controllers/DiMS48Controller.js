@@ -12,8 +12,9 @@ function getImages(){
 }
 
 function getInstructions(part){
+  let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "phase2"}]} : {_id: "phase3"};
   return new Promise(function(s,f){
-    let query = DiMS48Models.Instruction.find(); // TODO: get instructions for part
+    let query = DiMS48Models.Instruction.find(whereClause);
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
