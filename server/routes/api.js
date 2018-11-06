@@ -15,12 +15,14 @@ router.get('/dims48Part2', function(req,res){
 })
 
 router.get('/results', function(req,res){
-  res.json(); // TODO: send all results from both parts
+  DiMS48Controller.getResults()
+    .then(results=>res.json(results));
 })
 
 router.get('/results/:id', function(req,res){
   let id = req.params.id;
-  res.json(); // TODO: send results for test with id X
+  DiMS48Controller.getResult(id)
+    .then(result=>res.json(result));
 })
 
 router.post('/resultsPart1', function(req,res){
