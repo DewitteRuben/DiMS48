@@ -82,7 +82,7 @@ module.exports = {
   getOptions,
   getResults,
   getResult,
-  getUnfinishedTests
+  getUnfinishedTests,
   getResult,
   addResult
-}
+};
