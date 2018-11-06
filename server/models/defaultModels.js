@@ -6,7 +6,7 @@ const InstructionsSchema = new Schema({
 }, {_id: false});
 
 const ImageSchema = new Schema({
-  id: String,
+  _id: String,
   imgUrl: String
 }, {_id: false});
 

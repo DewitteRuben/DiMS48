@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
-const Images = require('../models/DiMS48Models').Images;
+const Image = require('../models/defaultModels').Image;
 const getImages = require('./imagesSeeder').getImages;
 
 const Instuctions = require('../models/DiMS48Models').Instructions;
 const instructionSeeder = require('../seeders/instructionsSeeder');
 
 function checkImages() {
-    let queryImages = Images.find();
+    let queryImages = Image.find();
     queryImages.exec(function (err, data) {
-        if (data.length >= 1) return;
-        getImages().save();
+        if (data.length === 0)
+          getImages().forEach(img => img.save());
     })
 }
 

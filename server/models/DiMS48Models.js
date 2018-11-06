@@ -14,10 +14,6 @@ const ResultsPart2Schema = new Schema({
     answers: [defaultModels.AnswerSchema]
 });
 
-const ImagesSchema = new Schema({
-    images: [defaultModels.ImageSchema]
-});
-
 const Result = new Schema({
     timestamp: {type: Date, default: Date.now},
     clientInfo: defaultModels.ClientInfoSchema,
@@ -43,7 +39,6 @@ const InstructionsSchema = new Schema({
 });
 
 module.exports = {
-    Images: mongoose.model('Images', ImagesSchema),
     Results: mongoose.model('Results', Results),
     Instruction: mongoose.model('Instuction', InstructionSchema),
     Instructions: mongoose.model('Instructions', InstructionsSchema),

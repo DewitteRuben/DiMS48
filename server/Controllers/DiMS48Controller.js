@@ -1,8 +1,9 @@
 const DiMS48Models = require('../models/DiMS48Models');
+const defaultModels = require('../models/defaultModels');
 
 function getImages(){
   return new Promise(function(s,f){
-    let query = DiMS48Models.Images.find();
+    let query = defaultModels.Image.find();
     query.exec(function(err, data){
       if(err)f(err);
       s(data);
