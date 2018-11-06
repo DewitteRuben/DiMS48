@@ -19,16 +19,24 @@ const ClientInfoSchema = new Schema({
 });
 
 const AnswerSchema = new Schema({
-  id: String,
+  _id: String,
   answer: String,
   correctAnswer: String
-});
+}, {_id: false});
+
+const TestSchema = new Schema({
+  _id: Number,
+  title: String,
+  description: String,
+  route: String
+}, {_id: false})
 
 module.exports = {
   Instruction: mongoose.model('Instruction', InstructionsSchema),
   Image: mongoose.model('Image', ImageSchema),
   ClientInfo: mongoose.model('ClientInfo', ClientInfoSchema),
   Answer: mongoose.model('Answer', AnswerSchema),
+  Test: mongoose.model('Test', TestSchema),
   AnswerSchema,
   ImageSchema,
   ClientInfoSchema,
