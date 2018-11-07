@@ -8,10 +8,19 @@ const seeder = require('./seeders/seeder');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
-const mongoConfig = require('./config/config');
+const isProduction = process.env.NODE_ENV === 'production';
+
+let mongoConfig;
+
+if (isProduction) {
+    mongoConfig = require('./config/mongo.production.config')
+}else {
+    mongoConfig = require('./config/mongo.development.config')
+}
+
 mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}${(mongoConfig.user !== '' && mongoConfig.password !== '') ? ':' : ""}${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
     {useNewUrlParser: true});
-//mongoose.connect('mongodb://localhost:27017/DiMS48', { useNewUrlParser: true });
+
 seeder.checkAll(); //Checks wether seeding is needed and seeds accordingly
 
 var app = express();
