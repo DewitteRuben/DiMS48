@@ -44,14 +44,15 @@ function getUnfinishedTests(){
 
 function addResult(data){
   return new Promise((resolve, reject) => {
-    data.answersPhase1 = {
+    data['answersPhase1'] = {
       score: calculateScore('phase1', data.answersPhase1),
       answers: data.answersPhase1
     };
-    data.answersPhase2 = {
-      score: calculateScore('phase2', data.answersPhase2),
+    data['answersPhase2'] = {
+      scores: calculateScore('phase2', data.answersPhase2),
       answers: data.answersPhase2
     }
+    console.log(data);
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
       if(err){
@@ -67,12 +68,12 @@ function calculateScore(phase, answers){
   switch (phase) {
     case 'phase1':
       const getAmountOfColours = imageAnswerValidators.getAmountOfColours;
-      let amountRightAnswers = 0;
+      let amountRightAnswersPhase1 = 0;
       answers.forEach(answer=>{
         let correctAnswer = getAmountOfColours(parseInt(answer._id.substring(1)));
-        if(answer.answer === correctAnswer) amountRightAnswers++;
+        if(answer.answer === correctAnswer) amountRightAnswersPhase1++;
       })
-      return (amountRightAnswers / Object.keys(imageAnswerValidators.amountOfColours).length) * 100;
+      return (amountRightAnswersPhase1 / Object.keys(imageAnswerValidators.amountOfColours).length) * 100;
       break;
     case 'phase2':
       const getSet = imageAnswerValidators.getSet;

@@ -80,7 +80,7 @@ let amountOfColours = {
 }
 
 function getAmountOfColours(index){
-  return amountColours[index];
+  return amountOfColours[index];
 }
 
 let set = {
