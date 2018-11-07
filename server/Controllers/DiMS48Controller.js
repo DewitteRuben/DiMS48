@@ -31,7 +31,14 @@ function getOptions(part){
 }
 
 function getResults(){
-  return makeGetter(DiMS48Models.Result, null);
+  return new Promise(function(s,f){
+    makeGetter(DiMS48Models.Result, null).then(results=>{
+      results.forEach(result=>{
+        if(result.answersPhase3.answers.length <= 0) result.answersPhase3.scores = null;
+      })
+      s(results);
+    }).catch(err=>f(err))
+  })
 }
 
 function getResult(id){
@@ -39,7 +46,7 @@ function getResult(id){
 }
 
 function getUnfinishedTests(){
-  return makeGetter(DiMS48Models.Result, { $where: "this.answersPhase3.length <= 0"})
+  return makeGetter(DiMS48Models.Result, { $where: "this.answersPhase3.answers.length <= 0"})
 }
 
 function addResult(data){
@@ -52,7 +59,14 @@ function addResult(data){
       scores: calculateScore('phase2', data.answersPhase2),
       answers: data.answersPhase2
     }
-    //data['answersPhase3'] = {};
+    data['answersPhase3'] = {
+      scores: {
+        abstractScore: 0,
+        groupedScore: 0,
+        uniqueScore: 0
+      },
+      answers: []
+    };
     console.log(data);
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
