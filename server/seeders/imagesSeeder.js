@@ -12,21 +12,76 @@ function getImages(){
     let idB = `B${i}`;
     let localSrc = `set${i}`;
 
+    let amountColours = getAmountOfColours(i);
     let set = getSet(i);
-    imagesArr.push(makeImage(localSrc, idA, set));
+    imagesArr.push(makeImage(localSrc, idA, amountColours));
     imagesArr.push(makeImage(localSrc, idB, set));
   }
   return imagesArr;
 }
 
-module.exports = { getImages, amountOfImages: amountOfImages*2 };
+module.exports = { getImages, amountOfImages: amountOfImages*2, getSet };
 
-function makeImage(localSrc, id, set){
+function makeImage(localSrc, id, extra){
   return new Image({
     _id: id,
     imgUrl: `${src}/${localSrc}/${id}.jpg`,
-    set: set
+    extra: extra
   })
+}
+
+function getAmountOfColours(index){
+  switch (index) {
+    case 1: return '>=3'
+    case 2: return '>=3'
+    case 3: return '>=3'
+    case 4: return '<=2'
+    case 5: return '>=3'
+    case 6: return '>=3'
+    case 7: return '>=3'
+    case 8: return '<=2'
+    case 9: return '<=2'
+    case 10: return '>=3'
+    case 11: return '>=3'
+    case 12: return '>=3'
+    case 13: return '>=3'
+    case 14: return '<=2'
+    case 15: return '<=2'
+    case 16: return '<=2'
+    case 17: return '>=3'
+    case 18: return '>=3'
+    case 19: return '<=2'
+    case 20: return '>=3'
+    case 21: return '>=3'
+    case 22: return '<=2'
+    case 23: return '<=2'
+    case 24: return '>=3'
+    case 25: return '>=3'
+    case 26: return '>=3'
+    case 27: return '<=2'
+    case 28: return '>=3'
+    case 29: return '>=3'
+    case 30: return '<=2'
+    case 31: return '>=3'
+    case 32: return '<=2'
+    case 33: return '>=3'
+    case 34: return '>=3'
+    case 35: return '<=2'
+    case 36: return '>=3'
+    case 37: return '<=2'
+    case 38: return '<=2'
+    case 39: return '<=2'
+    case 40: return '>=3'
+    case 41: return '>=3'
+    case 42: return '<=2'
+    case 43: return '<=2'
+    case 44: return '<=2'
+    case 45: return '<=2'
+    case 46: return '>=3'
+    case 47: return '>=3'
+    case 48: return '>=3'
+    default: return ''
+  }
 }
 
 function getSet(index){

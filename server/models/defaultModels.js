@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ImageSchema = new Schema({
   _id: String,
   imgUrl: {type: String, required: true},
-  set: String
+  extra: String
 }, {_id: false});
 
 const ClientInfoSchema = new Schema({
