@@ -17,8 +17,7 @@ const ClientInfoSchema = new Schema({
 
 const AnswerSchema = new Schema({
   _id: String,
-  answer: {type: String, required: true},
-  correctAnswer: {type: String, required: true}
+  answer: {type: String, required: true}
 }, {_id: false});
 
 const TestSchema = new Schema({
@@ -31,9 +30,8 @@ const TestSchema = new Schema({
 module.exports = {
   Image: mongoose.model('Image', ImageSchema),
   ClientInfo: mongoose.model('ClientInfo', ClientInfoSchema),
-  Answer: mongoose.model('Answer', AnswerSchema),
   Test: mongoose.model('Test', TestSchema),
   AnswerSchema,
   ImageSchema,
-  ClientInfoSchema,
+  ClientInfoSchema
 };
