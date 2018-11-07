@@ -46,12 +46,13 @@ function addResult(data){
   return new Promise((resolve, reject) => {
     data['answersPhase1'] = {
       score: calculateScore('phase1', data.answersPhase1),
-      answer: data.answersPhase1
+      answers: data.answersPhase1
     };
     data['answersPhase2'] = {
       scores: calculateScore('phase2', data.answersPhase2),
-      answer: data.answersPhase2
+      answers: data.answersPhase2
     }
+    //data['answersPhase3'] = {};
     console.log(data);
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
@@ -104,7 +105,12 @@ function calculateScore(phase, answers){
 
 function appendResult(data){
     return new Promise((resolve, reject) => {
-        DiMS48Models.Result.findByIdAndUpdate(data._id, {answersPhase3: data.answersPhase3}, (err, data) => {
+      data['answersPhase3'] = {
+        scores: calculateScore('phase2', data.answersPhase3),
+        answers: data.answersPhase3
+      }
+      console.log(data.answersPhase3);
+      DiMS48Models.Result.findByIdAndUpdate(data._id, {answersPhase3: data.answersPhase3}, (err, data) => {
            if(err){
                reject(err);
            }else{
