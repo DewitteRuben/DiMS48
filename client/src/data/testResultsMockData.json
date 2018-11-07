@@ -1,0 +1,38 @@
+{
+        "headers_fase1" : [
+            {
+                "text" : "Fase 1",
+                "align": "left",
+                "sortable": false,
+                "value": "name"
+            },
+            { 
+                "text": "Percentage", 
+                "align": "left",
+                "value": "percentage",
+                "sortable": false
+            }
+        ],
+        "headers_fase2" : [
+
+        ],
+
+            "data_fase1" : [
+                {
+                    "value": false,
+                    "name": "Correct",
+                    "percentage": 80
+                },
+                {
+                    "value": false,
+                    "name": "Foutief",
+                    "percentage": 20
+                }
+            ],
+            "data_fase2" : [
+                {
+
+                }
+            ]
+    
+}
