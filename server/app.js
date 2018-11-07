@@ -9,8 +9,8 @@ var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
 const mongoConfig = require('./config/config');
-mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}:${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
-  { useNewUrlParser: true });
+mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}${(mongoConfig.user !== '' && mongoConfig.password !== '') ? ':' : ""}${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
+    {useNewUrlParser: true});
 seeder.checkAll(); //Checks wether seeding is needed and seeds accordingly
 
 var app = express();
