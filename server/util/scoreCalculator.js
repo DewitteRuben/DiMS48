@@ -3,64 +3,62 @@ const WRONG_OPTION = 'B';
 
 const imageAnswerValidators = require('../seeders/imagesSeeder');
 
-const calculateScore = function calculateScore(phase, answers){
-    switch (phase) {
-        case 'phase1':
-            const getAmountOfColours = imageAnswerValidators.getAmountOfColours;
+const calculateScorePhase1 = function calculateScorePhase1(answers) {
+    const getAmountOfColours = imageAnswerValidators.getAmountOfColours;
 
-            let amountRightAnswersPhase1 = 0;
+    let amountRightAnswersPhase1 = 0;
 
-            answers.forEach((answerAndId) => {
+    answers.forEach((answerAndId) => {
 
-                const answerIDIndexString = answerAndId._id.substring(1);
-                const answerIDIndex = parseInt(answerIDIndexString);
+        const answerIDIndexString = answerAndId._id.substring(1);
+        const answerIDIndex = parseInt(answerIDIndexString);
 
-                const correctAnswer = getAmountOfColours(answerIDIndex);
+        const correctAnswer = getAmountOfColours(answerIDIndex);
 
-                if (answerAndId.answer === correctAnswer) {
-                    amountRightAnswersPhase1++;
-                }
-            });
+        if (answerAndId.answer === correctAnswer) {
+            amountRightAnswersPhase1++;
+        }
+    });
 
-            const amountOfAnswers = Object.keys(imageAnswerValidators.amountOfColours).length;
+    const maxAmountOfCorrectAnswers = Object.keys(imageAnswerValidators.amountOfColours).length;
 
-            return (amountRightAnswersPhase1 / amountOfAnswers) * 100;
+    return (amountRightAnswersPhase1 / maxAmountOfCorrectAnswers) * 100;
+};
 
-        case 'phase2':
-            const getSetKind = imageAnswerValidators.getSetKind;
-            const SET_KINDS = imageAnswerValidators.SET_KINDS;
+const calculateScorePhase2 = function calculateScorePhase2(answers) {
+    const getSetKind = imageAnswerValidators.getSetKind;
+    const SET_KINDS = imageAnswerValidators.SET_KINDS;
 
-            let amountRightAnswers = {abstract: 0, group: 0, unique: 0};
+    let amountRightAnswers = {abstract: 0, group: 0, unique: 0};
 
-            answers.forEach((answerAndId) => {
-                const answerIDIndexString = answerAndId._id.substring(1);
-                const answerIDIndex = parseInt(answerIDIndexString);
+    answers.forEach((answerAndId) => {
+        const answerIDIndexString = answerAndId._id.substring(1);
+        const answerIDIndex = parseInt(answerIDIndexString);
 
-                const chosenOption = answerAndId.answer.substring(0, 1);
+        const chosenOption = answerAndId.answer.substring(0, 1);
 
-                if (isCorrectOption(chosenOption)) {
-                    const currentSetKind = getSetKind(answerIDIndex);
+        if (isCorrectOption(chosenOption)) {
+            const currentSetKind = getSetKind(answerIDIndex);
 
-                    switch (currentSetKind) {
-                        case SET_KINDS.Abstract:
-                            amountRightAnswers.abstract++;
-                            break;
-                        case SET_KINDS.Unique:
-                            amountRightAnswers.unique++;
-                            break;
-                        case SET_KINDS.Group:
-                            amountRightAnswers.group++;
-                    }
-                }
-            });
-
-            let maxAmountCorrectAnswers = imageAnswerValidators.getMaxAmountCorrectAnswers();
-
-            return {
-                abstractScore: amountRightAnswers.abstract / maxAmountCorrectAnswers.abstract,
-                groupedScore: amountRightAnswers.group / maxAmountCorrectAnswers.group,
-                uniqueScore: amountRightAnswers.unique / maxAmountCorrectAnswers.unique
+            switch (currentSetKind) {
+                case SET_KINDS.Abstract:
+                    amountRightAnswers.abstract++;
+                    break;
+                case SET_KINDS.Unique:
+                    amountRightAnswers.unique++;
+                    break;
+                case SET_KINDS.Group:
+                    amountRightAnswers.group++;
             }
+        }
+    });
+
+    let maxAmountCorrectAnswers = imageAnswerValidators.getMaxAmountCorrectAnswers();
+
+    return {
+        abstractScore: amountRightAnswers.abstract / maxAmountCorrectAnswers.abstract,
+        groupedScore: amountRightAnswers.group / maxAmountCorrectAnswers.group,
+        uniqueScore: amountRightAnswers.unique / maxAmountCorrectAnswers.unique
     }
 };
 
@@ -69,5 +67,6 @@ const isCorrectOption = function isCorrectOption(chosenOption){
 };
 
 module.exports = {
-    calculateScore,
+    calculateScorePhase1,
+    calculateScorePhase2,
 };

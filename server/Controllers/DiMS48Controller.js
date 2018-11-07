@@ -53,11 +53,11 @@ function getUnfinishedTests(){
 function addResult(data){
   return new Promise((resolve, reject) => {
     data['answersPhase1'] = {
-      score: scoreCalculator.calculateScore('phase1', data.answersPhase1),
+      score: scoreCalculator.calculateScorePhase1(data.answersPhase1),
       answers: data.answersPhase1
     };
     data['answersPhase2'] = {
-      scores: scoreCalculator.calculateScore('phase2', data.answersPhase2),
+      scores: scoreCalculator.calculateScorePhase2(data.answersPhase2),
       answers: data.answersPhase2
     }
     data['answersPhase3'] = {
@@ -68,7 +68,6 @@ function addResult(data){
       },
       answers: []
     };
-    console.log(data);
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
       if(err){
