@@ -46,11 +46,11 @@ function addResult(data){
   return new Promise((resolve, reject) => {
     data['answersPhase1'] = {
       score: calculateScore('phase1', data.answersPhase1),
-      answers: data.answersPhase1
+      answer: data.answersPhase1
     };
     data['answersPhase2'] = {
       scores: calculateScore('phase2', data.answersPhase2),
-      answers: data.answersPhase2
+      answer: data.answersPhase2
     }
     console.log(data);
     const newResult = new DiMS48Models.Result(data);
