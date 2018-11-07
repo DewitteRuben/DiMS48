@@ -11,10 +11,9 @@ export default {
                 imageUrl: "https://openclipart.org/download/216413/coniglio_rabbit_small.svg",
             }
         ],
-        currentPhase: 1,
         currentImageIndex: 0,
         options: {
-            phase1Options: [
+            phase1: [
                 {
                     btnText: '2 or less',
                     btnValue: '<=2'
@@ -24,7 +23,7 @@ export default {
                     btnValue: '>=3'
                 }
             ],
-            phase2Options: [
+            phase2: [
                 {
                     btnText: 'Left',
                     btnValue: 'L'
@@ -40,8 +39,8 @@ export default {
         getCurrentImage: state => {
             return state.images[state.currentImageIndex];
         },
-        getCurrentOptions: state => {
-            return state.currentPhase === 1 ? state.options.phase1Options : state.options.phase2Options;
+        getCurrentOptions: (state, getters, rootState) => {
+            return state.options[rootState.dimsManager.currentPhase];
         },
     },
     mutations: {

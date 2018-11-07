@@ -7,18 +7,12 @@ export default {
                 "instructions": [
                     {
                         "title": "Testleider",
-                        "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
-                            + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                            + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi"
-                            + "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
-                            + "voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
-                            + "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia"
-                            + "deserunt mollit anim id est laborum.",
+                        "message": "Fase 1 instructies voor de testleider",
                         "target": "leader"
                     },
                     {
                         "title": "Testnemer",
-                        "message": "esrigtithequhgiuhesughrehighesrighifdhighifsdhighdsfhghsdfghsh.",
+                        "message": "Fase 1 instructies voor de testnemer",
                         "target": "client"
                     }
                 ],
@@ -28,37 +22,30 @@ export default {
                 "instructions": [
                     {
                         "title": "Testleider",
-                        "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
-                            + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                            + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi"
-                            + "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
-                            + "voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
-                            + "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia"
-                            + "deserunt mollit anim id est laborum.",
+                        "message": "Fase 2 instructies voor de testleider",
                         "target": "leader"
                     },
                     {
                         "title": "Testnemer",
-                        "message": "esrigtithequhgiuhesughrehighesrighifdhighifsdhighdsfhghsdfghsh.",
+                        "message": "Fase 2 instructies voor de testnemer",
                         "target": "client"
                     }
                 ],
             },
         ],
-        currentPhase: "phase1",
         currentInstruction: 0,
         lastInstruction: false,
         buttonText: "Volgende",
     },
     getters: {
-        getCurrentInstruction: state => {
-            const instructions = state.data.filter(e => e.id === state.currentPhase)[0].instructions;
+        getCurrentInstruction: (state, getters, rootState) => {
+            const instructions = state.data.filter(e => e.id === rootState.dimsManager.currentPhase)[0].instructions;
             return instructions[state.currentInstruction];
         },
     },
     actions: {
-        getNextInstruction: ({ commit, state }, newValue) => {
-            const instructions = state.data.filter(e => e.id === state.currentPhase)[0].instructions;
+        getNextInstruction: ({ commit, state, rootState }, newValue) => {
+            const instructions = state.data.filter(e => e.id === rootState.dimsManager.currentPhase)[0].instructions;
             if (state.currentInstruction + 1 < instructions.length) {
                 state.currentInstruction++;
             } else {
