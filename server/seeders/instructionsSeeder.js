@@ -10,6 +10,14 @@ const instructionPhase1 = new DiMS48Instruction({
     }
 });
 
+const instructionInterference = new DiMS48Instruction({
+  _id: 'interference',
+  instructions: {
+    client: 'test',
+    leader: 'test1654'
+  }
+})
+
 const instructionPhase2 = new DiMS48Instruction({
     _id: 'phase2',
     instructions: {
@@ -29,6 +37,7 @@ const instructionPhase3 = new DiMS48Instruction({
 const getInstructions = function getInstructions() {
     return [
         instructionPhase1,
+        instructionInterference,
         instructionPhase2,
         instructionPhase3
     ];
