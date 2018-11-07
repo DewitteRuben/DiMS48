@@ -20,7 +20,7 @@ function getImages(){
 }
 
 function getInstructions(part){
-  let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "phase2"}]} : {_id: "phase3"};
+  let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "interference"},{_id: "phase2"}]} : {_id: "phase3"};
   return makeGetter(DiMS48Models.Instruction, whereClause);
 }
 
