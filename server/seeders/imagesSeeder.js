@@ -13,8 +13,8 @@ function getImages(){
     let localSrc = `set${i}`;
 
     let set = getSet(i);
-    imagesArr.push(makeImage(localSrc, idA));
-    imagesArr.push(makeImage(localSrc, idB));
+    imagesArr.push(makeImage(localSrc, idA, set));
+    imagesArr.push(makeImage(localSrc, idB, set));
   }
   return imagesArr;
 }
