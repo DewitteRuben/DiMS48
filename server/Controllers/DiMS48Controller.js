@@ -78,13 +78,13 @@ function calculateScore(phase, answers){
       const getSet = imageAnswerValidators.getSet;
       let amountRightAnswers = {abstract : 0, group: 0, unique: 0};
       answers.forEach(answer=>{
-        let correctAnswer = getSet(parseInt(answer._id.substring(1)));
-        if(answer.answer === correctAnswer) {
-          switch (correctAnswer) {
+        let currentSet = getSet(parseInt(answer._id.substring(1)));
+        if(answer.answer.substring(0,1) === 'A') {
+          switch (currentSet) {
             case 'A':
               amountRightAnswers.abstract++;
               break;
-            case: 'U':
+            case 'U':
               amountRightAnswers.unique++;
               break;
             case 'G':

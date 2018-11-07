@@ -6,7 +6,7 @@ const defaultModels = require('./defaultModels.js');
 const ResultsPhase1Schema = new Schema({
   _id: String,
   score: {type: Number, required: true},
-  answer: {type: [AnswerSchema], required: true}
+  answer: {type: [defaultModels.AnswerSchema], required: true}
 })
 
 const ScorePart2Schema = new Schema({
@@ -18,7 +18,7 @@ const ScorePart2Schema = new Schema({
 const ResultsPhase2Schema = new Schema({
   _id: String,
   scores: {type: ScorePart2Schema, required: true},
-  answers: {type: [AnswerSchema], required: true}
+  answers: {type: [defaultModels.AnswerSchema], required: true}
 })
 
 const ResultSchema = new Schema({

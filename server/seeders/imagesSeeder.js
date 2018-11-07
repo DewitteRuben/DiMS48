@@ -20,10 +20,6 @@ function getImages(){
   return imagesArr;
 }
 
-module.exports = { getImages, amountOfImages: amountOfImages*2,
-  getSet, getAmountOfColours, getAmountAnswers,
-  amountColours, set };
-
 function makeImage(localSrc, id, extra){
   return new Image({
     _id: id,
@@ -158,3 +154,7 @@ function getAmountAnswers(){
   })
   return amountAnswers;
 }
+
+module.exports = { getImages, amountOfImages: amountOfImages*2,
+  getSet, getAmountOfColours, getAmountAnswers,
+  amountOfColours, set };
