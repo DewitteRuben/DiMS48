@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
   _id: String,
-  imgUrl: {type: String, required: true}
+  imgUrl: {type: String, required: true},
+  set: String
 }, {_id: false});
 
 const ClientInfoSchema = new Schema({

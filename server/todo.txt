@@ -1,8 +1,6 @@
-Error handling
-
 Tests
 
 Calculating scores
   Define Sets
 
-  Deploy on heroku
+Deploy on heroku
