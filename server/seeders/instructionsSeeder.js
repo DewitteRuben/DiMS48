@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 const DiMS48Instruction = require('../models/DiMS48Models').Instruction;
-const defaultInstruction = require('../models/defaultModels').Instruction;
-
-const Instructions = require('../models/DiMS48Models').Instructions;
 
 const instructionPhase1 = new DiMS48Instruction({
     _id: 'phase1',

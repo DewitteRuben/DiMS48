@@ -3,37 +3,34 @@ const Schema = mongoose.Schema;
 
 const defaultModels = require('./defaultModels.js');
 
-const ResultsPart1Schema = new Schema({
-    id: Number,
-    answersPhase1: [defaultModels.AnswerSchema],
-    answersPhase2: [defaultModels.AnswerSchema]
-});
-
-const ResultsPart2Schema = new Schema({
-    id: Number,
-    answers: [defaultModels.AnswerSchema]
-});
-
-const Result = new Schema({
-    timestamp: {type: Date, default: Date.now},
-    clientInfo: defaultModels.ClientInfoSchema,
-    phase1: ResultsPart1Schema,
-    phase2: ResultsPart1Schema,
-});
-
-const Results = new Schema({
-    results: [Result]
+const ResultSchema = new Schema({
+    timestamp: {type: Date, default: Date.now()},
+    clientInfo: {type: defaultModels.ClientInfoSchema, required: true},
+    answersPhase1: {type: [defaultModels.AnswerSchema], required: true},
+    answersPhase2: {type: [defaultModels.AnswerSchema], required: true},
+    answersPhase3: [defaultModels.AnswerSchema],
 });
 
 const InstructionSchema = new Schema({
     _id: String,
     instructions: {
-        client: String,
-        leader: String
+        client: {type: String, required: true},
+        leader: {type: String, required: true}
     }
 }, {_id: false});
 
+const ButtonOptionSchema = new Schema({
+    btnText: {type: String, required: true},
+    btnValue: {type: String, required: true},
+}, {_id: false});
+
+const OptionSchema = new Schema({
+   _id: String,
+   options: {type: [ButtonOptionSchema], required: true}
+});
+
 module.exports = {
-    Results: mongoose.model('Results', Results),
+    Result: mongoose.model('Results', ResultSchema),
     Instruction: mongoose.model('Instuction', InstructionSchema),
+    Option: mongoose.model('Option', OptionSchema),
 };

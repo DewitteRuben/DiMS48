@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 let Image = require('../models/defaultModels.js').Image;
-//let Images = require('../models/DiMS48Models.js').Images;
 
 let src = './assets/images' // TODO: Change to right dir
 let amountOfImages = 48;
@@ -19,7 +18,7 @@ function getImages(){
   return imagesArr;
 }
 
-module.exports = { getImages };
+module.exports = { getImages, amountOfImages: amountOfImages*2 };
 
 function makeImage(localSrc, id){
   return new Image({

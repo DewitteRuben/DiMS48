@@ -3,33 +3,57 @@ var router = express.Router();
 const DiMS48Controller = require('../Controllers/DiMS48Controller');
 
 router.get('/listTests', function(req,res){
-  res.json(''); // TODO: Send actual data
+  DiMS48Controller.getTests().then(tests=>res.json(tests)).catch(err=>{res.status(500); res.send("Could not get tests")});
 })
 
 router.get('/dims48Begin', function(req,res){
-  getBeginObject('begin').then(data=>res.json(data));
+  getBeginObject('begin').then(data=>res.json(data)).catch(err=>{res.status(500); res.send("Could not get data for DiMS48 Part 1")});
 })
 
 router.get('/dims48Part2', function(req,res){
-  getBeginObject('part2').then(data=>res.json(data));
+  getBeginObject('part2').then(data=>res.json(data)).catch(err=>{res.status(500); res.send("Could not get data for DiMS48 Part 2")});
+})
+
+router.get('/unfinishedTests', function(req,res){
+  DiMS48Controller.getUnfinishedTests().then(data=>res.json(data)).catch(err=>{res.status(500); res.send("Could not get unfinished tests")});
 })
 
 router.get('/results', function(req,res){
-  res.json(); // TODO: send all results from both parts
+  DiMS48Controller.getResults()
+    .then(results=>res.json(results)).catch(err=>{res.status(500); res.send("Could not get results")});
 })
 
 router.get('/results/:id', function(req,res){
   let id = req.params.id;
-  res.json(); // TODO: send results for test with id X
+  DiMS48Controller.getResult(id)
+    .then(result=>res.json(result)).catch(err=>{res.status(500); res.send("Could not get result")});
 })
 
 router.post('/resultsPart1', function(req,res){
-  res.json(); // TODO: Submit results to db and return testId
-})
+  DiMS48Controller.addResult(req.body)
+      .then((data) => {
+          res.status(201);
+          res.json({testId: data._id});
+      })
+      .catch((error) => {
+          //TODO specific error messages?
+          res.status(500);
+          res.send("Could not add result");
+      });
+});
 
 router.post('/resultsPart2', function(req,res){
-  // TODO: submit results to db
-})
+  DiMS48Controller.appendResult(req.body)
+      .then(() => {
+          res.status(201);
+          res.json({created: true});
+      })
+      .catch((error) => {
+          //TODO specific error messages?
+          res.status(500);
+          res.send("Could not append result");
+      })
+});
 
 function getBeginObject(part){
   let beginObject = {
@@ -44,8 +68,12 @@ function getBeginObject(part){
         DiMS48Controller.getInstructions(part)
           .then(instructions=>{
             beginObject.instructions = instructions;
-            s(beginObject);
-          }) // TODO: get options for buttons
+            DiMS48Controller.getOptions(part)
+              .then(options =>{
+                beginObject.options = options;
+                s(beginObject);
+              })
+          })
       }).catch(err=>f(err));
   })
 }
