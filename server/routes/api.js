@@ -34,6 +34,11 @@ router.post('/resultsPart1', function(req,res){
       .then((data) => {
           res.status(201);
           res.json({testId: data._id});
+      })
+      .catch((error) => {
+          //TODO specific error messages?
+          res.status(500);
+          res.send("Could not add result");
       });
 });
 
@@ -42,6 +47,11 @@ router.post('/resultsPart2', function(req,res){
       .then(() => {
           res.status(201);
           res.json({created: true});
+      })
+      .catch((error) => {
+          //TODO specific error messages?
+          res.status(500);
+          res.send("Could not append result");
       })
 });
 
