@@ -3,3 +3,7 @@
 
 server/node_modules/
 client/package-lock\.json
+
+server/\.nyc_output/
+
+server/coverage/
