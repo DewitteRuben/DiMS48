@@ -49,7 +49,6 @@
 </div>
 </section>
 </v-layout>
-</v-container>
 </template>
 
 
