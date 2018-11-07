@@ -1,6 +1,7 @@
 const DiMS48Models = require('../models/DiMS48Models');
 const defaultModels = require('../models/defaultModels');
-const imageAnswerValidators = require('../seeders/imagesSeeder');
+
+const scoreCalculator = require('../util/scoreCalculator');
 
 function makeGetter(model, whereClause){
   return new Promise(function(s,f){
@@ -52,11 +53,11 @@ function getUnfinishedTests(){
 function addResult(data){
   return new Promise((resolve, reject) => {
     data['answersPhase1'] = {
-      score: calculateScore('phase1', data.answersPhase1),
+      score: scoreCalculator.calculateScore('phase1', data.answersPhase1),
       answers: data.answersPhase1
     };
     data['answersPhase2'] = {
-      scores: calculateScore('phase2', data.answersPhase2),
+      scores: scoreCalculator.calculateScore('phase2', data.answersPhase2),
       answers: data.answersPhase2
     }
     data['answersPhase3'] = {
@@ -79,50 +80,12 @@ function addResult(data){
   })
 }
 
-function calculateScore(phase, answers){
-  switch (phase) {
-    case 'phase1':
-      const getAmountOfColours = imageAnswerValidators.getAmountOfColours;
-      let amountRightAnswersPhase1 = 0;
-      answers.forEach(answer=>{
-        let correctAnswer = getAmountOfColours(parseInt(answer._id.substring(1)));
-        if(answer.answer === correctAnswer) amountRightAnswersPhase1++;
-      })
-      return (amountRightAnswersPhase1 / Object.keys(imageAnswerValidators.amountOfColours).length) * 100;
-      break;
-    case 'phase2':
-      const getSet = imageAnswerValidators.getSet;
-      let amountRightAnswers = {abstract : 0, group: 0, unique: 0};
-      answers.forEach(answer=>{
-        let currentSet = getSet(parseInt(answer._id.substring(1)));
-        if(answer.answer.substring(0,1) === 'A') {
-          switch (currentSet) {
-            case 'A':
-              amountRightAnswers.abstract++;
-              break;
-            case 'U':
-              amountRightAnswers.unique++;
-              break;
-            case 'G':
-              amountRightAnswers.group++;
-          }
-        };
-      })
-      let amountAnswers = imageAnswerValidators.getAmountAnswers();
-      return {
-        abstractScore: amountRightAnswers.abstract / amountAnswers.abstract,
-        groupedScore: amountRightAnswers.group / amountAnswers.group,
-        uniqueScore: amountRightAnswers.unique / amountAnswers.unique
-      }
-  }
-}
-
 function appendResult(data){
     return new Promise((resolve, reject) => {
       data['answersPhase3'] = {
-        scores: calculateScore('phase2', data.answersPhase3),
+        scores: scoreCalculator.calculateScore('phase2', data.answersPhase3),
         answers: data.answersPhase3
-      }
+      };
       console.log(data.answersPhase3);
       DiMS48Models.Result.findByIdAndUpdate(data._id, {answersPhase3: data.answersPhase3}, (err, data) => {
            if(err){
