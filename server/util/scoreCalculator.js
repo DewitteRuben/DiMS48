@@ -20,7 +20,7 @@ const calculateScorePhase1 = function calculateScorePhase1(answers) {
         }
     });
 
-    const maxAmountOfCorrectAnswers = Object.keys(imageAnswerValidators.amountOfColours).length;
+    const maxAmountOfCorrectAnswers = imageAnswerValidators.getMaxAmountOfCorrectAnswersPhase1();
 
     return (amountRightAnswersPhase1 / maxAmountOfCorrectAnswers) * 100;
 };
@@ -53,7 +53,7 @@ const calculateScorePhase2 = function calculateScorePhase2(answers) {
         }
     });
 
-    let maxAmountCorrectAnswers = imageAnswerValidators.getMaxAmountCorrectAnswers();
+    let maxAmountCorrectAnswers = imageAnswerValidators.getMaxAmountCorrectAnswersPhase2();
 
     return {
         abstractScore: amountRightAnswers.abstract / maxAmountCorrectAnswers.abstract,
