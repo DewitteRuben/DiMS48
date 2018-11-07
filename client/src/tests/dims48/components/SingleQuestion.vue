@@ -1,10 +1,13 @@
 <template>
   <div class="question">
-    <img :src="currentImage.imageUrl" alt="picture">
+    <div>
+      <img :src="currentImage.L.imageUrl" alt="picture">
+      <img v-if="isDouble" :src="currentImage.R.imageUrl" alt="">
+    </div>
     <div class="answers">
       <v-btn
         v-for="(option, index) in currentOptions"
-        @click="answer(option.btnValue, currentImage.id)"
+        @click="answer(option.btnValue, currentImage)"
         class="answers"
         :key="index"
         large
@@ -18,17 +21,30 @@
 <script>
 export default {
   methods: {
-    answer: function(btnValue, currentImageId) {
-      this.$store.commit("dimsTestData/setAnswer", { id: currentImageId, answer: btnValue });
+    answer: function(btnValue, currentImage) {
       this.$store.dispatch("dimsQuestions/getNextImage");
     }
   },
   computed: {
     currentImage: function() {
-      return this.$store.getters["dimsQuestions/getCurrentImage"];
+      const isDouble = this.$store.state.dimsManager.double;
+      const images = this.$store.getters["dimsQuestions/getCurrentImage"];
+
+      const image = { L: null, R: null };
+
+      if (isDouble) {
+        image.L = images[0];
+        image.R = images[1];
+      } else {
+        image.L = images[this.$store.state.dimsQuestions.currentImageIndex];
+      }
+      return image;
     },
     currentOptions: function() {
       return this.$store.getters["dimsQuestions/getCurrentOptions"];
+    },
+    isDouble: function() {
+      return this.$store.state.dimsManager.double;
     }
   }
 };

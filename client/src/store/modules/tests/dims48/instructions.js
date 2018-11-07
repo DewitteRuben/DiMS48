@@ -32,9 +32,18 @@ export default {
                     }
                 ],
             },
+            {
+                "id": "end",
+                "instructions": [
+                    {
+                        "title": "Testnemer",
+                        "message": "Einde van de test, geef het toestel aan de testleider.",
+                        "target": "leader"
+                    },
+                ],
+            },
         ],
         currentInstruction: 0,
-        lastInstruction: false,
         buttonText: "Volgende",
     },
     getters: {
@@ -50,7 +59,7 @@ export default {
                 state.currentInstruction++;
             } else {
                 commit('resetState');
-                commit('dimsManager/startTest', null, { root: true })
+                commit('dimsManager/startPhase', null, { root: true })
             }
         }
     },

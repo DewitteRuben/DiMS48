@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if="!hasStarted">
+    <div v-show="!hasStarted && !hasFinished">
       <InstructionsForm
         :instructions="currentInstruction.message"
         :personTitle="currentInstruction.title"
         :buttonText="this.$store.state.dimsInstructions.buttonText"
       />
     </div>
-    <div v-else>
+    <div v-show="hasStarted">
       <SingleQuestion/>
     </div>
   </div>
@@ -28,6 +28,9 @@ export default {
     },
     hasStarted() {
       return this.$store.state.dimsManager.started;
+    },
+    hasFinished() {
+      return this.$store.state.dimsManager.finished;
     }
   }
 };
