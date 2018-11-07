@@ -37,7 +37,6 @@ router.post('/resultsPart1', function(req,res){
       })
       .catch((error) => {
           //TODO specific error messages?
-          console.log(error);
           res.status(500);
           res.send("Could not add result");
       });
