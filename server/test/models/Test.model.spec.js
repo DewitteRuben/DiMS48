@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 const functionFactory = require('./util/functionFactory');
 const defaultModels = require('../../models/defaultModels');
 
-const databaseConnectionManager = require('../util/databaseConnectionManager');
+const databaseConnectionManager = require('../testingUtils/databaseConnectionManager');
 databaseConnectionManager.connectDatabase();
 
 describe('Test Model', () => {

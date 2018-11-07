@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 const functionFactory = require('./util/functionFactory');
 const DiMS48Models = require('../../models/DiMS48Models');
 
-const databaseConnectionManager = require('../util/databaseConnectionManager');
+const databaseConnectionManager = require('../testingUtils/databaseConnectionManager');
 databaseConnectionManager.connectDatabase();
 
 describe('Option Model', () => {
