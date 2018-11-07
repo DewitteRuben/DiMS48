@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$store.commit("dimsInstructions/getNextInstruction");
+      this.$store.dispatch("dimsInstructions/getNextInstruction");
     }
   }
 };
