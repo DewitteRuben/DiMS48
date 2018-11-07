@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        currentPhase: 1,
+        currentPhase: "phase1",
         showingInstructions: true,
         started: false,
         done: false,
@@ -14,7 +14,11 @@ export default {
             state.started = true;
         },
         endPhase: state => {
-            state.currentPhase++;
+            switch (state.currentPhase) {
+                case "phase1":
+                    state.currentPhase = "phase2";
+                    break;
+            }
             state.started = false;
         },
     },
