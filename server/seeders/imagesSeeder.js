@@ -137,7 +137,7 @@ let setKind = {
     46: 'U',
     47: 'U',
     48: 'G'
-}
+};
 
 function getSetKind(index) {
     return setKind[index];

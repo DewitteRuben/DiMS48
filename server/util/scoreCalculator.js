@@ -35,7 +35,7 @@ const calculateScorePhase2 = function calculateScorePhase2(answers) {
         const answerIDIndexString = answerAndId._id.substring(1);
         const answerIDIndex = parseInt(answerIDIndexString);
 
-        const chosenOption = answerAndId._id.substring(0, 1);
+        const chosenOption = answerAndId.answer.substring(0, 1);
 
         if (isCorrectOption(chosenOption)) {
             const currentSetKind = getSetKind(answerIDIndex);
