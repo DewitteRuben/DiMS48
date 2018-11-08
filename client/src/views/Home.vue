@@ -10,6 +10,7 @@
         :description="test.description"
         :title="test.title"
         :duration="test.duration"
+        :btnText="test.btnText"
       />
     </v-layout>
   </v-container>
