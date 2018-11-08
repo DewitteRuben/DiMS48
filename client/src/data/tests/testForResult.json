@@ -1,0 +1,10 @@
+{
+    "tests": [
+        {
+            "id": 1,
+            "title": "DIMS48",
+            "route": "dims48",
+            "btnText": "Bekijk testresultaten"
+        }
+    ]
+}

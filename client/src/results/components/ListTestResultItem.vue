@@ -7,7 +7,7 @@
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-btn :to="testRoute" large color="primary">{{btnText}}</v-btn>
+        <v-btn to="/testresults/dims48" large color="primary">{{btnText}}</v-btn>
       </v-card-actions>
     </v-card>
   </v-flex>
@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     testRoute: function() {
-      return this.config.baseTestRoute + this.route;
+      return "testresults/" + this.route;
     }
   }
 };

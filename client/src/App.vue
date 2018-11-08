@@ -7,6 +7,9 @@
         <v-btn flat to="/">
           <v-icon>home</v-icon>Home
         </v-btn>
+        <v-btn flat to="/testresults">
+          Test Resultaten
+        </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
     </v-toolbar>
