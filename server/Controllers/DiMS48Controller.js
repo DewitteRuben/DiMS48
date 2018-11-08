@@ -3,6 +3,7 @@ let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
 const excelGenerator = require('../util/excelGenerator');
+const imageSeeder = require('../seeders/imagesSeeder');
 
 function makeGetter(model, whereClause){
   return new Promise(function(s,f){
@@ -38,7 +39,7 @@ function getResults(){
     makeGetter(DiMS48Models.Result, null).then(results=>{
       results.forEach(result=>{
         if(result.answersPhase3.answers.length <= 0) result.answersPhase3.scores = null;
-      })
+      });
       s(results);
     }).catch(err=>f(err))
   })
@@ -56,13 +57,14 @@ function getUnfinishedTests(){
 
 function addResult(data){
   return new Promise((resolve, reject) => {
+      addCorrectAnswersPhase1(data.answersPhase1);
     data['answersPhase1'] = {
       score: scoreCalculator.calculateScorePhase1(data.answersPhase1),
-      answers: data.answersPhase1
+      answers: addCorrectAnswersPhase1(data.answersPhase1)
     };
     data['answersPhase2'] = {
       scores: scoreCalculator.calculateScorePhase2(data.answersPhase2),
-      answers: data.answersPhase2
+      answers: addCorrectAnswersPhase2(data.answersPhase2)
     };
     data['answersPhase3'] = {
       scores: {
@@ -86,11 +88,11 @@ function addResult(data){
 
 function appendResult(data){
     return new Promise((resolve, reject) => {
-      data['answersPhase3'] = {
+      data.answersPhase3 = {
         scores: scoreCalculator.calculateScorePhase2(data.answersPhase3),
-        answers: data.answersPhase3
+        answers: addCorrectAnswersPhase3(data.answersPhase3)
       };
-      console.log(data.answersPhase3);
+
       DiMS48Models.Result.findByIdAndUpdate(data._id, {answersPhase3: data.answersPhase3}, (err, data) => {
            if(err){
                reject(err);
@@ -100,6 +102,31 @@ function appendResult(data){
         })
     })
 }
+
+//TODO refactor!!!
+const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
+    clientAnswers.forEach((answerAndId) => {
+        const answerIdIndex = parseInt(answerAndId._id.substring(1));
+        const correct = imageSeeder.getAmountOfColours(answerIdIndex);
+        answerAndId.correctAnswer = correct;
+    });
+
+    return clientAnswers;
+};
+
+const addCorrectAnswersPhase2 = function addCorrectAnswersPhase2(clientAnswers){
+    clientAnswers.forEach((answerAndId) => {
+        const answerIdIndex = parseInt(answerAndId._id.substring(1));
+        const correct = `A${answerIdIndex}`;
+        answerAndId.correctAnswer = correct;
+    });
+
+    return clientAnswers;
+};
+
+const addCorrectAnswersPhase3 = function addCorrectAnswersPhase3(clientAnswers){
+    return addCorrectAnswersPhase2(clientAnswers);
+};
 
 module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
     DiMS48Models = injectedDiMS48Models;
