@@ -1,24 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        images: [
-            {
-                id: "A1",
-                imageUrl: "https://www.w3schools.com/w3css/img_lights.jpg",
-            },
-            {
-                id: "A2",
-                imageUrl: "https://www.w3schools.com/w3css/img_lights.jpg",
-            },
-            {
-                id: "B1",
-                imageUrl: "https://openclipart.org/download/216413/coniglio_rabbit_small.svg",
-            },
-            {
-                id: "B2",
-                imageUrl: "https://openclipart.org/download/216413/coniglio_rabbit_small.svg",
-            }
-        ],
+        images: null,
         filteredImages: [],
         currentImageIndex: 0,
         options: {
@@ -47,24 +30,30 @@ export default {
     getters: {
         getCurrentImage: (state, getters, rootState) => {
             const double = rootState.dimsManager.double;
-            const singleImages = state.images.filter(e => e.id.includes("A"));
-            const doubleImages = state.images.filter(e => e.id.includes(state.currentImageIndex + 1));
+            const singleImages = state.images.filter(e => e._id.includes("A"));
+            const doubleImages = state.images.filter(e => e._id.includes(state.currentImageIndex + 1));
             return double ? doubleImages : singleImages;
         },
         getCurrentOptions: (state, getters, rootState) => {
             return state.options[rootState.dimsManager.currentPhase];
         },
+        isLoaded: state => {
+            return state.images !== null;
+        }
     },
     mutations: {
         resetState: state => {
             state.currentImageIndex = 0;
+        },
+        updateImages: (state, images) => {
+            state.images = images;
         }
     },
     actions: {
         getNextImage: ({ commit, state, rootState }, newValue) => {
             const double = rootState.dimsManager.double;
-            const singleImages = state.images.filter(e => e.id.includes("A"));
-            const doubleImages = state.images.filter(e => e.id.includes(state.currentImageIndex + 1));
+            const singleImages = state.images.filter(e => e._id.includes("A"));
+            const doubleImages = state.images.filter(e => e._id.includes(state.currentImageIndex + 1));
             const images = double ? doubleImages : singleImages;
 
             if (state.currentImageIndex + 1 < images.length && images.length > 0) {
@@ -74,6 +63,15 @@ export default {
                 commit('dimsManager/endPhase', null, { root: true });
             }
 
-        }
+        },
+        fetchImages: ({ commit }) => {
+            fetch("http://172.31.15.25:3000/api/dims48Begin")
+                .then(e => e.json())
+                .then(e => {
+                    console.log(e);
+                    commit("updateImages", e.images)
+                })
+                .catch(e => console.error(e));
+        },
     }
 }

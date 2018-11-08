@@ -1,8 +1,8 @@
 <template>
   <div class="question">
     <div>
-      <img :src="currentImage.L.imageUrl" alt="picture">
-      <img v-if="isDouble" :src="currentImage.R.imageUrl" alt="">
+      <img :src="currentImage.L.imgUrl" alt="picture">
+      <img v-if="isDouble" :src="currentImage.R.imgUrl" alt="">
     </div>
     <div class="answers">
       <v-btn
@@ -22,6 +22,24 @@
 export default {
   methods: {
     answer: function(btnValue, currentImage) {
+      if (currentImage.L !== null && currentImage.R === null) {
+        this.$store.commit("dimsTestData/setAnswer", {
+          phase: "phase1",
+          answer: {
+            id: currentImage.L.id,
+            answer: btnValue
+          }
+        });
+      }
+      if (currentImage.L === null && currentImage.R === null) {
+        this.$store.commit("dimsTestData/setAnswer", {
+          phase: "phase2"
+          // answer: {
+          //   id: currentImage.L.id,
+          //   answer: btnValue
+          // }
+        });
+      }
       this.$store.dispatch("dimsQuestions/getNextImage");
     }
   },

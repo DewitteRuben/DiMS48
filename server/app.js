@@ -34,11 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static('client/build'));
-//     app.get('*', (request, response) => {
-//         response.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-//     });
-// }
+//if (process.env.NODE_ENV === 'production') {
+     app.use(express.static('./build'));
+     app.get('*', (request, response) => {
+         response.sendFile(path.join(__dirname, './build', 'index.html'));
+     });
+//}
 
 module.exports = app;

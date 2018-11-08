@@ -5,6 +5,7 @@ export default {
         currentPhase: "phase1",
         double: false,
         started: false,
+        loaded: false,
         finished: false,
     },
     getters: {
@@ -35,6 +36,9 @@ export default {
                     break;
             }
             state.started = false;
+        },
+        setLoaded: state => {
+            state.loaded = true;
         },
     },
     actions: {

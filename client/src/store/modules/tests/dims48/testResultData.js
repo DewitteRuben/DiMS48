@@ -1,14 +1,17 @@
 export default {
     namespaced: true,
     state: {
-        answers: [],
+        answers: {
+            phase1: [],
+            phase2: []
+        }
     },
     getters: {
 
     },
     mutations: {
-        setAnswer(state, answer) {
-            state.answers.push(answer);
+        setAnswer(state, payload) {
+            state.answers[payload.phase].push(payload.answer);
         }
     },
     actions: {
