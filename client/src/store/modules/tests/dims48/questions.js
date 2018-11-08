@@ -2,16 +2,15 @@ export default {
     namespaced: true,
     state: {
         images: null,
-        filteredImages: [],
         currentImageIndex: 0,
         options: {
             phase1: [
                 {
-                    btnText: '2 of minder kleuren',
+                    btnText: '2 of meer kleuren',
                     btnValue: '<=2'
                 },
                 {
-                    btnText: '3 of meer kleuren',
+                    btnText: '3 of minder kleuren',
                     btnValue: '>=3'
                 }
             ],
@@ -31,7 +30,10 @@ export default {
         getCurrentImage: (state, getters, rootState) => {
             const double = rootState.dimsManager.double;
             const singleImages = state.images.filter(e => e._id.includes("A"));
-            const doubleImages = state.images.filter(e => e._id.includes(state.currentImageIndex + 1));
+
+            const imageNumber = state.currentImageIndex + 1;
+            const doubleImages = state.images.filter((e) => (e._id === "A" + imageNumber || e._id === "B" + imageNumber));
+
             return double ? doubleImages : singleImages;
         },
         getCurrentOptions: (state, getters, rootState) => {
@@ -52,9 +54,7 @@ export default {
     actions: {
         getNextImage: ({ commit, state, rootState }, newValue) => {
             const double = rootState.dimsManager.double;
-            const singleImages = state.images.filter(e => e._id.includes("A"));
-            const doubleImages = state.images.filter(e => e._id.includes(state.currentImageIndex + 1));
-            const images = double ? doubleImages : singleImages;
+            const images = state.images.filter(e => e._id.includes("A"));
 
             if (state.currentImageIndex + 1 < images.length && images.length > 0) {
                 state.currentImageIndex++;
@@ -65,10 +65,9 @@ export default {
 
         },
         fetchImages: ({ commit }) => {
-            fetch("/api/dims48Begin")
+            fetch("https://how-to-test-apps.herokuapp.com/api/dims48Begin")
                 .then(e => e.json())
                 .then(e => {
-                    console.log(e);
                     commit("updateImages", e.images)
                 })
                 .catch(e => console.error(e));

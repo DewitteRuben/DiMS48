@@ -1,14 +1,14 @@
 <template>
-  <div class="question">
-    <div>
-      <img :src="currentImage.L.imgUrl" alt="picture">
-      <img v-if="isDouble" :src="currentImage.R.imgUrl" alt="">
+  <div>
+    <div class="questions">
+      <img :src="baseUrl + currentImage.L.imgUrl" alt="picture">
+      <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt="">
     </div>
     <div class="answers">
       <v-btn
         v-for="(option, index) in currentOptions"
         @click="answer(option.btnValue, currentImage)"
-        class="answers"
+        class="answerButton"
         :key="index"
         large
         flat
@@ -23,21 +23,23 @@ export default {
   methods: {
     answer: function(btnValue, currentImage) {
       if (currentImage.L !== null && currentImage.R === null) {
+        const imageId = currentImage.L._id;
         this.$store.commit("dimsTestData/setAnswer", {
           phase: "phase1",
           answer: {
-            id: currentImage.L.id,
+            id: imageId,
             answer: btnValue
           }
         });
       }
-      if (currentImage.L === null && currentImage.R === null) {
+      if (currentImage.L !== null && currentImage.R !== null) {
+        const selectedImageId = currentImage[btnValue]._id;
         this.$store.commit("dimsTestData/setAnswer", {
-          phase: "phase2"
-          // answer: {
-          //   id: currentImage.L.id,
-          //   answer: btnValue
-          // }
+          phase: "phase2",
+          answer: {
+            id: selectedImageId,
+            answer: "A" + selectedImageId.substring(1)
+          }
         });
       }
       this.$store.dispatch("dimsQuestions/getNextImage");
@@ -61,6 +63,9 @@ export default {
     currentOptions: function() {
       return this.$store.getters["dimsQuestions/getCurrentOptions"];
     },
+    baseUrl: () => {
+      return "https://how-to-test-apps.herokuapp.com";
+    },
     isDouble: function() {
       return this.$store.state.dimsManager.double;
     }
@@ -69,4 +74,13 @@ export default {
 </script>
 
 <style>
+.questions {
+  height: 300px;
+}
+
+.answerButton {
+  border: 2px #4892db solid;
+  font-weight: bold;
+  margin-left: 30px;
+}
 </style>
