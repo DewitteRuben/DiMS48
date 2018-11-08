@@ -7,21 +7,21 @@ export default {
         options: {
             phase1: [
                 {
-                    btnText: '2 or less',
+                    btnText: '2 of meer kleuren',
                     btnValue: '<=2'
                 },
                 {
-                    btnText: '3 or more',
+                    btnText: '3 of minder kleuren',
                     btnValue: '>=3'
                 }
             ],
             phase2: [
                 {
-                    btnText: 'Left',
+                    btnText: 'Links',
                     btnValue: 'L'
                 },
                 {
-                    btnText: 'Right',
+                    btnText: 'Rechts',
                     btnValue: 'R'
                 },
             ],
@@ -34,7 +34,7 @@ export default {
 
             const imageNumber = state.currentImageIndex + 1;
             const doubleImages = state.images.filter((e) => (e._id === "A" + imageNumber || e._id === "B" + imageNumber));
-            
+
             return double ? doubleImages : singleImages;
         },
         getCurrentOptions: (state, getters, rootState) => {
@@ -69,7 +69,6 @@ export default {
             fetch("https://how-to-test-apps.herokuapp.com/api/dims48Begin")
                 .then(e => e.json())
                 .then(e => {
-                    console.log(e);
                     commit("updateImages", e.images)
                 })
                 .catch(e => console.error(e));
