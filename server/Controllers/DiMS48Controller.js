@@ -1,5 +1,5 @@
-const DiMS48Models = require('../models/DiMS48Models');
-const defaultModels = require('../models/defaultModels');
+let DiMS48Models;
+let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
 
@@ -97,14 +97,19 @@ function appendResult(data){
     })
 }
 
-module.exports = {
-  getTests,
-  getImages,
-  getInstructions,
-  getOptions,
-  getResults,
-  getUnfinishedTests,
-  getResult,
-  addResult,
-  appendResult,
+module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
+    DiMS48Models = injectedDiMS48Models;
+    defaultModels = injectedDefaultModels;
+
+    return {
+        getTests,
+        getImages,
+        getInstructions,
+        getOptions,
+        getResults,
+        getUnfinishedTests,
+        getResult,
+        addResult,
+        appendResult,
+    }
 };
