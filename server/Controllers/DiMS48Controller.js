@@ -1,11 +1,12 @@
-const DiMS48Models = require('../models/DiMS48Models');
-const defaultModels = require('../models/defaultModels');
+let DiMS48Models;
+let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
 
 function makeGetter(model, whereClause){
   return new Promise(function(s,f){
     let query = model.find(whereClause);
+
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
@@ -59,7 +60,7 @@ function addResult(data){
     data['answersPhase2'] = {
       scores: scoreCalculator.calculateScorePhase2(data.answersPhase2),
       answers: data.answersPhase2
-    }
+    };
     data['answersPhase3'] = {
       scores: {
         abstractScore: 0,
@@ -68,6 +69,7 @@ function addResult(data){
       },
       answers: []
     };
+
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
       if(err){
@@ -96,14 +98,19 @@ function appendResult(data){
     })
 }
 
-module.exports = {
-  getTests,
-  getImages,
-  getInstructions,
-  getOptions,
-  getResults,
-  getUnfinishedTests,
-  getResult,
-  addResult,
-  appendResult,
+module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
+    DiMS48Models = injectedDiMS48Models;
+    defaultModels = injectedDefaultModels;
+
+    return {
+        getTests,
+        getImages,
+        getInstructions,
+        getOptions,
+        getResults,
+        getUnfinishedTests,
+        getResult,
+        addResult,
+        appendResult,
+    }
 };

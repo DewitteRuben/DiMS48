@@ -1,37 +1,21 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Image = require('./defaultModels/image.server.model');
 
-const ImageSchema = new Schema({
-  _id: String,
-  imgUrl: {type: String, required: true},
-  extra: String
-}, {_id: false});
+const ClientInfo = require('./defaultModels/client.info.server.model');
 
-const ClientInfoSchema = new Schema({
-  age: {type: Number, required: true},
-  schooledTill: {type: Number, required: true},
-  schooledFor: {type: Number, required: true},
-  gender: {type: String, required: true},
-  notes: {type: String, required: true}
-}, {_id: false});
+const Answer = require('./defaultModels/answer.server.model');
 
-const AnswerSchema = new Schema({
-  _id: String,
-  answer: {type: String, required: true}
-}, {_id: false});
-
-const TestSchema = new Schema({
-  _id: Number,
-  title: {type: String, required: true},
-  description: String,
-  route: {type: String, required: true}
-}, {_id: false})
+const Test = require('./defaultModels/test.server.model');
 
 module.exports = {
-  Image: mongoose.model('Image', ImageSchema),
-  ClientInfo: mongoose.model('ClientInfo', ClientInfoSchema),
-  Test: mongoose.model('Test', TestSchema),
-  AnswerSchema,
-  ImageSchema,
-  ClientInfoSchema
+    Image: Image.model,
+    ImageSchema: Image.schema,
+
+    ClientInfo: ClientInfo.model,
+    ClientInfoSchema: ClientInfo.schema,
+
+    Answer: Answer.model,
+    AnswerSchema: Answer.schema,
+
+    Test: Test.model,
+    TestSchema: Test.schema,
 };

@@ -1,33 +1,37 @@
 var express = require('express');
 var router = express.Router();
-const DiMS48Controller = require('../Controllers/DiMS48Controller');
+
+const DiMS48Models = require('../models/DiMS48Models');
+const defaultModels = require('../models/defaultModels');
+
+const DiMS48Controller = require('../Controllers/DiMS48Controller')(DiMS48Models, defaultModels);
 
 router.get('/listTests', function(req,res){
   DiMS48Controller.getTests().then(tests=>res.json(tests)).catch(err=>{res.status(500); res.send("Could not get tests")});
-})
+});
 
 router.get('/dims48Begin', function(req,res){
   getBeginObject('begin').then(data=>res.json(data)).catch(err=>{res.status(500); res.send("Could not get data for DiMS48 Part 1")});
-})
+});
 
 router.get('/dims48Part2', function(req,res){
   getBeginObject('part2').then(data=>res.json(data)).catch(err=>{res.status(500); res.send("Could not get data for DiMS48 Part 2")});
-})
+});
 
 router.get('/unfinishedTests', function(req,res){
   DiMS48Controller.getUnfinishedTests().then(data=>res.json(data)).catch(err=>{res.status(500); res.send("Could not get unfinished tests")});
-})
+});
 
 router.get('/results', function(req,res){
   DiMS48Controller.getResults()
     .then(results=>res.json(results)).catch(err=>{res.status(500); res.send("Could not get results")});
-})
+});
 
 router.get('/results/:id', function(req,res){
   let id = req.params.id;
   DiMS48Controller.getResult(id)
     .then(result=>res.json(result)).catch(err=>{res.status(500); res.send("Could not get result")});
-})
+});
 
 router.post('/resultsPart1', function(req,res){
   DiMS48Controller.addResult(req.body)
@@ -60,7 +64,7 @@ function getBeginObject(part){
     images: null,
     instructions: null,
     options: null
-  }
+  };
   return new Promise(function(s,f){
     DiMS48Controller.getImages()
       .then(images=>{
