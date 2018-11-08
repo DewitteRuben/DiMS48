@@ -7,21 +7,21 @@ export default {
         options: {
             phase1: [
                 {
-                    btnText: '2 or less',
+                    btnText: '2 of minder kleuren',
                     btnValue: '<=2'
                 },
                 {
-                    btnText: '3 or more',
+                    btnText: '3 of meer kleuren',
                     btnValue: '>=3'
                 }
             ],
             phase2: [
                 {
-                    btnText: 'Left',
+                    btnText: 'Links',
                     btnValue: 'L'
                 },
                 {
-                    btnText: 'Right',
+                    btnText: 'Rechts',
                     btnValue: 'R'
                 },
             ],
@@ -65,7 +65,7 @@ export default {
 
         },
         fetchImages: ({ commit }) => {
-            fetch("http://172.31.15.25:3000/api/dims48Begin")
+            fetch("/api/dims48Begin")
                 .then(e => e.json())
                 .then(e => {
                     console.log(e);
