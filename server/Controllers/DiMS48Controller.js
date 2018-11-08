@@ -2,7 +2,7 @@ let DiMS48Models;
 let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
-const excelGenerator = require('../util/excelGenerator');
+const excelGenerator = require('../util/fileGenerators/excelGenerator');
 const imageSeeder = require('../seeders/imagesSeeder');
 
 function makeGetter(model, whereClause){

@@ -1,5 +1,5 @@
 const excel = require('excel4node');
-const ImageData = require('../seeders/imagesSeeder');
+const ImageData = require('../../seeders/imagesSeeder');
 
 const text = {
   worksheetNameResults: 'Resultaten',
