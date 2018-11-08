@@ -137,13 +137,17 @@ let setKind = {
     46: 'U',
     47: 'U',
     48: 'G'
-}
+};
 
 function getSetKind(index) {
     return setKind[index];
 }
 
-function getMaxAmountCorrectAnswers() {
+function getMaxAmountOfCorrectAnswersPhase1() {
+    return Object.keys(amountOfColours).length;
+}
+
+function getMaxAmountCorrectAnswersPhase2() {
     let amountAnswers = {abstract: 0, group: 0, unique: 0};
 
     Object.values(setKind).forEach(sort => {
@@ -167,8 +171,9 @@ module.exports = {
     amountOfImages: amountOfImages * 2,
     getSetKind,
     getAmountOfColours,
-    getMaxAmountCorrectAnswers,
+    getMaxAmountOfCorrectAnswersPhase1,
+    getMaxAmountCorrectAnswersPhase2: getMaxAmountCorrectAnswersPhase2,
     amountOfColours,
     set: setKind,
-    SET_KINDS
+    SET_KINDS,
 };
