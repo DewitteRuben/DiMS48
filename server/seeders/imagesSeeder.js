@@ -1,7 +1,7 @@
 let Image = require('../models/defaultModels.js').Image;
 
 let src = '/images'; // TODO: Change to right dir
-let amountOfImages = 48;
+let amountOfImages = 20;
 
 const SET_KINDS = {
     "Abstract": "A",
