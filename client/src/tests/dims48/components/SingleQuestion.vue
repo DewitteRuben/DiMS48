@@ -1,8 +1,8 @@
 <template>
   <div class="question">
     <div>
-      <img :src="currentImage.L.imgUrl" alt="picture">
-      <img v-if="isDouble" :src="currentImage.R.imgUrl" alt="">
+      <img :src="baseUrl + currentImage.L.imgUrl" alt="picture">
+      <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt="">
     </div>
     <div class="answers">
       <v-btn
@@ -50,6 +50,7 @@ export default {
 
       const image = { L: null, R: null };
 
+      console.log(images);
       if (isDouble) {
         image.L = images[0];
         image.R = images[1];
@@ -60,6 +61,9 @@ export default {
     },
     currentOptions: function() {
       return this.$store.getters["dimsQuestions/getCurrentOptions"];
+    },
+    baseUrl: () => {
+      return "https://how-to-test-apps.herokuapp.com";
     },
     isDouble: function() {
       return this.$store.state.dimsManager.double;

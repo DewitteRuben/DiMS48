@@ -1,16 +1,13 @@
 <template>
   <div>
     <div v-if="loaded">
-      <div v-show="!hasStarted && !hasFinished">
-        <InstructionsForm
-          :instructions="currentInstruction.message"
-          :personTitle="currentInstruction.title"
-          :buttonText="this.$store.state.dimsInstructions.buttonText"
-        />
-      </div>
-      <div v-show="hasStarted">
-        <SingleQuestion/>
-      </div>
+      <InstructionsForm
+        v-show="!hasStarted && !hasFinished"
+        :instructions="currentInstruction.message"
+        :personTitle="currentInstruction.title"
+        :buttonText="this.$store.state.dimsInstructions.buttonText"
+      />
+      <SingleQuestion v-show="hasStarted"/>
     </div>
   </div>
 </template>
