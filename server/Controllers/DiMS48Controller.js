@@ -2,10 +2,11 @@ let DiMS48Models;
 let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
+const excelGenerator = require('../util/excelGenerator');
 
 function makeGetter(model, whereClause){
   return new Promise(function(s,f){
-    let query = model.find(whereClause);
+    let query = model.find(whereClause).lean();
 
     query.exec(function(err,data){
       if(err)f(err);
@@ -44,7 +45,9 @@ function getResults(){
 }
 
 function getResult(id){
-  return makeGetter(DiMS48Models.Result, {_id: id});
+  return makeGetter(DiMS48Models.Result, {_id: id}).then(data=>{
+    excelGenerator.makeExcel(data[0]); return data;
+  });
 }
 
 function getUnfinishedTests(){
@@ -84,7 +87,7 @@ function addResult(data){
 function appendResult(data){
     return new Promise((resolve, reject) => {
       data['answersPhase3'] = {
-        scores: scoreCalculator.calculateScore('phase2', data.answersPhase3),
+        scores: scoreCalculator.calculateScorePhase2(data.answersPhase3),
         answers: data.answersPhase3
       };
       console.log(data.answersPhase3);

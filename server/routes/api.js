@@ -54,6 +54,7 @@ router.post('/resultsPart2', function(req,res){
       })
       .catch((error) => {
           //TODO specific error messages?
+          console.log(error);
           res.status(500);
           res.send("Could not append result");
       })

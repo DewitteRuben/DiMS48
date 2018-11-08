@@ -1,7 +1,7 @@
 let Image = require('../models/defaultModels.js').Image;
 
 let src = '/images'; // TODO: Change to right dir
-let amountOfImages = 20;
+let amountOfImages = 48;
 
 const SET_KINDS = {
     "Abstract": "A",
@@ -172,7 +172,7 @@ module.exports = {
     getSetKind,
     getAmountOfColours,
     getMaxAmountOfCorrectAnswersPhase1,
-    getMaxAmountCorrectAnswersPhase2: getMaxAmountCorrectAnswersPhase2,
+    getMaxAmountCorrectAnswersPhase2,
     amountOfColours,
     set: setKind,
     SET_KINDS,
