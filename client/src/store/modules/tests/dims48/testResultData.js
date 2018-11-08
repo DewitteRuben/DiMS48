@@ -12,6 +12,7 @@ export default {
     mutations: {
         setAnswer(state, payload) {
             state.answers[payload.phase].push(payload.answer);
+            console.log(state.answers);
         }
     },
     actions: {

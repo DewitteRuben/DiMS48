@@ -2,7 +2,6 @@ export default {
     namespaced: true,
     state: {
         images: null,
-        filteredImages: [],
         currentImageIndex: 0,
         options: {
             phase1: [

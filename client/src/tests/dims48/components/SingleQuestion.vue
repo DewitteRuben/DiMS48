@@ -23,21 +23,23 @@ export default {
   methods: {
     answer: function(btnValue, currentImage) {
       if (currentImage.L !== null && currentImage.R === null) {
+        const imageId = currentImage.L._id;
         this.$store.commit("dimsTestData/setAnswer", {
           phase: "phase1",
           answer: {
-            id: currentImage.L.id,
+            id: imageId,
             answer: btnValue
           }
         });
       }
-      if (currentImage.L === null && currentImage.R === null) {
+      if (currentImage.L !== null && currentImage.R !== null) {
+        const selectedImageId = currentImage[btnValue]._id;
         this.$store.commit("dimsTestData/setAnswer", {
-          phase: "phase2"
-          // answer: {
-          //   id: currentImage.L.id,
-          //   answer: btnValue
-          // }
+          phase: "phase2",
+          answer: {
+            id: selectedImageId,
+            answer: "A" + selectedImageId.substring(1)
+          }
         });
       }
       this.$store.dispatch("dimsQuestions/getNextImage");
