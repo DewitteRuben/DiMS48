@@ -57,7 +57,7 @@ export default {
   data() {
     return {
     timer: null,
-    totalTime: (5),
+    totalTime: (180),
     resetButton: false,
     nextButton: false,
     personTitle: "Testleider",
