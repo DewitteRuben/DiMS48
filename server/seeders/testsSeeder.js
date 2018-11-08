@@ -1,24 +1,30 @@
 const mongoose = require('mongoose');
-let Test = require('../models/defaultModels.js').Test;
+const PhaseTest = require('../models/defaultModels').PhaseTest;
+const Test = require('../models/defaultModels.js').Test;
 
-let amountOfTests = 2;
+let amountOfTests = 1;
 
 function getTests(){
-  let DiMS48Part1 = new Test({
-    _id: 0,
+  let DiMS48Part1 = new PhaseTest({
     title: "Verwerkingsfase en onmiddellijke herkenningsfase",
     description: "Testen van het kortetermijngeheugen",
     route: "dims48a"
   });
 
-  let DiMS48Part2 = new Test({
-    _id: 1,
+  let DiMS48Part2 = new PhaseTest({
     title: "Uitgese herkenningsfase",
     description: "Testen van het langetermijngeheugen",
     route: "dims48b"
   });
 
-  return [DiMS48Part1, DiMS48Part2];
+  let DiMS48 = new Test({
+    _id: 0,
+    title: "DiMS48",
+    description: "Beschrijving hier",
+    route: "dims48",
+    phases: [DiMS48Part1, DiMS48Part2]
+  })
+  return [DiMS48];
 }
 
 module.exports = { getTests, amountOfTests};

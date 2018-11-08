@@ -4,6 +4,8 @@ const ClientInfo = require('./defaultModels/client.info.server.model');
 
 const Answer = require('./defaultModels/answer.server.model');
 
+const PhaseTest = require('./defaultModels/phase.test.server.model');
+
 const Test = require('./defaultModels/test.server.model');
 
 module.exports = {
@@ -15,6 +17,9 @@ module.exports = {
 
     Answer: Answer.model,
     AnswerSchema: Answer.schema,
+
+    PhaseTest: PhaseTest.model,
+    PhaseTestSchema: PhaseTest.schema,
 
     Test: Test.model,
     TestSchema: Test.schema,
