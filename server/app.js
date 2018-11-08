@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, '/images')));
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 app.use('/api', apiRouter);
 
 //if (process.env.NODE_ENV === 'production') {
