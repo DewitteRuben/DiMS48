@@ -47,7 +47,7 @@ function getResults(){
 
 function getResult(id){
   return makeGetter(DiMS48Models.Result, {_id: id}).then(data=>{
-    excelGenerator.makeExcel(data[0]); return data;
+    excelGenerator.makeExcel(data[0]); return data[0];
   });
 }
 
