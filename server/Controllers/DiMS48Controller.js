@@ -6,6 +6,7 @@ const scoreCalculator = require('../util/scoreCalculator');
 function makeGetter(model, whereClause){
   return new Promise(function(s,f){
     let query = model.find(whereClause);
+
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
