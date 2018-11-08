@@ -107,8 +107,7 @@ function appendResult(data){
 const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
     clientAnswers.forEach((answerAndId) => {
         const answerIdIndex = parseInt(answerAndId._id.substring(1));
-        const correct = imageSeeder.getAmountOfColours(answerIdIndex);
-        answerAndId.correctAnswer = correct;
+        answerAndId.correctAnswer = imageSeeder.getAmountOfColours(answerIdIndex);
     });
 
     return clientAnswers;
@@ -117,8 +116,7 @@ const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
 const addCorrectAnswersPhase2 = function addCorrectAnswersPhase2(clientAnswers){
     clientAnswers.forEach((answerAndId) => {
         const answerIdIndex = parseInt(answerAndId._id.substring(1));
-        const correct = `A${answerIdIndex}`;
-        answerAndId.correctAnswer = correct;
+        answerAndId.correctAnswer = `A${answerIdIndex}`;
     });
 
     return clientAnswers;
