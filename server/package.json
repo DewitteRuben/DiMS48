@@ -12,10 +12,15 @@
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "ejs": "^2.6.1",
     "excel4node": "^1.7.0",
     "express": "~4.16.0",
+    "fs-extra": "^7.0.1",
     "mongoose": "^5.3.9",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "node-fetch": "^2.2.1",
+    "path": "^0.12.7",
+    "puppeteer": "^1.10.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
