@@ -1,6 +1,6 @@
 <template>
-  <div class="question">
-    <div>
+  <div>
+    <div class="questions">
       <img :src="baseUrl + currentImage.L.imgUrl" alt="picture">
       <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt="">
     </div>
@@ -8,7 +8,7 @@
       <v-btn
         v-for="(option, index) in currentOptions"
         @click="answer(option.btnValue, currentImage)"
-        class="answers"
+        class="answerButton"
         :key="index"
         large
         flat
@@ -50,7 +50,6 @@ export default {
 
       const image = { L: null, R: null };
 
-      console.log(images);
       if (isDouble) {
         image.L = images[0];
         image.R = images[1];
@@ -73,4 +72,13 @@ export default {
 </script>
 
 <style>
+.questions {
+  height: 300px;
+}
+
+.answerButton {
+  border: 2px #4892db solid;
+  font-weight: bold;
+  margin-left: 30px;
+}
 </style>
