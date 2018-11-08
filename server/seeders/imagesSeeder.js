@@ -1,139 +1,179 @@
-const mongoose = require('mongoose');
 let Image = require('../models/defaultModels.js').Image;
 
-let src = './assets/images' // TODO: Change to right dir
+let src = './assets/images'; // TODO: Change to right dir
 let amountOfImages = 48;
 
-function getImages(){
-  let imagesArr = [];
+const SET_KINDS = {
+    "Abstract": "A",
+    "Unique": "U",
+    "Group" : "G"
+};
 
-  for(let i=1; i<=amountOfImages; i++){
-    let idA = `A${i}`;
-    let idB = `B${i}`;
-    let localSrc = `set${i}`;
+function getImages() {
+    let imagesArr = [];
 
-    let amountColours = getAmountOfColours(i);
-    let set = getSet(i);
-    imagesArr.push(makeImage(localSrc, idA, amountColours));
-    imagesArr.push(makeImage(localSrc, idB, set));
-  }
-  return imagesArr;
+    for (let i = 1; i <= amountOfImages; i++) {
+        let idA = `A${i}`;
+        let idB = `B${i}`;
+        let localSrc = `set${i}`;
+
+        let amountColours = getAmountOfColours(i);
+        let set = getSetKind(i);
+        imagesArr.push(makeImage(localSrc, idA, amountColours));
+        imagesArr.push(makeImage(localSrc, idB, set));
+    }
+    return imagesArr;
 }
 
-module.exports = { getImages, amountOfImages: amountOfImages*2, getSet };
-
-function makeImage(localSrc, id, extra){
-  return new Image({
-    _id: id,
-    imgUrl: `${src}/${localSrc}/${id}.jpg`,
-    extra: extra
-  })
+function makeImage(localSrc, id, extra) {
+    return new Image({
+        _id: id,
+        imgUrl: `${src}/${localSrc}/${id}.jpg`,
+        extra: extra
+    })
 }
 
-function getAmountOfColours(index){
-  switch (index) {
-    case 1: return '>=3'
-    case 2: return '>=3'
-    case 3: return '>=3'
-    case 4: return '<=2'
-    case 5: return '>=3'
-    case 6: return '>=3'
-    case 7: return '>=3'
-    case 8: return '<=2'
-    case 9: return '<=2'
-    case 10: return '>=3'
-    case 11: return '>=3'
-    case 12: return '>=3'
-    case 13: return '>=3'
-    case 14: return '<=2'
-    case 15: return '<=2'
-    case 16: return '<=2'
-    case 17: return '>=3'
-    case 18: return '>=3'
-    case 19: return '<=2'
-    case 20: return '>=3'
-    case 21: return '>=3'
-    case 22: return '<=2'
-    case 23: return '<=2'
-    case 24: return '>=3'
-    case 25: return '>=3'
-    case 26: return '>=3'
-    case 27: return '<=2'
-    case 28: return '>=3'
-    case 29: return '>=3'
-    case 30: return '<=2'
-    case 31: return '>=3'
-    case 32: return '<=2'
-    case 33: return '>=3'
-    case 34: return '>=3'
-    case 35: return '<=2'
-    case 36: return '>=3'
-    case 37: return '<=2'
-    case 38: return '<=2'
-    case 39: return '<=2'
-    case 40: return '>=3'
-    case 41: return '>=3'
-    case 42: return '<=2'
-    case 43: return '<=2'
-    case 44: return '<=2'
-    case 45: return '<=2'
-    case 46: return '>=3'
-    case 47: return '>=3'
-    case 48: return '>=3'
-    default: return ''
-  }
+let amountOfColours = {
+    1: '>=3',
+    2: '>=3',
+    3: '>=3',
+    4: '<=2',
+    5: '>=3',
+    6: '>=3',
+    7: '>=3',
+    8: '<=2',
+    9: '<=2',
+    10: '>=3',
+    11: '>=3',
+    12: '>=3',
+    13: '>=3',
+    14: '<=2',
+    15: '<=2',
+    16: '<=2',
+    17: '>=3',
+    18: '>=3',
+    19: '<=2',
+    20: '>=3',
+    21: '>=3',
+    22: '<=2',
+    23: '<=2',
+    24: '>=3',
+    25: '>=3',
+    26: '>=3',
+    27: '<=2',
+    28: '>=3',
+    29: '>=3',
+    30: '<=2',
+    31: '>=3',
+    32: '<=2',
+    33: '>=3',
+    34: '>=3',
+    35: '<=2',
+    36: '>=3',
+    37: '<=2',
+    38: '<=2',
+    39: '<=2',
+    40: '>=3',
+    41: '>=3',
+    42: '<=2',
+    43: '<=2',
+    44: '<=2',
+    45: '<=2',
+    46: '>=3',
+    47: '>=3',
+    48: '>=3'
 }
 
-function getSet(index){
-  switch (index) {
-    case 1: return 'G'
-    case 2: return 'A'
-    case 3: return 'G'
-    case 4: return 'G'
-    case 5: return 'U'
-    case 6: return 'G'
-    case 7: return 'A'
-    case 8: return 'U'
-    case 9: return 'A'
-    case 10: return 'G'
-    case 11: return 'U'
-    case 12: return 'A'
-    case 13: return 'G'
-    case 14: return 'A'
-    case 15: return 'U'
-    case 16: return 'U'
-    case 17: return 'A'
-    case 18: return 'U'
-    case 19: return 'A'
-    case 20: return 'G'
-    case 21: return 'U'
-    case 22: return 'G'
-    case 23: return 'A'
-    case 24: return 'G'
-    case 25: return 'A'
-    case 26: return 'G'
-    case 27: return 'A'
-    case 28: return 'G'
-    case 29: return 'G'
-    case 30: return 'U'
-    case 31: return 'U'
-    case 32: return 'G'
-    case 33: return 'A'
-    case 34: return 'G'
-    case 35: return 'U'
-    case 36: return 'A'
-    case 37: return 'A'
-    case 38: return 'U'
-    case 39: return 'A'
-    case 40: return 'U'
-    case 41: return 'U'
-    case 42: return 'U'
-    case 43: return 'G'
-    case 44: return 'A'
-    case 45: return 'G'
-    case 46: return 'U'
-    case 47: return 'U'
-    case 48: return 'G'
-    default: return ''
-  }
+function getAmountOfColours(index) {
+    return amountOfColours[index];
 }
+
+let setKind = {
+    1: 'G',
+    2: 'A',
+    3: 'G',
+    4: 'G',
+    5: 'U',
+    6: 'G',
+    7: 'A',
+    8: 'U',
+    9: 'A',
+    10: 'G',
+    11: 'U',
+    12: 'A',
+    13: 'G',
+    14: 'A',
+    15: 'U',
+    16: 'U',
+    17: 'A',
+    18: 'U',
+    19: 'A',
+    20: 'G',
+    21: 'U',
+    22: 'G',
+    23: 'A',
+    24: 'G',
+    25: 'A',
+    26: 'G',
+    27: 'A',
+    28: 'G',
+    29: 'G',
+    30: 'U',
+    31: 'U',
+    32: 'G',
+    33: 'A',
+    34: 'G',
+    35: 'U',
+    36: 'A',
+    37: 'A',
+    38: 'U',
+    39: 'A',
+    40: 'U',
+    41: 'U',
+    42: 'U',
+    43: 'G',
+    44: 'A',
+    45: 'G',
+    46: 'U',
+    47: 'U',
+    48: 'G'
+};
+
+function getSetKind(index) {
+    return setKind[index];
+}
+
+function getMaxAmountOfCorrectAnswersPhase1() {
+    return Object.keys(amountOfColours).length;
+}
+
+function getMaxAmountCorrectAnswersPhase2() {
+    let amountAnswers = {abstract: 0, group: 0, unique: 0};
+
+    Object.values(setKind).forEach(sort => {
+        switch (sort) {
+            case SET_KINDS.Abstract:
+                amountAnswers.abstract++;
+                break;
+            case SET_KINDS.Group:
+                amountAnswers.group++;
+                break;
+            case SET_KINDS.Unique:
+                amountAnswers.unique++;
+        }
+    });
+
+    return amountAnswers;
+}
+
+module.exports = {
+    getImages,
+    amountOfImages: amountOfImages * 2,
+    getSetKind,
+    getAmountOfColours,
+    getMaxAmountOfCorrectAnswersPhase1,
+    getMaxAmountCorrectAnswersPhase2: getMaxAmountCorrectAnswersPhase2,
+    amountOfColours,
+    set: setKind,
+    SET_KINDS,
+};
