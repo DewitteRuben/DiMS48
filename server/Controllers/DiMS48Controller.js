@@ -59,7 +59,7 @@ function addResult(data){
     data['answersPhase2'] = {
       scores: scoreCalculator.calculateScorePhase2(data.answersPhase2),
       answers: data.answersPhase2
-    }
+    };
     data['answersPhase3'] = {
       scores: {
         abstractScore: 0,
@@ -68,6 +68,7 @@ function addResult(data){
       },
       answers: []
     };
+
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
       if(err){
