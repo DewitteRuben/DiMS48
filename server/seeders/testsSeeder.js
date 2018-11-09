@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
-const PhaseTest = require('../models/defaultModels').PhaseTest;
-const Test = require('../models/defaultModels.js').Test;
+const defaultModels = require('../models/defaultModels');
+const PhaseTest = defaultModels.PhaseTest;
+const Option = defaultModels.Option;
+const Test = defaultModels.Test;
 
 let amountOfTests = 1;
 
@@ -17,12 +19,18 @@ function getTests(){
     route: "dims48b"
   });
 
+  let DiMS48InterferenceOption = new Option({
+    name: "InterferenceDuration",
+    value: 180
+  })
+
   let DiMS48 = new Test({
     _id: 0,
     title: "DiMS48",
     description: "Beschrijving hier",
     route: "dims48",
-    phases: [DiMS48Part1, DiMS48Part2]
+    phases: [DiMS48Part1, DiMS48Part2],
+    options: [DiMS48InterferenceOption]
   })
   return [DiMS48];
 }

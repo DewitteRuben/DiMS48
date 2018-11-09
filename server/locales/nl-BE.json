@@ -1,0 +1,46 @@
+{
+  "testResult": "test resultaat",
+  "year": "jaar",
+  "correct": "juist",
+  "wrong": "verkeerd",
+  "total": "totaal",
+  "testNotDoneYet": "test nog niet afgelegd.",
+  "answers": "antwoorden",
+  "photo": "foto",
+  "responseTime": "response tijd",
+  "seconds" : "seconden",
+  "answerTypes": {
+    "clientAnswer": "antwoord cliënt",
+    "correctAnswer": "juist antwoord"
+  },
+  "sets": {
+    "uniqueSet": "unieke set",
+    "groupedSet": "gepaarde set",
+    "abstractSet": "abstracte set"
+  },
+  "clientInfo": {
+    "client": "cliënt",
+    "age": "leeftijd",
+    "schooledTill": "geschoold tot",
+    "schooledFor": "geschoold voor",
+    "gender": "geslacht",
+    "notes": "notities",
+    "genders" : {
+      "M": "Man",
+      "F": "Vrouw",
+      "O": "Andere"
+    }
+  },
+  "scores": "scores",
+  "phases": [
+    {
+      "name": "verwerkingsfase"
+    },
+    {
+      "name": "onmiddellijke herkenningsfase"
+    },
+    {
+      "name": "uitgestelde herkenningsfase"
+    }
+  ]
+}
