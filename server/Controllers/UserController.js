@@ -21,6 +21,13 @@ function addUser(data){
   })
 }
 
+function authUser(data){
+  return new Promise((s,f)=>{
+    UserModels.User.authenticate(data.email, data.password).then(user=>s(user)).catch(err=>f(err));
+  })
+}
+
 module.exports = {
-  addUser
+  addUser,
+  authUser
 }

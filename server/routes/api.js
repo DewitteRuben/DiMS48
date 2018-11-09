@@ -62,13 +62,30 @@ router.post('/resultsPart2', function(req,res){
 });
 
 router.post('/register', function(req,res){
-  UserController.addUser(req.body).then(id=>{
+  UserController.addUser(req.body).then(newUser=>{
+    req.session.userId = newUser._id;
     res.status(201);
-    res.json({userId: id});
+    res.json({newUser: newUser});
   }).catch(err=>{
     console.log(err);
     res.status(500);
     res.send("Could not register user");
+  })
+})
+
+router.post('/login',function(req,res){
+  let loginData = {
+    email: req.body.email,
+    password: req.body.password
+  }
+  UserController.authUser(loginData).then(userData=>{
+    req.session.userId = userData._id;
+    console.log(userData);
+    res.status(200);
+    res.send("User logged in");
+  }).catch(err=>{
+    console.log(err);
+    res.send(err);
   })
 })
 
