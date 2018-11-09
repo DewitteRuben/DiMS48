@@ -28,6 +28,7 @@ router.get('/dims48Part2', function (req, res) {
     });
 });
 
+//TODO are all the given answers really needed here?
 router.get('/unfinishedTests', function (req, res) {
     DiMS48Controller.getUnfinishedTests().then(data => res.json(data)).catch(err => {
         res.status(500);
@@ -35,6 +36,8 @@ router.get('/unfinishedTests', function (req, res) {
     });
 });
 
+//TODO are all the given answers really needed here?
+//How about just te scores, when you need all the answers just do a request on /result/:id
 router.get('/results', function (req, res) {
     DiMS48Controller.getResults()
         .then(results => res.json(results)).catch(err => {
@@ -43,6 +46,7 @@ router.get('/results', function (req, res) {
     });
 });
 
+//TODO maybe drop the s here?
 router.get('/results/:id', function (req, res) {
     let id = req.params.id;
     DiMS48Controller.getResult(id)
@@ -89,13 +93,13 @@ router.post('/register', function(req,res){
     res.status(500);
     res.send("Could not register user");
   })
-})
+});
 
 router.post('/login',function(req,res){
   let loginData = {
     email: req.body.email,
     password: req.body.password
-  }
+  };
   UserController.authUser(loginData).then(userData=>{
     req.session.userId = userData._id;
     console.log(userData);
@@ -105,7 +109,7 @@ router.post('/login',function(req,res){
     console.log(err);
     res.send(err);
   })
-})
+});
 
 function getBeginObject(part){
   let beginObject = {
@@ -149,10 +153,10 @@ router.get('/excel/:id', function(req,res){
   //console.log(res);
   DiMS48Controller.getExcel(id)
     .then(workbook=>{
-      let fileName = `results${id}.xlsx`
+      let fileName = `results${id}.xlsx`;
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
     })
-})
+});
 module.exports = router;
