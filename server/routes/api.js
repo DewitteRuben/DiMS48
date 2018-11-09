@@ -127,7 +127,8 @@ function getBeginObject(part){
               })
           })
       }).catch(err=>f(err));
-  })
+  });
+}
 //TODO protect against DDOS!
 router.get('/pdf/:id', (req, res) => {
     const id = req.params.id;
