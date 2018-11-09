@@ -113,7 +113,7 @@ const getPDF = function getPDF(id) {
 
 const getExcel = function(id){
   return getResult(id).then(result=>excelGenerator(result));
-}
+};
 
 //TODO refactor!!!
 const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
