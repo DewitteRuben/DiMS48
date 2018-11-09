@@ -9,6 +9,7 @@
   "photo": "photo",
   "responseTime": "response time",
   "seconds" : "seconds",
+  "report": "report",
   "answerTypes": {
     "clientAnswer": "client answer",
     "correctAnswer": "correct answer"

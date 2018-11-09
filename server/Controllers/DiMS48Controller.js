@@ -5,6 +5,9 @@ const scoreCalculator = require('../util/scoreCalculator');
 const excelGenerator = require('../util/fileGenerators/excelGenerator');
 const imageSeeder = require('../seeders/imagesSeeder');
 
+const locals =  require('../locales/en-US.json');
+const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
+
 function makeGetter(model, whereClause, idNeeded){
   return new Promise(function(s,f){
     let fields = idNeeded ? '-__v' : '-_id -__v';
@@ -104,6 +107,10 @@ function appendResult(data){
     })
 }
 
+const getPDF = function getPDF(id) {
+    return pdfGenerator(this, id, locals);
+};
+
 //TODO refactor!!!
 const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
     clientAnswers.forEach((answerAndId) => {
@@ -141,5 +148,6 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
         getResult,
         addResult,
         appendResult,
+        getPDF
     }
 };
