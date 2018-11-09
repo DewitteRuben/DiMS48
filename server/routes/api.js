@@ -5,6 +5,7 @@ const DiMS48Models = require('../models/DiMS48Models');
 const defaultModels = require('../models/defaultModels');
 
 const DiMS48Controller = require('../Controllers/DiMS48Controller')(DiMS48Models, defaultModels);
+const UserController = require('../Controllers/UserController');
 
 router.get('/listTests', function (req, res) {
     DiMS48Controller.getTests().then(tests => res.json(tests)).catch(err => {
@@ -78,6 +79,55 @@ router.post('/resultsPart2', function (req, res) {
         })
 });
 
+router.post('/register', function(req,res){
+  UserController.addUser(req.body).then(newUser=>{
+    req.session.userId = newUser._id;
+    res.status(201);
+    res.json({newUser: newUser});
+  }).catch(err=>{
+    console.log(err);
+    res.status(500);
+    res.send("Could not register user");
+  })
+})
+
+router.post('/login',function(req,res){
+  let loginData = {
+    email: req.body.email,
+    password: req.body.password
+  }
+  UserController.authUser(loginData).then(userData=>{
+    req.session.userId = userData._id;
+    console.log(userData);
+    res.status(200);
+    res.send("User logged in");
+  }).catch(err=>{
+    console.log(err);
+    res.send(err);
+  })
+})
+
+function getBeginObject(part){
+  let beginObject = {
+    images: null,
+    instructions: null,
+    options: null
+  };
+  return new Promise(function(s,f){
+    DiMS48Controller.getImages()
+      .then(images=>{
+        beginObject.images = images;
+        DiMS48Controller.getInstructions(part)
+          .then(instructions=>{
+            beginObject.instructions = instructions;
+            DiMS48Controller.getOptions(part)
+              .then(options =>{
+                beginObject.options = options;
+                s(beginObject);
+              })
+          })
+      }).catch(err=>f(err));
+  })
 //TODO protect against DDOS!
 router.get('/pdf/:id', (req, res) => {
     const id = req.params.id;
@@ -92,28 +142,5 @@ router.get('/pdf/:id', (req, res) => {
             res.send(error);
         });
 });
-
-function getBeginObject(part) {
-    let beginObject = {
-        images: null,
-        instructions: null,
-        options: null
-    };
-    return new Promise(function (s, f) {
-        DiMS48Controller.getImages()
-            .then(images => {
-                beginObject.images = images;
-                DiMS48Controller.getInstructions(part)
-                    .then(instructions => {
-                        beginObject.instructions = instructions;
-                        DiMS48Controller.getOptions(part)
-                            .then(options => {
-                                beginObject.options = options;
-                                s(beginObject);
-                            })
-                    })
-            }).catch(err => f(err));
-    })
-}
 
 module.exports = router;

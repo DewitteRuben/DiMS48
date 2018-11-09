@@ -4,6 +4,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const session = require('express-session');
+
 const seeder = require('./seeders/seeder');
 
 var indexRouter = require('./routes/index');
@@ -26,6 +28,12 @@ seeder.checkAll(); //Checks wether seeding is needed and seeds accordingly
 
 var app = express();
 
+app.use(session({
+  secret: 'howtotestapps',
+  resave: true,
+  saveUninitialized: false
+}));
+
 app.use(cors({credentials: true, origin: true}));
 app.use(logger('dev'));
 app.use(express.json());
@@ -36,6 +44,8 @@ app.use('/images', express.static(path.join(__dirname, '/images')));
 
 //app.use('/', indexRouter);
 app.use('/api', apiRouter);
+
+
 
 //if (process.env.NODE_ENV === 'production') {
      app.use(express.static('./build'));
