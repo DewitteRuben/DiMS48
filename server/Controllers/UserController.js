@@ -4,13 +4,11 @@ function addUser(data){
   return new Promise((s,f)=>{
     if (data.email &&
     data.username &&
-    data.password &&
-    data.passwordConf) {
+    data.password) {
       let userData = {
         email: data.email,
         username: data.username,
         password: data.password,
-        passwordConf: data.passwordConf,
       }
       const newUser = new UserModels.User(userData);
       newUser.save((err,data)=>{
