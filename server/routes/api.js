@@ -5,6 +5,7 @@ const DiMS48Models = require('../models/DiMS48Models');
 const defaultModels = require('../models/defaultModels');
 
 const DiMS48Controller = require('../Controllers/DiMS48Controller')(DiMS48Models, defaultModels);
+const UserController = require('../Controllers/UserController');
 
 router.get('/listTests', function(req,res){
   DiMS48Controller.getTests().then(tests=>res.json(tests)).catch(err=>{res.status(500); res.send("Could not get tests")});
@@ -59,6 +60,17 @@ router.post('/resultsPart2', function(req,res){
           res.send("Could not append result");
       })
 });
+
+router.post('/register', function(req,res){
+  UserController.addUser(req.body).then(id=>{
+    res.status(201);
+    res.json({userId: id});
+  }).catch(err=>{
+    console.log(err);
+    res.status(500);
+    res.send("Could not register user");
+  })
+})
 
 function getBeginObject(part){
   let beginObject = {
