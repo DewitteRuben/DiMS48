@@ -5,9 +5,10 @@ const scoreCalculator = require('../util/scoreCalculator');
 const excelGenerator = require('../util/fileGenerators/excelGenerator');
 const imageSeeder = require('../seeders/imagesSeeder');
 
-function makeGetter(model, whereClause){
+function makeGetter(model, whereClause, idNeeded){
   return new Promise(function(s,f){
-    let query = model.find(whereClause).lean();
+    let fields = idNeeded ? '-__v' : '-_id -__v';
+    let query = model.find(whereClause, fields).lean();
 
     query.exec(function(err,data){
       if(err)f(err);
@@ -17,26 +18,26 @@ function makeGetter(model, whereClause){
 }
 
 function getTests(){
-  return makeGetter(defaultModels.Test, null);
+  return makeGetter(defaultModels.Test, null, true);
 }
 
 function getImages(){
-  return makeGetter(defaultModels.Image, null);
+  return makeGetter(defaultModels.Image, null, true);
 }
 
 function getInstructions(part){
   let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "interference"},{_id: "phase2"}]} : {_id: "phase3"};
-  return makeGetter(DiMS48Models.Instruction, whereClause);
+  return makeGetter(DiMS48Models.Instruction, whereClause, false);
 }
 
 function getOptions(part){
   let whereClause = part === 'begin' ? {$or:[{_id: "phase1Options"},{_id: "phase2Options"}]} : {_id: "phase2Options"};
-  return makeGetter(DiMS48Models.Option, whereClause);
+  return makeGetter(DiMS48Models.Option, whereClause, false);
 }
 
 function getResults(){
   return new Promise(function(s,f){
-    makeGetter(DiMS48Models.Result, null).then(results=>{
+    makeGetter(DiMS48Models.Result, null, true).then(results=>{
       results.forEach(result=>{
         if(result.answersPhase3.answers.length <= 0) result.answersPhase3.scores = null;
       });
@@ -46,13 +47,13 @@ function getResults(){
 }
 
 function getResult(id){
-  return makeGetter(DiMS48Models.Result, {_id: id}).then(data=>{
+  return makeGetter(DiMS48Models.Result, {_id: id}, true).then(data=>{
     excelGenerator.makeExcel(data[0]); return data[0];
   });
 }
 
 function getUnfinishedTests(){
-  return makeGetter(DiMS48Models.Result, { $where: "this.answersPhase3.answers.length <= 0"})
+  return makeGetter(DiMS48Models.Result, { $where: "this.answersPhase3.answers.length <= 0"}, true)
 }
 
 function addResult(data){
