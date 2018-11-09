@@ -4,6 +4,7 @@ export default {
         version: "dims48a",
         currentPhase: "phase1",
         double: false,
+        interference: false,
         started: false,
         loaded: false,
         finished: false,
@@ -16,20 +17,31 @@ export default {
             if (state.version === "dims48b")
                 state.double = true;
 
-            if (state.currentPhase === "end")
-                state.finished = true;
-            else
-                state.started = true;
+            switch (state.currentPhase) {
+                case "end":
+                    state.finished = true;
+                    break;
+                case "interference":
+                    state.interference = true;
+                    break;
+                default:
+                    state.started = true;
+                    break;
+            }
         },
         endPhase: state => {
             switch (state.currentPhase) {
                 case "phase1":
                     if (state.version === "dims48a") {
-                        state.currentPhase = "phase2";
-                        state.double = true;
+                        state.currentPhase = "interference";
                     } if (state.version === "dims48b") {
                         state.currentPhase = "end";
                     }
+                    break;
+                case "interference":
+                    state.currentPhase = "phase2";
+                    state.interference = false;
+                    state.double = true;
                     break;
                 case "phase2":
                     state.currentPhase = "end";

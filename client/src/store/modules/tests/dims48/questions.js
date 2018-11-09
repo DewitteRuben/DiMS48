@@ -2,7 +2,7 @@ export default {
     namespaced: true,
     state: {
         images: null,
-        currentImageIndex: 0,
+        currentImageIndex: 45,
         options: {
             phase1: [
                 {

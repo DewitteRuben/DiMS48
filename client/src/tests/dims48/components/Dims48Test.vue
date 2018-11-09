@@ -1,13 +1,15 @@
 <template>
   <div>
     <div v-if="loaded">
+      <!-- TODO clean this up -->
       <InstructionsForm
-        v-show="!hasStarted && !hasFinished"
+        v-show="!hasStarted && !hasFinished && !interference"
         :instructions="currentInstruction.message"
         :personTitle="currentInstruction.title"
         :buttonText="this.$store.state.dimsInstructions.buttonText"
       />
       <SingleQuestion v-show="hasStarted"/>
+      <InterferenceTest v-show="interference"/>
     </div>
   </div>
 </template>
@@ -15,11 +17,13 @@
 <script>
 import InstructionsForm from "./InstructionsForm.vue";
 import SingleQuestion from "./SingleQuestion.vue";
+import InterferenceTest from "./InterferenceTest.vue";
 
 export default {
   components: {
     InstructionsForm,
-    SingleQuestion
+    SingleQuestion,
+    InterferenceTest
   },
   computed: {
     // todo put this in instruction component
@@ -34,6 +38,9 @@ export default {
     },
     loaded() {
       return this.$store.getters["dimsQuestions/isLoaded"];
+    },
+    interference() {
+      return this.$store.state.dimsManager.interference;
     }
   },
   beforeMount() {

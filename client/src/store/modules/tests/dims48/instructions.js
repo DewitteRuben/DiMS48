@@ -33,6 +33,16 @@ export default {
                 ],
             },
             {
+                "id": "interference",
+                "instructions": [
+                    {
+                        "title": "Testnemer",
+                        "message": "Interferentie instructies voor de testnemer",
+                        "target": "leader"
+                    },
+                ],
+            },
+            {
                 "id": "end",
                 "instructions": [
                     {
