@@ -144,4 +144,15 @@ router.get('/pdf/:id', (req, res) => {
         });
 });
 
+router.get('/excel/:id', function(req,res){
+  const id = req.params.id;
+  //console.log(res);
+  DiMS48Controller.getExcel(id)
+    .then(workbook=>{
+      let fileName = `results${id}.xlsx`
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+      return workbook.write(fileName, res);
+    })
+})
 module.exports = router;
