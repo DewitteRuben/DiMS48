@@ -24,13 +24,18 @@ function getTests(){
     value: 180
   })
 
+  let DiMS48Phase1SecondsPerImage = new Option({
+    name: "Phase1SecondsPerImage",
+    value: 5
+  })
+
   let DiMS48 = new Test({
     _id: 0,
     title: "DiMS48",
     description: "Beschrijving hier",
     route: "dims48",
     phases: [DiMS48Part1, DiMS48Part2],
-    options: [DiMS48InterferenceOption]
+    options: [DiMS48InterferenceOption, DiMS48Phase1SecondsPerImage]
   })
   return [DiMS48];
 }

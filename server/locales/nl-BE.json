@@ -9,6 +9,7 @@
   "photo": "foto",
   "responseTime": "response tijd",
   "seconds" : "seconden",
+  "report": "rapport",
   "answerTypes": {
     "clientAnswer": "antwoord cliënt",
     "correctAnswer": "juist antwoord"

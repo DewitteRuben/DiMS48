@@ -75,7 +75,8 @@ function makeExcel(result){
     writeAnswers(worksheetAnswers, result.answersPhase3.answers, true, 9);
   }
 
-  workbook.write('result.xlsx');
+  //workbook.write('result.xlsx');
+  return workbook;
 }
 
 function writeClientInfo(worksheet, _id, clientInfo){

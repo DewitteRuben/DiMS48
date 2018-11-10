@@ -2,8 +2,11 @@ let DiMS48Models;
 let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
-const excelGenerator = require('../util/fileGenerators/excelGenerator');
+const excelGenerator = require('../util/fileGenerators/excelGenerator').makeExcel;
 const imageSeeder = require('../seeders/imagesSeeder');
+
+const locals =  require('../locales/en-US.json');
+const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
 function makeGetter(model, whereClause, idNeeded){
   return new Promise(function(s,f){
@@ -48,7 +51,7 @@ function getResults(){
 
 function getResult(id){
   return makeGetter(DiMS48Models.Result, {_id: id}, true).then(data=>{
-    excelGenerator.makeExcel(data[0]); return data[0];
+     return data[0];
   });
 }
 
@@ -104,6 +107,14 @@ function appendResult(data){
     })
 }
 
+const getPDF = function getPDF(id) {
+    return pdfGenerator(this, id, locals);
+};
+
+const getExcel = function(id){
+  return getResult(id).then(result=>excelGenerator(result));
+};
+
 //TODO refactor!!!
 const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
     clientAnswers.forEach((answerAndId) => {
@@ -141,5 +152,7 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
         getResult,
         addResult,
         appendResult,
+        getPDF,
+        getExcel
     }
 };
