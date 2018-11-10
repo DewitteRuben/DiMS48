@@ -1,3 +1,5 @@
+import howToTestApi from "@/services/api/howtotestapi";
+
 export default {
     namespaced: true,
     state: {
@@ -49,6 +51,9 @@ export default {
         },
         updateImages: (state, images) => {
             state.images = images;
+        },
+        updateOptions: (state, options) => {
+            state.options = options;
         }
     },
     actions: {
@@ -65,12 +70,11 @@ export default {
 
         },
         fetchImages: ({ commit }) => {
-            fetch("https://how-to-test-apps.herokuapp.com/api/dims48Begin")
-                .then(e => e.json())
-                .then(e => {
-                    commit("updateImages", e.images)
-                })
-                .catch(e => console.error(e));
+            howToTestApi.getDims48().then(res => {
+                commit("updateImages", res.images)
+            }).catch(err => {
+                console.error(err);
+            });
         },
     }
 }
