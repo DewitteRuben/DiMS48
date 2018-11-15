@@ -26,8 +26,6 @@ app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.use('/api', apiRouter);
 
-
-
 //if (process.env.NODE_ENV === 'production') {
      app.use(express.static('./build'));
      app.get('*', (request, response) => {
