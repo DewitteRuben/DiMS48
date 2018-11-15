@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
 
-let DiM48Config;
+let DiMS48Config;
 let TestsConfig;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {
-    DiM48Config = require('../config/DiMS48/mongo.production.config');
+    DiMS48Config = require('../config/DiMS48/mongo.production.config');
     TestsConfig = require('../config/Tests/mongo.production.config');
 }else {
-    DiM48Config = require('../config/DiMS48/mongo.development.config');
+    DiMS48Config = require('../config/DiMS48/mongo.development.config');
     TestsConfig = require('../config/Tests/mongo.development.config');
 }
 
-const DiMS48Database = mongoose.connection.useDb(DiM48Config.databaseName);
-const TestDatabase = mongoose.connection.useDb(TestsConfig.databaseName);
+const DiMS48Database = mongoose.createConnection(`${DiMS48Config.prefix}${DiMS48Config.user}${(DiMS48Config.user !== '' && DiMS48Config.password !== '') ? ':' : ""}${DiMS48Config.password}@${DiMS48Config.URI}:${DiMS48Config.port}/${DiMS48Config.databaseName}`,
+    {useNewUrlParser: true});
+const TestDatabase = mongoose.createConnection(`${TestsConfig.prefix}${TestsConfig.user}${(TestsConfig.user !== '' && TestsConfig.password !== '') ? ':' : ""}${TestsConfig.password}@${TestsConfig.URI}:${TestsConfig.port}/${TestsConfig.databaseName}`,
+    {useNewUrlParser: true});
 console.log("ROBIN HERE:" + TestDatabase);
 
 module.exports = {
