@@ -53,6 +53,8 @@ function checkTests(){
   console.log('Checking tests');
   const queryTests = Test.find();
   queryTests.exec((err, data)=>{
+    if(err)console.log(err);
+    console.log(data);
     if (data.length <= 0){
       console.log('Tests need seeding');
       getTests().forEach(test=> test.save());
