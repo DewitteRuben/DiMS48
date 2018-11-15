@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import BaseTestView from './tests/views/BaseTestView.vue';
-import Dims48View from "./tests/dims48/views/Dims48View.vue";
+import BaseTestView from './views/BaseTestView.vue';
+import Dims48View from "./views/Dims48View.vue";
 import Home from './views/Home.vue';
 import Results from './views/Results.vue';
 import TestResults from './views/TestResults.vue';
+import TestDetail from "./views/TestDetail.vue";
 
 Vue.use(Router);
 
@@ -39,6 +40,11 @@ export default new Router({
           component: TestResults
         }
       ]
+    },
+    {
+      path: '/detail/:name',
+      name: 'detail',
+      component: TestDetail,
     },
   ],
 });

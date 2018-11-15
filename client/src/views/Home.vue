@@ -2,24 +2,15 @@
   <v-container fluid grid-list-lg>
     <h1 class="text-lg-center">How To Test Apps</h1>
     <v-layout row wrap justify-center>
-      <TestListItem
-        v-for="(test) in tests"
-        :route="test.route"
-        :key="test.id"
-        :id="test.id"
-        :description="test.description"
-        :title="test.title"
-        :duration="test.duration"
-        :btnText="test.btnText"
-      />
+      <TestListItem v-for="(category, index) in categories" :key="index" :title="category"/>
     </v-layout>
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import TestListItem from "@/tests/TestListItem.vue";
-import tests from "@/data/tests/tests.json";
+import TestListItem from "@/components/TestListItem.vue";
+import categories from "@/data/categories.json";
 
 export default {
   name: "home",
@@ -27,7 +18,7 @@ export default {
     TestListItem
   },
   data() {
-    return tests;
+    return categories;
   }
 };
 </script>

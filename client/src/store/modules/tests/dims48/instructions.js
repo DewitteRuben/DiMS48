@@ -3,8 +3,7 @@ export default {
     state: {
         data: [
             {
-                "id": "phase1",
-                "instructions": [
+                "phase1": [
                     {
                         "title": "Testleider",
                         "message": "Fase 1 instructies voor de testleider",
@@ -18,8 +17,7 @@ export default {
                 ],
             },
             {
-                "id": "phase2",
-                "instructions": [
+                "phase2": [
                     {
                         "title": "Testleider",
                         "message": "Fase 2 instructies voor de testleider",
@@ -33,8 +31,7 @@ export default {
                 ],
             },
             {
-                "id": "interference",
-                "instructions": [
+                "interference": [
                     {
                         "title": "Testnemer",
                         "message": "Interferentie instructies voor de testnemer",
@@ -43,8 +40,7 @@ export default {
                 ],
             },
             {
-                "id": "end",
-                "instructions": [
+                "end": [
                     {
                         "title": "Testnemer",
                         "message": "Einde van de test, geef het toestel aan de testleider.",

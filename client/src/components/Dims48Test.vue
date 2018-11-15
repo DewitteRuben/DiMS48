@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import InstructionsForm from "./InstructionsForm.vue";
-import SingleQuestion from "./SingleQuestion.vue";
-import InterferenceTest from "./InterferenceTest.vue";
+import InstructionsForm from "@/components/InstructionsForm.vue";
+import SingleQuestion from "@/components/SingleQuestion.vue";
+import InterferenceTest from "@/components/InterferenceTest.vue";
 
 export default {
   components: {
