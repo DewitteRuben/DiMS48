@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const DiMS48Database = require('../../util/databaseGetter').DiMS48Database;
 
 const OptionSchema = new Schema({
     name: {type: String, required: true},
@@ -7,6 +8,6 @@ const OptionSchema = new Schema({
 }, {_id: false});
 
 module.exports = {
-  model: mongoose.model('Option', OptionSchema),
+  model: DiMS48Database.model('Option', OptionSchema),
   schema: OptionSchema,
 };

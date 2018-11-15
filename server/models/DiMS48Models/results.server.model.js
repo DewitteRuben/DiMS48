@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const DiMS48Database = require('../../util/databaseGetter').DiMS48Database;
 
 const defaultModels = require('../defaultModels');
 const ResultsPhase1 = require('./results.phase1.server.model');
@@ -14,7 +15,7 @@ const ResultSchema = new Schema({
 });
 
 module.exports = {
-    model: mongoose.model('Results', ResultSchema),
+    model: DiMS48Database.model('Results', ResultSchema),
     schema: ResultSchema,
 };
 

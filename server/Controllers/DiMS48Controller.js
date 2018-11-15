@@ -1,21 +1,3 @@
-const seeder = require('../seeders/seeder');
-const mongoose = require('mongoose');
-
-const isProduction = process.env.NODE_ENV === 'production';
-
-let mongoConfig;
-
-if (isProduction) {
-    mongoConfig = require('../config/DiMS48/mongo.production.config');
-}else {
-    mongoConfig = require('../config/DiMS48/mongo.development.config');
-}
-
-mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}${(mongoConfig.user !== '' && mongoConfig.password !== '') ? ':' : ""}${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
-    {useNewUrlParser: true});
-
-seeder.checkAll();
-
 let DiMS48Models;
 let defaultModels;
 
