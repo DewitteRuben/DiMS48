@@ -15,7 +15,6 @@ router.get('/categories', function(req,res){
 
 router.get('/detail/:name', function(req,res){
   let testName = req.params.name.toLocaleLowerCase();
-  console.log(req.params);
   TestController.getDetails(testName).then(details=> res.json(details)).catch(err => {
     if(err == 404){
       res.status(404);
