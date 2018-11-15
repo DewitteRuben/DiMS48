@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Dims48Test from "@/tests/dims48/components/Dims48Test.vue";
+import Dims48Test from "@/components/Dims48Test.vue";
 
 export default {
   name: "Dims48Page",

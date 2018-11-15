@@ -7,7 +7,7 @@
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-btn :to="testRoute" large color="primary">{{btnText}}</v-btn>
+        <v-btn :to=detailRoute large color="primary">Detail</v-btn>
       </v-card-actions>
     </v-card>
   </v-flex>
@@ -22,17 +22,12 @@ export default {
     return { config };
   },
   props: {
-    id: { type: Number },
-    title: { type: String },
-    duration: { type: Number },
-    description: { type: String },
-    route: { type: String },
-    btnText: { type: String },
+    title: { type: String }
   },
   computed: {
-    testRoute: function() {
-      return this.config.baseTestRoute + this.route;
-    }
+    detailRoute: function() {
+      return "/detail/" + this.title;
+    },
   }
 };
 </script>

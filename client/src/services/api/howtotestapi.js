@@ -6,3 +6,10 @@ export default {
         return res.json();
     }
 }
+
+// export default {
+//     async getCategories() {
+//         const res = await fetch(baseURL + "/api/categories");
+//         return res.json();
+//     }
+// }
