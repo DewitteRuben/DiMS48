@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid grid-list-lg>
+  <v-container class="home-container" grid-list-lg>
     <h1 class="text-lg-center">How To Test Apps</h1>
-    <v-layout row wrap justify-center>
+    <v-layout align-center justify-center row wrap>
       <TestListItem v-for="(category, index) in categories" :key="index" :title="category"/>
     </v-layout>
   </v-container>
@@ -22,3 +22,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.home-container {
+  max-width:1400px;
+}
+</style>
+
