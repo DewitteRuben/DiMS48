@@ -11,7 +11,7 @@ const instructionPhase1 = new DiMS48Instruction({
 const instructionInterference = new DiMS48Instruction({
   _id: 'interference',
   instructions: {
-    client: '',
+    client: '------',
     leader: 'Vraag de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter \'P\'. Deze taak dient enkel als afleiding, indien gewenst kan tijdens deze tijd ook met de cliënt over een ander onderwerp gepraat worden.'
   }
 });
