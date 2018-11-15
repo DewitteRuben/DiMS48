@@ -7,9 +7,8 @@ const TestSchema = new Schema({
     _id: Number,
     title: {type: String, required: true},
     description: String,
-    route: {type: String, required: true},
     phases: [phaseTestSchema],
-    options: [optionSchema]
+    config: [optionSchema]
 }, {_id: false});
 
 module.exports = {
