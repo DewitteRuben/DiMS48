@@ -6,6 +6,14 @@ const defaultModels = require('../models/defaultModels');
 
 const DiMS48Controller = require('../Controllers/DiMS48Controller')(DiMS48Models, defaultModels);
 const UserController = require('../Controllers/UserController');
+const TestController = require('../Controllers/TestController');
+
+router.get('/categories', function(req,res){
+  TestController.getTestCategories().then(tests=>res.json(tests)).catch(err=> {
+    res.status(500);
+    res.send("Could not get tests");
+  })
+})
 
 router.get('/listTests', function (req, res) {
     DiMS48Controller.getTests().then(tests => res.json(tests)).catch(err => {
