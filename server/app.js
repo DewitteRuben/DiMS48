@@ -3,7 +3,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const session = require('express-session');
 
 var indexRouter = require('./routes/index');
@@ -25,7 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, '/images')));
 
-//app.use('/', indexRouter);
 app.use('/api', apiRouter);
 
 
