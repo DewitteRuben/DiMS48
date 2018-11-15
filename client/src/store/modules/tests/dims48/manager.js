@@ -58,10 +58,9 @@ export default {
     actions: {
         initializeTest: ({ commit }) => {
             howToTestApi.getDims48().then(res => {
-                // console.log(res);
                 commit('dimsQuestions/updateImages', res.images, { root: true });
                 commit('dimsInstructions/updateInstructions', res.instructions, { root: true });
-                //commit("updateImages", res.images)
+                commit('dimsQuestions/updateOptions', res.options, {root: true});
             }).catch(err => {
                 console.error(err);
             });

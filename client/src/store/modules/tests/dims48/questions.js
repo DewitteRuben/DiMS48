@@ -3,29 +3,8 @@ export default {
     namespaced: true,
     state: {
         images: null,
+        options: null,
         currentImageIndex: 45,
-        options: {
-            phase1: [
-                {
-                    btnText: '2 of meer kleuren',
-                    btnValue: '<=2'
-                },
-                {
-                    btnText: '3 of minder kleuren',
-                    btnValue: '>=3'
-                }
-            ],
-            phase2: [
-                {
-                    btnText: 'Links',
-                    btnValue: 'L'
-                },
-                {
-                    btnText: 'Rechts',
-                    btnValue: 'R'
-                },
-            ],
-        }
     },
     getters: {
         getCurrentImage: (state, getters, rootState) => {
@@ -38,7 +17,9 @@ export default {
             return double ? doubleImages : singleImages;
         },
         getCurrentOptions: (state, getters, rootState) => {
-            return state.options[rootState.dimsManager.currentPhase];
+            const options = state.options.filter(e => e._id === rootState.dimsManager.currentPhase)[0].options;
+            console.log(options);
+            return options;
         },
         isLoaded: state => {
             return state.images !== null;
