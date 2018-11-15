@@ -17,7 +17,8 @@ const DiMS48Database = mongoose.createConnection(`${DiMS48Config.prefix}${DiMS48
     {useNewUrlParser: true});
 const TestDatabase = mongoose.createConnection(`${TestsConfig.prefix}${TestsConfig.user}${(TestsConfig.user !== '' && TestsConfig.password !== '') ? ':' : ""}${TestsConfig.password}@${TestsConfig.URI}:${TestsConfig.port}/${TestsConfig.databaseName}`,
     {useNewUrlParser: true});
-console.log("ROBIN HERE:" + TestDatabase);
+console.log("ROBIN HERE:");
+console.log(TestDatabase);
 
 module.exports = {
     DiMS48Database,

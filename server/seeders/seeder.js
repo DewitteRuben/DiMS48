@@ -18,10 +18,11 @@ function checkImages() {
   console.log('Checking images');
     const queryImages = Image.find();
     queryImages.exec(function (err, data) {
-        if (data.length === 0)
+        if (data.length === 0){
           console.log('Images need seeding');
           getImages().forEach(img => img.save());
           console.log('Images seeded');
+        }
     })
 }
 
