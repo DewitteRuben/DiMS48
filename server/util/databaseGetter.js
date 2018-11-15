@@ -15,7 +15,6 @@ if (isProduction) {
 
 const DiMS48Database = mongoose.connection.useDb(DiM48Config.databaseName);
 const TestDatabase = mongoose.connection.useDb(TestsConfig.databaseName);
-console.log("ROBIN HERE:" + TestDatabase);
 
 module.exports = {
     DiMS48Database,
