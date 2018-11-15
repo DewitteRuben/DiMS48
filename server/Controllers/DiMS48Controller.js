@@ -28,14 +28,15 @@ function getImages(){
   return makeGetter(defaultModels.Image, null, true);
 }
 
+//TODO SUPPORT FOR PART3
 function getInstructions(part){
-  let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "interference"},{_id: "phase2"}]} : {_id: "phase3"};
-  return makeGetter(DiMS48Models.Instruction, whereClause, true);
+  let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "interference"},{_id: "phase2"}, {_id: "end"}]} : {_id: "phase3"};
+  return makeGetter(DiMS48Models.Instruction, null, true);
 }
 
 function getOptions(part){
-  let whereClause = part === 'begin' ? {$or:[{_id: "phase1Options"},{_id: "phase2Options"}]} : {_id: "phase2Options"};
-  return makeGetter(DiMS48Models.Option, whereClause, true);
+  let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "phase2"}]} : {_id: "phase2"};
+  return makeGetter(DiMS48Models.Option, null, true);
 }
 
 function getResults(){
