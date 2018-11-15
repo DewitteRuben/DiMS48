@@ -1,3 +1,5 @@
+import howToTestApi from "@/services/api/howtotestapi";
+
 export default {
     namespaced: true,
     state: {
@@ -54,5 +56,15 @@ export default {
         },
     },
     actions: {
-    }
+        initializeTest: ({ commit }) => {
+            howToTestApi.getDims48().then(res => {
+                // console.log(res);
+                commit('dimsQuestions/updateImages', res.images, { root: true });
+                commit('dimsInstructions/updateInstructions', res.instructions, { root: true });
+                //commit("updateImages", res.images)
+            }).catch(err => {
+                console.error(err);
+            });
+        },
+    },
 }

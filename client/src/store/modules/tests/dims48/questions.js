@@ -1,4 +1,3 @@
-import howToTestApi from "@/services/api/howtotestapi";
 
 export default {
     namespaced: true,
@@ -67,14 +66,6 @@ export default {
                 commit('resetState');
                 commit('dimsManager/endPhase', null, { root: true });
             }
-
-        },
-        fetchImages: ({ commit }) => {
-            howToTestApi.getDims48().then(res => {
-                commit("updateImages", res.images)
-            }).catch(err => {
-                console.error(err);
-            });
         },
     }
 }

@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     detailRoute: function() {
-      return "/detail/" + this.title;
+      return "/detail/" + this.title.toLowerCase();
     }
   }
 };

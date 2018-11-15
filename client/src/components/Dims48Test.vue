@@ -47,7 +47,7 @@ export default {
     }
   },
   beforeMount() {
-    this.$store.dispatch("dimsQuestions/fetchImages");
+    this.$store.dispatch("dimsManager/initializeTest");
   }
 };
 </script>
