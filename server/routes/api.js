@@ -96,21 +96,32 @@ router.get('/results/:name/:id', function (req, res) {
   }
 });
 
-router.post('/resultsPart1', function (req, res) {
-    DiMS48Controller.addResult(req.body)
+router.post('/results/:name/1', function (req, res) {
+  let testName = req.params.name;
+  switch (testName) {
+    case 'DiMS48':
+      DiMS48Controller.addResult(req.body)
         .then((data) => {
             res.status(201);
             res.json({testId: data._id});
         })
         .catch((error) => {
-            //TODO specific error messages?
             res.status(500);
             res.send("Could not add result");
         });
+      break;
+    default:
+      res.status(404);
+      res.send(`Test ${testName} not found`);
+  }
+
 });
 
-router.post('/resultsPart2', function (req, res) {
-    DiMS48Controller.appendResult(req.body)
+router.post('/results/:name/2', function (req, res) {
+  let testName = req.params.name;
+  switch (testName) {
+    case 'DiMS48':
+      DiMS48Controller.appendResult(req.body)
         .then(() => {
             res.status(201);
             res.json({created: true});
@@ -121,6 +132,11 @@ router.post('/resultsPart2', function (req, res) {
             res.status(500);
             res.send("Could not append result");
         })
+      break;
+    default:
+      res.status(404);
+      res.send(`Test ${testName} not found`);
+  }
 });
 
 router.post('/register', function(req,res){
@@ -179,10 +195,12 @@ function getBeginObject(part){
   });
 }
 //TODO protect against DDOS!
-router.get('/pdf/:id', (req, res) => {
-    const id = req.params.id;
-
-    DiMS48Controller.getPDF(id)
+router.get('/results/:name/pdf/:id', (req, res) => {
+  let testName = req.params.name;
+  const id = req.params.id;
+  switch (testName) {
+    case 'DiMS48':
+      DiMS48Controller.getPDF(id)
         .then((fileBuffer) => {
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', 'attachment; filename=rapport-'+id+'.pdf');
@@ -191,17 +209,30 @@ router.get('/pdf/:id', (req, res) => {
         .catch((error) => {
             res.send(error);
         });
+      break;
+    default:
+      res.status(404);
+      res.send(`Test ${testName} not found`);
+  }
+
 });
 
-router.get('/excel/:id', function(req,res){
+router.get('/results/:name/excel/:id', function(req,res){
+  let testName = req.params.name;
   const id = req.params.id;
-  //console.log(res);
-  DiMS48Controller.getExcel(id)
-    .then(workbook=>{
-      let fileName = `results${id}.xlsx`;
-      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
-      return workbook.write(fileName, res);
-    })
+  switch (testName) {
+    case 'DiMS48':
+      DiMS48Controller.getExcel(id)
+        .then(workbook=>{
+          let fileName = `results${id}.xlsx`;
+          res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+          return workbook.write(fileName, res);
+        })
+      break;
+    default:
+      res.status(404);
+      res.send(`Test ${testName} not found`);
+  }
 });
 module.exports = router;
