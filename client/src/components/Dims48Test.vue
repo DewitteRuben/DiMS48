@@ -11,6 +11,9 @@
       <SingleQuestion v-show="hasStarted"/>
       <InterferenceTest v-show="interference"/>
     </div>
+    <div v-else>
+      <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+    </div>
   </div>
 </template>
 
