@@ -21,7 +21,19 @@ function getTestConfig(testTitle){
   })
 }
 
+function getDetails(testTile){
+  return new Promise((s,f)=>{
+    let query = Test.find({title: testTile}, {__v:0, config:0, _id:0});
+    query.exec(function(err,data){
+      if(err)f(err);
+      if(data.length < 1) f(404);
+      s(data);
+    })
+  })
+}
+
 module.exports = {
   getTestCategories,
-  getTestConfig
+  getTestConfig,
+  getDetails
 }

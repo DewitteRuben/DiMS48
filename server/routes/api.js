@@ -15,33 +15,48 @@ router.get('/categories', function(req,res){
   })
 })
 
-router.get('/listTests', function (req, res) {
-    DiMS48Controller.getTests().then(tests => res.json(tests)).catch(err => {
-        res.status(500);
-        res.send("Could not get tests")
-    });
-});
+router.get('/detail/:name', function(req,res){
+  let testName = req.params.name;
+  console.log(req.params);
+  TestController.getDetails(testName).then(details=> res.json(details)).catch(err => {
+    if(err == 404){
+      res.status(404);
+      res.send(`Test ${testName} not found.`);
+    }else{
+      res.status(500);
+      res.send('Could not get data');
+    }
+  })
+})
 
-router.get('/dims48Begin', function (req, res) {
+router.get('/test/:name/initial', function(req,res){
+  let testName = req.params.name;
+  switch (testName) {
+    case 'DiMS48':
     getBeginObject('begin').then(data => res.json(data)).catch(err => {
         res.status(500);
         res.send("Could not get data for DiMS48 Part 1")
     });
+      break;
+    default:
+      res.status(404);
+      res.send(`Test ${testName} not found`);
+  }
 });
 
-router.get('/dims48Part2', function (req, res) {
-    getBeginObject('part2').then(data => res.json(data)).catch(err => {
-        res.status(500);
-        res.send("Could not get data for DiMS48 Part 2")
-    });
-});
-
-//TODO are all the given answers really needed here?
-router.get('/unfinishedTests', function (req, res) {
-    DiMS48Controller.getUnfinishedTests().then(data => res.json(data)).catch(err => {
-        res.status(500);
-        res.send("Could not get unfinished tests")
-    });
+router.get('/test/:name/part2', function (req, res) {
+  let testName = req.param.name;
+  switch (testName) {
+    case 'DiMS48':
+      getBeginObject('part2').then(data => res.json(data)).catch(err => {
+          res.status(500);
+          res.send("Could not get data for DiMS48 Part 2")
+      });
+      break;
+    default:
+    res.status(404);
+    res.send(`Test ${testName} not found`);
+  }
 });
 
 //TODO are all the given answers really needed here?
