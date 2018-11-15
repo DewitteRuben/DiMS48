@@ -3,28 +3,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const session = require('express-session');
-
-const seeder = require('./seeders/seeder');
 
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
-
-const isProduction = process.env.NODE_ENV === 'production';
- 
-let mongoConfig;
-
-if (isProduction) {
-    mongoConfig = require('./config/mongo.production.config')
-}else {
-    mongoConfig = require('./config/mongo.development.config')
-}
-
-mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}${(mongoConfig.user !== '' && mongoConfig.password !== '') ? ':' : ""}${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
-    {useNewUrlParser: true});
-
-seeder.checkAll(); //Checks wether seeding is needed and seeds accordingly
 
 var app = express();
 
@@ -42,10 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, '/images')));
 
-//app.use('/', indexRouter);
 app.use('/api', apiRouter);
-
-
 
 //if (process.env.NODE_ENV === 'production') {
      app.use(express.static('./build'));
