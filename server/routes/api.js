@@ -123,7 +123,8 @@ function getBeginObject(part){
   let beginObject = {
     images: null,
     instructions: null,
-    options: null
+    options: null,
+    config: null
   };
   return new Promise(function(s,f){
     DiMS48Controller.getImages()
@@ -135,7 +136,11 @@ function getBeginObject(part){
             DiMS48Controller.getOptions(part)
               .then(options =>{
                 beginObject.options = options;
-                s(beginObject);
+                TestController.getTestConfig('DiMS48')
+                  .then(config=>{
+                    beginObject.config = config;
+                    s(beginObject);
+                  })
               })
           })
       }).catch(err=>f(err));
