@@ -102,7 +102,7 @@ function getBeginObject(part){
             DiMS48Controller.getOptions(part)
               .then(options =>{
                 beginObject.options = options;
-                TestController.getTestConfig('DiMS48')
+                TestController.getTestConfig('dims48')
                   .then(config=>{
                     beginObject.config = config;
                     s(beginObject);
