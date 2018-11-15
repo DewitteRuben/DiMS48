@@ -93,17 +93,22 @@ function getBeginObject(part){
     config: null
   };
   return new Promise(function(s,f){
+    console.log('1');
     DiMS48Controller.getImages()
       .then(images=>{
+        console.log('2');
         beginObject.images = images;
         DiMS48Controller.getInstructions(part)
           .then(instructions=>{
+            console.log('3');
             beginObject.instructions = instructions;
             DiMS48Controller.getOptions(part)
               .then(options =>{
+                console.log('4');
                 beginObject.options = options;
                 TestController.getTestConfig('DiMS48')
                   .then(config=>{
+                    console.log('5');
                     beginObject.config = config;
                     s(beginObject);
                   })

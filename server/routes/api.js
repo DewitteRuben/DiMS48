@@ -40,7 +40,7 @@ router.get('/test/:name/initial', function(req,res){
 });
 
 router.get('/test/:name/part2', function (req, res) {
-  let testName = req.param.name;
+  let testName = req.params.name;
   switch (testName) {
     case 'DiMS48':
       DiMS48Router.part2(res);
