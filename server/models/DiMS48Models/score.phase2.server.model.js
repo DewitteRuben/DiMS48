@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const DiMS48Database = require('../../util/databaseGetter').DiMS48Database;
 
 const ScorePart2Schema = new Schema({
     abstractScore: {type: Number, required: true},
@@ -8,6 +9,6 @@ const ScorePart2Schema = new Schema({
 }, {_id: false});
 
 module.exports = {
-    model: mongoose.model("ScorePart2", ScorePart2Schema),
+    model: DiMS48Database.model("ScorePart2", ScorePart2Schema),
     schema: ScorePart2Schema
 };

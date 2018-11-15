@@ -33,9 +33,8 @@ function getTests(){
     _id: 0,
     title: "DiMS48",
     description: "Beschrijving hier",
-    route: "dims48",
     phases: [DiMS48Part1, DiMS48Part2],
-    options: [DiMS48InterferenceOption, DiMS48Phase1SecondsPerImage]
+    config: [DiMS48InterferenceOption, DiMS48Phase1SecondsPerImage]
   })
   return [DiMS48];
 }

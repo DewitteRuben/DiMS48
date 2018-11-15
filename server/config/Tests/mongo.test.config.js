@@ -4,5 +4,5 @@ module.exports = {
     'prefix': 'mongodb://',
     'URI': 'localhost',
     'port': '27017',
-    'databaseName': 'DiMS48'
+    'databaseName': 'TestsTest'
 };

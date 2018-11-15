@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const DiMS48Database = require('../../util/databaseGetter').DiMS48Database;
+
 
 const ClientInfoSchema = new Schema({
     age: {type: Number, required: true},
@@ -10,6 +12,6 @@ const ClientInfoSchema = new Schema({
 }, {_id: false});
 
 module.exports = {
-  model: mongoose.model('ClientInfo', ClientInfoSchema),
+  model: DiMS48Database.model('ClientInfo', ClientInfoSchema),
   schema: ClientInfoSchema
 };

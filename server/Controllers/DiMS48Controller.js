@@ -30,12 +30,12 @@ function getImages(){
 
 function getInstructions(part){
   let whereClause = part === 'begin' ? {$or:[{_id: "phase1"},{_id: "interference"},{_id: "phase2"}]} : {_id: "phase3"};
-  return makeGetter(DiMS48Models.Instruction, whereClause, false);
+  return makeGetter(DiMS48Models.Instruction, whereClause, true);
 }
 
 function getOptions(part){
   let whereClause = part === 'begin' ? {$or:[{_id: "phase1Options"},{_id: "phase2Options"}]} : {_id: "phase2Options"};
-  return makeGetter(DiMS48Models.Option, whereClause, false);
+  return makeGetter(DiMS48Models.Option, whereClause, true);
 }
 
 function getResults(){
