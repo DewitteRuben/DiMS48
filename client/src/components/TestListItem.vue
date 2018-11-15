@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 sm5>
+  <v-flex xs12 sm4>
     <v-card color="#FFFFFF">
       <v-card-title primary-title>
         <div class="text-lg-left">
@@ -7,7 +7,9 @@
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-btn :to=detailRoute large color="primary">Detail</v-btn>
+        <div class="testlistitem-buttonBox">
+          <v-btn block :to="detailRoute" large color="primary">Details</v-btn>
+        </div>
       </v-card-actions>
     </v-card>
   </v-flex>
@@ -27,10 +29,14 @@ export default {
   computed: {
     detailRoute: function() {
       return "/detail/" + this.title;
-    },
+    }
   }
 };
 </script>
 
 <style>
+.testlistitem-buttonBox {
+  padding: 20px;
+  width:100%;
+}
 </style>
