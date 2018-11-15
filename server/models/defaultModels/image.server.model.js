@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const DiMS48Database = require('../../util/databaseGetter').DiMS48Database;
 
 const ImageSchema = new Schema({
     _id: String,
@@ -8,6 +9,6 @@ const ImageSchema = new Schema({
 }, {_id: false});
 
 module.exports = {
-    model: mongoose.model('Image', ImageSchema),
+    model: DiMS48Database.model('Image', ImageSchema),
     schema: ImageSchema
 };

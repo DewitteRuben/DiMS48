@@ -3,16 +3,16 @@ const Option = require('../models/DiMS48Models').Option;
 const optionsPhase1 = new Option({
     _id: "phase1Options",
     options: [
-        {btnText: '2 or less', btnValue: '<=2'},
-        {btnText: '3 or more', btnValue: '>=3'},
+        {btnText: '2 of minder', btnValue: '<=2'},
+        {btnText: '3 of meer', btnValue: '>=3'},
     ],
 });
 
 const optionsPhase2 = new Option({
     _id: "phase2Options",
     options: [
-        {btnText: 'Left', btnValue: 'L'},
-        {btnText: 'Right', btnValue: 'R'},
+        {btnText: 'Links', btnValue: 'L'},
+        {btnText: 'Rechts', btnValue: 'R'},
     ],
 });
 
