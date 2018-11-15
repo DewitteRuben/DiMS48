@@ -61,22 +61,39 @@ router.get('/test/:name/part2', function (req, res) {
 
 //TODO are all the given answers really needed here?
 //How about just te scores, when you need all the answers just do a request on /result/:id
-router.get('/results', function (req, res) {
-    DiMS48Controller.getResults()
-        .then(results => res.json(results)).catch(err => {
-        res.status(500);
-        res.send("Could not get results")
-    });
+router.get('/results/:name', function (req, res) {
+  let testName = req.params.name;
+  switch (testName) {
+    case 'DiMS48':
+      DiMS48Controller.getResults()
+          .then(results => res.json(results)).catch(err => {
+          res.status(500);
+          res.send("Could not get results")
+      });
+      break;
+    default:
+      res.status(404);
+      res.send(`Test ${testName} not found`);
+  }
+
 });
 
 //TODO maybe drop the s here?
-router.get('/results/:id', function (req, res) {
-    let id = req.params.id;
-    DiMS48Controller.getResult(id)
-        .then(result => res.json(result)).catch(err => {
-        res.status(500);
-        res.send("Could not get result")
-    });
+router.get('/results/:name/:id', function (req, res) {
+  let testName = req.params.name;
+  let id = req.params.id;
+  switch (testName) {
+    case 'DiMS48':
+      DiMS48Controller.getResult(id)
+          .then(result => res.json(result)).catch(err => {
+          res.status(500);
+          res.send("Could not get result")
+      });
+      break;
+    default:
+    res.status(404);
+    res.send(`Test ${testName} not found`);
+  }
 });
 
 router.post('/resultsPart1', function (req, res) {
