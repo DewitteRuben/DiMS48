@@ -12,7 +12,7 @@
     </v-layout>
 
     <v-layout v-if="!loaded" align-center justify-center row fill-height>
-      <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
     </v-layout>
 
   </v-container>

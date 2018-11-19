@@ -9,12 +9,10 @@ export default {
     async getCategories() {
         const res = await fetch(baseURL + "categories");
         return res.json();
+    },
+
+    async getTestDetails(name) {
+        const res = await fetch(baseURL + "detail/" + name);
+        return res.json();
     }
 }
-
-// export default {
-//     async getCategories() {
-//         const res = await fetch(baseURL + "/api/categories");
-//         return res.json();
-//     }
-// }
