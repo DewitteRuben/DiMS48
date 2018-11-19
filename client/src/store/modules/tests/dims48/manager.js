@@ -1,4 +1,4 @@
-import howToTestApi from "@/services/api/howtotestapi";
+import * as howToTestApi from "@/services/api/howtotestapi";
 
 export default {
     namespaced: true,

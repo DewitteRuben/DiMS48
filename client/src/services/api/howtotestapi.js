@@ -1,18 +1,34 @@
-const baseURL = "https://how-to-test-apps.herokuapp.com/api/";
+const API_URL = "https://how-to-test-apps.herokuapp.com/api";
 
-export default {
-    async getDims48() {
-        const res = await fetch(baseURL + "test/dims48/initial");
-        return res.json();
-    },
+export const getDims48 = () => processReq("/test/dims48/initial");
+export const getCategories = () => processReq("/categories");
+export const getTestDetails = (name) => processReq(`/detail/${name}`);
 
-    async getCategories() {
-        const res = await fetch(baseURL + "categories");
-        return res.json();
-    },
-
-    async getTestDetails(name) {
-        const res = await fetch(baseURL + "detail/" + name);
-        return res.json();
+async function processReq(url, dataObj = {}, method = "GET") {
+    const conf = {
+        method: method,
+        credentials: "include",
+        mode: "cors",
+        cache: "no-cache"
+    };
+    if (method.toUpperCase() !== "GET") {
+        conf.body = JSON.stringify(dataObj);
+        conf.headers = {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        };
     }
+
+    // TODO handle proper response from server
+    const response = await fetch(`${API_URL}${url}`, conf);
+    let body;
+    try {
+        body = await response.json();
+    } catch (error) {
+        throw new Error(error);
+     }
+    // if (response.ok) {
+    return body;
+    // } else {
+    //   throw new Error(error);
 }
