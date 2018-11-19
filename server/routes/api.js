@@ -39,7 +39,7 @@ router.get('/test/:name/initial', function(req,res){
 });
 
 router.get('/test/:name/part2', function (req, res) {
-  let testName = req.param.name.toLocaleLowerCase();
+  let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case 'dims48':
       DiMS48Router.part2(res);
