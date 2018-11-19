@@ -12,7 +12,9 @@ export default {
         finished: false,
     },
     getters: {
-
+        hasStarted: state => {
+            return state.started;
+        },
     },
     mutations: {
         startPhase: state => {

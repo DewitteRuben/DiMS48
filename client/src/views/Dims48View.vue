@@ -17,7 +17,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     if (
       confirm(
-        "Bent u zeker dat u de pagina wilt verlaten?Veranderingen zullen niet worden opgeslagen."
+        "Bent u zeker dat u de pagina wilt verlaten? Veranderingen zullen niet worden opgeslagen."
       )
     ) {
       next();

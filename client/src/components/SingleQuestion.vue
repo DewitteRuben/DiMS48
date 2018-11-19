@@ -4,7 +4,7 @@
       <img :src="baseUrl + currentImage.L.imgUrl" alt="picture">
       <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt="">
     </div>
-    <div class="answers">
+    <div class="answers" v-if="hasStarted">
       <v-btn
         v-for="(option, index) in currentOptions"
         @click="answer(option.btnValue, currentImage)"
@@ -62,6 +62,9 @@ export default {
     },
     currentOptions: function() {
       return this.$store.getters["dimsQuestions/getCurrentOptions"];
+    },
+    hasStarted: function() {
+      return this.$store.getters["dimsManager/hasStarted"];
     },
     baseUrl: () => {
       return "https://how-to-test-apps.herokuapp.com";
