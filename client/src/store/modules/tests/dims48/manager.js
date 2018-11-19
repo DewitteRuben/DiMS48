@@ -54,16 +54,30 @@ export default {
         setLoaded: state => {
             state.loaded = true;
         },
+        resetState: state => {
+            state.version = "dims48a";
+            state.currentPhase = "phase1";
+            state.double = false;
+            state.interference = false;
+            state.started = false;
+            state.loaded = false;
+            state.finished = false;
+        },
     },
     actions: {
         initializeTest: ({ commit }) => {
             howToTestApi.getDims48().then(res => {
                 commit('dimsQuestions/updateImages', res.images, { root: true });
                 commit('dimsInstructions/updateInstructions', res.instructions, { root: true });
-                commit('dimsQuestions/updateOptions', res.options, {root: true});
+                commit('dimsQuestions/updateOptions', res.options, { root: true });
             }).catch(err => {
                 console.error(err);
             });
         },
+        resetState: ({ commit }) => {
+            commit('resetState');
+            commit('dimsQuestions/resetState', null, { root: true });
+            commit('dimsInstructions/resetState', null, { root: true });
+        }
     },
 }

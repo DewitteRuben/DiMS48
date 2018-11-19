@@ -4,7 +4,7 @@ export default {
     state: {
         images: null,
         options: null,
-        currentImageIndex: 45,
+        currentImageIndex: 0,
     },
     getters: {
         getCurrentImage: (state, getters, rootState) => {
@@ -18,7 +18,6 @@ export default {
         },
         getCurrentOptions: (state, getters, rootState) => {
             const options = state.options.filter(e => e._id === rootState.dimsManager.currentPhase)[0].options;
-            console.log(options);
             return options;
         },
         isLoaded: state => {
