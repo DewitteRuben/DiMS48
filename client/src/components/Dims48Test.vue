@@ -15,15 +15,16 @@
 import InstructionsForm from "@/components/InstructionsForm.vue";
 import SingleQuestion from "@/components/SingleQuestion.vue";
 import InterferenceTest from "@/components/InterferenceTest.vue";
+import TestEndPanel from "@/components/TestEndPanel.vue";
 
 export default {
   components: {
     InstructionsForm,
     SingleQuestion,
-    InterferenceTest
+    InterferenceTest,
+    TestEndPanel
   },
   computed: {
-    // todo put this in instruction component
     hasStarted() {
       return this.$store.state.dimsManager.started;
     },
