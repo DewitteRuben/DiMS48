@@ -21,6 +21,9 @@ export default {
         isLoaded: (state, getters, rootState, rootGetters) => {
             return rootGetters["dimsQuestions/isLoaded"] && rootGetters["dimsInstructions/isLoaded"];
         },
+        hasFinished: state => {
+            return state.finished;
+        },
     },
     mutations: {
         startPhase: state => {

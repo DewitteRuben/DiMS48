@@ -4,6 +4,7 @@
       <InstructionsForm v-show="!hasStarted && !hasFinished && !interference"/>
       <SingleQuestion v-show="hasStarted"/>
       <InterferenceTest v-show="interference"/>
+      <TestEndPanel v-show="hasFinished"/>
     </div>
     <div v-else>
       <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>

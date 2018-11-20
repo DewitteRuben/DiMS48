@@ -15,11 +15,13 @@ export default {
     Dims48Test
   },
   beforeRouteLeave(to, from, next) {
-    if (
-      confirm(
-        "Bent u zeker dat u de pagina wilt verlaten? Veranderingen zullen niet worden opgeslagen."
-      )
-    ) {
+    if (!this.$store.getters["dimsManager/hasFinished"]) {
+      const answer = confirm("Bent u zeker dat u de pagina wilt verlaten?");
+      if (answer) {
+        next();
+        this.$store.dispatch("dimsManager/resetState");
+      }
+    } else {
       next();
       this.$store.dispatch("dimsManager/resetState");
     }
