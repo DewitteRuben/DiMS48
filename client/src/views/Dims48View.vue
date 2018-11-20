@@ -24,11 +24,11 @@ export default {
       const answer = confirm("Bent u zeker dat u de pagina wilt verlaten?");
       if (answer) {
         next();
-        resetTest();
+        this.resetTest();
       }
     } else {
       next();
-      resetTest();
+      this.resetTest();
     }
   }
 };
