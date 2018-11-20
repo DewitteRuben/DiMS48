@@ -7,7 +7,7 @@
     <div class="answers" v-if="hasStarted">
       <v-btn
         v-for="(option, index) in currentOptions"
-        @click="answer(option.btnValue, currentImage)"
+        @click="answer(option.btnValue)"
         class="answerButton"
         :key="index"
         large
@@ -20,30 +20,24 @@
 
 <script>
 export default {
-  methods: {
-    answer: function(btnValue, currentImage) {
-      if (currentImage.L !== null && currentImage.R === null) {
-        const imageId = currentImage.L._id;
-        this.$store.commit("dimsTestData/setAnswer", {
-          phase: "phase1",
-          answer: {
-            id: imageId,
-            answer: btnValue
-          }
-        });
+  mounted() {
+    // TODO: Make keycodes interchangable
+    window.addEventListener("keyup", e => {
+      if (this.hasStarted) {
+        const btnValueLeft = this.currentOptions[0].btnValue;
+        const btnValueRight = this.currentOptions[
+          this.currentOptions.length - 1
+        ].btnValue;
+        switch (e.which) {
+          case 37:
+            this.answer(btnValueLeft);
+            break;
+          case 39:
+            this.answer(btnValueRight);
+            break;
+        }
       }
-      if (currentImage.L !== null && currentImage.R !== null) {
-        const selectedImageId = currentImage[btnValue]._id;
-        this.$store.commit("dimsTestData/setAnswer", {
-          phase: "phase2",
-          answer: {
-            id: selectedImageId,
-            answer: "A" + selectedImageId.substring(1)
-          }
-        });
-      }
-      this.$store.dispatch("dimsQuestions/getNextImage");
-    }
+    });
   },
   computed: {
     currentImage: function() {
@@ -69,8 +63,43 @@ export default {
     baseUrl: () => {
       return "https://how-to-test-apps.herokuapp.com";
     },
+    currentPhase: function() {
+      return this.$store.state.dimsManager.currentPhase;
+    },
     isDouble: function() {
       return this.$store.state.dimsManager.double;
+    }
+  },
+  methods: {
+    nextImage: function() {
+      this.$store.dispatch("dimsQuestions/getNextImage");
+    },
+    saveAnswer: function(answer) {
+      this.$store.commit("dimsTestData/setAnswer", answer);
+    },
+    answer: function(btnValue) {
+      if (this.isDouble) {
+        const selectedImageId = this.currentImage[btnValue]._id;
+        const doubleAnswer = {
+          phase: this.currentPhase,
+          answer: {
+            id: selectedImageId,
+            answer: "A" + selectedImageId.substring(1)
+          }
+        };
+        this.saveAnswer(doubleAnswer);
+      } else {
+        const imageId = this.currentImage.L._id;
+        const singleAnswer = {
+          phase: this.currentPhase,
+          answer: {
+            id: imageId,
+            answer: btnValue
+          }
+        };
+        this.saveAnswer(singleAnswer);
+      }
+      this.nextImage();
     }
   }
 };
