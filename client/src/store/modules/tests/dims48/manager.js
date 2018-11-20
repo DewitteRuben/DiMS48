@@ -1,8 +1,7 @@
 import * as howToTestApi from "@/services/api/howtotestapi";
 
-export default {
-    namespaced: true,
-    state: {
+function initialState() {
+    return {
         version: "dims48a",
         currentPhase: "phase1",
         double: false,
@@ -10,7 +9,12 @@ export default {
         started: false,
         loaded: false,
         finished: false,
-    },
+    }
+}
+
+export default {
+    namespaced: true,
+    state: initialState,
     getters: {
         hasStarted: state => {
             return state.started;
@@ -57,13 +61,10 @@ export default {
             state.loaded = true;
         },
         resetState: state => {
-            state.version = "dims48a";
-            state.currentPhase = "phase1";
-            state.double = false;
-            state.interference = false;
-            state.started = false;
-            state.loaded = false;
-            state.finished = false;
+            const s = initialState()
+            Object.keys(s).forEach(key => {
+                state[key] = s[key]
+            });
         },
     },
     actions: {
