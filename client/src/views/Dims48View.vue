@@ -14,16 +14,21 @@ export default {
   components: {
     Dims48Test
   },
+  methods: {
+    resetTest: function() {
+      this.$store.dispatch("dimsManager/resetState");
+    }
+  },
   beforeRouteLeave(to, from, next) {
     if (!this.$store.getters["dimsManager/hasFinished"]) {
       const answer = confirm("Bent u zeker dat u de pagina wilt verlaten?");
       if (answer) {
         next();
-        this.$store.dispatch("dimsManager/resetState");
+        resetTest();
       }
     } else {
       next();
-      this.$store.dispatch("dimsManager/resetState");
+      resetTest();
     }
   }
 };
