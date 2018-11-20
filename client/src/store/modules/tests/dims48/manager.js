@@ -73,6 +73,11 @@ export default {
         initializeTest: ({ commit }) => {
             howToTestApi.getDims48().then(res => {
                 commit('dimsQuestions/updateImages', res.images, { root: true });
+                // TODO: change this to original url
+                res.images.forEach(image => {
+                    let imageObject = new Image();
+                    imageObject.src = "https://how-to-test-apps.herokuapp.com" + image.imgUrl;
+                });
                 commit('dimsInstructions/updateInstructions', res.instructions, { root: true });
                 commit('dimsQuestions/updateOptions', res.options, { root: true });
             }).catch(err => {
