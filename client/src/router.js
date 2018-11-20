@@ -27,6 +27,11 @@ export default new Router({
           path: "dims48a",
           component: Dims48View
         },
+        {
+          name: "dims48b",
+          path: "dims48b",
+          component: Dims48View
+        },
       ],
     },
     {

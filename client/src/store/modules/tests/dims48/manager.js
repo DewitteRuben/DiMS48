@@ -27,8 +27,9 @@ export default {
     },
     mutations: {
         startPhase: state => {
-            if (state.version === "dims48b")
+            if (state.version === "dims48b") {
                 state.double = true;
+            }
 
             switch (state.currentPhase) {
                 case "end":
@@ -57,6 +58,7 @@ export default {
                     state.double = true;
                     break;
                 case "phase2":
+                case "phase3":
                     state.currentPhase = "end";
                     break;
             }
@@ -68,9 +70,25 @@ export default {
                 state[key] = s[key]
             });
         },
+        initDims48a: state => {
+            state.version = "dims48a";
+            state.currentPhase = "phase1";
+        },
+        initDims48b: state => {
+            state.version = "dims48b";
+            state.currentPhase = "phase3";
+        },
     },
     actions: {
-        initializeTest: ({ commit }) => {
+        initDims48a: ({ commit, dispatch }) => {
+            commit("initDims48a");
+            dispatch("initDims48TestData");
+        },
+        initDims48b: ({ commit, dispatch }) => {
+            commit("initDims48b");
+            dispatch("initDims48TestData");
+        },
+        initDims48TestData: ({ commit, dispatch }) => {
             howToTestApi.getDims48().then(res => {
                 commit('dimsQuestions/updateImages', res.images, { root: true });
                 // TODO: change this to original url
@@ -83,6 +101,9 @@ export default {
             }).catch(err => {
                 console.error(err);
             });
+        },
+        initializeTest: ({ commit }) => {
+
         },
         resetState: ({ commit }) => {
             commit('resetState');

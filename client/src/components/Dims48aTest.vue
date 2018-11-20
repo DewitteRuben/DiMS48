@@ -40,7 +40,7 @@ export default {
     }
   },
   beforeMount() {
-    this.$store.dispatch("dimsManager/initializeTest");
+    this.$store.dispatch("dimsManager/initDims48a");
   }
 };
 </script>
