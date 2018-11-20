@@ -7,7 +7,6 @@ function initialState() {
         double: false,
         interference: false,
         started: false,
-        loaded: false,
         finished: false,
     }
 }
@@ -18,6 +17,9 @@ export default {
     getters: {
         hasStarted: state => {
             return state.started;
+        },
+        isLoaded: (state, getters, rootState, rootGetters) => {
+            return rootGetters["dimsQuestions/isLoaded"] && rootGetters["dimsInstructions/isLoaded"];
         },
     },
     mutations: {
@@ -56,9 +58,6 @@ export default {
                     break;
             }
             state.started = false;
-        },
-        setLoaded: state => {
-            state.loaded = true;
         },
         resetState: state => {
             const s = initialState()

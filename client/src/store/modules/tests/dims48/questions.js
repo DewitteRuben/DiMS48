@@ -1,11 +1,15 @@
 
-export default {
-    namespaced: true,
-    state: {
+function initialState() {
+    return {
         images: null,
         options: null,
         currentImageIndex: 0,
-    },
+    }
+}
+
+export default {
+    namespaced: true,
+    state: initialState,
     getters: {
         getCurrentImage: (state, getters, rootState) => {
             const double = rootState.dimsManager.double;
@@ -26,7 +30,10 @@ export default {
     },
     mutations: {
         resetState: state => {
-            state.currentImageIndex = 0;
+            const s = initialState()
+            Object.keys(s).forEach(key => {
+                state[key] = s[key]
+            });
         },
         updateImages: (state, images) => {
             state.images = images;

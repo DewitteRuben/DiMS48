@@ -1,15 +1,25 @@
-export default {
-    namespaced: true,
-    state: {
+function initialState() {
+    return {
         instructions: null,
         currentInstruction: 0,
         buttonText: "Volgende",
-    },
+    }
+}
+
+export default {
+    namespaced: true,
+    state: initialState,
     getters: {
         getCurrentInstruction: (state, getters, rootState) => {
             const instructions = state.instructions.filter(e => e._id === rootState.dimsManager.currentPhase)[0].instructions;
             return instructions[state.currentInstruction];
         },
+        getButtonText(state, getters, rootState) {
+            return state.buttonText;
+        },
+        isLoaded(state, getters, rootState) {
+            return state.instructions != null;
+        }
     },
     actions: {
         getNextInstruction: ({ commit, state, rootState }, newValue) => {
@@ -24,7 +34,10 @@ export default {
     },
     mutations: {
         resetState: state => {
-            state.currentInstruction = 0;
+            const s = initialState()
+            Object.keys(s).forEach(key => {
+                state[key] = s[key]
+            });
         },
         updateInstructions: (state, instructions) => {
             state.instructions = instructions;
