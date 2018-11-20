@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 sm4>
-    <v-card color="#FFFFFF">
+    <v-card class="TestListItem-Card" color="#FFFFFF">
       <v-card-title primary-title>
         <div class="text-lg-left">
           <div class="headline">{{ title }}</div>
