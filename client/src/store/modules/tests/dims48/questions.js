@@ -35,6 +35,9 @@ export default {
                 state[key] = s[key]
             });
         },
+        resetCount: state => {
+            state.currentImageIndex = 0;
+        },
         updateImages: (state, images) => {
             state.images = images;
         },
@@ -50,7 +53,7 @@ export default {
             if (state.currentImageIndex + 1 < images.length && images.length > 0) {
                 state.currentImageIndex++;
             } else {
-                commit('resetState');
+                commit('resetCount');
                 commit('dimsManager/endPhase', null, { root: true });
             }
         },

@@ -27,7 +27,7 @@ export default {
             if (state.currentInstruction + 1 < instructions.length) {
                 state.currentInstruction++;
             } else {
-                commit('resetState');
+                commit('resetCount');
                 commit('dimsManager/startPhase', null, { root: true })
             }
         }
@@ -38,6 +38,9 @@ export default {
             Object.keys(s).forEach(key => {
                 state[key] = s[key]
             });
+        },
+        resetCount: state => {
+            state.currentInstruction = 0;
         },
         updateInstructions: (state, instructions) => {
             state.instructions = instructions;
