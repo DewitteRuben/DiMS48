@@ -59,10 +59,10 @@ describe('Score Calculator', () => {
                 exampleAnswersAllCorrect.push(exampleAnswer);
             }
 
-            const calcuatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersAllCorrect);
+            const calculatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersAllCorrect);
             const expectedScore = 100;
 
-            calcuatedScore.should.equal(expectedScore);
+            calculatedScore.should.equal(expectedScore);
         });
     });
 
@@ -97,19 +97,19 @@ describe('Score Calculator', () => {
         it('should return 100 for unique if all unique were correct', () => {
             const uniqueAllCorrectArray = createCorrectAnswerArrayPhase2(imageSeeder.SET_KINDS.Unique);
 
-            const calulatedScore = scoreCalculator.calculateScorePhase2(uniqueAllCorrectArray).uniqueScore;
+            const calculatedScore = scoreCalculator.calculateScorePhase2(uniqueAllCorrectArray).uniqueScore;
             const expectedScore = 100;
 
-            calulatedScore.should.be.equal(expectedScore);
+            calculatedScore.should.be.equal(expectedScore);
         });
 
         it('should return 100 for grouped if all grouped correct', () => {
-            const uniqueAllCorrectArray = createCorrectAnswerArrayPhase2(imageSeeder.SET_KINDS.Group);
+            const groupedAllCorrectArray = createCorrectAnswerArrayPhase2(imageSeeder.SET_KINDS.Group);
 
-            const calulatedScore = scoreCalculator.calculateScorePhase2(uniqueAllCorrectArray).groupedScore;
+            const calculatedScore = scoreCalculator.calculateScorePhase2(groupedAllCorrectArray).groupedScore;
             const expectedScore = 100;
 
-            calulatedScore.should.be.equal(expectedScore);
+            calculatedScore.should.be.equal(expectedScore);
         });
     });
 });
