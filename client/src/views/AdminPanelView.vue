@@ -35,7 +35,7 @@
             phase1SecondsPerImage: 10 // TODO: get data from child
           }
           this.$store.dispatch("dimsConfig/updateConfigValues", newConfig);
-          howtotestapi.updateConfig("DiMS48", {newConfig});
+          howtotestapi.updateConfig("DiMS48", {newConfig}).then(data=>console.log(data));
         }
     },
     created: function(){

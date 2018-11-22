@@ -40,7 +40,7 @@ function getDetails(testTitle){
 function updateConfig(testTitle, newConfig){
   return new Promise((s,f)=>{
     console.log(newConfig);
-    f({msg: "not implemented yet"});
+    s({msg: "not implemented yet"});
     // TODO: update test config using title
   })
 }
