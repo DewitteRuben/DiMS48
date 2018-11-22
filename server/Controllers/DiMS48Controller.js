@@ -8,9 +8,13 @@ const imageSeeder = require('../seeders/imagesSeeder');
 const locals =  require('../locales/en-US.json');
 const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
-function makeGetter(model, whereClause, idNeeded){
+function makeGetter(model, whereClause, idNeeded, extraFields){
   return new Promise(function(s,f){
-    let fields = idNeeded ? '-__v' : '-_id -__v';
+    let fields = idNeeded ? {__v:0} : {__v:0, _id:0};
+    Object.keys(extraFields).forEach(key=>{
+      fields[key] = extraFields[key];
+    })
+    console.log(fields);
     let query = model.find(whereClause, fields).lean();
 
     query.exec(function(err,data){
@@ -41,12 +45,14 @@ function getOptions(part){
 
 function getResults(){
   return new Promise(function(s,f){
-    makeGetter(DiMS48Models.Result, null, true).then(results=>{
-      results.forEach(result=>{
-        if(result.answersPhase3.answers.length <= 0) result.answersPhase3.scores = null;
-      });
-      s(results);
-    }).catch(err=>f(err))
+    makeGetter(DiMS48Models.Result, null, true, {'answersPhase1.answers': 0, 'answersPhase2.answers': 0})
+      .then(results=>{
+        results.forEach(result=>{
+          if(result.answersPhase3.answers.length <= 0) result.answersPhase3.scores = null;
+          delete result.answersPhase3.answers;
+        });
+        s(results);
+    }).catch(err=>{console.log(err);f(err)})
   })
 }
 
