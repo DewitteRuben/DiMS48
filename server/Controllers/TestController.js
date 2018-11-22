@@ -19,9 +19,9 @@ function getTestConfig(testTitle){
   return makeGetter({title: testTitle}, {config: 1, _id:0});
 }
 
-function getDetails(testTile){
+function getDetails(testTitle){
   return new Promise((resolve, reject) => {
-    makeGetter({title: testTile}, {__v:0, config:0, _id:0})
+    makeGetter({title: testTitle}, {__v:0, config:0, _id:0})
     .then((results) => {
       if(results.length <= 0){
         reject({
@@ -37,8 +37,17 @@ function getDetails(testTile){
   })
 }
 
+function updateConfig(testTitle, newConfig){
+  return new Promise((s,f)=>{
+    console.log(newConfig);
+    f({msg: "not implemented yet"});
+    // TODO: update test config using title
+  })
+}
+
 module.exports = {
   getTestCategories,
   getTestConfig,
-  getDetails
+  getDetails,
+  updateConfig
 };

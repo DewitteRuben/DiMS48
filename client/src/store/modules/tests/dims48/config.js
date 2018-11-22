@@ -22,13 +22,9 @@ export default{
       commit('updateInterferenceDurationLocal', config[0].value);
       commit('updatePhase1SecondsPerImageLocal', config[1].value);
     },
-    updateInterferenceDuration: ({commit, state, rootState}, newValue) =>{
-      //TODO: update mongodb
-      commit('updateInterferenceDurationLocal', newValue);
-    },
-    updatePhase1SecondsPerImage: ({commit, state, rootState}, newValue)=>{
-      // TODO: update mongodb
-      commit('updatePhase1SecondsPerImageLocal', newValue);
+    updateConfigValues: ({commit, state, rootState}, newConfig) =>{
+      commit('updateInterferenceDurationLocal', newConfig["interferenceDuration"]);
+      commit('updatePhase1SecondsPerImageLocal', newConfig["phase1SecondsPerImage"]);
     }
   },
   mutations:{
@@ -37,7 +33,6 @@ export default{
     },
     updatePhase1SecondsPerImageLocal: (state, newValue)=>{
       state.phase1SecondsPerImage = newValue;
-      console.log(state.phase1SecondsPerImage);
     }
   }
 }

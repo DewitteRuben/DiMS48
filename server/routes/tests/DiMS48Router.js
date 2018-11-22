@@ -11,6 +11,21 @@ const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
 
 const errorMessages = require('../../locales/DiMS48/errorMessages/en-US.json');
 
+function updateConfig(newConfig, res){
+  TestController.updateConfig("DiMS48", newConfig)
+    .then(data=>res.json(data))
+    .catch(err=>{
+      res.status(500);
+      res.json(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.reasons.internalServerError,
+          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
+          500)
+      );
+    })
+}
+
 function initial(res) {
   getBeginObject('begin')
     .then(data => res.json(data))
@@ -257,6 +272,7 @@ function getBeginObject(part) {
 }
 
 module.exports = {
+  updateConfig,
   initial,
   part2,
   getResults,

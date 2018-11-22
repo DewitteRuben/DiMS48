@@ -2,6 +2,7 @@
     <v-form v-if="dataLoaded">
       <ConfigEditor :configurationName="'interferenceDuration'" :configurationValue="interferenceDuration"/>
       <ConfigEditor :configurationName="'phase1SecondsPerImage'" :configurationValue="phase1SecondsPerImage"/>
+      <v-btn @click="updateValues">Save</v-btn>
     </v-form>
 </template>
 
@@ -25,6 +26,17 @@
       phase1SecondsPerImage: function(){
         return this.$store.getters["dimsConfig/getPhase1SecondsPerImage"];
       }
+    },
+    methods: {
+        updateValues: function(){
+          let self = this;
+          let newConfig = {
+            interferenceDuration: 300, // TODO: get data from child
+            phase1SecondsPerImage: 10 // TODO: get data from child
+          }
+          this.$store.dispatch("dimsConfig/updateConfigValues", newConfig);
+          howtotestapi.updateConfig("DiMS48", {newConfig});
+        }
     },
     created: function(){
       let self = this;
