@@ -96,9 +96,17 @@ function postResultPart1(req, res) {
         testId: data._id
       });
     })
-    .catch((error) => {
-      res.status(500);
-      res.send("Could not add result");
+    .catch((err) => {
+      const errorCode = 500;
+      res.status(errorCode);
+      res.json(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.reasons.internalServerError,
+          errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
+          errorCode
+        )
+      );
     });
 }
 
@@ -110,11 +118,30 @@ function postResultPart2(req, res) {
         created: true
       });
     })
-    .catch((error) => {
-      //TODO specific error messages?
-      console.log(error);
-      res.status(500);
-      res.send("Could not append result");
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.results.couldNotAppendResult + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.couldNotAppendResult + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     })
 }
 
@@ -125,8 +152,30 @@ function getPdf(res, id) {
       res.setHeader('Content-Disposition', 'attachment; filename=rapport-' + id + '.pdf');
       res.send(new Buffer(fileBuffer, 'binary'));
     })
-    .catch((error) => {
-      res.send(error);
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.results.couldNotGeneratePDF + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.couldNotGeneratePDF + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 
