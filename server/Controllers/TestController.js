@@ -1,35 +1,26 @@
 let defaultModels = require('../models/defaultModels');
 
-let Test = defaultModels.Test;
-function getTestCategories(){
+function makeGetter(whereClause, fields){
   return new Promise((s,f)=>{
-    let query = Test.find({}, {title:1});
+    let query = Test.find(whereClause, fields);
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
     })
   })
+}
+
+let Test = defaultModels.Test;
+function getTestCategories(){
+  return makeGetter({}, {title:1});
 }
 
 function getTestConfig(testTitle){
-  return new Promise((s,f)=>{
-    let query = Test.find({title: testTitle}, {config: 1, _id:0});
-    query.exec(function(err,data){
-      if(err)f(err);
-      s(data[0].config);
-    })
-  })
+  return makeGetter({title: testTitle}, {config: 1, _id:0});
 }
 
 function getDetails(testTile){
-  return new Promise((s,f)=>{
-    let query = Test.find({title: testTile}, {__v:0, config:0, _id:0});
-    query.exec(function(err,data){
-      if(err)f(err);
-      if(data.length < 1) f(404);
-      s(data);
-    })
-  })
+  return makeGetter({title: testTile}, {__v:0, config:0, _id:0})
 }
 
 module.exports = {
