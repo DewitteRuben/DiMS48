@@ -1,4 +1,4 @@
-const API_URL = "http://172.31.15.35:3000/api";
+const API_URL = "http://localhost:3000/api";
 
 export const getDims48 = () => processReq("/test/dims48/initial");
 export const getCategories = () => processReq("/categories");
@@ -21,7 +21,7 @@ async function processReq(url, dataObj = {}, method = "GET") {
             "Content-Type": "application/json"
         };
     }
-    
+
     // TODO handle proper response from server
     const response = await fetch(`${API_URL}${url}`, conf);
     let body;

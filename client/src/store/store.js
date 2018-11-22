@@ -4,6 +4,7 @@ import dims48instructions from "./modules/tests/dims48/instructions";
 import dims48questions from "./modules/tests/dims48/questions";
 import dims48resultData from "./modules/tests/dims48/testResultData";
 import dims48manager from "./modules/tests/dims48/manager";
+import dims48Config from "./modules/tests/dims48/config";
 import user from "./modules/user";
 
 Vue.use(Vuex);
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     dimsQuestions: dims48questions,
     dimsTestData: dims48resultData,
     dimsManager: dims48manager,
+    dimsConfig: dims48Config,
     user: user
   }
 });
