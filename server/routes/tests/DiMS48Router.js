@@ -19,8 +19,8 @@ function initial(res) {
       res.json(
         jsonErrorMessageGenerator.generateGoogleJsonError(
           errorMessages.global,
-          errorMessages.internalServerErrorReason,
-          errorMessages.phases.couldNotGetInitial_InternalServerError,
+          errorMessages.reasons.internalServerError,
+          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
           500)
       );
     });
@@ -34,8 +34,8 @@ function part2(res) {
       res.send(
         jsonErrorMessageGenerator.generateGoogleJsonError(
           errorMessages.global,
-          errorMessages.internalServerErrorReason,
-          errorMessages.phases.cloudNotGetPart2_InternalServerError + errorMessages.dueInternalServerError,
+          errorMessages.reasons.internalServerError,
+          errorMessages.phases.cloudNotGetPart2_InternalServerError + errorMessages.dues.internalServerError,
           500
         )
       );
@@ -50,19 +50,41 @@ function getResults(res) {
       res.send(
         jsonErrorMessageGenerator.generateGoogleJsonError(
           errorMessages.global,
-          errorMessages.internalServerErrorReason,
-          errorMessages.couldNotGetResults + errorMessages.dueInternalServerError,
+          errorMessages.reasons.internalServerError,
+          errorMessages.couldNotGetResults + errorMessages.dues.internalServerError,
           500
         )
       );
-   });
+    });
 }
 
 function getResult(res, id) {
   DiMS48Controller.getResult(id)
-    .then(result => res.json(result)).catch(err => {
-      res.status(500);
-      res.send("Could not get result");
+    .then(result => res.json(result))
+    .catch(err => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.internalServerError + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 

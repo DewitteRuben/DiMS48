@@ -1,12 +1,19 @@
 {
     "global": "global",
-    "internalServerErrorReason": "internal server error",
+    "reasons" : {
+        "internalServerError": "internal server error",
+        "invalidIdSupplied": "invalid id supplied"
+    },
     "phases": {
         "couldNotGetInitial": "Failed to get initial test data",
         "cloudNotGetPart2": "Failed to get part 2 of the test data"
     },
     "results": {
-        "couldNotGetResults": "Failed to get results"
+        "couldNotGetResults": "Failed to get results",
+        "couldNotGetResult": "Cloud not get that result"
     },
-    "dueInternalServerError": " due to a internal server error"
+    "dues": {
+        "internalServerError": " due to a internal server error",
+        "invalidIdSupplied": " due to a invalid id that was supplied"
+    }
 }
