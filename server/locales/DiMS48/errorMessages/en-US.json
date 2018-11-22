@@ -1,0 +1,7 @@
+{
+    "global": "global",
+    "internalServerErrorReason": "internal server error",
+    "phases": {
+        "couldNotGetInitial": "Failed to get initial test data due to a internal server error" 
+    }
+}
