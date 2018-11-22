@@ -1,7 +1,7 @@
 <template>
   <v-container class="home-container" grid-list-lg>
     <h1 class="text-lg-center">Testresultaten</h1>
-    <CategoryList baseRoute="/result"/>
+    <CategoryList baseRoute="/results"/>
   </v-container>
 </template>
 
