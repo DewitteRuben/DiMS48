@@ -1,0 +1,12 @@
+{
+    "global": "global",
+    "reasons" : {
+        "internalServerError": "internal server error"
+    },
+    "categories": {
+        "couldNotGetCategories": "Could not get categories"
+    },
+    "dues": {
+        "internalServerError": " due to an internal server error"
+    }
+}
