@@ -217,32 +217,42 @@ function getExcel(req, res) {
 }
 
 function getBeginObject(part) {
-  let beginObject = {
-    images: null,
-    instructions: null,
-    options: null,
-    config: null
-  };
-  return new Promise(function (s, f) {
-    DiMS48Controller.getImages()
-      .then(images => {
-        beginObject.images = images;
-        DiMS48Controller.getInstructions(part)
-          .then(instructions => {
-            beginObject.instructions = instructions;
-            DiMS48Controller.getOptions(part)
-              .then(options => {
-                beginObject.options = options;
-                TestController.getTestConfig('dims48')
-                  .then(config => {
-                    beginObject.config = config;
-                    s(beginObject);
-                  });
-              });
-          });
-      }).catch(err => {
-        f(err);
-      });
+  return new Promise(function (resolve, reject) {
+    const beginObject = {
+      images: null,
+      instructions: null,
+      options: null,
+      config: null
+    };
+
+    const imagePromise = DiMS48Controller.getImages();
+    const instructionPromise = DiMS48Controller.getInstructions();
+    const optionsPromise = DiMS48Controller.getOptions();
+    const configPromise = TestController.getTestConfig('dims48');
+
+    const promiseArray = [imagePromise, instructionPromise, optionsPromise, configPromise];
+
+    imagePromise.then((images) => {
+      beginObject.images = images;
+    });
+
+    instructionPromise.then((instructions) => {
+      beginObject.instructions = instructions;
+    });
+
+    optionsPromise.then((options) => {
+      beginObject.options = options;
+    });
+
+    configPromise.then((config) => {
+      beginObject.config = config;
+    });
+
+    Promise.all(promiseArray).then((data) => {
+      resolve(beginObject);
+    }).catch((err) => {
+      reject(err);
+    });
   });
 }
 
