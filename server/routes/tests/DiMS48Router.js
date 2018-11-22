@@ -35,7 +35,7 @@ function part2(res) {
         jsonErrorMessageGenerator.generateGoogleJsonError(
           errorMessages.global,
           errorMessages.internalServerErrorReason,
-          errorMessages.phases.cloudNotGetPart2_InternalServerError,
+          errorMessages.phases.cloudNotGetPart2_InternalServerError + errorMessages.dueInternalServerError,
           500
         )
       );
@@ -44,10 +44,18 @@ function part2(res) {
 
 function getResults(res) {
   DiMS48Controller.getResults()
-    .then(results => res.json(results)).catch(err => {
+    .then(results => res.json(results))
+    .catch(err => {
       res.status(500);
-      res.send("Could not get results");
-    });
+      res.send(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.internalServerErrorReason,
+          errorMessages.couldNotGetResults + errorMessages.dueInternalServerError,
+          500
+        )
+      );
+   });
 }
 
 function getResult(res, id) {
@@ -131,10 +139,12 @@ function getBeginObject(part) {
                   .then(config => {
                     beginObject.config = config;
                     s(beginObject);
-                  })
-              })
-          })
-      }).catch(err => f(err));
+                  });
+              });
+          });
+      }).catch(err => {
+        f(err);
+      });
   });
 }
 

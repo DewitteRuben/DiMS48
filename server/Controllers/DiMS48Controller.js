@@ -11,16 +11,19 @@ const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 function makeGetter(model, whereClause, idNeeded, extraFields){
   return new Promise(function(s,f){
     let fields = idNeeded ? {__v:0} : {__v:0, _id:0};
-    Object.keys(extraFields).forEach(key=>{
-      fields[key] = extraFields[key];
-    })
-    console.log(fields);
+
+    if(extraFields){
+      Object.keys(extraFields).forEach(key=>{
+        fields[key] = extraFields[key];
+      });
+    }
+
     let query = model.find(whereClause, fields).lean();
 
     query.exec(function(err,data){
       if(err)f(err);
       s(data);
-    })
+    });
   })
 }
 
