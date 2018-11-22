@@ -1,13 +1,19 @@
 <template>
     <div class="TestEndPanel">
         <h1>Einde van de Test</h1>
+        {{test}}
         <v-btn to="/" class="TestEndPanel-Button" block color="primary">Ga terug naar de homepagina</v-btn>
-        <v-btn to="/" class="TestEndPanel-Button" block color="primary">Bekijk de resultaten van de test</v-btn>
+        <v-btn to="/results" class="TestEndPanel-Button" block color="primary">Bekijk de resultaten van de test</v-btn>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    test: function() {
+    }
+  }
+};
 </script>
 
 <style>

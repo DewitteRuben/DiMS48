@@ -6,7 +6,7 @@
                 <h1 class="text-xs-left">Beschrijving</h1>
                 <v-card color="#FFFFFF">
                     <v-card-title primary-title>
-                        <div class="text-xs-left" v-html="description"></div>
+                        <div class="text-xs-left subheading" v-html="description"></div>
                     </v-card-title>
                 </v-card>
             </v-flex>
