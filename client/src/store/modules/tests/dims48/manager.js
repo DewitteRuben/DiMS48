@@ -1,21 +1,35 @@
-export default {
-    namespaced: true,
-    state: {
+import * as howToTestApi from "@/services/api/howtotestapi";
+
+function initialState() {
+    return {
         version: "dims48a",
         currentPhase: "phase1",
         double: false,
         interference: false,
         started: false,
-        loaded: false,
         finished: false,
-    },
-    getters: {
+    }
+}
 
+export default {
+    namespaced: true,
+    state: initialState,
+    getters: {
+        hasStarted: state => {
+            return state.started;
+        },
+        isLoaded: (state, getters, rootState, rootGetters) => {
+            return rootGetters["dimsQuestions/isLoaded"] && rootGetters["dimsInstructions/isLoaded"];
+        },
+        hasFinished: state => {
+            return state.finished;
+        },
     },
     mutations: {
         startPhase: state => {
-            if (state.version === "dims48b")
+            if (state.version === "dims48b") {
                 state.double = true;
+            }
 
             switch (state.currentPhase) {
                 case "end":
@@ -44,15 +58,57 @@ export default {
                     state.double = true;
                     break;
                 case "phase2":
+                case "phase3":
                     state.currentPhase = "end";
                     break;
             }
             state.started = false;
         },
-        setLoaded: state => {
-            state.loaded = true;
+        resetState: state => {
+            const s = initialState()
+            Object.keys(s).forEach(key => {
+                state[key] = s[key]
+            });
+        },
+        initDims48a: state => {
+            state.version = "dims48a";
+            state.currentPhase = "phase1";
+        },
+        initDims48b: state => {
+            state.version = "dims48b";
+            state.currentPhase = "phase3";
         },
     },
     actions: {
-    }
+        initDims48a: ({ commit, dispatch }) => {
+            commit("initDims48a");
+            dispatch("initDims48TestData");
+        },
+        initDims48b: ({ commit, dispatch }) => {
+            commit("initDims48b");
+            dispatch("initDims48TestData");
+        },
+        initDims48TestData: ({ commit, dispatch }) => {
+            howToTestApi.getDims48().then(res => {
+                commit('dimsQuestions/updateImages', res.images, { root: true });
+                // TODO: change this to original url
+                res.images.forEach(image => {
+                    let imageObject = new Image();
+                    imageObject.src = "https://how-to-test-apps.herokuapp.com" + image.imgUrl;
+                });
+                commit('dimsInstructions/updateInstructions', res.instructions, { root: true });
+                commit('dimsQuestions/updateOptions', res.options, { root: true });
+            }).catch(err => {
+                console.error(err);
+            });
+        },
+        initializeTest: ({ commit }) => {
+
+        },
+        resetState: ({ commit }) => {
+            commit('resetState');
+            commit('dimsQuestions/resetState', null, { root: true });
+            commit('dimsInstructions/resetState', null, { root: true });
+        }
+    },
 }

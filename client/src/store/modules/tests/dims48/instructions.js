@@ -1,77 +1,49 @@
-export default {
-    namespaced: true,
-    state: {
-        data: [
-            {
-                "phase1": [
-                    {
-                        "title": "Testleider",
-                        "message": "Fase 1 instructies voor de testleider",
-                        "target": "leader"
-                    },
-                    {
-                        "title": "Testnemer",
-                        "message": "Fase 1 instructies voor de testnemer",
-                        "target": "client"
-                    }
-                ],
-            },
-            {
-                "phase2": [
-                    {
-                        "title": "Testleider",
-                        "message": "Fase 2 instructies voor de testleider",
-                        "target": "leader"
-                    },
-                    {
-                        "title": "Testnemer",
-                        "message": "Fase 2 instructies voor de testnemer",
-                        "target": "client"
-                    }
-                ],
-            },
-            {
-                "interference": [
-                    {
-                        "title": "Testnemer",
-                        "message": "Interferentie instructies voor de testnemer",
-                        "target": "leader"
-                    },
-                ],
-            },
-            {
-                "end": [
-                    {
-                        "title": "Testnemer",
-                        "message": "Einde van de test, geef het toestel aan de testleider.",
-                        "target": "leader"
-                    },
-                ],
-            },
-        ],
+function initialState() {
+    return {
+        instructions: null,
         currentInstruction: 0,
         buttonText: "Volgende",
-    },
+    }
+}
+
+export default {
+    namespaced: true,
+    state: initialState,
     getters: {
         getCurrentInstruction: (state, getters, rootState) => {
-            const instructions = state.data.filter(e => e.id === rootState.dimsManager.currentPhase)[0].instructions;
+            const instructions = state.instructions.filter(e => e._id === rootState.dimsManager.currentPhase)[0].instructions;
             return instructions[state.currentInstruction];
         },
+        getButtonText(state, getters, rootState) {
+            return state.buttonText;
+        },
+        isLoaded(state, getters, rootState) {
+            return state.instructions != null;
+        }
     },
     actions: {
         getNextInstruction: ({ commit, state, rootState }, newValue) => {
-            const instructions = state.data.filter(e => e.id === rootState.dimsManager.currentPhase)[0].instructions;
+            const instructions = state.instructions.filter(e => e._id === rootState.dimsManager.currentPhase)[0].instructions;
             if (state.currentInstruction + 1 < instructions.length) {
                 state.currentInstruction++;
             } else {
-                commit('resetState');
+                commit('resetCount');
                 commit('dimsManager/startPhase', null, { root: true })
             }
         }
     },
     mutations: {
         resetState: state => {
+            const s = initialState()
+            Object.keys(s).forEach(key => {
+                state[key] = s[key]
+            });
+        },
+        resetCount: state => {
             state.currentInstruction = 0;
+        },
+        updateInstructions: (state, instructions) => {
+            state.instructions = instructions;
         }
     },
 }

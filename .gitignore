@@ -9,3 +9,5 @@ server/\.nyc_output/
 server/coverage/
 
 server/result\.xlsx
+
+server/\.jshintrc

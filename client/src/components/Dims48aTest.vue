@@ -1,15 +1,10 @@
 <template>
   <div>
     <div v-if="loaded">
-      <!-- TODO clean this up -->
-      <InstructionsForm
-        v-show="!hasStarted && !hasFinished && !interference"
-        :instructions="currentInstruction.message"
-        :personTitle="currentInstruction.title"
-        :buttonText="this.$store.state.dimsInstructions.buttonText"
-      />
+      <InstructionsForm v-show="!hasStarted && !hasFinished && !interference"/>
       <SingleQuestion v-show="hasStarted"/>
       <InterferenceTest v-show="interference"/>
+      <TestEndPanel v-show="hasFinished"/>
     </div>
     <div v-else>
       <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
@@ -21,18 +16,16 @@
 import InstructionsForm from "@/components/InstructionsForm.vue";
 import SingleQuestion from "@/components/SingleQuestion.vue";
 import InterferenceTest from "@/components/InterferenceTest.vue";
+import TestEndPanel from "@/components/TestEndPanel.vue";
 
 export default {
   components: {
     InstructionsForm,
     SingleQuestion,
-    InterferenceTest
+    InterferenceTest,
+    TestEndPanel
   },
   computed: {
-    // todo put this in instruction component
-    currentInstruction: function() {
-      return this.$store.getters["dimsInstructions/getCurrentInstruction"];
-    },
     hasStarted() {
       return this.$store.state.dimsManager.started;
     },
@@ -40,14 +33,14 @@ export default {
       return this.$store.state.dimsManager.finished;
     },
     loaded() {
-      return this.$store.getters["dimsQuestions/isLoaded"];
+      return this.$store.getters["dimsManager/isLoaded"];
     },
     interference() {
       return this.$store.state.dimsManager.interference;
     }
   },
   beforeMount() {
-    this.$store.dispatch("dimsQuestions/fetchImages");
+    this.$store.dispatch("dimsManager/initDims48a");
   }
 };
 </script>

@@ -106,7 +106,7 @@ function getBeginObject(part){
               .then(options =>{
                 console.log('4');
                 beginObject.options = options;
-                TestController.getTestConfig('DiMS48')
+                TestController.getTestConfig('dims48')
                   .then(config=>{
                     console.log('5');
                     beginObject.config = config;

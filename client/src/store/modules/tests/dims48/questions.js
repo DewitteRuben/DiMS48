@@ -1,33 +1,15 @@
-import howToTestApi from "@/services/api/howtotestapi";
+
+function initialState() {
+    return {
+        images: null,
+        options: null,
+        currentImageIndex: 0,
+    }
+}
 
 export default {
     namespaced: true,
-    state: {
-        images: null,
-        currentImageIndex: 45,
-        options: {
-            phase1: [
-                {
-                    btnText: '2 of meer kleuren',
-                    btnValue: '<=2'
-                },
-                {
-                    btnText: '3 of minder kleuren',
-                    btnValue: '>=3'
-                }
-            ],
-            phase2: [
-                {
-                    btnText: 'Links',
-                    btnValue: 'L'
-                },
-                {
-                    btnText: 'Rechts',
-                    btnValue: 'R'
-                },
-            ],
-        }
-    },
+    state: initialState,
     getters: {
         getCurrentImage: (state, getters, rootState) => {
             const double = rootState.dimsManager.double;
@@ -39,7 +21,8 @@ export default {
             return double ? doubleImages : singleImages;
         },
         getCurrentOptions: (state, getters, rootState) => {
-            return state.options[rootState.dimsManager.currentPhase];
+            const options = state.options.filter(e => e._id === rootState.dimsManager.currentPhase)[0].options;
+            return options;
         },
         isLoaded: state => {
             return state.images !== null;
@@ -47,6 +30,12 @@ export default {
     },
     mutations: {
         resetState: state => {
+            const s = initialState()
+            Object.keys(s).forEach(key => {
+                state[key] = s[key]
+            });
+        },
+        resetCount: state => {
             state.currentImageIndex = 0;
         },
         updateImages: (state, images) => {
@@ -64,17 +53,9 @@ export default {
             if (state.currentImageIndex + 1 < images.length && images.length > 0) {
                 state.currentImageIndex++;
             } else {
-                commit('resetState');
+                commit('resetCount');
                 commit('dimsManager/endPhase', null, { root: true });
             }
-
-        },
-        fetchImages: ({ commit }) => {
-            howToTestApi.getDims48().then(res => {
-                commit("updateImages", res.images)
-            }).catch(err => {
-                console.error(err);
-            });
         },
     }
 }

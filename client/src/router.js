@@ -5,7 +5,7 @@ import Dims48View from "./views/Dims48View.vue";
 import Home from './views/Home.vue';
 import Results from './views/Results.vue';
 import TestResults from './views/TestResults.vue';
-import TestDetail from "./views/TestDetail.vue";
+import TestDetailView from "./views/TestDetailView.vue";
 
 Vue.use(Router);
 
@@ -26,8 +26,13 @@ export default new Router({
           name: "dims48a",
           path: "dims48a",
           component: Dims48View
-        }
-      ]
+        },
+        {
+          name: "dims48b",
+          path: "dims48b",
+          component: Dims48View
+        },
+      ],
     },
     {
       path: '/testresults/',
@@ -44,7 +49,7 @@ export default new Router({
     {
       path: '/detail/:name',
       name: 'detail',
-      component: TestDetail,
+      component: TestDetailView,
     },
   ],
 });

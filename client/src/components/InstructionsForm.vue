@@ -1,22 +1,25 @@
 <template>
+  <v-form>
+    <h1>Instructies</h1>
+    <h2>{{ currentInstruction.title }}</h2>
     <v-form>
-        <h1>Instructies</h1>
-        <h2>{{ personTitle }}</h2>
-        <v-form>
-            <div>
-                <p>{{ instructions }}</p>
-            </div>
-            <v-btn @click="submit">{{ buttonText }}</v-btn>
-        </v-form>
+      <div>
+        <p>{{ currentInstruction.message }}</p>
+      </div>
+      <v-btn @click="submit">{{ buttonText }}</v-btn>
     </v-form>
+  </v-form>
 </template>
 
 <script>
 export default {
-  props: {
-    personTitle: { type: String },
-    instructions: { type: String },
-    buttonText: { type: String }
+  computed: {
+    currentInstruction: function() {
+      return this.$store.getters["dimsInstructions/getCurrentInstruction"];
+    },
+    buttonText: function() {
+      return this.$store.getters["dimsInstructions/getButtonText"];
+    }
   },
   methods: {
     submit() {

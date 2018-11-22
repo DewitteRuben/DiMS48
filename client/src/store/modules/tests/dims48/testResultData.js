@@ -3,7 +3,8 @@ export default {
     state: {
         answers: {
             phase1: [],
-            phase2: []
+            phase2: [],
+            phase3: [],
         }
     },
     getters: {
@@ -12,7 +13,6 @@ export default {
     mutations: {
         setAnswer(state, payload) {
             state.answers[payload.phase].push(payload.answer);
-            console.log(state.answers);
         }
     },
     actions: {
