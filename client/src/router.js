@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import BaseTestView from './views/BaseTestView.vue';
 import Dims48View from "./views/Dims48View.vue";
 import Home from './views/Home.vue';
-import Results from './views/Results.vue';
+import ResultsView from './views/ResultsView.vue';
 import TestResults from './views/TestResults.vue';
 import TestDetailView from "./views/TestDetailView.vue";
 
@@ -35,16 +35,9 @@ export default new Router({
       ],
     },
     {
-      path: '/testresults/',
+      path: '/results',
       name: 'results',
-      component: Results,
-      children: [
-        {
-          name: "dims48",
-          path: "dims48",
-          component: TestResults
-        }
-      ]
+      component: ResultsView,
     },
     {
       path: '/detail/:name',
