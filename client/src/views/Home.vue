@@ -1,6 +1,6 @@
 <template>
   <v-container class="home-container" grid-list-lg>
-    <h1 class="text-lg-center">How To Test Apps</h1>
+    <h1>How To Test Apps</h1>
     <CategoryList baseRoute="/detail"/>
   </v-container>
 </template>
