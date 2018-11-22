@@ -8,7 +8,7 @@
       </v-card-title>
       <v-card-actions>
         <div class="testlistitem-buttonBox">
-          <v-btn block :to="detailRoute" large color="primary">Details</v-btn>
+          <v-btn block :to="detailRoute" large color="primary">{{buttonText}}</v-btn>
         </div>
       </v-card-actions>
     </v-card>
@@ -25,7 +25,8 @@ export default {
   },
   props: {
     title: { type: String },
-    baseRoute: { type: String }
+    baseRoute: { type: String },
+    buttonText: { type: String }
   },
   computed: {
     detailRoute: function() {

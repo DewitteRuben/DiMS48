@@ -6,6 +6,7 @@
             :key="index"
             :title="category.title"
             :baseRoute="baseRoute"
+            :buttonText="buttonText"
         />
     </v-layout>
     <v-layout v-else align-center justify-center row fill-height>
@@ -32,7 +33,8 @@ export default {
     };
   },
   props: {
-    baseRoute: { type: String }
+    baseRoute: { type: String },
+    buttonText: {type: String},
   },
   computed: {},
   methods: {
