@@ -8,27 +8,29 @@ const DiMS48Router = require('./tests/DiMS48Router');
 
 const DIMS48_NAME = 'dims48';
 
-router.get('/categories', function(req,res){
-  TestController.getTestCategories().then(tests=>res.json(tests)).catch(err=> {
-    res.status(500);
-    res.send("Could not get tests");
-  })
-})
+router.get('/categories', function (req, res) {
+  TestController.getTestCategories()
+    .then(tests => res.json(tests))
+    .catch(err => {
+      res.status(500);
+      res.json();
+    });
+});
 
-router.get('/detail/:name', function(req,res){
+router.get('/detail/:name', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
-  TestController.getDetails(testName).then(details=> res.json(details)).catch(err => {
-    if(err == 404){
+  TestController.getDetails(testName).then(details => res.json(details)).catch(err => {
+    if (err == 404) {
       res.status(404);
       res.send(`Test ${testName} not found.`);
-    }else{
+    } else {
       res.status(500);
       res.send('Could not get data');
     }
   })
 });
 
-router.get('/test/:name/initial', function(req,res){
+router.get('/test/:name/initial', function (req, res) {
   let testName = req.params.name.toLowerCase();
   switch (testName) {
     case DIMS48_NAME:
@@ -47,8 +49,8 @@ router.get('/test/:name/part2', function (req, res) {
       DiMS48Router.part2(res);
       break;
     default:
-    res.status(404);
-    res.send(`Test ${testName} not found`);
+      res.status(404);
+      res.send(`Test ${testName} not found`);
   }
 });
 
@@ -72,11 +74,11 @@ router.get('/results/:name/:id', function (req, res) {
   let id = req.params.id;
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getResult(res,id);
+      DiMS48Router.getResult(res, id);
       break;
     default:
-    res.status(404);
-    res.send(`Test ${testName} not found`);
+      res.status(404);
+      res.send(`Test ${testName} not found`);
   }
 });
 
@@ -84,7 +86,7 @@ router.post('/results/:name/1', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.postResultPart1(req,res);
+      DiMS48Router.postResultPart1(req, res);
       break;
     default:
       res.status(404);
@@ -97,7 +99,7 @@ router.post('/results/:name/2', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.postResultPart2(req,res);
+      DiMS48Router.postResultPart2(req, res);
       break;
     default:
       res.status(404);
@@ -111,7 +113,7 @@ router.get('/results/:name/pdf/:id', (req, res) => {
   const id = req.params.id;
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getPdf(res,id);
+      DiMS48Router.getPdf(res, id);
       break;
     default:
       res.status(404);
@@ -120,12 +122,12 @@ router.get('/results/:name/pdf/:id', (req, res) => {
 
 });
 
-router.get('/results/:name/excel/:id', function(req,res){
+router.get('/results/:name/excel/:id', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   const id = req.params.id;
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getExcel(res,id);
+      DiMS48Router.getExcel(res, id);
       break;
     default:
       res.status(404);
@@ -133,29 +135,31 @@ router.get('/results/:name/excel/:id', function(req,res){
   }
 });
 
-router.post('/register', function(req,res){
-  UserController.addUser(req.body).then(newUser=>{
+router.post('/register', function (req, res) {
+  UserController.addUser(req.body).then(newUser => {
     req.session.userId = newUser._id;
     res.status(201);
-    res.json({newUser: newUser});
-  }).catch(err=>{
+    res.json({
+      newUser: newUser
+    });
+  }).catch(err => {
     console.log(err);
     res.status(500);
     res.send("Could not register user");
   })
 });
 
-router.post('/login',function(req,res){
+router.post('/login', function (req, res) {
   let loginData = {
     email: req.body.email,
     password: req.body.password
   };
-  UserController.authUser(loginData).then(userData=>{
+  UserController.authUser(loginData).then(userData => {
     req.session.userId = userData._id;
     console.log(userData);
     res.status(200);
     res.send("User logged in");
-  }).catch(err=>{
+  }).catch(err => {
     console.log(err);
     res.send(err);
   })

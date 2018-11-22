@@ -2,7 +2,7 @@ module.exports = {
     'user': 'DiMS48User',
     'password': 'DiMS48Password&',
     'prefix': 'mongodb://',
-    'URI': 'ds039351.mlab.com',
-    'port': '39351',
+    'URI': 'ds039291.mlab.com',
+    'port': '39291',
     'databaseName': 'howtotestapps-dims48'
 };
