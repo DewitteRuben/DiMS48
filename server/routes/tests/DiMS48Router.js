@@ -160,7 +160,7 @@ function getPdf(res, id) {
           jsonErrorMessageGenerator.generateGoogleJsonError(
             errorMessages.global,
             errorMessages.reasons.invalidIdSupplied,
-            errorMessages.results.couldNotGeneratePDF + errorMessages.dues.invalidIdSupplied,
+            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.invalidIdSupplied,
             errorCode
           )
         );
@@ -171,7 +171,7 @@ function getPdf(res, id) {
           jsonErrorMessageGenerator.generateGoogleJsonError(
             errorMessages.global,
             errorMessages.reasons.internalServerError,
-            errorMessages.results.couldNotGeneratePDF + errorMessages.dues.internalServerError,
+            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.internalServerError,
             errorCode
           )
         );
@@ -179,7 +179,9 @@ function getPdf(res, id) {
     });
 }
 
-function getExcel(res, id) {
+function getExcel(req, res) {
+  const id = req.params.id;
+
   DiMS48Controller.getExcel(id)
     .then(workbook => {
       let fileName = `results${id}.xlsx`;
@@ -187,6 +189,31 @@ function getExcel(res, id) {
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
     })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
+    });
 }
 
 function getBeginObject(part) {

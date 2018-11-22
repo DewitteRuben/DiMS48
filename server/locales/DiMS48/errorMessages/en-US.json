@@ -15,7 +15,8 @@
         "couldNotAppendResult": "Could not append that result"
     },
     "fileGenerators": {
-        "couldNotGeneratePDF": "Could not generate PDF"
+        "couldNotGeneratePDF": "Could not generate PDF",
+        "couldNotGenerateExcel": "Could not generate Excel"
     },
     "dues": {
         "internalServerError": " due to an internal server error",

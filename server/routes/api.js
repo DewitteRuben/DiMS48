@@ -124,10 +124,9 @@ router.get('/results/:name/pdf/:id', (req, res) => {
 
 router.get('/results/:name/excel/:id', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
-  const id = req.params.id;
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getExcel(res, id);
+      DiMS48Router.getExcel(req, res);
       break;
     default:
       res.status(404);
