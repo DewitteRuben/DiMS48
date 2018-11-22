@@ -24,11 +24,12 @@ export default {
     return { config };
   },
   props: {
-    title: { type: String }
+    title: { type: String },
+    baseRoute: { type: String }
   },
   computed: {
     detailRoute: function() {
-      return "/detail/" + this.title.toLowerCase();
+      return `${this.baseRoute}/${this.title.toLowerCase()}`;
     }
   }
 };
