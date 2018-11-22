@@ -6,6 +6,7 @@ import Home from './views/Home.vue';
 import ResultsView from './views/ResultsView.vue';
 import TestResults from './views/TestResults.vue';
 import TestDetailView from "./views/TestDetailView.vue";
+import LoginView from "./views/LoginView.vue";
 
 Vue.use(Router);
 
@@ -44,5 +45,10 @@ export default new Router({
       name: 'detail',
       component: TestDetailView,
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    }
   ],
 });

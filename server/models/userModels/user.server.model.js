@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
+const TestsDatabase = require('../../util/databaseGetter').TestDatabase;
 
 const UserSchema = new Schema({
   email: {type: String, unique:true, required: true},
-  username: {type: String, unique:true, required: true},
+  username: {type: String, required: true},
   password: {type: String, required: true}
 })
 
@@ -32,7 +33,7 @@ UserSchema.statics.authenticate = function(email, password){
   })
 }
 
-const User = mongoose.model('User', UserSchema);
+const User = TestsDatabase.model('User', UserSchema);
 
 module.exports= {
   model: User,

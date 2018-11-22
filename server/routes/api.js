@@ -140,12 +140,12 @@ router.post('/register', function (req, res) {
     req.session.userId = newUser._id;
     res.status(201);
     res.json({
-      newUser: newUser
+      user: {email: newUser.email, username: newUser.username}
     });
   }).catch(err => {
     console.log(err);
     res.status(500);
-    res.send("Could not register user");
+    res.send({msg: "Could not register user"});
   })
 });
 
@@ -156,9 +156,10 @@ router.post('/login', function (req, res) {
   };
   UserController.authUser(loginData).then(userData => {
     req.session.userId = userData._id;
-    console.log(userData);
     res.status(200);
-    res.send("User logged in");
+    res.json({
+      user: {email: userData.email, username: userData.username}
+    })
   }).catch(err => {
     console.log(err);
     res.send(err);
