@@ -7,7 +7,6 @@ const session = require('express-session');
 const seeder = require('./seeders/seeder');
 const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
 var app = express();
