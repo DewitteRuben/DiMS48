@@ -8,8 +8,8 @@ const DiMS48Router = require('./tests/DiMS48Router');
 
 const DIMS48_NAME = 'dims48';
 
-const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
-const errorMessages = require('../../locales/DiMS48/errorMessages/en-US.json');
+const jsonErrorMessageGenerator = require("../util/jsonErrorGenerator");
+const errorMessages = require('../locales/DiMS48/errorMessages/en-US.json');
 
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
