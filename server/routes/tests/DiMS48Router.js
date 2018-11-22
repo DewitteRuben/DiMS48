@@ -16,15 +16,30 @@ function initial(res) {
     .then(data => res.json(data))
     .catch(err => {
       res.status(500);
-      res.json(jsonErrorMessageGenerator.generateGoogleJsonError(errorMessages.global, errorMessages.internalServerErrorReason, errorMessages.phases.couldNotGetInitial, 500));
+      res.json(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.internalServerErrorReason,
+          errorMessages.phases.couldNotGetInitial_InternalServerError,
+          500)
+      );
     });
 }
 
 function part2(res) {
-  getBeginObject('part2').then(data => res.json(data)).catch(err => {
-    res.status(500);
-    res.send("Could not get data for DiMS48 Part 2");
-  });
+  getBeginObject('part2')
+    .then(data => res.json(data))
+    .catch(err => {
+      res.status(500);
+      res.send(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.internalServerErrorReason,
+          errorMessages.phases.cloudNotGetPart2_InternalServerError,
+          500
+        )
+      );
+    });
 }
 
 function getResults(res) {

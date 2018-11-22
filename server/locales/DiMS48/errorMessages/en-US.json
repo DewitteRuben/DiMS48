@@ -1,0 +1,8 @@
+{
+    "global": "global",
+    "internalServerErrorReason": "internal server error",
+    "phases": {
+        "couldNotGetInitial_InternalServerError": "Failed to get initial test data due to a internal server error",
+        "cloudNotGetPart2_InternalServerError": "Failed to get part 2 of the test data due to a internal server error"
+    }
+}
