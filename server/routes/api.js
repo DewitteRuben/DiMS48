@@ -8,26 +8,44 @@ const DiMS48Router = require('./tests/DiMS48Router');
 
 const DIMS48_NAME = 'dims48';
 
+const jsonErrorMessageGenerator = require("../util/jsonErrorGenerator");
+const errorMessages = require('../locales/general/errorMessages/en-US.json');
+
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      res.status(500);
-      res.json();
+      const errorCode = 500;
+      res.status(errorCode);
+      res.json(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.reasons.internalServerError,
+          errorMessages.categories.couldNotGetCategories + errorMessages.dues.internalServerError,
+          errorCode)
+      );
     });
 });
 
 router.get('/detail/:name', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
-  TestController.getDetails(testName).then(details => res.json(details)).catch(err => {
-    if (err == 404) {
-      res.status(404);
-      res.send(`Test ${testName} not found.`);
-    } else {
-      res.status(500);
-      res.send('Could not get data');
-    }
-  })
+  TestController.getDetails(testName)
+    .then(details => res.json(details))
+    .catch(err => {
+      if (err.name && err.name === 'notFound') {
+        sendTestNotFound(req, res);
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.details.couldNotGetDetails + errorMessages.dues.internalServerError,
+            errorCode)
+        );
+      }
+    });
 });
 
 router.get('/test/:name/initial', function (req, res) {
@@ -37,8 +55,7 @@ router.get('/test/:name/initial', function (req, res) {
       DiMS48Router.initial(res);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 });
 
@@ -49,8 +66,7 @@ router.get('/test/:name/part2', function (req, res) {
       DiMS48Router.part2(res);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 });
 
@@ -63,8 +79,7 @@ router.get('/results/:name', function (req, res) {
       DiMS48Router.getResults(res);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 
 });
@@ -77,8 +92,7 @@ router.get('/results/:name/:id', function (req, res) {
       DiMS48Router.getResult(res, id);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 });
 
@@ -89,8 +103,7 @@ router.post('/results/:name/1', function (req, res) {
       DiMS48Router.postResultPart1(req, res);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 
 });
@@ -102,8 +115,7 @@ router.post('/results/:name/2', function (req, res) {
       DiMS48Router.postResultPart2(req, res);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 });
 
@@ -116,22 +128,19 @@ router.get('/results/:name/pdf/:id', (req, res) => {
       DiMS48Router.getPdf(res, id);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 
 });
 
 router.get('/results/:name/excel/:id', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
-  const id = req.params.id;
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getExcel(res, id);
+      DiMS48Router.getExcel(req, res);
       break;
     default:
-      res.status(404);
-      res.send(`Test ${testName} not found`);
+      sendTestNotFound(req, res);
   }
 });
 
@@ -164,5 +173,17 @@ router.post('/login', function (req, res) {
     res.send(err);
   })
 });
+
+const sendTestNotFound = function sendTestNotFound(req, res) {
+  const errorCode = 404;
+  res.status(errorCode);
+  res.json(
+    jsonErrorMessageGenerator.generateGoogleJsonError(
+      errorMessages.global,
+      errorMessages.reasons.requestedResourceNotFound,
+      errorMessages.details.testNotFound,
+      errorCode)
+  );
+};
 
 module.exports = router;

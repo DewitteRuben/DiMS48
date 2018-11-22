@@ -20,7 +20,21 @@ function getTestConfig(testTitle){
 }
 
 function getDetails(testTile){
-  return makeGetter({title: testTile}, {__v:0, config:0, _id:0})
+  return new Promise((resolve, reject) => {
+    makeGetter({title: testTile}, {__v:0, config:0, _id:0})
+    .then((results) => {
+      if(results.length <= 0){
+        reject({
+          name: 'notFound'
+        });
+      }else{
+        resolve(results);
+      }
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  })
 }
 
 module.exports = {
