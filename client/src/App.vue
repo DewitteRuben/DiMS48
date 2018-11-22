@@ -15,7 +15,7 @@
             <v-icon>book</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Test Resultaten</v-list-tile-title>
+            <v-list-tile-title>Testresultaten</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -28,7 +28,7 @@
           <v-icon>home</v-icon>Home
         </v-btn>
         <v-btn flat to="/results">
-          <v-icon>book</v-icon>Test Resultaten
+          <v-icon>book</v-icon>Testresultaten
         </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
