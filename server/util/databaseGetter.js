@@ -6,7 +6,7 @@ let TestsConfig;
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {
-    console.log("Mongo: USING PRODUCTION DATABASE");
+    console.log("MONGO: USING PRODUCTION DATABASE");
     DiMSConfig = require('../config/DiMS48/mongo.production.config');
     TestsConfig = require('../config/Tests/mongo.production.config');
 } else {

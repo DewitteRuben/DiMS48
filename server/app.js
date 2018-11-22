@@ -21,8 +21,8 @@ if (isProduction) {
     mongoConfig = require('./config/DiMS48/mongo.development.config');
 }
 
-mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}${(mongoConfig.user !== '' && mongoConfig.password !== '') ? ':' : ""}${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
-     {useNewUrlParser: true});
+//mongoose.connect(`${mongoConfig.prefix}${mongoConfig.user}${(mongoConfig.user !== '' && mongoConfig.password !== '') ? ':' : ""}${mongoConfig.password}@${mongoConfig.URI}:${mongoConfig.port}/${mongoConfig.databaseName}`,
+//     {useNewUrlParser: true});
 
 seeder.checkAll();
 
