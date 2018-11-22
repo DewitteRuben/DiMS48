@@ -1,7 +1,7 @@
 <template>
   <v-container class="home-container" grid-list-lg>
-    <h1 class="text-lg-center">How To Test Apps</h1>
-    <CategoryList baseRoute="/detail"/>
+    <h1 class="text-lg-center">Testresultaten</h1>
+    <CategoryList baseRoute="/result"/>
   </v-container>
 </template>
 
@@ -10,16 +10,9 @@
 import CategoryList from "@/components/CategoryList.vue";
 
 export default {
-  name: "home",
+  name: "testForResult",
   components: {
-    CategoryList,
-  },
+    CategoryList
+  }
 };
 </script>
-
-<style scoped>
-.home-container {
-  max-width: 1400px;
-}
-</style>
-

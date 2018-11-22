@@ -1,17 +1,23 @@
 <template>
   <v-app>
-    <v-toolbar dark color="primary">
+    <v-toolbar height="80px" dark color="primary">
       <v-toolbar-side-icon class="hidden-sm-and-up"></v-toolbar-side-icon>
       <!-- <v-toolbar-title class="white--text">How To Test Apps</v-toolbar-title> -->
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat to="/">
           <v-icon>home</v-icon>Home
         </v-btn>
-        <v-btn flat to="/testresults">
-          Test Resultaten
+        <v-btn flat to="/results">
+          <v-icon>book</v-icon>Test Resultaten
         </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
+      <img
+        src="http://172.31.15.35:3000/images/logo/logo.png"
+        class="App-Logo align-center"
+        alt="logo"
+        title="logo"
+      >
     </v-toolbar>
     <router-view></router-view>
   </v-app>
@@ -27,6 +33,10 @@
 }
 #nav {
   padding: 30px;
+}
+
+.App-Logo {
+  height: 70%;
 }
 
 #nav a {

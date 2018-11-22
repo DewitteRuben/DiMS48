@@ -46,10 +46,7 @@ module.exports = (async function (controller, id, locals) {
             await browser.close();
         }
 
-        throw {
-            "type": "Error",
-            "message": "Invalid id supplied."
-        };
+        throw e;
     }
 });
 
