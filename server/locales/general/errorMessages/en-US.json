@@ -1,10 +1,15 @@
 {
     "global": "global",
     "reasons" : {
-        "internalServerError": "internal server error"
+        "internalServerError": "internal server error",
+        "requestedResourceNotFound": "requested resource not found"
     },
     "categories": {
         "couldNotGetCategories": "Could not get categories"
+    },
+    "details": {
+        "testNotFound": "The specified test was not found",
+        "couldNotGetDetails": "Could not get details for the requested test"
     },
     "dues": {
         "internalServerError": " due to an internal server error"
