@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      class="hidden-md-and-up"
       v-model="drawer"
       app
     >
@@ -19,15 +18,14 @@
             <v-icon>book</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Resultaten</v-list-tile-title>
+            <v-list-tile-title>Test Resultaten</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
     <v-toolbar dark fixed app prominent color="primary">
-
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-sm-and-up"></v-toolbar-side-icon>
 
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat to="/">
