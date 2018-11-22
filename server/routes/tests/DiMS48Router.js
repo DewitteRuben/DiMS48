@@ -19,8 +19,8 @@ function initial(res) {
       res.json(
         jsonErrorMessageGenerator.generateGoogleJsonError(
           errorMessages.global,
-          errorMessages.internalServerErrorReason,
-          errorMessages.phases.couldNotGetInitial_InternalServerError,
+          errorMessages.reasons.internalServerError,
+          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
           500)
       );
     });
@@ -34,8 +34,8 @@ function part2(res) {
       res.send(
         jsonErrorMessageGenerator.generateGoogleJsonError(
           errorMessages.global,
-          errorMessages.internalServerErrorReason,
-          errorMessages.phases.cloudNotGetPart2_InternalServerError,
+          errorMessages.reasons.internalServerError,
+          errorMessages.phases.cloudNotGetPart2_InternalServerError + errorMessages.dues.internalServerError,
           500
         )
       );
@@ -44,17 +44,47 @@ function part2(res) {
 
 function getResults(res) {
   DiMS48Controller.getResults()
-    .then(results => res.json(results)).catch(err => {
+    .then(results => res.json(results))
+    .catch(err => {
       res.status(500);
-      res.send("Could not get results");
+      res.send(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.reasons.internalServerError,
+          errorMessages.couldNotGetResults + errorMessages.dues.internalServerError,
+          500
+        )
+      );
     });
 }
 
 function getResult(res, id) {
   DiMS48Controller.getResult(id)
-    .then(result => res.json(result)).catch(err => {
-      res.status(500);
-      res.send("Could not get result");
+    .then(result => res.json(result))
+    .catch(err => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.internalServerError + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 
@@ -66,9 +96,17 @@ function postResultPart1(req, res) {
         testId: data._id
       });
     })
-    .catch((error) => {
-      res.status(500);
-      res.send("Could not add result");
+    .catch((err) => {
+      const errorCode = 500;
+      res.status(errorCode);
+      res.json(
+        jsonErrorMessageGenerator.generateGoogleJsonError(
+          errorMessages.global,
+          errorMessages.reasons.internalServerError,
+          errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
+          errorCode
+        )
+      );
     });
 }
 
@@ -80,11 +118,30 @@ function postResultPart2(req, res) {
         created: true
       });
     })
-    .catch((error) => {
-      //TODO specific error messages?
-      console.log(error);
-      res.status(500);
-      res.send("Could not append result");
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.results.couldNotAppendResult + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.couldNotAppendResult + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     })
 }
 
@@ -95,12 +152,36 @@ function getPdf(res, id) {
       res.setHeader('Content-Disposition', 'attachment; filename=rapport-' + id + '.pdf');
       res.send(new Buffer(fileBuffer, 'binary'));
     })
-    .catch((error) => {
-      res.send(error);
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 
-function getExcel(res, id) {
+function getExcel(req, res) {
+  const id = req.params.id;
+
   DiMS48Controller.getExcel(id)
     .then(workbook => {
       let fileName = `results${id}.xlsx`;
@@ -108,33 +189,70 @@ function getExcel(res, id) {
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
     })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,
+            errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
+            errorCode
+          )
+        );
+      } else {
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
+    });
 }
 
 function getBeginObject(part) {
-  let beginObject = {
-    images: null,
-    instructions: null,
-    options: null,
-    config: null
-  };
-  return new Promise(function (s, f) {
-    DiMS48Controller.getImages()
-      .then(images => {
-        beginObject.images = images;
-        DiMS48Controller.getInstructions(part)
-          .then(instructions => {
-            beginObject.instructions = instructions;
-            DiMS48Controller.getOptions(part)
-              .then(options => {
-                beginObject.options = options;
-                TestController.getTestConfig('dims48')
-                  .then(config => {
-                    beginObject.config = config;
-                    s(beginObject);
-                  })
-              })
-          })
-      }).catch(err => f(err));
+  return new Promise(function (resolve, reject) {
+    const beginObject = {
+      images: null,
+      instructions: null,
+      options: null,
+      config: null
+    };
+
+    const imagePromise = DiMS48Controller.getImages();
+    const instructionPromise = DiMS48Controller.getInstructions();
+    const optionsPromise = DiMS48Controller.getOptions();
+    const configPromise = TestController.getTestConfig('dims48');
+
+    const promiseArray = [imagePromise, instructionPromise, optionsPromise, configPromise];
+
+    imagePromise.then((images) => {
+      beginObject.images = images;
+    });
+
+    instructionPromise.then((instructions) => {
+      beginObject.instructions = instructions;
+    });
+
+    optionsPromise.then((options) => {
+      beginObject.options = options;
+    });
+
+    configPromise.then((config) => {
+      beginObject.config = config;
+    });
+
+    Promise.all(promiseArray).then((data) => {
+      resolve(beginObject);
+    }).catch((err) => {
+      reject(err);
+    });
   });
 }
 

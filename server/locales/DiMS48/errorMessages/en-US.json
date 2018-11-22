@@ -1,8 +1,25 @@
 {
     "global": "global",
-    "internalServerErrorReason": "internal server error",
+    "reasons" : {
+        "internalServerError": "internal server error",
+        "invalidIdSupplied": "invalid id supplied"
+    },
     "phases": {
-        "couldNotGetInitial_InternalServerError": "Failed to get initial test data due to a internal server error",
-        "cloudNotGetPart2_InternalServerError": "Failed to get part 2 of the test data due to a internal server error"
+        "couldNotGetInitial": "Failed to get initial test data",
+        "cloudNotGetPart2": "Failed to get part 2 of the test data"
+    },
+    "results": {
+        "couldNotGetResults": "Failed to get results",
+        "couldNotGetResult": "Could not get that result",
+        "couldNotSaveResult": "Could not save that result",
+        "couldNotAppendResult": "Could not append that result"
+    },
+    "fileGenerators": {
+        "couldNotGeneratePDF": "Could not generate PDF",
+        "couldNotGenerateExcel": "Could not generate Excel"
+    },
+    "dues": {
+        "internalServerError": " due to an internal server error",
+        "invalidIdSupplied": " due to an invalid id that was supplied"
     }
 }

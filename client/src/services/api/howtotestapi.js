@@ -1,8 +1,10 @@
-const API_URL = "http://172.31.15.35:3000/api";
+const API_URL = "http://localhost:3000/api";
 
 export const getDims48 = () => processReq("/test/dims48/initial");
 export const getCategories = () => processReq("/categories");
 export const getTestDetails = (name) => processReq(`/detail/${name}`);
+export const loginUser = (credentials) => processReq(`/login`, credentials, "POST");
+export const registerUser = (credentials) => processReq(`/register`, credentials, "POST");
 export const getTestResults = (name) => processReq(`/results/${name}`);
 
 async function processReq(url, dataObj = {}, method = "GET") {
@@ -19,7 +21,7 @@ async function processReq(url, dataObj = {}, method = "GET") {
             "Content-Type": "application/json"
         };
     }
-
+    
     // TODO handle proper response from server
     const response = await fetch(`${API_URL}${url}`, conf);
     let body;

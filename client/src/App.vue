@@ -1,8 +1,33 @@
 <template>
   <v-app>
-    <v-toolbar height="80px" dark color="primary">
-      <v-toolbar-side-icon class="hidden-sm-and-up"></v-toolbar-side-icon>
-      <!-- <v-toolbar-title class="white--text">How To Test Apps</v-toolbar-title> -->
+    <v-navigation-drawer
+      v-model="drawer"
+      temporary
+      app
+    >
+      <v-list dense>
+        <v-list-tile flat to="/">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile flat to="/results">
+          <v-list-tile-action>
+            <v-icon>book</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Test Resultaten</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-toolbar dark fixed app prominent color="primary">
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-sm-and-up"></v-toolbar-side-icon>
+
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat to="/">
           <v-icon>home</v-icon>Home
@@ -11,17 +36,50 @@
           <v-icon>book</v-icon>Test Resultaten
         </v-btn>
       </v-toolbar-items>
+
       <v-spacer></v-spacer>
-      <img
+       <img
         src="http://172.31.15.35:3000/images/logo/logo.png"
         class="App-Logo align-center"
         alt="logo"
         title="logo"
       >
     </v-toolbar>
+  
+    
+
+      <!-- <v-toolbar-items class="hidden-xs-only">
+        <v-btn flat to="/">
+          <v-icon>home</v-icon>Home
+        </v-btn>
+        <v-btn flat to="/results">
+          <v-icon>book</v-icon>Test Resultaten
+        </v-btn>
+      </v-toolbar-items>
+      <v-spacer></v-spacer>
+      <a href="https://www.howtotest.be/" target="_blank">
+      <img
+        src="http://172.31.15.35:3000/images/logo/logo.png"
+        class="App-Logo align-center"
+        alt="logo"
+        title="logo"
+      >
+      </a>
+    </v-toolbar> -->
+
     <router-view></router-view>
+
   </v-app>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    drawer: null
+  })
+}
+</script>
+
 
 <style>
 #app {
