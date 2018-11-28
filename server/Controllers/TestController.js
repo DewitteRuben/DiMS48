@@ -39,19 +39,14 @@ function getDetails(testTitle){
 
 function updateConfig(testTitle, newConfig){
   return new Promise((s,f)=>{
-    console.log(testTitle.toLowerCase());
-    console.log(newConfig);
     let newConfigArr = [];
     Object.keys(newConfig).forEach(key=>{
         newConfigArr.push({name: key, value: newConfig[key]});
     });
-    console.log(newConfigArr);
     Test.update({title: testTitle.toLowerCase()}, {
       config: newConfigArr
     }, function(err, numberAffected, rawResponse){
         if(err) f(err);
-        console.log(numberAffected);
-        console.log(rawResponse);
         s({msg: `${numberAffected.n} rows affacted`});
     })
   })
