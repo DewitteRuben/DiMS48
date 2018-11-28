@@ -48,6 +48,17 @@ router.get('/detail/:name', function (req, res) {
     });
 });
 
+router.post('/test/:name/updateConfig', function(req,res){
+  let testName = req.params.name.toLowerCase();
+  switch (testName) {
+    case DIMS48_NAME:
+      DiMS48Router.updateConfig(req.body.newConfig, res);
+      break;
+    default:
+      sendTestNotFound(req,res);
+  }
+});
+
 router.get('/test/:name/initial', function (req, res) {
   let testName = req.params.name.toLowerCase();
   switch (testName) {

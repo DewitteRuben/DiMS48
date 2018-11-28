@@ -6,6 +6,7 @@ export const getTestDetails = (name) => processReq(`/detail/${name}`);
 export const loginUser = (credentials) => processReq(`/login`, credentials, "POST");
 export const registerUser = (credentials) => processReq(`/register`, credentials, "POST");
 export const getTestResults = (name) => processReq(`/results/${name}`);
+export const updateConfig = (name, newConfig) => processReq(`/test/${name}/updateConfig`, newConfig, "POST");
 
 async function processReq(url, dataObj = {}, method = "GET") {
     const conf = {
@@ -21,7 +22,7 @@ async function processReq(url, dataObj = {}, method = "GET") {
             "Content-Type": "application/json"
         };
     }
-    
+
     // TODO handle proper response from server
     const response = await fetch(`${API_URL}${url}`, conf);
     let body;

@@ -7,6 +7,7 @@ import ResultsView from './views/ResultsView.vue';
 import ResultsListView from './views/ResultsListView.vue';
 import TestDetailView from "./views/TestDetailView.vue";
 import LoginView from "./views/LoginView.vue";
+import AdminPanelView from "./views/AdminPanelView.vue";
 
 Vue.use(Router);
 
@@ -54,6 +55,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminPanelView
     }
   ],
 });

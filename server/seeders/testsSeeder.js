@@ -13,7 +13,7 @@ function getTests(){
   });
 
   let DiMS48Part2 = new PhaseTest({
-    title: "Uitgese herkenningsfase",
+    title: "Uitgestelde herkenningsfase",
     description: "Testen van het langetermijngeheugen",
     route: "dims48b"
   });
@@ -31,7 +31,7 @@ function getTests(){
   let DiMS48 = new Test({
     _id: 0,
     title: "dims48",
-    description: "Beschrijving hier",
+    description: "<p><u>De DiMS 48 test bestaat uit 3 delen:</u></p> <ul> <li><strong>Deel 1</strong> bestaat uit 48 afbeeldingen. Sommige bestaan uit 3 of minder kleuren, andere&nbsp;uit meer dan&nbsp;3 kleuren. De cliënt dient voor elke afbeelding telkens <u>zo snel mogelijk </u>te bepalen of de tekening uit <u>3 of minder kleuren </u>bestaat, of uit <u>meer dan 3 kleuren</u>.<br> - Voor '3 of minder kleuren' dient de&nbsp;cliënt zo snel mogelijk de 'LINKER SHIFT'-toets in te drukken.<br> - Voor 'meer dan 3 kleuren' dient de cliënt zo snel mogelijk de 'RECHTER SHIFT'-toets in te drukken</li> <li><strong>Interferentietaak:</strong> Vraag de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient&nbsp;enkel als afleiding, een registratie ervan is dus niet vereist.</li> <li><strong>Deel 2</strong> bestaat uit een reeks van 48 paren van afbeeldingen. Nu dient de cliënt aan te geven welke van de beide afbeeldingen hij in het eerste deel van de taak heeft gezien, de linkse of de rechtse. Hier is geen tijdslimiet.</li> <li><strong>Deel 3</strong> is een herhaling van deel 2 na een ongedefinieerde tussentijd. (zie menu 'scorehulpjes' )</li> </ul>",
     phases: [DiMS48Part1, DiMS48Part2],
     config: [DiMS48InterferenceOption, DiMS48Phase1SecondsPerImage]
   });
