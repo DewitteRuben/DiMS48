@@ -6,7 +6,6 @@
           <v-select
             solo
             v-model="selectedFilter"
-            @change="showAllowedOperations"
             :items="items"
             item-text="name"
             :return-object="true"
@@ -80,10 +79,11 @@ export default {
   methods: {
     addFilter: function() {
       const valueType = this.selectedFilter.type;
-      const isValid = this.isValidValue(valueType, this.inputValue);
+      const input = this.inputValue.trim();
+      const isValid = this.isValidValue(valueType, input);
 
       if (isValid) {
-        const parsedValue = valueType(this.inputValue);
+        const parsedValue = valueType(input);
 
         this.$store.commit("dimsResults/addFilter", {
           ...this.selectedFilter,
@@ -98,10 +98,6 @@ export default {
     },
     removeFilter(id) {
       this.$store.commit("dimsResults/removeFilter", id);
-    },
-    showAllowedOperations(event) {
-      const valueType = this.selectedFilter.type;
-      this.operations;
     },
     isValidValue: function(type, value) {
       if (type !== Number) return isNaN(parseInt(type(value)));
@@ -125,13 +121,17 @@ export default {
       let operations = [
         { symbol: "=", supportedTypes: [Number, String] },
         { symbol: "≠", supportedTypes: [Number, String] },
+        { symbol: "Bevat", supportedTypes: [String] },
         { symbol: ">", supportedTypes: [Number] },
         { symbol: "<", supportedTypes: [Number] },
         { symbol: "≥", supportedTypes: [Number] },
         { symbol: "≤", supportedTypes: [Number] }
       ];
 
-      const valueType = this.selectedFilter !== undefined && this.selectedFilter !== null ? this.selectedFilter.type : true;
+      const valueType =
+        this.selectedFilter !== undefined && this.selectedFilter !== null
+          ? this.selectedFilter.type
+          : true;
 
       return operations.filter(e => e.supportedTypes.includes(valueType));
     }

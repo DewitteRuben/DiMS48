@@ -1,4 +1,9 @@
-function compareValues(operator, value1, value2) {
+function compareValues(operator, value1, value2, type) {
+    if (type === String) {
+        value1 = value1.toLowerCase();
+        value2 = value2.toLowerCase();
+    }
+
     let value = false;
     switch (operator) {
         case "=":
@@ -13,6 +18,9 @@ function compareValues(operator, value1, value2) {
         case "≥":
             value = (value1 >= value2);
             break;
+        case "Bevat":
+            value = (value1.includes(value2));
+            break;
         default:
             value = eval(`${value1}${operator}${value2}`);
             break;
@@ -24,8 +32,8 @@ function getValueByPropertyPath(object, path) {
     return [object].concat(path.split('.')).reduce((a, b) => a[b]);
 }
 
-function applyFilter(arr, property, value, operator) {
-    return arr.filter(e => compareValues(operator, getValueByPropertyPath(e, property), value));
+function applyFilter(arr, property, value, operator, type) {
+    return arr.filter(e => compareValues(operator, getValueByPropertyPath(e, property), value, type));
 }
 
 
@@ -47,7 +55,7 @@ export default {
         filteredFeed: function (state) {
             let results = deepClone(state.resultFeed);
             state.filters.forEach(filter => {
-                results = applyFilter(results, filter.property, filter.value, filter.operator);
+                results = applyFilter(results, filter.property, filter.value, filter.operator, filter.type);
             });
             return results;
         }
