@@ -1,13 +1,12 @@
 <template>
   <v-form>
-    <h1>Instructies</h1>
-    <h2>{{ currentInstruction.title }}</h2>
-    <v-form>
-      <div>
-        <p>{{ currentInstruction.message }}</p>
-      </div>
+    <h1 class="display-3 mb-3">Instructies</h1>
+    <h2 class="display-2 mb-4">{{ currentInstruction.title }}</h2>
+    <div class="InstructionForm-message">
+      <p class="headline InstructionForm-message">{{ currentInstruction.message }}</p>
       <v-btn @click="submit">{{ buttonText }}</v-btn>
-    </v-form>
+      <div></div>
+    </div>
   </v-form>
 </template>
 
@@ -28,3 +27,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.InstructionForm-message {
+  width: 960px;
+}
+</style>

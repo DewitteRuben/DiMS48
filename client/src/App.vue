@@ -20,7 +20,6 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-
     <v-toolbar dark prominent color="primary">
       <v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-sm-and-up"></v-toolbar-side-icon>
       <v-toolbar-items class="hidden-xs-only">
@@ -32,14 +31,15 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
-      <img
-        src="http://172.31.15.35:3000/images/logo/logo.png"
-        class="App-Logo align-center"
-        alt="logo"
-        title="logo"
-      >
+      <a href="https://howtotest.be/" target="_blank">
+        <img
+          src="http://172.31.15.35:3000/images/logo/logo.png"
+          class="App-Logo align-center"
+          alt="logo"
+          title="logo"
+        >
+      </a>
     </v-toolbar>
-    
     <router-view></router-view>
   </v-app>
 </template>
