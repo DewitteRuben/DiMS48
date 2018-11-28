@@ -6,7 +6,7 @@
             "age": 23,
             "schooledTill": 12,
             "schooledFor": 3,
-            "gender": "F",
+            "gender": "Man",
             "notes": "HEHEHEHEH"
         },
         "answersPhase1": {
@@ -30,7 +30,7 @@
             "age": 23,
             "schooledTill": 12,
             "schooledFor": 3,
-            "gender": "F",
+            "gender": "Vrouw",
             "notes": "HEHEHEHEH"
         },
         "answersPhase1": {
@@ -58,7 +58,7 @@
             "age": 20,
             "schooledTill": 12,
             "schooledFor": 6,
-            "gender": "M",
+            "gender": "Man",
             "notes": "HEHEHEHEH"
         },
         "answersPhase1": {
@@ -82,7 +82,7 @@
             "age": 20,
             "schooledTill": 12,
             "schooledFor": 3,
-            "gender": "M",
+            "gender": "Man",
             "notes": "HEHEHEHEH"
         },
         "answersPhase1": {
@@ -106,7 +106,7 @@
             "age": 21,
             "schooledTill": 12,
             "schooledFor": 3,
-            "gender": "M",
+            "gender": "Man",
             "notes": "HEHEHEHEH"
         },
         "answersPhase1": {
@@ -130,7 +130,7 @@
             "age": 65,
             "schooledTill": 12,
             "schooledFor": 25,
-            "gender": "F",
+            "gender": "Vrouw",
             "notes": "HEHEHEHEH"
         },
         "answersPhase1": {

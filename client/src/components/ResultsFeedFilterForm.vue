@@ -131,7 +131,8 @@ export default {
         { symbol: "≤", supportedTypes: [Number] }
       ];
 
-      const valueType = this.selectedFilter.type;
+      const valueType = this.selectedFilter !== undefined && this.selectedFilter !== null ? this.selectedFilter.type : true;
+
       return operations.filter(e => e.supportedTypes.includes(valueType));
     }
   }
