@@ -70,7 +70,7 @@ export default {
           property: "clientInfo.schooledFor"
         }
       ],
-      operations: ["=", "<", ">", "<=", ">="],
+      operations: ["=", "=/=", "<", ">", "<=", ">="],
       selectedFilter: "",
       selectedOperator: "",
       inputValue: ""
@@ -83,11 +83,9 @@ export default {
 
       if (isValid) {
         const parsedValue = valueType(this.inputValue);
-        const filter = this.selectedFilter;
 
         this.$store.commit("dimsResults/addFilter", {
-          name: filter.name,
-          property: filter.property,
+          ...this.selectedFilter,
           operator: this.selectedOperator,
           value: parsedValue
         });
@@ -98,7 +96,7 @@ export default {
       }
     },
     removeFilter(id) {
-        this.$store.commit("dimsResults/removeFilter", id);
+      this.$store.commit("dimsResults/removeFilter", id);
     },
     isValidValue: function(type, value) {
       if (type !== Number) return isNaN(parseInt(type(value)));

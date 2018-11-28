@@ -2,7 +2,10 @@ function compareValues(operator, value1, value2) {
     let value = false;
     switch (operator) {
         case "=":
-            value = (value1 == value2);
+            value = (value1 === value2);
+            break;
+        case "=/=":
+            value = (value1 !== value2);
             break;
         default:
             value = eval(`${value1}${operator}${value2}`);
