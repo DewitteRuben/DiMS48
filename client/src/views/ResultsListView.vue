@@ -1,10 +1,13 @@
 <template>
   <v-container class="home-container" grid-list-lg>
-    <h1 class="text-lg-center">Results {{testName}}</h1>
-    <v-layout row wrap="">
+    <h1 class="text-xs-center">Testresults {{testName}}</h1>
+    <h2 class="text-xs-left mb-2">Filter</h2>
+    <ResultsFeedFilterForm/>
+    <h2 class="text-xs-left">Results</h2>
+    <v-layout row wrap>
       <ResultListItem
         v-if="loaded"
-        v-for="(result) in results"
+        v-for="(result) in filteredResults"
         :key="result._id"
         :id="result._id"
         :age="result.clientInfo.age"
@@ -20,31 +23,40 @@
 
 <script>
 import ResultListItem from "@/components/ResultListItem.vue";
+import ResultsFeedFilterForm from "@/components/ResultsFeedFilterForm.vue";
 import * as HowToTestApi from "@/services/api/howtotestapi";
+import resultsJson from "@/data/results.json";
 
 export default {
+  components: {
+    ResultsFeedFilterForm,
+    ResultListItem
+  },
   data() {
     return {
-      results: null
+      resultsJson: resultsJson
     };
-  },
-  components: {
-    ResultListItem
   },
   computed: {
     testName: function() {
       return this.$route.params.name;
     },
     loaded: function() {
-      return this.results != null;
+      return this.$store.state.dimsResults.resultFeed != null;
+    },
+    results: function() {
+      return this.$store.state.dimsResults.resultFeed;
+    },
+    filteredResults: function() {
+      return this.$store.getters["dimsResults/filteredFeed"];
     }
   },
   methods: {
     getTestResults: async function() {
-      HowToTestApi.getTestResults(this.testName).then(results => {
-        console.log(results);
-        this.results = results;
-      });
+      // HowToTestApi.getTestResults(this.testName).then(results => {
+      // console.log(results);
+      this.$store.commit("dimsResults/setResultFeed", this.resultsJson);
+      // });
     }
   },
   created() {
