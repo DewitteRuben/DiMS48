@@ -6,7 +6,9 @@
           <v-select
             solo
             v-model="selectedFilter"
-            :items="Object.values(items)"
+            :items="items"
+            item-text="name"
+            :return-object="true"
             label="Selecteer een filter"
           ></v-select>
         </v-flex>
@@ -33,6 +35,7 @@
       <v-layout wrap>
         <v-chip
           close
+          @input="removeFilter(index)"
           v-for="(filter, index) in filters"
           :key="index"
         >{{filter.name}} {{filter.operator}} {{filter.value}}</v-chip>
@@ -45,12 +48,28 @@
 export default {
   data() {
     return {
-      items: {
-        age: "Leeftijd",
-        gender: "Geslacht",
-        schooledFor: "Naar school geweest tot",
-        schooledTill: "Aantal jaar naar school geweest"
-      },
+      items: [
+        {
+          name: "Leeftijd",
+          property: "clientInfo.age",
+          type: Number
+        },
+        {
+          name: "Geslacht",
+          type: String,
+          property: "clientInfo.gender"
+        },
+        {
+          name: "Naar school geweest tot",
+          type: Number,
+          property: "clientInfo.schooledTill"
+        },
+        {
+          name: "Aantal jaar naar school geweest",
+          type: Number,
+          property: "clientInfo.schooledFor"
+        }
+      ],
       operations: ["=", "<", ">", "<=", ">="],
       selectedFilter: "",
       selectedOperator: "",
@@ -59,13 +78,31 @@ export default {
   },
   methods: {
     addFilter: function() {
-      this.$store.commit("dimsResults/addFilter", {
-        name: this.selectedFilter,
-        value: this.inputValue,
-        operator: this.selectedOperator,
-        property: this.getKeyByValue(this.items, this.selectedFilter)
-      });
-      this.clearForm();
+      const valueType = this.selectedFilter.type;
+      const isValid = this.isValidValue(valueType, this.inputValue);
+
+      if (isValid) {
+        const parsedValue = valueType(this.inputValue);
+        const filter = this.selectedFilter;
+
+        this.$store.commit("dimsResults/addFilter", {
+          name: filter.name,
+          property: filter.property,
+          operator: this.selectedOperator,
+          value: parsedValue
+        });
+
+        this.clearForm();
+      } else {
+        console.log("invalid type");
+      }
+    },
+    removeFilter(id) {
+        this.$store.commit("dimsResults/removeFilter", id);
+    },
+    isValidValue: function(type, value) {
+      if (type !== Number) return isNaN(parseInt(type(value)));
+      return !isNaN(type(value));
     },
     getKeyByValue: function(obj, value) {
       return Object.keys(obj).find(key => obj[key] === value);
@@ -74,8 +111,8 @@ export default {
       this.$refs.filterForm.reset();
     },
     clearFilters: function() {
-        this.$store.commit("dimsResults/clearFilters");
-    },
+      this.$store.commit("dimsResults/clearFilters");
+    }
   },
   computed: {
     filters: function() {

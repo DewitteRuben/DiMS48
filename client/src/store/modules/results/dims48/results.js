@@ -11,9 +11,12 @@ function compareValues(operator, value1, value2) {
     return value;
 }
 
+function getValueByPropertyPath(object, path) {
+    return [object].concat(path.split('.')).reduce((a, b) => a[b]);
+}
+
 function applyFilter(arr, property, value, operator) {
-    console.log(property, value, operator);
-    return arr.filter(e => compareValues(operator, e.clientInfo[property], value));
+    return arr.filter(e => compareValues(operator, getValueByPropertyPath(e, property), value));
 }
 
 
@@ -47,7 +50,10 @@ export default {
         setResultFeed: function (state, resultFeed) {
             state.resultFeed = resultFeed;
         },
-        clearFilters: function(state) {
+        removeFilter: function (state, id) {
+            state.filters.splice(id, 1);
+        },
+        clearFilters: function (state) {
             state.filters = [];
         },
         addFilter: function (state, filter) {
