@@ -4,8 +4,14 @@ function compareValues(operator, value1, value2) {
         case "=":
             value = (value1 === value2);
             break;
-        case "=/=":
+        case "≠":
             value = (value1 !== value2);
+            break;
+        case "≤":
+            value = (value1 <= value2);
+            break;
+        case "≥":
+            value = (value1 >= value2);
             break;
         default:
             value = eval(`${value1}${operator}${value2}`);

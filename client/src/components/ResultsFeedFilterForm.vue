@@ -6,6 +6,7 @@
           <v-select
             solo
             v-model="selectedFilter"
+            @change="showAllowedOperations"
             :items="items"
             item-text="name"
             :return-object="true"
@@ -17,6 +18,7 @@
             solo
             v-model="selectedOperator"
             :items="operations"
+            item-text="symbol"
             label="Selecteer een operator"
           ></v-select>
         </v-flex>
@@ -70,7 +72,6 @@ export default {
           property: "clientInfo.schooledFor"
         }
       ],
-      operations: ["=", "=/=", "<", ">", "<=", ">="],
       selectedFilter: "",
       selectedOperator: "",
       inputValue: ""
@@ -98,6 +99,10 @@ export default {
     removeFilter(id) {
       this.$store.commit("dimsResults/removeFilter", id);
     },
+    showAllowedOperations(event) {
+      const valueType = this.selectedFilter.type;
+      this.operations;
+    },
     isValidValue: function(type, value) {
       if (type !== Number) return isNaN(parseInt(type(value)));
       return !isNaN(type(value));
@@ -115,6 +120,19 @@ export default {
   computed: {
     filters: function() {
       return this.$store.state.dimsResults.filters;
+    },
+    operations: function() {
+      let operations = [
+        { symbol: "=", supportedTypes: [Number, String] },
+        { symbol: "≠", supportedTypes: [Number, String] },
+        { symbol: ">", supportedTypes: [Number] },
+        { symbol: "<", supportedTypes: [Number] },
+        { symbol: "≥", supportedTypes: [Number] },
+        { symbol: "≤", supportedTypes: [Number] }
+      ];
+
+      const valueType = this.selectedFilter.type;
+      return operations.filter(e => e.supportedTypes.includes(valueType));
     }
   }
 };
