@@ -3,6 +3,7 @@ let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
 const excelGenerator = require('../util/fileGenerators/excelGenerator').makeExcel;
+const excelGeneratorAll = require('../util/fileGenerators/excelGeneratorAll').makeExcel;
 const imageSeeder = require('../seeders/imagesSeeder');
 
 const locals =  require('../locales/en-US.json');
@@ -125,6 +126,10 @@ const getExcel = function(id){
   return getResult(id).then(result=>excelGenerator(result));
 };
 
+const getExcelAllResults = function(){
+  return getResults().then(results=>excelGeneratorAll(results));
+}
+
 //TODO refactor!!!
 const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers){
     clientAnswers.forEach((answerAndId) => {
@@ -163,6 +168,7 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
         addResult,
         appendResult,
         getPDF,
-        getExcel
+        getExcel,
+        getExcelAllResults
     }
 };

@@ -194,6 +194,19 @@ function getPdf(res, id) {
     });
 }
 
+function getExcelAllResults(res){
+  DiMS48Controller.getExcelAllResults()
+    .then(workbook=>{
+      let fileName = 'results.xlsx';
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+      return workbook.write(fileName, res);
+    }).catch((err)=>{
+      console.log(err);
+      ExcelError(err,res);
+    })
+}
+
 function getExcel(req, res) {
   const id = req.params.id;
 
@@ -205,30 +218,34 @@ function getExcel(req, res) {
       return workbook.write(fileName, res);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
-      } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
-      }
+      ExcelError(err,res);
     });
+}
+
+function ExcelError(err, res){
+  if (err.name === 'CastError') {
+    const errorCode = 400;
+    res.status(errorCode);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.invalidIdSupplied,
+        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
+        errorCode
+      )
+    );
+  } else {
+    const errorCode = 500;
+    res.status(errorCode);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.internalServerError,
+        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
+        errorCode
+      )
+    );
+  }
 }
 
 function getBeginObject(part) {
@@ -280,5 +297,6 @@ module.exports = {
   postResultPart1,
   postResultPart2,
   getPdf,
-  getExcel
+  getExcel,
+  getExcelAllResults
 }
