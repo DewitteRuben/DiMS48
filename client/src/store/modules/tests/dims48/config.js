@@ -18,7 +18,6 @@ export default{
   },
   actions:{
     initialize: ({commit, state, rootState}, config) =>{
-      console.log(config[0].value, config[1].value);
       commit('updateInterferenceDurationLocal', config[0].value);
       commit('updatePhase1SecondsPerImageLocal', config[1].value);
     },

@@ -1,8 +1,9 @@
 <template>
   <v-text-field
-      v-model="configurationValue"
+      v-model="newConfigurationValue"
       :name="configurationName"
       :label="configurationName"
+      @input="updateParent"
     ></v-text-field>
 </template>
 
@@ -11,7 +12,25 @@
     name: 'ConfigEditor',
     props: ['configurationName', 'configurationValue'],
     created: function(){
-      console.log(this.configurationName, this.configurationValue);
+      this.value = this.configurationValue;
+    },
+    data(){
+      return {value: 0}
+    },
+    computed: {
+      newConfigurationValue: {
+        get: function(){
+          return this.value;
+        },
+        set: function(newValue){
+          this.value = newValue;
+        }
+      }
+    },
+    methods: {
+      updateParent: function(){
+        this.$emit('update', {name: this.configurationName, value: this.value});
+      }
     }
   }
 </script>
