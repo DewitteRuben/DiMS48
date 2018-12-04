@@ -6,6 +6,7 @@
           <v-select
             solo
             v-model="selectedFilter"
+            @change="switchFilter"
             :items="items"
             item-text="name"
             :return-object="true"
@@ -22,7 +23,57 @@
           ></v-select>
         </v-flex>
         <v-flex xs12 md2>
-          <v-text-field v-model="inputValue" solo name="value" label="Vul een waarde in" id="value"></v-text-field>
+          <v-text-field
+            v-if="!dateFilter"
+            v-model="inputValue"
+            solo
+            name="value"
+            label="Vul een waarde in"
+            id="value"
+          ></v-text-field>
+          <v-menu
+            v-if="dateFilter"
+            ref="menu"
+            :close-on-content-click="false"
+            v-model="menu"
+            :nudge-right="40"
+            :return-value.sync="date"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
+          >
+            <v-text-field slot="activator" v-model="date" label="Selecteer een datum" readonly solo></v-text-field>
+            <v-date-picker v-model="date" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+              <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+            </v-date-picker>
+          </v-menu>
+          <v-menu
+            ref="menu2"
+            v-if="dateFilter"
+            :close-on-content-click="false"
+            v-model="menu2"
+            :nudge-right="40"
+            :return-value.sync="time"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            max-width="290px"
+            min-width="290px"
+          >
+            <v-text-field slot="activator" v-model="time" label="Selecteer een tijd" solo readonly></v-text-field>
+            <v-time-picker
+              v-if="menu2"
+              v-model="time"
+              format="24hr"
+              full-width
+              @change="$refs.menu2.save(time)"
+            ></v-time-picker>
+          </v-menu>
         </v-flex>
         <v-flex xs4 md2 xl1>
           <v-btn @click="addFilter" color="success">Toevoegen</v-btn>
@@ -34,18 +85,32 @@
     </v-form>
     <v-flex xs12 mb-4 mt-4>
       <v-layout wrap>
-        <v-chip
-          close
-          @input="removeFilter(index)"
-          v-for="(filter, index) in filters"
-          :key="index"
-        >{{filter.name}} {{filter.operator}} {{filter.value}}</v-chip>
+        <v-chip close @input="removeFilter(index)" v-for="(filter, index) in filters" :key="index">
+          {{filter.name}} {{filter.operator}}
+          {{filter.type === Date ? new Date(filter.value).toLocaleString("nl") : filter.value}}
+        </v-chip>
       </v-layout>
     </v-flex>
   </div>
 </template>
 
 <script>
+const hourInMs = 1 * 60 * 60 * 1000;
+const minuteInMs = 1 * 60 * 100;
+
+function timeStringToMilliseconds(timeString) {
+  const [hours, minutes] = timeString.split(":").map(e => parseInt(e));
+  return hourInMs * hours + minuteInMs * minutes;
+}
+
+function calcuateTimeInMsFromString(dateString, timeString) {
+  let date = new Date(dateString);
+  date.setHours(0);
+  const dateInMs = date.getTime();
+  const timeInMs = timeStringToMilliseconds(timeString);
+  return dateInMs + timeInMs;
+}
+
 export default {
   data() {
     return {
@@ -69,21 +134,38 @@ export default {
           name: "Aantal jaar naar school geweest",
           type: Number,
           property: "clientInfo.schooledFor"
+        },
+        {
+          name: "Datum",
+          type: Date,
+          property: "timestamp"
         }
       ],
       selectedFilter: "",
       selectedOperator: "",
-      inputValue: ""
+      dateFilter: false,
+      inputValue: "",
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2: false,
+      time: null
     };
   },
   methods: {
     addFilter: function() {
       const valueType = this.selectedFilter.type;
-      const input = this.inputValue.trim();
+
+      let input;
+      if (this.dateFilter) {
+        input = calcuateTimeInMsFromString(this.date, this.time);
+      } else {
+        input = this.inputValue.trim();
+      }
+
       const isValid = this.isValidValue(valueType, input);
 
       if (isValid) {
-        const parsedValue = valueType(input);
+        const parsedValue = this.dateFilter ? input : valueType(input);
 
         this.$store.commit("dimsResults/addFilter", {
           ...this.selectedFilter,
@@ -108,9 +190,13 @@ export default {
     },
     clearForm: function() {
       this.$refs.filterForm.reset();
+      this.dateFilter = false;
     },
     clearFilters: function() {
       this.$store.commit("dimsResults/clearFilters");
+    },
+    switchFilter: function() {
+      this.dateFilter = this.selectedFilter.name === "Datum";
     }
   },
   computed: {
@@ -119,13 +205,13 @@ export default {
     },
     operations: function() {
       let operations = [
-        { symbol: "=", supportedTypes: [Number, String] },
-        { symbol: "≠", supportedTypes: [Number, String] },
+        { symbol: "=", supportedTypes: [Number, String, Date] },
+        { symbol: "≠", supportedTypes: [Number, String, Date] },
         { symbol: "Bevat", supportedTypes: [String] },
-        { symbol: ">", supportedTypes: [Number] },
-        { symbol: "<", supportedTypes: [Number] },
-        { symbol: "≥", supportedTypes: [Number] },
-        { symbol: "≤", supportedTypes: [Number] }
+        { symbol: ">", supportedTypes: [Number, Date] },
+        { symbol: "<", supportedTypes: [Number, Date] },
+        { symbol: "≥", supportedTypes: [Number, Date] },
+        { symbol: "≤", supportedTypes: [Number, Date] }
       ];
 
       const valueType =
