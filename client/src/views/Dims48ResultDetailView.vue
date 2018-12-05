@@ -5,7 +5,7 @@
     <v-layout row wrap mt-4>
       <v-flex xs4>
         <h2>Client Info
-          <v-btn icon flat color="red lighten-2">
+          <v-btn @click="clientInfoDialog = true" icon flat color="red lighten-2">
             <v-icon>edit</v-icon>
           </v-btn>
         </h2>
@@ -60,18 +60,43 @@
       <v-btn color="success">Download Excel</v-btn>
       <v-btn color="success">Download PDF</v-btn>
     </v-layout>
+    <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Gegevens van de client</span>
+        </v-card-title>
+        <v-card-text>
+          <ClientDataForm
+            :age="result.clientInfo.age"
+            :schooledTill="result.clientInfo.schooledTill"
+            :schooledFor="result.clientInfo.schooledFor"
+            :gender="result.clientInfo.gender"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="clientInfoDialog = false">Sluiten</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import result from "../data/result.json";
+import ClientDataForm from "@/components/ClientDataForm.vue";
 
 export default {
+  components: {
+    ClientDataForm
+  },
   data() {
     return {
-      result: result
+      result: result,
+      clientInfoDialog: false
     };
   },
+  methods: {},
   computed: {
     testId: function() {
       return this.$route.params.id;
