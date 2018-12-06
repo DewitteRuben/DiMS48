@@ -80,13 +80,13 @@ function getOptions(part) {
 function getResults() {
   return new Promise(function (s, f) {
     makeGetter(DiMS48Models.Result, null, true, {
-        'answersPhase1.answers': 0,
-        'answersPhase2.answers': 0
+        'phase1.answers': 0,
+        'phase2.answers': 0
       })
       .then(results => {
         results.forEach(result => {
-          if (result.answersPhase3.answers.length <= 0) result.answersPhase3.scores = null;
-          delete result.answersPhase3.answers;
+          if (result.phase3.answers.length <= 0) result.phase3.scores = null;
+          delete result.phase3.answers;
         });
         s(results);
       }).catch(err => {
