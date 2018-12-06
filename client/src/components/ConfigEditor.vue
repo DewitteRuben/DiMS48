@@ -8,11 +8,14 @@
 </template>
 
 <script>
+  import keycodes from 'keycodes';
+
   export default{
     name: 'ConfigEditor',
     props: ['configurationName', 'configurationValue', 'isKeyCode'],
     created: function(){
       this.value = this.configurationValue;
+      if(this.isKeyCode) this.showValue = keycodes(parseInt(this.value));
     },
     data(){
       return {
