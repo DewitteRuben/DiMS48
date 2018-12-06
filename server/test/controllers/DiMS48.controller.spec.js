@@ -183,6 +183,9 @@ describe('DiMS48Controller', () => {
 
                 expected.should.be.equal(actual);
                 done();
+            })
+            .catch((err) => {
+                throw err;
             });
     });
 

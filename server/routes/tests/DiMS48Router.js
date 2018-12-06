@@ -112,16 +112,34 @@ function postResultPart1(req, res) {
       });
     })
     .catch((err) => {
-      const errorCode = 500;
-      res.status(errorCode);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
-          errorCode
-        )
-      );
+      const isEnumError = err.errors[Object.keys(err.errors)[0]].properties.type === 'enum';
+      console.log(isEnumError);
+
+      if(isEnumError){
+        const message = err.errors[Object.keys(err.errors)[0]].properties.message;
+
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,  
+            message,
+            errorCode
+          )
+        );
+      }else{
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 
@@ -288,6 +306,26 @@ function getBeginObject(part) {
   });
 }
 
+const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
+  const notes = req.body.notes;
+  const testId = req.params.id;
+  let donePromise;
+
+  if (typeof notes !== "undefined"){
+    donePromise = DiMS48Controller.updateNote(testId, notes);
+  }else{
+    donePromise = DiMS48Controller.updateClientInfo(testId, req.body);
+  }
+
+  donePromise
+  .then((result) => {
+    res.send("ok");
+  })
+  .catch((err) => {
+    res.send(err);
+  })
+};
+
 module.exports = {
   updateConfig,
   initial,
@@ -298,5 +336,6 @@ module.exports = {
   postResultPart2,
   getPdf,
   getExcel,
-  getExcelAllResults
+  getExcelAllResults,
+  updateClientInfoOrNote
 }
