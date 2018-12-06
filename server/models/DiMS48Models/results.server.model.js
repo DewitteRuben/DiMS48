@@ -11,9 +11,9 @@ const ResultSchema = new Schema({
     _id: {type: String,default: shortid.generate},
     timestamp: {type: Date, default: Date.now()},
     clientInfo: {type: defaultModels.ClientInfoSchema, required: true},
-    answersPhase1: {type: ResultsPhase1.schema, required: true},
-    answersPhase2: {type: ResultsPhase2.schema, required: true},
-    answersPhase3: ResultsPhase2.schema,
+    phase1: {type: ResultsPhase1.schema, required: true},
+    phase2: {type: ResultsPhase2.schema, required: true},
+    phase3: ResultsPhase2.schema,
 });
 
 module.exports = {
