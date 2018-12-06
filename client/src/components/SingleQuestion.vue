@@ -2,7 +2,7 @@
   <div>
     <div class="questions">
       <img :src="baseUrl + currentImage.L.imgUrl" alt="picture">
-      <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt="">
+      <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt>
     </div>
     <div class="answers" v-if="hasStarted">
       <v-btn
@@ -40,10 +40,10 @@ export default {
     });
   },
   computed: {
-    leftBtnKeyCode: function(){
+    leftBtnKeyCode: function() {
       return parseInt(this.$store.getters["dimsConfig/getLeftBtnKeyCode"]);
     },
-    rightBtnKeyCode: function(){
+    rightBtnKeyCode: function() {
       return parseInt(this.$store.getters["dimsConfig/getRightBtnKeyCode"]);
     },
     currentImage: function() {
@@ -74,6 +74,9 @@ export default {
     },
     isDouble: function() {
       return this.$store.state.dimsManager.double;
+    },
+    testName: function() {
+      return this.$route.name;
     }
   },
   methods: {
@@ -87,6 +90,7 @@ export default {
       if (this.isDouble) {
         const selectedImageId = this.currentImage[btnValue]._id;
         const doubleAnswer = {
+          test: this.testName,
           phase: this.currentPhase,
           answer: {
             id: selectedImageId,
@@ -97,6 +101,7 @@ export default {
       } else {
         const imageId = this.currentImage.L._id;
         const singleAnswer = {
+          test: this.testName,
           phase: this.currentPhase,
           answer: {
             id: imageId,

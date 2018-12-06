@@ -7,7 +7,7 @@
       value="value"
     ></v-checkbox>
     <v-btn
-      to="/results"
+      @click="saveResults"
       :disabled="!saveCheckbox"
       class="TestEndPanel-Button"
       block
@@ -18,11 +18,34 @@
 </template>
 
 <script>
+import * as howToTestApi from "@/services/api/howtotestapi";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       saveCheckbox: false
     };
+  },
+  computed: {
+    ...mapGetters("dimsTestData", ["getDims48a", "getDims48b"]),
+    testName: function() {
+      return this.$route.name;
+    }
+  },
+  methods: {
+    resetTest: function() {
+      this.$store.dispatch("dimsManager/resetState");
+    },
+    isTestCompleted: function() {
+      return this.$store.getters["dimsManager/hasFinished"];
+    },
+    saveResults: function() {
+      if (this.isTestCompleted() && this.saveCheckbox) {
+        const testResults = this.$state.dimsTestData[currentTest];
+        console.log(testResults);
+      }
+    }
   }
 };
 </script>
