@@ -28,7 +28,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("dimsTestData", ["getDims48a", "getDims48b"]),
     testName: function() {
       return this.$route.name;
     }
@@ -42,8 +41,7 @@ export default {
     },
     saveResults: function() {
       if (this.isTestCompleted() && this.saveCheckbox) {
-        const testResults = this.$state.dimsTestData[currentTest];
-        console.log(testResults);
+        const testResults = this.$store.state.dimsTestData[this.testName];
       }
     }
   }
