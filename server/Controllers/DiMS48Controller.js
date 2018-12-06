@@ -9,6 +9,8 @@ const imageSeeder = require('../seeders/imagesSeeder');
 const locals =  require('../locales/en-US.json');
 const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
+const invalidIdError = {name: 'CastError', description: 'Invalid Id Supplied'};
+
 function makeGetter(model, whereClause, idNeeded, extraFields){
   return new Promise(function(s,f){
     let fields = idNeeded ? {__v:0} : {__v:0, _id:0};
@@ -158,10 +160,8 @@ const isValidResult = function isValidResult(result){
 };
 
 const updateNote = function updateNote(testId, notes){
-  const invalidIdError = {name: 'CastError', description: 'Invalid Id Supplied'};
-
   return new Promise((resolve, reject) => {
-    DiMS48Models.findById(testId, (err, result) => {
+    DiMS48Models.Result.findById(testId, (err, result) => {
       if(err){
           reject(invalidIdError);
       }else{
