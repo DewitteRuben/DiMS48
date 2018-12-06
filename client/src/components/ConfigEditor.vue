@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-      v-model="newConfigurationValue"
+      :value="showValue"
       :name="configurationName"
       :label="configurationName"
       @keyup="updateParent"
@@ -15,7 +15,10 @@
       this.value = this.configurationValue;
     },
     data(){
-      return {value: 0}
+      return {
+        value: 0,
+        showValue : this.configurationValue
+      }
     },
     computed: {
       newConfigurationValue: {
@@ -29,8 +32,10 @@
     },
     methods: {
       updateParent: function(e){
+        this.showValue = this.value;
         if(this.isKeyCode){
           this.value = e.keyCode;
+          this.showValue = e.key;
         }
         this.$emit('update', {name: this.configurationName, value: this.value});
       }
