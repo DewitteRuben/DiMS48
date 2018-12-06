@@ -1,9 +1,9 @@
 <template>
   <v-container class="home-container" grid-list-lg>
-    <h1 class="text-xs-center">Testresults {{testName}}</h1>
-    <h2 class="text-xs-left mb-2">Filter</h2>
+    <h1 class="text-xs-center">Testresultaten DiMS48</h1>
+    <h2 class="text-xs-left mb-2">Voeg een filter toe</h2>
     <ResultsFeedFilterForm/>
-    <h2 class="text-xs-left">Results</h2>
+    <h2 class="text-xs-left">Resultaten</h2>
     <v-layout row wrap>
       <ResultListItem
         v-if="loaded"
@@ -15,7 +15,6 @@
         :schooledTill="result.clientInfo.schooledTill"
         :schooledFor="result.clientInfo.schooledFor"
         :timestamp="new Date(result.timestamp)"
-        :route="testName"
       />
     </v-layout>
   </v-container>
@@ -38,9 +37,6 @@ export default {
     };
   },
   computed: {
-    testName: function() {
-      return this.$route.params.name;
-    },
     loaded: function() {
       return this.$store.state.dimsResults.resultFeed != null;
     },
