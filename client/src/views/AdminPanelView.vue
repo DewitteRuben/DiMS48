@@ -1,9 +1,9 @@
 <template>
     <v-form v-if="dataLoaded">
-      <ConfigEditor :configurationName="'interferenceDuration'" :configurationValue="interferenceDuration" @update="onChildUpdate"/>
-      <ConfigEditor :configurationName="'phase1SecondsPerImage'" :configurationValue="phase1SecondsPerImage" @update="onChildUpdate"/>
-      <ConfigEditor :configurationName="'leftBtnKeyCode'" :configurationValue="leftBtnKeyCode" :isKeyCode="true" @update="onChildUpdate"/>
-      <ConfigEditor :configurationName="'rightBtnKeyCode'" :configurationValue="rightBtnKeyCode" :isKeyCode="true" @update="onChildUpdate" />
+      <ConfigEditor :displayName="'Duur Interferentietaak'" :configurationName="'interferenceDuration'" :configurationValue="interferenceDuration" @update="onChildUpdate"/>
+      <ConfigEditor :displayName="'Fase 1: tijd per foto'" :configurationName="'phase1SecondsPerImage'" :configurationValue="phase1SecondsPerImage" @update="onChildUpdate"/>
+      <ConfigEditor :displayName="'Linker knop (knop op toetsenbord)'" :configurationName="'leftBtnKeyCode'" :configurationValue="leftBtnKeyCode" :isKeyCode="true" @update="onChildUpdate"/>
+      <ConfigEditor :displayName="'Rechter knop (knop op toetsenbord)'" :configurationName="'rightBtnKeyCode'" :configurationValue="rightBtnKeyCode" :isKeyCode="true" @update="onChildUpdate" />
       <v-btn @click="updateValues">Save</v-btn>
     </v-form>
 </template>
@@ -68,6 +68,7 @@
             leftBtnKeyCode: this.leftBtnKeyCodeValue,
             rightBtnKeyCode: this.rightBtnKeyCodeValue
           }
+          console.log(newConfig);
           this.$store.dispatch("dimsConfig/updateConfigValues", newConfig);
           howtotestapi.updateConfig("DiMS48", {newConfig}).then(data=>console.log(data));
         },

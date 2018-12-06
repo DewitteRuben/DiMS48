@@ -1,8 +1,8 @@
 <template>
   <v-text-field
-      :value="showValue"
+      v-model="showValue"
       :name="configurationName"
-      :label="configurationName"
+      :label="displayName"
       @keyup="updateParent"
     ></v-text-field>
 </template>
@@ -12,7 +12,7 @@
 
   export default{
     name: 'ConfigEditor',
-    props: ['configurationName', 'configurationValue', 'isKeyCode'],
+    props: ['displayName', 'configurationName', 'configurationValue', 'isKeyCode'],
     created: function(){
       this.value = this.configurationValue;
       if(this.isKeyCode) this.showValue = keycodes(parseInt(this.value));
@@ -35,11 +35,12 @@
     },
     methods: {
       updateParent: function(e){
-        this.showValue = this.value;
+        this.value = this.showValue;
         if(this.isKeyCode){
           this.value = e.keyCode;
           this.showValue = e.key;
         }
+        console.log(this.value);
         this.$emit('update', {name: this.configurationName, value: this.value});
       }
     }
