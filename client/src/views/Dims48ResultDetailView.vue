@@ -2,64 +2,70 @@
   <v-container text-xs-left>
     <h1 class="text-xs-center">Resultaat {{testId}}</h1>
 
-    <v-layout row wrap mt-4>
-      <v-flex xs4>
-        <h2>Client Info
-          <v-btn @click="clientInfoDialog = true" icon flat color="red lighten-2">
-            <v-icon>edit</v-icon>
-          </v-btn>
-        </h2>
-        <div>
-          <h3>Leeftijd</h3>
-          <p class="subheading">{{result.clientInfo.age}} jaar</p>
-          <h3>Naar school geweest tot</h3>
-          <p class="subheading">{{result.clientInfo.schooledTill}} jaar</p>
-          <h3>Aantal jaar naar school geweest</h3>
-          <p class="subheading">{{result.clientInfo.schooledFor}} jaar</p>
-          <h3>Geslacht</h3>
-          <p class="subheading">{{result.clientInfo.gender}}</p>
-        </div>
-      </v-flex>
-      <v-flex xs4 offset-xs-4>
-        <h3>Notities van de testgever
-          <v-btn icon flat color="red lighten-2">
-            <v-icon>edit</v-icon>
-          </v-btn>
-        </h3>
+    <div v-if="loaded">
+      <v-layout row wrap mt-4>
+        <v-flex xs4>
+          <h2>Client Info
+            <v-btn @click="clientInfoDialog = true" icon flat color="red lighten-2">
+              <v-icon>edit</v-icon>
+            </v-btn>
+          </h2>
+          <div>
+            <h3>Leeftijd</h3>
+            <p class="subheading">{{result.clientInfo.age}} jaar</p>
+            <h3>Naar school geweest tot</h3>
+            <p class="subheading">{{result.clientInfo.schooledTill}} jaar</p>
+            <h3>Aantal jaar naar school geweest</h3>
+            <p class="subheading">{{result.clientInfo.schooledFor}} jaar</p>
+            <h3>Geslacht</h3>
+            <p class="subheading">{{result.clientInfo.gender}}</p>
+          </div>
+        </v-flex>
+        <v-flex xs4 offset-xs-4>
+          <h3>Notities van de testgever
+            <v-btn icon flat color="red lighten-2">
+              <v-icon>edit</v-icon>
+            </v-btn>
+          </h3>
 
-        <v-textarea name="notes" :value="result.clientInfo.notes" label="label" readonly solo></v-textarea>
-      </v-flex>
+          <v-textarea name="notes" :value="result.clientInfo.notes" label="label" readonly solo></v-textarea>
+        </v-flex>
+      </v-layout>
+      <v-divider></v-divider>
+      <v-layout mt-5 row wrap>
+        <v-flex sm4 xs12>
+          <h2>Resultaten Fase 1</h2>
+          <h3>Score</h3>
+          <p class="subheading">{{result.phase1.score}}</p>
+        </v-flex>
+        <v-flex sm4 xs12>
+          <h2>Resultaten Fase 2</h2>
+          <h3>Abstract Score</h3>
+          <p class="subheading">{{result.phase2.scores.abstractScore}}</p>
+          <h3>Grouped Score</h3>
+          <p class="subheading">{{result.phase2.scores.groupedScore}}</p>
+          <h3>Unique Score</h3>
+          <p class="subheading">{{result.phase2.scores.uniqueScore}}</p>
+        </v-flex>
+        <v-flex sm4 xs12>
+          <h2>Resultaten Fase 3</h2>
+          <h3>Abstract Score</h3>
+          <p class="subheading">{{result.phase3.scores.abstractScore}}</p>
+          <h3>Grouped Score</h3>
+          <p class="subheading">{{result.phase3.scores.groupedScore}}</p>
+          <h3>Unique Score</h3>
+          <p class="subheading">{{result.phase3.scores.uniqueScore}}</p>
+        </v-flex>
+      </v-layout>
+      <v-layout mt-3 justify-end>
+        <v-btn color="success">Download Excel</v-btn>
+        <v-btn color="success">Download PDF</v-btn>
+      </v-layout>
+    </div>
+    <v-layout justify-center align-center fill-height v-else>
+      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
     </v-layout>
-    <v-divider></v-divider>
-    <v-layout mt-5 row wrap>
-      <v-flex sm4 xs12>
-        <h2>Resultaten Fase 1</h2>
-        <h3>Score</h3>
-        <p class="subheading">{{result.answersPhase1.score}}</p>
-      </v-flex>
-      <v-flex sm4 xs12>
-        <h2>Resultaten Fase 2</h2>
-        <h3>Abstract Score</h3>
-        <p class="subheading">{{result.answersPhase2.scores.abstractScore}}</p>
-        <h3>Grouped Score</h3>
-        <p class="subheading">{{result.answersPhase2.scores.groupedScore}}</p>
-        <h3>Unique Score</h3>
-        <p class="subheading">{{result.answersPhase2.scores.uniqueScore}}</p>
-      </v-flex>
-      <v-flex sm4 xs12>
-        <h2>Resultaten Fase 3</h2>
-        <h3>Abstract Score</h3>
-        <p class="subheading">{{result.answersPhase3.scores.abstractScore}}</p>
-        <h3>Grouped Score</h3>
-        <p class="subheading">{{result.answersPhase3.scores.groupedScore}}</p>
-        <h3>Unique Score</h3>
-        <p class="subheading">{{result.answersPhase3.scores.uniqueScore}}</p>
-      </v-flex>
-    </v-layout>
-    <v-layout mt-3 justify-end>
-      <v-btn color="success">Download Excel</v-btn>
-      <v-btn color="success">Download PDF</v-btn>
-    </v-layout>
+
     <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -83,7 +89,8 @@
 </template>
 
 <script>
-import result from "../data/result.json";
+// import result from "../data/result.json";
+import * as HowToTestApi from "@/services/api/howtotestapi";
 import ClientDataForm from "@/components/ClientDataForm.vue";
 
 export default {
@@ -92,15 +99,33 @@ export default {
   },
   data() {
     return {
-      result: result,
+      result: null,
+      loaded: false,
       clientInfoDialog: false
     };
   },
-  methods: {},
+  methods: {
+    getDims48Result: async function() {
+      HowToTestApi.getTestResultById("dims48", this.testId)
+        .then(res => {
+          console.log(res);
+          this.result = res;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loaded = true;
+        });
+    }
+  },
   computed: {
     testId: function() {
       return this.$route.params.id;
     }
+  },
+  created() {
+    this.getDims48Result();
   }
 };
 </script>

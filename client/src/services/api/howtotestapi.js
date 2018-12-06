@@ -12,6 +12,8 @@ export const updateConfig = (name, newConfig) =>
   processReq(`/test/${name}/updateConfig`, newConfig, "POST");
 export const postResults = (phase, test, results) =>
   processReq(`/results/${test}/${phase}`, results, "POST");
+export const getTestResultById = (test, id) =>
+  processReq(`/results/${test}/${id}`);
 
 async function processReq(url, dataObj = {}, method = "GET") {
   const conf = {
