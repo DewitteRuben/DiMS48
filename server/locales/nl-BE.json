@@ -28,9 +28,9 @@
     "gender": "geslacht",
     "notes": "notities",
     "genders" : {
-      "M": "Man",
-      "F": "Vrouw",
-      "O": "Andere"
+      "m": "Man",
+      "v": "Vrouw",
+      "a": "Andere"
     }
   },
   "scores": "scores",

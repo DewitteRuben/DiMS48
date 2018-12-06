@@ -28,9 +28,9 @@
     "gender": "gender",
     "notes": "notes",
     "genders" : {
-      "M": "Male",
-      "F": "Female",
-      "O": "Others"
+      "m": "Male",
+      "v": "Female",
+      "a": "Other"
     }
   },
   "scores": "scores",
