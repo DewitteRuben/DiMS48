@@ -10,12 +10,19 @@
 <script>
 import Dims48aTest from "@/components/Dims48aTest.vue";
 import Dims48bTest from "@/components/Dims48bTest.vue";
+import * as howtotestapi from "@/services/api/howtotestapi";
 
 export default {
   name: "Dims48Page",
   components: {
     Dims48aTest,
     Dims48bTest
+  },
+  created: function(){
+    let self = this;
+    howtotestapi.getDims48().then(data=>{
+      self.$store.dispatch("dimsConfig/initialize", data.config[0].config);
+    }).catch(err=>console.log(err));
   },
   computed: {
     isDims48a: function() {

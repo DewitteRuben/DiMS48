@@ -1,3 +1,4 @@
+<!-- TODO dynamic padding and margin -->
 <style type="text/css">
     body {
         font-family: sans-serif;
@@ -22,27 +23,22 @@
         padding: 8px
     }
 
-    .clientInfo {
-        height: 70vh;
-    }
-
     .clientInfo h2 {
         text-align: center;
     }
 
     .main-page-header {
-        padding-top: 10vh;
-        height: 20vh;
-        width: 500px;
-        margin: auto;
+        padding-top: 1vh;
+        width: 100%;
+        margin-left: 0;
         position: relative;
     }
 
     .main-page-header img {
-        height: 8vh;
+        height: 5vh;
         width: auto;
         margin: auto;
-        margin-bottom: 50px;
+        float: left;
     }
 
     .main-page-header h1 {
@@ -50,7 +46,7 @@
     }
 
     .scores {
-        height: 100vh;
+        padding-bottom: 130px;
     }
 
     h2 {
@@ -91,6 +87,10 @@
         <div class="clientInfo">
             <h2 class="capitalize-all-first-letter"><%= locales.clientInfo.client %></h2>
             <table>
+                <tr>
+                    <td class="capitalize-all-first-letter"><strong><%= locales.testId %></strong></td>
+                    <td><%= data._id%></td>
+                </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.age + " " + locales.year%></strong></td>
                     <td><%= data.clientInfo.age + " " + locales.year%></td>
@@ -204,7 +204,7 @@
                     <td><%= answer.responseTime / 1000 + " " + locales.seconds %></td>
                 </tr>
 
-                <% if(answer._id.substring(1) == 23){ %>
+                <% if(answer._id.substring(1) == 24){ %>
             </table>
                 <br/>
                 <br/>
@@ -229,6 +229,10 @@
             <br />
             <br />
             <br />
+            <br />
+            <br />
+            <br />
+
 
             <h3 class="capitalize-all-first-letter"><%= locales.phases[1].name %></h3>
             <table>
@@ -268,9 +272,6 @@
                 %>
             </table>
 
-            <br />
-            <br />
-            <br />
             <br />
             <br />
             <br />

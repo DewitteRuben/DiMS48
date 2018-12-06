@@ -1,7 +1,9 @@
 function initialState(){
   return {
     'interferenceDuration': null,
-    'phase1SecondsPerImage': null
+    'phase1SecondsPerImage': null,
+    'leftBtnKeyCode': null,
+    'rightBtnKeyCode': null
   }
 }
 
@@ -14,16 +16,26 @@ export default{
     },
     getPhase1SecondsPerImage: (state, getters, rootState) =>{
       return state.phase1SecondsPerImage;
+    },
+    getLeftBtnKeyCode: (state, getters, rootState) =>{
+      return state.leftBtnKeyCode
+    },
+    getRightBtnKeyCode: (state, getters, rootState) =>{
+      return state.rightBtnKeyCode
     }
   },
   actions:{
     initialize: ({commit, state, rootState}, config) =>{
       commit('updateInterferenceDurationLocal', config[0].value);
       commit('updatePhase1SecondsPerImageLocal', config[1].value);
+      commit('updateLeftBtnKeyCodeLocal', config[2].value);
+      commit('updateRightBtnKeyCodeLocal', config[3].value);
     },
     updateConfigValues: ({commit, state, rootState}, newConfig) =>{
       commit('updateInterferenceDurationLocal', newConfig["interferenceDuration"]);
       commit('updatePhase1SecondsPerImageLocal', newConfig["phase1SecondsPerImage"]);
+      commit('updateLeftBtnKeyCodeLocal', newConfig["leftBtnKeyCode"]);
+      commit('updateRightBtnKeyCodeLocal', newConfig["rightBtnKeyCode"]);
     }
   },
   mutations:{
@@ -32,6 +44,12 @@ export default{
     },
     updatePhase1SecondsPerImageLocal: (state, newValue)=>{
       state.phase1SecondsPerImage = newValue;
+    },
+    updateLeftBtnKeyCodeLocal: (state, newValue)=>{
+      state.leftBtnKeyCode = newValue;
+    },
+    updateRightBtnKeyCodeLocal: (state, newValue)=>{
+      state.rightBtnKeyCode = newValue;
     }
   }
 }

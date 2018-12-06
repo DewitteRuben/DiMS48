@@ -2,6 +2,8 @@
     <v-form v-if="dataLoaded">
       <ConfigEditor :configurationName="'interferenceDuration'" :configurationValue="interferenceDuration" @update="onChildUpdate"/>
       <ConfigEditor :configurationName="'phase1SecondsPerImage'" :configurationValue="phase1SecondsPerImage" @update="onChildUpdate"/>
+      <ConfigEditor :configurationName="'leftBtnKeyCode'" :configurationValue="leftBtnKeyCode" :isKeyCode="true" @update="onChildUpdate"/>
+      <ConfigEditor :configurationName="'rightBtnKeyCode'" :configurationValue="rightBtnKeyCode" :isKeyCode="true" @update="onChildUpdate" />
       <v-btn @click="updateValues">Save</v-btn>
     </v-form>
 </template>
@@ -18,7 +20,9 @@
       return {
         dataLoaded: false,
         interferenceDurationValue: 0,
-        phase1SecondsPerImageValue: 0
+        phase1SecondsPerImageValue: 0,
+        leftBtnKeyCodeValue: 0,
+        rightBtnKeyCodeValue: 0
       }
     },
     computed: {
@@ -37,6 +41,22 @@
         set: function(newValue){
           this.phase1SecondsPerImageValue = newValue;
         }
+      },
+      leftBtnKeyCode: {
+        get: function(){
+          return this.$store.getters["dimsConfig/getLeftBtnKeyCode"];
+        },
+        set: function(newValue){
+          this.leftBtnKeyCodeValue = newValue;
+        }
+      },
+      rightBtnKeyCode: {
+        get: function(){
+          return this.$store.getters["dimsConfig/getRightBtnKeyCode"];
+        },
+        set: function(newValue){
+          this.rightBtnKeyCodeValue = newValue;
+        }
       }
     },
     methods: {
@@ -44,7 +64,9 @@
           let self = this;
           let newConfig = {
             interferenceDuration: this.interferenceDurationValue,
-            phase1SecondsPerImage: this.phase1SecondsPerImageValue
+            phase1SecondsPerImage: this.phase1SecondsPerImageValue,
+            leftBtnKeyCode: this.leftBtnKeyCodeValue,
+            rightBtnKeyCode: this.rightBtnKeyCodeValue
           }
           this.$store.dispatch("dimsConfig/updateConfigValues", newConfig);
           howtotestapi.updateConfig("DiMS48", {newConfig}).then(data=>console.log(data));
@@ -58,6 +80,8 @@
       howtotestapi.getDims48().then(data=>{
         this.interferenceDuration = data.config[0].config[0].value;
         this.phase1SecondsPerImage = data.config[0].config[1].value;
+        this.leftBtnKeyCode = data.config[0].config[2].value;
+        this.rightBtnKeyCode = data.config[0].config[3].value;
         self.$store.dispatch("dimsConfig/initialize", data.config[0].config);
         setTimeout(function(){
           self.dataLoaded = true;
