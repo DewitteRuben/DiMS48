@@ -288,6 +288,26 @@ function getBeginObject(part) {
   });
 }
 
+const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
+  const notes = req.body.notes;
+  const testId = req.params.id;
+  let donePromise;
+
+  if (typeof notes !== "undefined"){
+    donePromise = DiMS48Controller.updateNote(testId, notes);
+  }else{
+    donePromise = DiMS48Controller.updateClientInfo(testId, req.body);
+  }
+
+  donePromise
+  .then((result) => {
+    res.send("ok");
+  })
+  .catch((err) => {
+    res.send(err);
+  })
+};
+
 module.exports = {
   updateConfig,
   initial,
@@ -298,5 +318,6 @@ module.exports = {
   postResultPart2,
   getPdf,
   getExcel,
-  getExcelAllResults
+  getExcelAllResults,
+  updateClientInfoOrNote
 }
