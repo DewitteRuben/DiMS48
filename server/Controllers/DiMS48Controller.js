@@ -106,7 +106,9 @@ function getResult(id) {
     '_id': id
   }, true).then(result => {
     result = result[0];
-    result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
+    if(result.clientInfo && result.clientInfo.gender){
+      result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
+    }
     return result;
   });
 }
