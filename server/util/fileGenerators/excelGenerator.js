@@ -61,18 +61,18 @@ function makeExcel(result){
   worksheetResults.column(4).setWidth(14);
   worksheetResults.column(5).setWidth(13);
 
-  const phase3Included = result.answersPhase3.answers.length > 0;
+  const phase3Included = result.phase3.answers.length > 0;
 
   writeClientInfo(worksheetResults, result._id, result.clientInfo);
   writeHeadingResults(worksheetResults, phase3Included);
   writeHeadingAnswers(worksheetAnswers, phase3Included);
-  writeResultsPhase1(worksheetResults, result.answersPhase1);
-  writeAnswers(worksheetAnswers, result.answersPhase1.answers, false, 1);
-  writeResultsPhase2(worksheetResults, result.answersPhase2, false);
-  writeAnswers(worksheetAnswers, result.answersPhase2.answers, true, 5);
+  writeResultsPhase1(worksheetResults, result.phase1);
+  writeAnswers(worksheetAnswers, result.phase1.answers, false, 1);
+  writeResultsPhase2(worksheetResults, result.phase2, false);
+  writeAnswers(worksheetAnswers, result.phase2.answers, true, 5);
   if(phase3Included){
-    writeResultsPhase2(worksheetResults, result.answersPhase3, true);
-    writeAnswers(worksheetAnswers, result.answersPhase3.answers, true, 9);
+    writeResultsPhase2(worksheetResults, result.phase3, true);
+    writeAnswers(worksheetAnswers, result.phase3.answers, true, 9);
   }
 
   //workbook.write('result.xlsx');
