@@ -112,16 +112,34 @@ function postResultPart1(req, res) {
       });
     })
     .catch((err) => {
-      const errorCode = 500;
-      res.status(errorCode);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
-          errorCode
-        )
-      );
+      const isEnumError = err.errors[Object.keys(err.errors)[0]].properties.type === 'enum';
+      console.log(isEnumError);
+
+      if(isEnumError){
+        const message = err.errors[Object.keys(err.errors)[0]].properties.message;
+
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,  
+            message,
+            errorCode
+          )
+        );
+      }else{
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 

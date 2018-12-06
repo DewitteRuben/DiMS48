@@ -7,7 +7,7 @@ const ClientInfoSchema = new Schema({
     age: {type: Number, required: true},
     schooledTill: {type: Number, required: true},
     schooledFor: {type: Number, required: true},
-    gender: {type: String, required: true},
+    gender: {type: String, required: true, enum: ['m', 'v', 'a']},
     notes: {type: String, required: true}
 }, {_id: false});
 

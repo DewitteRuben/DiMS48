@@ -112,12 +112,16 @@ function getUnfinishedTests() {
 
 function addResult(data) {
   return new Promise((resolve, reject) => {
-    
+
+    if(data.clientInfo && data.clientInfo.gender){
+      data.clientInfo.gender = data.clientInfo.gender.toLowerCase();
+    }
+
     data['phase1'] = {
       score: scoreCalculator.calculateScorePhase1(data.phase1),
       answers: addCorrectAnswersPhase1(data.phase1)
     };
-    
+
     data['phase2'] = {
       scores: scoreCalculator.calculateScorePhase2(data.phase2),
       answers: addCorrectAnswersPhase2(data.phase2)
@@ -225,6 +229,10 @@ const updateNote = function updateNote(testId, notes) {
 };
 
 const updateClientInfo = function updateClientInfo(testId, clientInfo) {
+  if(clientInfo.gender){
+    clientInfo.gender = clientInfo.gender.toLowerCase();
+  }
+  
   return new Promise((resolve, reject) => {
     DiMS48Models.Result.findById(testId, (err, result) => {
       if (err) {
