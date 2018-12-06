@@ -1,17 +1,28 @@
 <template>
-    <div class="TestEndPanel">
-        <h1>Einde van de Test</h1>
-        {{test}}
-        <v-btn to="/" class="TestEndPanel-Button" block color="primary">Ga terug naar de homepagina</v-btn>
-        <v-btn to="/results" class="TestEndPanel-Button" block color="primary">Bekijk de resultaten van de test</v-btn>
-    </div>
+  <div class="TestEndPanel">
+    <h1>Einde van de Test</h1>
+    <v-checkbox
+      label="De resultaten zijn waarheidsgetrouw, bevestig hierbij dat deze mogen opgeslagen worden."
+      v-model="saveCheckbox"
+      value="value"
+    ></v-checkbox>
+    <v-btn
+      to="/results"
+      :disabled="!saveCheckbox"
+      class="TestEndPanel-Button"
+      block
+      color="primary"
+    >Volgende</v-btn>
+    <v-btn to="/" class="TestEndPanel-Button" block color="primary">Terug naar homepage</v-btn>
+  </div>
 </template>
 
 <script>
 export default {
-  computed: {
-    test: function() {
-    }
+  data() {
+    return {
+      saveCheckbox: false
+    };
   }
 };
 </script>
