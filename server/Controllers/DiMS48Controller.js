@@ -61,7 +61,7 @@ function getResults(){
 }
 
 function getResult(id){
-  return makeGetter(DiMS48Models.Result, {_id: id}, true).then(data=>{
+  return makeGetter(DiMS48Models.Result, {'_id': id}, true).then(data=>{
      return data[0];
   });
 }
@@ -153,6 +153,39 @@ const addCorrectAnswersPhase3 = function addCorrectAnswersPhase3(clientAnswers){
     return addCorrectAnswersPhase2(clientAnswers);
 };
 
+const isValidResult = function isValidResult(result){
+ return result !== 'undefined' && result !== null;
+};
+
+const updateNote = function updateNote(testId, notes){
+  const invalidIdError = {name: 'CastError', description: 'Invalid Id Supplied'};
+
+  return new Promise((resolve, reject) => {
+    DiMS48Models.findById(testId, (err, result) => {
+      if(err){
+          reject(invalidIdError);
+      }else{
+        if(isValidResult(result)){
+
+          result.clientInfo.notes = notes;
+          result.save((err) => {
+            if(err){
+              reject(err);
+            }else{
+              resolve();
+            }
+          });
+        }else{
+          reject(invalidIdError);
+        }
+      }
+   });
+  });
+};
+
+const updateClientInfo = function updateClientInfo(testId, clientInfo){
+};
+
 module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
     DiMS48Models = injectedDiMS48Models;
     defaultModels = injectedDefaultModels;
@@ -169,6 +202,8 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
         appendResult,
         getPDF,
         getExcel,
-        getExcelAllResults
+        getExcelAllResults,
+        updateNote,
+        updateClientInfo
     }
 };
