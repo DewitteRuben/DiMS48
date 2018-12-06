@@ -88,6 +88,11 @@ function getResults() {
           if (result.phase3.answers.length <= 0) result.phase3.scores = null;
           delete result.phase3.answers;
         });
+
+        results.map((result => {
+          result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
+        }));
+
         s(results);
       }).catch(err => {
         console.log(err);
@@ -99,8 +104,10 @@ function getResults() {
 function getResult(id) {
   return makeGetter(DiMS48Models.Result, {
     '_id': id
-  }, true).then(data => {
-    return data[0];
+  }, true).then(result => {
+    result = result[0];
+    result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
+    return result;
   });
 }
 
@@ -113,7 +120,7 @@ function getUnfinishedTests() {
 function addResult(data) {
   return new Promise((resolve, reject) => {
 
-    if(data.clientInfo && data.clientInfo.gender){
+    if (data.clientInfo && data.clientInfo.gender) {
       data.clientInfo.gender = data.clientInfo.gender.toLowerCase();
     }
 
@@ -229,10 +236,10 @@ const updateNote = function updateNote(testId, notes) {
 };
 
 const updateClientInfo = function updateClientInfo(testId, clientInfo) {
-  if(clientInfo.gender){
+  if (clientInfo.gender) {
     clientInfo.gender = clientInfo.gender.toLowerCase();
   }
-  
+
   return new Promise((resolve, reject) => {
     DiMS48Models.Result.findById(testId, (err, result) => {
       if (err) {
@@ -257,6 +264,10 @@ const updateClientInfo = function updateClientInfo(testId, clientInfo) {
   });
 };
 
+const genderKey2Name = function genderKey2Name(genderKey){
+  return locals.clientInfo.genders[genderKey];
+}
+
 module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
   DiMS48Models = injectedDiMS48Models;
   defaultModels = injectedDefaultModels;
@@ -266,9 +277,9 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
     getImages,
     getInstructions,
     getOptions,
+    getResult,
     getResults,
     getUnfinishedTests,
-    getResult,
     addResult,
     appendResult,
     getPDF,
