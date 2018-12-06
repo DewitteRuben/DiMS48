@@ -93,7 +93,7 @@ export default {
           test: this.testName,
           phase: this.currentPhase,
           answer: {
-            id: selectedImageId,
+            _id: selectedImageId,
             answer: "A" + selectedImageId.substring(1)
           }
         };
@@ -104,7 +104,7 @@ export default {
           test: this.testName,
           phase: this.currentPhase,
           answer: {
-            id: imageId,
+            _id: imageId,
             answer: btnValue
           }
         };

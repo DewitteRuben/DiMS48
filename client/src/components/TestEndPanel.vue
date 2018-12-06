@@ -30,7 +30,8 @@ export default {
   computed: {
     testName: function() {
       return this.$route.name;
-    }
+    },
+    ...mapGetters("dimsManager", ["phaseNumber", "hasFinished"])
   },
   methods: {
     resetTest: function() {
@@ -40,7 +41,7 @@ export default {
       return this.$store.getters["dimsManager/hasFinished"];
     },
     saveResults: function() {
-      if (this.isTestCompleted() && this.saveCheckbox) {
+      if (this.hasFinished && this.saveCheckbox) {
         const testResults = this.$store.state.dimsTestData[this.testName];
       }
     }
