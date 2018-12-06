@@ -6,7 +6,7 @@ const excelGenerator = require('../util/fileGenerators/excelGenerator').makeExce
 const excelGeneratorAll = require('../util/fileGenerators/excelGeneratorAll').makeExcel;
 const imageSeeder = require('../seeders/imagesSeeder');
 
-const locals = require('../locales/en-US.json');
+const locals = require('../locales/nl-BE.json');
 const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
 const invalidIdError = {
