@@ -98,7 +98,6 @@ router.get('/results/:name', function (req, res) {
 router.get('/results/:name/:id', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   let id = req.params.id;
-  console.log(id == 'excel');
   if(id == 'excel'){
     switch (testName) {
       case DIMS48_NAME:
