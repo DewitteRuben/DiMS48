@@ -3,14 +3,14 @@
       v-model="newConfigurationValue"
       :name="configurationName"
       :label="configurationName"
-      @input="updateParent"
+      @keyup="updateParent"
     ></v-text-field>
 </template>
 
 <script>
   export default{
     name: 'ConfigEditor',
-    props: ['configurationName', 'configurationValue'],
+    props: ['configurationName', 'configurationValue', 'isKeyCode'],
     created: function(){
       this.value = this.configurationValue;
     },
@@ -28,7 +28,10 @@
       }
     },
     methods: {
-      updateParent: function(){
+      updateParent: function(e){
+        if(this.isKeyCode){
+          this.value = e.keyCode;
+        }
         this.$emit('update', {name: this.configurationName, value: this.value});
       }
     }

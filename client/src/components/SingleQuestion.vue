@@ -29,10 +29,10 @@ export default {
           this.currentOptions.length - 1
         ].btnValue;
         switch (e.which) {
-          case 37:
+          case this.leftBtnKeyCode:
             this.answer(btnValueLeft);
             break;
-          case 39:
+          case this.rightBtnKeyCode:
             this.answer(btnValueRight);
             break;
         }
@@ -40,6 +40,12 @@ export default {
     });
   },
   computed: {
+    leftBtnKeyCode: function(){
+      return parseInt(this.$store.getters["dimsConfig/getLeftBtnKeyCode"]);
+    },
+    rightBtnKeyCode: function(){
+      return parseInt(this.$store.getters["dimsConfig/getRightBtnKeyCode"]);
+    },
     currentImage: function() {
       const isDouble = this.$store.state.dimsManager.double;
       const images = this.$store.getters["dimsQuestions/getCurrentImage"];
