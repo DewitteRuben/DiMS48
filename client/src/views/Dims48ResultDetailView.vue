@@ -89,7 +89,6 @@
 </template>
 
 <script>
-// import result from "../data/result.json";
 import * as HowToTestApi from "@/services/api/howtotestapi";
 import ClientDataForm from "@/components/ClientDataForm.vue";
 
