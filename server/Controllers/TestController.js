@@ -20,8 +20,8 @@ function getTestConfig(testTitle){
 }
 
 function getDetails(testTitle){
-  return new Promise((resolve, reject) => {
-    makeGetter({title: testTitle}, {__v:0, config:0, _id:0})
+  return new Promise((resolve, reject) => {makeGetter({title:{$regex: new RegExp(testTitle, "ig")}
+}, {__v:0, config:0, _id:0})
     .then((results) => {
       if(results.length <= 0){
         reject({
