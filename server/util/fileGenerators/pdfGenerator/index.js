@@ -41,7 +41,6 @@ module.exports = (async function (controller, id, locals) {
 
         return file;
     } catch (e) {
-        console.log(e);
         if(typeof browser !== 'undefined' ){
             await browser.close();
         }
