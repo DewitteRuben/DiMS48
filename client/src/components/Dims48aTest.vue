@@ -7,7 +7,7 @@
       <TestEndPanel v-show="hasFinished"/>
     </div>
     <div v-else>
-      <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
     </div>
   </div>
 </template>
