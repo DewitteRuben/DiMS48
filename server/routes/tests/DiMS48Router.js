@@ -186,6 +186,7 @@ function getPdf(res, id) {
       res.send(new Buffer(fileBuffer, 'binary'));
     })
     .catch((err) => {
+      console.log(err);
       if (err.name === 'CastError') {
         const errorCode = 400;
         res.status(errorCode);
