@@ -146,8 +146,8 @@ function addResult(data) {
 function appendResult(data) {
   return new Promise((resolve, reject) => {
     data.phase3 = {
-      scores: scoreCalculator.calculateScorePhase2(data.answersPhase3),
-      answers: addCorrectAnswersPhase3(data.answersPhase3)
+      scores: scoreCalculator.calculateScorePhase2(data.phase3),
+      answers: addCorrectAnswersPhase3(data.phase3)
     };
 
     DiMS48Models.Result.findByIdAndUpdate(data._id, {
