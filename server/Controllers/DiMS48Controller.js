@@ -106,22 +106,24 @@ function getResult(id) {
 
 function getUnfinishedTests() {
   return makeGetter(DiMS48Models.Result, {
-    $where: "this.answersPhase3.answers.length <= 0"
+    $where: "this.phase3.answers.length <= 0"
   }, true)
 }
 
 function addResult(data) {
   return new Promise((resolve, reject) => {
-    addCorrectAnswersPhase1(data.answersPhase1);
-    data['answersPhase1'] = {
-      score: scoreCalculator.calculateScorePhase1(data.answersPhase1),
-      answers: addCorrectAnswersPhase1(data.answersPhase1)
+    
+    data['phase1'] = {
+      score: scoreCalculator.calculateScorePhase1(data.phase1),
+      answers: addCorrectAnswersPhase1(data.phase1)
     };
-    data['answersPhase2'] = {
-      scores: scoreCalculator.calculateScorePhase2(data.answersPhase2),
-      answers: addCorrectAnswersPhase2(data.answersPhase2)
+    
+    data['phase2'] = {
+      scores: scoreCalculator.calculateScorePhase2(data.phase2),
+      answers: addCorrectAnswersPhase2(data.phase2)
     };
-    data['answersPhase3'] = {
+
+    data['phase3'] = {
       scores: {
         abstractScore: 0,
         groupedScore: 0,
@@ -143,13 +145,13 @@ function addResult(data) {
 
 function appendResult(data) {
   return new Promise((resolve, reject) => {
-    data.answersPhase3 = {
+    data.phase3 = {
       scores: scoreCalculator.calculateScorePhase2(data.answersPhase3),
       answers: addCorrectAnswersPhase3(data.answersPhase3)
     };
 
     DiMS48Models.Result.findByIdAndUpdate(data._id, {
-      answersPhase3: data.answersPhase3
+      phase3: data.phase3
     }, (err, data) => {
       if (err) {
         reject(err);
