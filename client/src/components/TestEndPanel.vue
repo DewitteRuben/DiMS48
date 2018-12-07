@@ -38,7 +38,8 @@ export default {
     testName: function() {
       return this.$route.name;
     },
-    ...mapGetters("dimsManager", ["phaseNumber", "hasFinished"])
+    ...mapGetters("dimsManager", ["phaseNumber", "hasFinished"]),
+    ...mapGetters("dimsClientData", ["getClientData"])
   },
   methods: {
     resetTest: function() {
@@ -50,8 +51,9 @@ export default {
     saveResults: function() {
       if (this.hasFinished && this.saveCheckbox) {
         const testResults = this.$store.state.dimsTestData[this.testName];
+        const clientInfo = this.getClientData;
         const data = {
-          clientInfo: this.clientInfo,
+          clientInfo: clientInfo,
           ...testResults
         };
         howToTestApi
