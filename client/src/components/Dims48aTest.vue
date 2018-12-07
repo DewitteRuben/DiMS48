@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="loaded">
+      <ClientDataForm :submit="saveClientData"/>
       <InstructionsForm v-show="!hasStarted && !hasFinished && !interference"/>
       <SingleQuestion v-show="hasStarted"/>
       <InterferenceTest v-show="interference"/>
@@ -17,13 +18,18 @@ import InstructionsForm from "@/components/InstructionsForm.vue";
 import SingleQuestion from "@/components/SingleQuestion.vue";
 import InterferenceTest from "@/components/InterferenceTest.vue";
 import TestEndPanel from "@/components/TestEndPanel.vue";
+import ClientDataForm from "@/components/ClientDataForm.vue";
 
 export default {
   components: {
     InstructionsForm,
     SingleQuestion,
     InterferenceTest,
-    TestEndPanel
+    TestEndPanel,
+    ClientDataForm
+  },
+  methods: {
+    saveClientData: function() {}
   },
   computed: {
     hasStarted() {
