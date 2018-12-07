@@ -2,7 +2,7 @@
   <v-container text-xs-left>
     <h1 class="text-xs-center">Resultaat {{testId}}</h1>
 
-    <div v-if="loaded">
+    <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
           <h2>Client Info
@@ -61,30 +61,33 @@
         <v-btn color="success">Download Excel</v-btn>
         <v-btn color="success">Download PDF</v-btn>
       </v-layout>
+      <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Gegevens van de client</span>
+          </v-card-title>
+          <v-card-text>
+            <ClientDataForm
+              :age="result.clientInfo.age"
+              :schooledTill="result.clientInfo.schooledTill"
+              :schooledFor="result.clientInfo.schooledFor"
+              :gender="result.clientInfo.gender"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="clientInfoDialog = false">Sluiten</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
+
+    <v-layout v-if="isInvalidId" justify-center align-center fill-height>
+      <h2>De resultaten met het id "{{testId}}" werden niet gevonden.</h2>
+    </v-layout>
     <v-layout justify-center align-center fill-height v-else>
       <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
     </v-layout>
-
-    <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
-      <v-card>
-        <v-card-title>
-          <span class="headline">Gegevens van de client</span>
-        </v-card-title>
-        <v-card-text>
-          <ClientDataForm
-            :age="result.clientInfo.age"
-            :schooledTill="result.clientInfo.schooledTill"
-            :schooledFor="result.clientInfo.schooledFor"
-            :gender="result.clientInfo.gender"
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="clientInfoDialog = false">Sluiten</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -100,6 +103,7 @@ export default {
     return {
       result: null,
       loaded: false,
+      error: null,
       clientInfoDialog: false
     };
   },
@@ -107,8 +111,13 @@ export default {
     getDims48Result: async function() {
       HowToTestApi.getTestResultById("dims48", this.testId)
         .then(res => {
-          console.log(res);
-          this.result = res;
+          if ("error" in res) {
+            if (res.error.code === 500) {
+              this.error = res.error;
+            }
+          } else {
+            this.result = res;
+          }
         })
         .catch(err => {
           console.log(err);
@@ -121,6 +130,12 @@ export default {
   computed: {
     testId: function() {
       return this.$route.params.id;
+    },
+    isInvalidId: function() {
+      return this.error != null;
+    },
+    loadedSuccessfully: function() {
+      return this.loaded && this.result != null;
     }
   },
   created() {

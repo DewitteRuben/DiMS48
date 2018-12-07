@@ -44,7 +44,7 @@
       <v-spacer></v-spacer>
       <a href="https://howtotest.be/" target="_blank">
         <img
-          src="http://172.31.15.35:3000/images/logo/logo.png"
+          src="http://localhost:3000/images/logo/logo.png"
           class="App-Logo align-center"
           alt="logo"
           title="logo"
