@@ -6,10 +6,14 @@ export default {
     schooledTill: null,
     schooledFor: null
   },
-  getters: {},
+  getters: {
+    getClientData: function(state) {
+      return state;
+    }
+  },
   mutations: {
-    setClientData(state, data) {
-      state = { ...data };
+    setClientData: function(state, data) {
+      Object.assign(state, data);
     }
   },
   actions: {}

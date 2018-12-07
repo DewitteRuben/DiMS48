@@ -19,6 +19,7 @@ import SingleQuestion from "@/components/SingleQuestion.vue";
 import InterferenceTest from "@/components/InterferenceTest.vue";
 import TestEndPanel from "@/components/TestEndPanel.vue";
 import ClientDataForm from "@/components/ClientDataForm.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -29,7 +30,16 @@ export default {
     ClientDataForm
   },
   methods: {
-    saveClientData: function() {}
+    saveClientData: function() {
+      const dataForm = this.$refs.dataForm;
+      const clientData = {
+        age: dataForm.leeftijd,
+        gender: dataForm.geslacht.value,
+        schooledTill: dataForm.leeftijd_naar_school,
+        schooledFor: dataForm.jaren_naar_school
+      };
+      this.$store.commit("dimsClientData/setClientData", clientData);
+    }
   },
   computed: {
     hasStarted() {
@@ -43,7 +53,8 @@ export default {
     },
     interference() {
       return this.$store.state.dimsManager.interference;
-    }
+    },
+    ...mapGetters("dimsClientData", ["getClientData"])
   },
   beforeMount() {
     this.$store.dispatch("dimsManager/initDims48a");
