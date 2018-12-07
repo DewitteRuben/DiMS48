@@ -81,12 +81,12 @@
         </v-card>
       </v-dialog>
     </div>
+    <v-layout v-if="!loaded" justify-center align-center fill-height>
+      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
+    </v-layout>
 
     <v-layout v-if="isInvalidId" justify-center align-center fill-height>
       <h2>De resultaten met het id "{{testId}}" werden niet gevonden.</h2>
-    </v-layout>
-    <v-layout justify-center align-center fill-height v-else>
-      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
     </v-layout>
   </v-container>
 </template>
