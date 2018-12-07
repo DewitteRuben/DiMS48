@@ -1,7 +1,16 @@
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    age: null,
+    gender: null,
+    schooledTill: null,
+    schooledFor: null
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    setClientData(state, data) {
+      state = { ...data };
+    }
+  },
   actions: {}
 };

@@ -71,7 +71,7 @@ export default {
     schooledTill: { type: Number, default: null },
     schooledFor: { type: Number, default: null },
     gender: { type: String, default: "Man" },
-    submit: Function
+    submit: { type: Function, default: function() {} }
   },
   computed: {
     parsedGender() {

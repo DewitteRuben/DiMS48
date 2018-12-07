@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="loaded">
-      <ClientDataForm :submit="saveClientData"/>
+      <ClientDataForm ref="dataForm" :submit="saveClientData"/>
       <InstructionsForm v-show="!hasStarted && !hasFinished && !interference"/>
       <SingleQuestion v-show="hasStarted"/>
       <InterferenceTest v-show="interference"/>
