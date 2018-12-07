@@ -12,7 +12,7 @@ export const updateConfig = (name, newConfig) =>
   processReq(`/test/${name}/updateConfig`, newConfig, "POST");
 export const postResults = (phase, test, results) =>
   processReq(`/results/${test}/${phase}`, results, "POST");
-export const getTestResultById = (test, id) =>
+export const getTestResultsById = (test, id) =>
   processReq(`/results/${test}/${id}`);
 export const downloadTestResults = (test, format, id) =>
   downloadBlob(`/results/${test}/${format}/${id}`);
