@@ -94,6 +94,7 @@
 <script>
 import * as HowToTestApi from "@/services/api/howtotestapi";
 import ClientDataForm from "@/components/ClientDataForm.vue";
+import * as download from "downloadjs";
 
 export default {
   components: {
@@ -126,7 +127,15 @@ export default {
           this.loaded = true;
         });
     },
-    downloadTestResults: async function() {}
+    downloadTestResults: async function(format) {
+      HowToTestApi.downloadTestResults("dims48", format, this.testId)
+        .then(blob => {
+          download(blob);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   computed: {
     testId: function() {
