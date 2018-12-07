@@ -58,7 +58,7 @@
         </v-flex>
       </v-layout>
       <v-layout mt-3 justify-end>
-        <h3 v-if="downloading">Downloading..</h3>
+        <h3 v-if="downloading">Downloaden..</h3>
         <v-btn color="success" @click="downloadTestResults('excel')">Download Excel</v-btn>
         <v-btn color="success" @click="downloadTestResults('pdf')">Download PDF</v-btn>
       </v-layout>
