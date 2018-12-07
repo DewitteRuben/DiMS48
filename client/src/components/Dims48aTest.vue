@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="loaded">
-      <ClientDataForm ref="dataForm" :submit="saveClientData"/>
-      <InstructionsForm v-show="!hasStarted && !hasFinished && !interference"/>
+      <ClientDataForm ref="dataForm" :submit="saveClientData" v-if="!hasClientData"/>
+      <InstructionsForm v-show="!hasStarted && !hasFinished && !interference && hasClientData"/>
       <SingleQuestion v-show="hasStarted"/>
       <InterferenceTest v-show="interference"/>
       <TestEndPanel v-show="hasFinished"/>
@@ -22,6 +22,11 @@ import ClientDataForm from "@/components/ClientDataForm.vue";
 import { mapGetters } from "vuex";
 
 export default {
+  data() {
+    return {
+      hasClientData: false
+    };
+  },
   components: {
     InstructionsForm,
     SingleQuestion,
@@ -39,6 +44,7 @@ export default {
         schooledFor: dataForm.jaren_naar_school
       };
       this.$store.commit("dimsClientData/setClientData", clientData);
+      this.hasClientData = true;
     }
   },
   computed: {
