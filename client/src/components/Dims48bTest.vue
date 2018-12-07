@@ -1,9 +1,8 @@
 <template>
   <div>
     <div v-if="loaded">
-      <InstructionsForm v-show="!hasStarted && !hasFinished && !interference"/>
+      <InstructionsForm v-show="!hasStarted && !hasFinished"/>
       <SingleQuestion v-show="hasStarted"/>
-      <InterferenceTest v-show="interference"/>
       <TestEndPanel v-show="hasFinished"/>
     </div>
     <div v-else>
@@ -34,9 +33,6 @@ export default {
     },
     loaded() {
       return this.$store.getters["dimsManager/isLoaded"];
-    },
-    interference() {
-      return this.$store.state.dimsManager.interference;
     }
   },
   beforeMount() {

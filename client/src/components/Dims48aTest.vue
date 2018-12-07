@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <div v-if="loaded">
-      <ClientDataForm ref="dataForm" :submit="saveClientData" v-if="!hasClientData"/>
-      <InstructionsForm v-show="!hasStarted && !hasFinished && !interference && hasClientData"/>
-      <SingleQuestion v-show="hasStarted"/>
-      <InterferenceTest v-show="interference"/>
-      <TestEndPanel v-show="hasFinished"/>
-    </div>
-    <div v-else>
-      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
-    </div>
-  </div>
+  <v-layout justify-center align-center fill-height v-if="loaded">
+    <v-flex v-if="!hasClientData" xs12 sm8 lg6>
+      <h2>Vul uw gegevens in:</h2>
+      <ClientDataForm ref="dataForm" :submit="saveClientData"/>
+    </v-flex>
+    <InstructionsForm v-show="!hasStarted && !hasFinished && !interference && hasClientData"/>
+    <SingleQuestion v-show="hasStarted"/>
+    <InterferenceTest v-show="interference"/>
+    <TestEndPanel v-show="hasFinished"/>
+  </v-layout>
+  <v-layout justify-center align-center fill-height v-else>
+    <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
+  </v-layout>
 </template>
 
 <script>
