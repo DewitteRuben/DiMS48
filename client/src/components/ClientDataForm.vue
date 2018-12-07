@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="client-form">
+  <v-form ref="form" v-model="valid" class="client-form">
     <v-text-field
       v-model="leeftijd"
       min="0"
