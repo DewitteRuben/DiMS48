@@ -17,6 +17,9 @@
         :timestamp="new Date(result.timestamp)"
       />
     </v-layout>
+    <v-layout v-else justify-center align-center mt-5>
+      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
+    </v-layout>
   </v-container>
 </template>
 
@@ -41,10 +44,16 @@ export default {
   },
   methods: {
     getTestResults: async function() {
-      HowToTestApi.getTestResults("dims48").then(results => {
-        this.$store.commit("dimsResults/setResultFeed", results);
-        this.loaded = true;
-      });
+      HowToTestApi.getTestResults("dims48")
+        .then(results => {
+          this.$store.commit("dimsResults/setResultFeed", results);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loaded = true;
+        });
     }
   },
   created() {
