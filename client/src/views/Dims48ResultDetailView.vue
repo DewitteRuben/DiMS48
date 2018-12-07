@@ -58,8 +58,9 @@
         </v-flex>
       </v-layout>
       <v-layout mt-3 justify-end>
-        <v-btn color="success" @click="downloadTestResult('excel')">Download Excel</v-btn>
-        <v-btn color="success" @click="downloadTestResult('pdf')">Download PDF</v-btn>
+        <h3 v-if="downloading">Downloading..</h3>
+        <v-btn color="success" @click="downloadTestResults('excel')">Download Excel</v-btn>
+        <v-btn color="success" @click="downloadTestResults('pdf')">Download PDF</v-btn>
       </v-layout>
       <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
         <v-card>
@@ -105,6 +106,7 @@ export default {
       result: null,
       loaded: false,
       error: null,
+      downloading: false,
       clientInfoDialog: false
     };
   },
@@ -128,12 +130,16 @@ export default {
         });
     },
     downloadTestResults: async function(format) {
+      this.downloading = true;
       HowToTestApi.downloadTestResults("dims48", format, this.testId)
         .then(blob => {
-          download(blob);
+          download(blob, `${this.testId}-DiMS48-resultaten`);
         })
         .catch(err => {
           console.log(err);
+        })
+        .finally(() => {
+          this.downloading = false;
         });
     }
   },
