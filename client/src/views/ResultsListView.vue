@@ -4,10 +4,10 @@
     <h2 class="text-xs-left mb-2">Voeg een filter toe</h2>
     <ResultsFeedFilterForm/>
     <h2 class="text-xs-left">Resultaten</h2>
-    <v-layout row wrap>
+    <v-layout v-if="loaded" row wrap>
       <ResultListItem
         v-if="loaded"
-        v-for="(result) in filteredResults"
+        v-for="(result) in filteredFeed"
         :key="result._id"
         :id="result._id"
         :age="result.clientInfo.age"
@@ -24,7 +24,7 @@
 import ResultListItem from "@/components/ResultListItem.vue";
 import ResultsFeedFilterForm from "@/components/ResultsFeedFilterForm.vue";
 import * as HowToTestApi from "@/services/api/howtotestapi";
-import resultsJson from "@/data/results.json";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -33,26 +33,18 @@ export default {
   },
   data() {
     return {
-      resultsJson: resultsJson
+      loaded: false
     };
   },
   computed: {
-    loaded: function() {
-      return this.$store.state.dimsResults.resultFeed != null;
-    },
-    results: function() {
-      return this.$store.state.dimsResults.resultFeed;
-    },
-    filteredResults: function() {
-      return this.$store.getters["dimsResults/filteredFeed"];
-    }
+    ...mapGetters("dimsResults", ["filteredFeed"])
   },
   methods: {
     getTestResults: async function() {
-      // HowToTestApi.getTestResults(this.testName).then(results => {
-      // console.log(results);
-      this.$store.commit("dimsResults/setResultFeed", this.resultsJson);
-      // });
+      HowToTestApi.getTestResults("dims48").then(results => {
+        this.$store.commit("dimsResults/setResultFeed", results);
+        this.loaded = true;
+      });
     }
   },
   created() {
