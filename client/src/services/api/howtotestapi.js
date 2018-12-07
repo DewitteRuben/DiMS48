@@ -15,7 +15,7 @@ export const postResults = (phase, test, results) =>
 export const getTestResultsById = (test, id) =>
   processReq(`/results/${test}/${id}`);
 export const downloadTestResults = (test, format, id) =>
-  downloadBlob(`/results/${test}/${format}/${id}`);
+  processBlob(`/results/${test}/${format}/${id}`);
 
 async function processReq(url, dataObj = {}, method = "GET") {
   const conf = {
@@ -46,7 +46,7 @@ async function processReq(url, dataObj = {}, method = "GET") {
   //   throw new Error(error);
 }
 
-async function downloadBlob(url) {
+async function processBlob(url) {
   const response = await fetch(`${API_URL}${url}`);
   let body;
   try {
