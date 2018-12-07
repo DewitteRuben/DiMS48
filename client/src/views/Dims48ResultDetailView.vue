@@ -28,7 +28,7 @@
             </v-btn>
           </h3>
 
-          <v-textarea name="notes" :value="result.clientInfo.notes" label="label" readonly solo></v-textarea>
+          <v-textarea name="notes" :value="this.notes" label="Notities" readonly solo></v-textarea>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -152,6 +152,12 @@ export default {
     },
     loadedSuccessfully: function() {
       return this.loaded && this.result != null;
+    },
+    notes: function() {
+      if ("notes" in this.result.clientInfo) {
+        return this.result.clientInfo.notes;
+      }
+      return "Er werden nog geen notities gemaakt.";
     }
   },
   created() {

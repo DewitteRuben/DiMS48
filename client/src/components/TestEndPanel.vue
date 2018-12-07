@@ -53,7 +53,7 @@ export default {
         const testResults = this.$store.state.dimsTestData[this.testName];
         const clientInfo = this.getClientData;
         const data = {
-          clientInfo: clientInfo,
+          ...clientInfo,
           ...testResults
         };
         howToTestApi

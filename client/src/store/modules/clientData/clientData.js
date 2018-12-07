@@ -1,11 +1,12 @@
 export default {
   namespaced: true,
   state: {
-    age: null,
-    gender: null,
-    schooledTill: null,
-    schooledFor: null,
-    notes: "test"
+    clientInfo: {
+      age: null,
+      gender: null,
+      schooledTill: null,
+      schooledFor: null
+    }
   },
   getters: {
     getClientData: function(state) {
@@ -14,10 +15,7 @@ export default {
   },
   mutations: {
     setClientData: function(state, data) {
-      state.age = data.age;
-      state.gender = data.gender;
-      state.schooledTill = data.schooledTill;
-      state.schooledFor = data.schooledFor;
+      Object.assign(state.clientInfo, data);
     },
     setNotes: function(state, notes) {
       state.notes = notes;
