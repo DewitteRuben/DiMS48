@@ -69,10 +69,12 @@
           </v-card-title>
           <v-card-text>
             <ClientDataForm
+              ref="dataForm"
               :age="result.clientInfo.age"
               :schooledTill="result.clientInfo.schooledTill"
               :schooledFor="result.clientInfo.schooledFor"
               :gender="result.clientInfo.gender"
+              :submit="updateClientInfo"
             />
           </v-card-text>
           <v-card-actions>
@@ -111,6 +113,16 @@ export default {
     };
   },
   methods: {
+    updateClientInfo: async function() {
+      const dataForm = this.$refs.dataForm;
+      const clientData = {
+        age: dataForm.leeftijd,
+        gender: dataForm.geslacht.value,
+        schooledTill: dataForm.leeftijd_naar_school,
+        schooledFor: dataForm.jaren_naar_school
+      };
+      // HowToTestApi.updateClientInfo()
+    },
     getDims48Result: async function() {
       HowToTestApi.getTestResultsById("dims48", this.testId)
         .then(res => {
