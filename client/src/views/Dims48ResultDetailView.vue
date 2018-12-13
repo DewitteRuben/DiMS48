@@ -31,13 +31,14 @@
 
           <v-textarea
             name="notes"
-            :value="this.notes"
+            v-model="notes"
             label="Notities"
             ref="notesTextArea"
-            :readonly="!this.editingNotes"
+            :readonly="!editingNotes"
+            placeholder="Er werden nog geen notities gemaakt"
             solo
           ></v-textarea>
-          <v-btn v-if="this.editingNotes" color="success">Opslaan</v-btn>
+          <v-btn v-if="editingNotes" @click="saveNotes" color="success">Opslaan</v-btn>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -117,6 +118,7 @@ export default {
       result: null,
       loaded: false,
       error: null,
+      notes: "",
       editingNotes: false,
       downloading: false,
       clientInfoDialog: false
@@ -144,8 +146,11 @@ export default {
           console.log(e);
         });
     },
+    loadNotes: function() {
+      this.notes = this.computedNotes;
+    },
     getDims48Result: async function() {
-      HowToTestApi.getTestResultsById("dims48", this.testId)
+      return HowToTestApi.getTestResultsById("dims48", this.testId)
         .then(res => {
           if ("error" in res) {
             if (res.error.code === 500) {
@@ -177,6 +182,17 @@ export default {
     },
     setDialog: function(bool) {
       this.clientInfoDialog = bool;
+    },
+    saveNotes: function() {
+      const data = { notes: this.notes };
+      HowToTestApi.updateClientInfo("dims48", this.testId, data)
+        .then(e => {
+          console.log(e);
+          this.toggleNoteEdit();
+        })
+        .catch(e => {
+          console.error(e);
+        });
     }
   },
   computed: {
@@ -189,15 +205,21 @@ export default {
     loadedSuccessfully: function() {
       return this.loaded && this.result != null;
     },
-    notes: function() {
+    computedNotes: function() {
       if ("notes" in this.result.clientInfo) {
         return this.result.clientInfo.notes;
       }
-      return "Er werden nog geen notities gemaakt.";
+      return "";
     }
   },
   created() {
-    this.getDims48Result();
+    this.getDims48Result()
+      .then(e => {
+        this.loadNotes();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
