@@ -21,7 +21,7 @@ export default {
     howtotestapi
       .getDims48()
       .then(data => {
-        self.$store.dispatch("dimsConfig/initialize", data.config[0].config);
+        self.$store.dispatch("dims48Config/initialize", data.config[0].config);
       })
       .catch(err => console.log(err));
   },

@@ -123,7 +123,7 @@ function postResultPart1(req, res) {
         res.json(
           jsonErrorMessageGenerator.generateGoogleJsonError(
             errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,  
+            errorMessages.reasons.invalidIdSupplied,
             message,
             errorCode
           )

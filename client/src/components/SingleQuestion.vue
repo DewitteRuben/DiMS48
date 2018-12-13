@@ -41,10 +41,10 @@ export default {
   },
   computed: {
     leftBtnKeyCode: function() {
-      return parseInt(this.$store.getters["dimsConfig/getLeftBtnKeyCode"]);
+      return parseInt(this.$store.getters["dims48Config/getLeftBtnKeyCode"]);
     },
     rightBtnKeyCode: function() {
-      return parseInt(this.$store.getters["dimsConfig/getRightBtnKeyCode"]);
+      return parseInt(this.$store.getters["dims48Config/getRightBtnKeyCode"]);
     },
     currentImage: function() {
       const isDouble = this.$store.state.dimsManager.double;
