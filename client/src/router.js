@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "@/store/store";
 import BaseTestView from "./views/BaseTestView.vue";
 import Dims48View from "./views/Dims48View.vue";
 import Home from "./views/Home.vue";
@@ -13,7 +14,7 @@ import Dims48ResultDetailView from "./views/Dims48ResultDetailView.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   routes: [
     {
@@ -66,12 +67,26 @@ export default new Router({
     {
       path: "/admin",
       name: "admin",
-      component: AdminPanelView
+      component: AdminPanelView,
+      beforeEnter: (to, from, next) => {mustBeLoggedIn(to,from,next);}
     },
     {
       path: "/admin/:name",
       name: "adminTest",
-      component: AdminPanelTestView
+      component: AdminPanelTestView,
+      beforeEnter: (to, from, next) => {mustBeLoggedIn(to,from,next);}
     }
   ]
 });
+
+function mustBeLoggedIn(to, from, next){
+  console.log(to);
+  if(!store.getters["user/isLoggedIn"]){
+    //router.push({name: 'login', query: {redirect: to.path} })
+    next({name: 'login', query: {from: to.path}})
+  }else{
+    next();
+  }
+}
+
+export default router;

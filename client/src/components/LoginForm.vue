@@ -45,8 +45,12 @@
         if(self.action === "login")
         howtotestapi.loginUser({email: self.email, password: self.password})
           .then(json=>{
-            if(json.username && json.email) {
-              this.$store.dispatch("user/loginUser", json);
+            console.log(json);
+            if(json.user.username && json.user.email) {
+              console.log("bla");
+              this.$store.dispatch("user/loginUser", json.user);
+              console.log(this.$router.currentRoute.query.from)
+              this.$router.push(this.$router.currentRoute.query.from || '/');
             }else{
               this.error = json.msg;
             }
@@ -54,8 +58,9 @@
         if(self.action === "register"){
           howtotestapi.registerUser({email: self.email, password: self.password, username: self.username})
             .then(json=>{
-                if(json.username && json.email){
-                  this.$store.dispatch("user/loginUser", json);
+                if(json.user.username && json.user.email){
+                  this.$store.dispatch("user/loginUser", json.user);
+                  this.$router.push({name: "home"});
                 }else{
                   this.error = json.msg;
                 }

@@ -26,7 +26,6 @@ UserSchema.statics.authenticate = function(email, password){
       if(err) f(err);
       if(user == null) {f("User not found");}
       else{
-        console.log("user: ",user);
         bcrypt.compare(password, user.password, function(err,succes){
           if(succes) s(user)
           f("Email or password incorrect");
