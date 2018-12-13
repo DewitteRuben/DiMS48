@@ -62,12 +62,17 @@
         </v-flex>
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 3</h2>
-          <h3>Abstract Score</h3>
-          <p class="subheading">{{result.phase3.scores.abstractScore}}</p>
-          <h3>Grouped Score</h3>
-          <p class="subheading">{{result.phase3.scores.groupedScore}}</p>
-          <h3>Unique Score</h3>
-          <p class="subheading">{{result.phase3.scores.uniqueScore}}</p>
+          <div v-if="result.phase3 !== null">
+            <h3>Abstract Score</h3>
+            <p class="subheading">{{result.phase3.scores.abstractScore}}</p>
+            <h3>Grouped Score</h3>
+            <p class="subheading">{{result.phase3.scores.groupedScore}}</p>
+            <h3>Unique Score</h3>
+            <p class="subheading">{{result.phase3.scores.uniqueScore}}</p>
+          </div>
+          <div v-else>
+            <h3>Deze test werd nog niet afgelegd.</h3>
+          </div>
         </v-flex>
       </v-layout>
       <v-layout mt-3 justify-end>
