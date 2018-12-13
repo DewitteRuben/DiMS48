@@ -1,6 +1,7 @@
 <template>
   <v-layout justify-center align-center fill-height v-if="loaded">
-    <InstructionsForm v-show="!hasStarted && !hasFinished"/>
+    <ConfirmIdForm v-on:registerId="registerId" v-show="!hasId"/>
+    <InstructionsForm v-show="!hasStarted && !hasFinished && hasId"/>
     <SingleQuestion v-show="hasStarted"/>
     <TestEndPanel v-show="hasFinished"/>
   </v-layout>
@@ -14,13 +15,28 @@ import InstructionsForm from "@/components/InstructionsForm.vue";
 import SingleQuestion from "@/components/SingleQuestion.vue";
 import InterferenceTest from "@/components/InterferenceTest.vue";
 import TestEndPanel from "@/components/TestEndPanel.vue";
+import ConfirmIdForm from "@/components/ConfirmIdForm.vue";
 
 export default {
+  data() {
+    return {
+      valid: true,
+      hasId: false,
+      registeredId: ""
+    };
+  },
   components: {
     InstructionsForm,
     SingleQuestion,
     InterferenceTest,
-    TestEndPanel
+    TestEndPanel,
+    ConfirmIdForm
+  },
+  methods: {
+    registerId: function(id) {
+      this.registeredId = id;
+      this.hasId = true;
+    }
   },
   computed: {
     hasStarted() {

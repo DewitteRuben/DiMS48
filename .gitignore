@@ -11,3 +11,5 @@ server/coverage/
 server/result\.xlsx
 
 server/\.jshintrc
+
+server/\.vscode/
