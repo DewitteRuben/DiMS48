@@ -8,6 +8,7 @@ import ResultsListView from "./views/ResultsListView.vue";
 import TestDetailView from "./views/TestDetailView.vue";
 import LoginView from "./views/LoginView.vue";
 import AdminPanelView from "./views/AdminPanelView.vue";
+import AdminPanelTestView from "./views/AdminPanelTestView.vue";
 import Dims48ResultDetailView from "./views/Dims48ResultDetailView.vue";
 
 Vue.use(Router);
@@ -66,6 +67,11 @@ export default new Router({
       path: "/admin",
       name: "admin",
       component: AdminPanelView
+    },
+    {
+      path: "/admin/:name",
+      name: "adminTest",
+      component: AdminPanelTestView
     }
   ]
 });
