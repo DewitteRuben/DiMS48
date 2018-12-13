@@ -434,4 +434,24 @@ describe('DiMS48Controller', () => {
                 done();
             });
     });
+
+    it('getPDF should return a promise', (done) => {
+        const diMS48Controller = DiMS48Controller();
+
+        diMS48Controller.getPDF(1)
+        .catch((err) => {
+            //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
+
+    it('getExcel should return a promise',(done) => {
+        const diMS48Controller = DiMS48Controller();
+
+        diMS48Controller.getExcel(1)
+        .catch((err) => {
+            //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
 });
