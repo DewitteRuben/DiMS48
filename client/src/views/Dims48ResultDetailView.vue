@@ -137,6 +137,7 @@ export default {
         schooledTill: dataForm.leeftijd_naar_school,
         schooledFor: dataForm.jaren_naar_school
       };
+      console.log(clientData);
       HowToTestApi.updateClientInfo("dims48", this.testId, clientData)
         .then(e => {
           this.setDialog(false);

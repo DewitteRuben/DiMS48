@@ -77,7 +77,7 @@ export default {
     parsedGender() {
       return this.geslachten.filter(
         e => e.text.toLowerCase() === this.gender.toLowerCase()
-      )[0];
+      )[0].value;
     }
   },
   created() {
