@@ -279,7 +279,7 @@ function getBeginObject(part) {
     const imagePromise = DiMS48Controller.getImages();
     const instructionPromise = DiMS48Controller.getInstructions();
     const optionsPromise = DiMS48Controller.getOptions();
-    const configPromise = TestController.getTestConfig('dims48');
+    const configPromise = TestController.getTestConfig('DiMS48');
 
     const promiseArray = [imagePromise, instructionPromise, optionsPromise, configPromise];
 
