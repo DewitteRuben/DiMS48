@@ -18,7 +18,7 @@
             <v-list-tile-title>Testresultaten</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile flat to="/admin">
+        <v-list-tile v-if="admin" flat to="/admin">
           <v-list-tile-action>
             <v-icon>edit</v-icon>
           </v-list-tile-action>
@@ -37,7 +37,7 @@
         <v-btn flat to="/results">
           <v-icon>book</v-icon>Testresultaten
         </v-btn>
-        <v-btn flat to="/admin">
+        <v-btn v-if="admin" flat to="/admin">
           <v-icon>edit</v-icon>Opties
         </v-btn>
       </v-toolbar-items>
@@ -56,10 +56,26 @@
 </template>
 
 <script>
+import * as howtotestapi from "@/services/api/howtotestapi";
 export default {
   data: () => ({
-    drawer: null
-  })
+    drawer: null,
+    admin: false
+  }),
+  methods: {
+    checkIfUserIsAdmin: function(){
+      let self = this;
+      howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
+        .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
+    }
+  },
+  created: function(){
+    let self = this;
+    if(self.$store.getters["user/isLoggedIn"]) this.checkIfUserIsAdmin();
+  },
+  mounted: function(){
+    this.$root.$on('loggedIn', this.checkIfUserIsAdmin);
+  }
 };
 </script>
 

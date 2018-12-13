@@ -30,6 +30,8 @@ function isAdmin(id){
     let query = UserModels.User.findOne({_id: id}, {admin: 1, _id:0});
     query.exec((err,data)=>{
       if(err) f(err);
+      if(data == null) f({msg: "User not found"});
+      console.log("data: ", data);
       s(data.admin);
     })
   })

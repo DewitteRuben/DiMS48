@@ -46,6 +46,7 @@
         howtotestapi.loginUser({email: self.email, password: self.password})
           .then(json=>{
             if(json.user.username && json.user.email) {
+              self.$root.$emit("loggedIn");
               this.$store.dispatch("user/loginUser", json.user);
               this.$router.push(this.$router.currentRoute.query.from || '/');
             }else{
