@@ -320,14 +320,30 @@ const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
 
   donePromise
   .then((result) => {
-    res.send({
-      "updated": testId,
-      "updatedValues": req.body
-    });
+    const responseCode = 200;
+    
+    res.status(responseCode);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.documentUpdated,
+        errorMessages.results.updatedDocument,
+        responseCode
+      )
+    );
   })
   .catch((err) => {
-    res.send(err);
-  })
+    const errorCode = 400;
+    res.status(400);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.invalidIdSupplied,
+        errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
+        errorCode
+      )
+    );
+  });
 };
 
 module.exports = {
