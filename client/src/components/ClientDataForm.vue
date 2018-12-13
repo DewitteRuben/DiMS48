@@ -53,12 +53,12 @@ export default {
           text: "Man"
         },
         {
-          value: "f",
+          value: "v",
           text: "Vrouw"
         },
         {
           value: "a",
-          text: "Ander"
+          text: "Andere"
         }
       ],
       geslacht: "",

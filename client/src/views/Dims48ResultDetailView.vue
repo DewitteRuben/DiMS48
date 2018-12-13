@@ -125,19 +125,23 @@ export default {
   methods: {
     toggleNoteEdit: function() {
       if (this.editingNotes) this.$refs.notesTextArea.value = this.notes;
-      console.log(this.$refs.notesTextArea.value);
       this.editingNotes = !this.editingNotes;
     },
     updateClientInfo: async function() {
       const dataForm = this.$refs.dataForm;
       const clientData = {
         age: dataForm.leeftijd,
-        gender: dataForm.geslacht.value,
+        gender: dataForm.geslacht,
         schooledTill: dataForm.leeftijd_naar_school,
         schooledFor: dataForm.jaren_naar_school
       };
-      console.log(dataForm);
-      // HowToTestApi.updateClientInfo()
+      HowToTestApi.updateClientInfo("dims48", this.testId, clientData)
+        .then(e => {
+          console.log(e);
+        })
+        .catch(e => {
+          console.error(e);
+        });
     },
     getDims48Result: async function() {
       HowToTestApi.getTestResultsById("dims48", this.testId)
