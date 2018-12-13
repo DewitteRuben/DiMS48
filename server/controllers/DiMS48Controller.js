@@ -109,15 +109,9 @@ function getResult(id) {
     if(result.clientInfo && result.clientInfo.gender){
       result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
     }
-    
+
     return result;
   });
-}
-
-function getUnfinishedTests() {
-  return makeGetter(DiMS48Models.Result, {
-    $where: "this.phase3.answers.length <= 0"
-  }, true)
 }
 
 function addResult(data) {
@@ -285,7 +279,6 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
     getOptions,
     getResult,
     getResults,
-    getUnfinishedTests,
     addResult,
     appendResult,
     getPDF,

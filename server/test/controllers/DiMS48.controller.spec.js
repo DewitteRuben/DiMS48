@@ -284,23 +284,4 @@ describe('DiMS48Controller', () => {
                 throw err;
             });
     });
-
-    it('should be able to get unfinished tests', (done) => {
-        const mockModel = makeMockModel();
-
-        const MockDiMS48Model = {
-            Result: mockModel
-        };
-
-        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
-
-        diMS48Controller.getUnfinishedTests()
-            .then(() => {
-                const expected = 1;
-                const actual = mockModel.amountCalled;
-
-                expected.should.be.equal(actual);
-                done();
-            });
-    });
 });
