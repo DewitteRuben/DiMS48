@@ -24,14 +24,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      saveCheckbox: false,
-      clientInfo: {
-        age: 22,
-        schooledTill: 12,
-        schooledFor: 3,
-        gender: "v",
-        notes: "Example Note"
-      }
+      saveCheckbox: false
     };
   },
   computed: {
