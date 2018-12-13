@@ -1,7 +1,10 @@
 <template>
   <v-container text-xs-left>
-    <h1 class="text-xs-center">Resultaat {{testId}}</h1>
+    <v-btn flat @click="toResultsPage" icon color="blue">
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
 
+    <h1 class="text-xs-center">Resultaat {{testId}}</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
@@ -145,6 +148,9 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    toResultsPage: function() {
+      this.$router.push({ path: "/results/dims48" });
     },
     loadNotes: function() {
       this.notes = this.computedNotes;
