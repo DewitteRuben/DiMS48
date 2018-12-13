@@ -147,7 +147,7 @@ function postResultPart2(req, res) {
     .then(() => {
       res.status(201);
       res.json({
-        created: true
+        _id: req.body._id
       });
     })
     .catch((err) => {
