@@ -75,9 +75,13 @@ export default {
   },
   computed: {
     parsedGender() {
-      return this.geslachten.filter(
+      const parsedGender = this.geslachten.filter(
         e => e.text.toLowerCase() === this.gender.toLowerCase()
-      )[0].value;
+      )[0];
+      if (typeof this.geslachten === "object") {
+        return parsedGender.value;
+      }
+      return parsedGender;
     }
   },
   created() {
