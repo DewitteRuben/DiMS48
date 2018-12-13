@@ -6,7 +6,7 @@
       <v-layout row wrap mt-4>
         <v-flex xs4>
           <h2>Client Info
-            <v-btn @click="clientInfoDialog = true" icon flat color="red lighten-2">
+            <v-btn @click="setDialog(true)" icon flat color="red lighten-2">
               <v-icon>edit</v-icon>
             </v-btn>
           </h2>
@@ -23,12 +23,22 @@
         </v-flex>
         <v-flex xs4 offset-xs-4>
           <h3>Notities van de testgever
-            <v-btn icon flat color="red lighten-2">
-              <v-icon>edit</v-icon>
+            <v-btn @click="toggleNoteEdit" icon flat color="red lighten-2">
+              <v-icon v-if="editingNotes === false">edit</v-icon>
+              <v-icon v-if="editingNotes === true">book</v-icon>
             </v-btn>
           </h3>
 
-          <v-textarea name="notes" :value="this.notes" label="Notities" readonly solo></v-textarea>
+          <v-textarea
+            name="notes"
+            v-model="notes"
+            label="Notities"
+            ref="notesTextArea"
+            :readonly="!editingNotes"
+            placeholder="Er werden nog geen notities gemaakt"
+            solo
+          ></v-textarea>
+          <v-btn v-if="editingNotes" @click="saveNotes" color="success">Opslaan</v-btn>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -69,10 +79,12 @@
           </v-card-title>
           <v-card-text>
             <ClientDataForm
+              ref="dataForm"
               :age="result.clientInfo.age"
               :schooledTill="result.clientInfo.schooledTill"
               :schooledFor="result.clientInfo.schooledFor"
               :gender="result.clientInfo.gender"
+              :submit="updateClientInfo"
             />
           </v-card-text>
           <v-card-actions>
@@ -106,13 +118,40 @@ export default {
       result: null,
       loaded: false,
       error: null,
+      notes: "",
+      editingNotes: false,
       downloading: false,
       clientInfoDialog: false
     };
   },
   methods: {
+    toggleNoteEdit: function() {
+      if (this.editingNotes) this.$refs.notesTextArea.value = this.notes;
+      this.editingNotes = !this.editingNotes;
+    },
+    updateClientInfo: async function() {
+      const dataForm = this.$refs.dataForm;
+      const clientData = {
+        age: dataForm.leeftijd,
+        gender: dataForm.geslacht,
+        schooledTill: dataForm.leeftijd_naar_school,
+        schooledFor: dataForm.jaren_naar_school
+      };
+      console.log(clientData);
+      HowToTestApi.updateClientInfo("dims48", this.testId, clientData)
+        .then(e => {
+          this.setDialog(false);
+          this.getDims48Result();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    loadNotes: function() {
+      this.notes = this.computedNotes;
+    },
     getDims48Result: async function() {
-      HowToTestApi.getTestResultsById("dims48", this.testId)
+      return HowToTestApi.getTestResultsById("dims48", this.testId)
         .then(res => {
           if ("error" in res) {
             if (res.error.code === 500) {
@@ -141,6 +180,20 @@ export default {
         .finally(() => {
           this.downloading = false;
         });
+    },
+    setDialog: function(bool) {
+      this.clientInfoDialog = bool;
+    },
+    saveNotes: function() {
+      const data = { notes: this.notes };
+      HowToTestApi.updateClientInfo("dims48", this.testId, data)
+        .then(e => {
+          console.log(e);
+          this.toggleNoteEdit();
+        })
+        .catch(e => {
+          console.error(e);
+        });
     }
   },
   computed: {
@@ -153,15 +206,21 @@ export default {
     loadedSuccessfully: function() {
       return this.loaded && this.result != null;
     },
-    notes: function() {
+    computedNotes: function() {
       if ("notes" in this.result.clientInfo) {
         return this.result.clientInfo.notes;
       }
-      return "Er werden nog geen notities gemaakt.";
+      return "";
     }
   },
   created() {
-    this.getDims48Result();
+    this.getDims48Result()
+      .then(e => {
+        this.loadNotes();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

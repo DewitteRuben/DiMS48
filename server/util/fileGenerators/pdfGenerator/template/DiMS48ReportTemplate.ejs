@@ -133,24 +133,20 @@
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.sets.abstractSet %></strong></td>
                     <td><%= (data.phase2.scores.abstractScore).toFixed(2) %> %</td>
-                    <td>placeholder %</td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.sets.groupedSet %></strong></td>
                     <td><%= (data.phase2.scores.groupedScore).toFixed(2) %> %</td>
-                    <td>placeholder %</td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.sets.uniqueSet %></strong></td>
                     <td><%= (data.phase2.scores.uniqueScore).toFixed(2) %> %</td>
-                    <td>placeholder %</td>
                 </tr>
                 <tr>
                     <td><strong class="capitalize-all-first-letter"><%= locales.total %></strong></td>
                     <td><%= ((data.phase2.scores.uniqueScore + data.phase2.scores.groupedScore + data.phase2.scores.abstractScore) / 3).toFixed(2) %>
                         %
                     </td>
-                    <td>100 %</td>
                 </tr>
             </table>
 

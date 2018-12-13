@@ -53,12 +53,12 @@ export default {
           text: "Man"
         },
         {
-          value: "f",
+          value: "v",
           text: "Vrouw"
         },
         {
           value: "a",
-          text: "Ander"
+          text: "Andere"
         }
       ],
       geslacht: "",
@@ -77,7 +77,7 @@ export default {
     parsedGender() {
       return this.geslachten.filter(
         e => e.text.toLowerCase() === this.gender.toLowerCase()
-      )[0];
+      )[0].value;
     }
   },
   created() {

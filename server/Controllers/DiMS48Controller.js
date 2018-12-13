@@ -96,7 +96,7 @@ function getResults() {
         s(results);
       }).catch(err => {
         console.log(err);
-        f(err)
+        f(err);
       })
   })
 }
