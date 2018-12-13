@@ -18,6 +18,14 @@
             <v-list-tile-title>Testresultaten</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile v-if="!loggedIn" flat to="/login">
+          <v-list-tile-action>
+            <v-icon>lock</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Login</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-list-tile v-if="admin" flat to="/admin">
           <v-list-tile-action>
             <v-icon>edit</v-icon>
@@ -36,6 +44,9 @@
         </v-btn>
         <v-btn flat to="/results">
           <v-icon>book</v-icon>Testresultaten
+        </v-btn>
+        <v-btn v-if="!loggedIn" flat to="/login">
+          <v-icon>lock</v-icon>Login
         </v-btn>
         <v-btn v-if="admin" flat to="/admin">
           <v-icon>edit</v-icon>Opties
@@ -62,19 +73,24 @@ export default {
     drawer: null,
     admin: false
   }),
+  computed: {
+    loggedIn() {return this.$store.getters["user/isLoggedIn"];}
+  },
   methods: {
-    checkIfUserIsAdmin: function(){
+    checkUser: function(){
       let self = this;
-      howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
-        .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
+      console.log(this.loggedIn);
+      if(this.loggedIn){
+        howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
+          .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
+      }
     }
   },
-  created: function(){
-    let self = this;
-    if(self.$store.getters["user/isLoggedIn"]) this.checkIfUserIsAdmin();
-  },
   mounted: function(){
-    this.$root.$on('loggedIn', this.checkIfUserIsAdmin);
+    let self = this;
+    this.$root.$on('loggedIn', function(){
+      setTimeout(function(){self.checkUser()}, 100)
+    });
   }
 };
 </script>
