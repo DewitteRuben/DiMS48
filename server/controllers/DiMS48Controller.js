@@ -9,13 +9,8 @@ const imageSeeder = require('../seeders/imagesSeeder');
 const locals = require('../locales/nl-BE.json');
 const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
-const invalidIdError = {
-  name: 'CastError',
-  description: 'Invalid Id Supplied'
-};
-
 function makeGetter(model, whereClause, idNeeded, extraFields) {
-  return new Promise(function (s, f) {
+  return new Promise(function (resolve, reject) {
     let fields = idNeeded ? {
       __v: 0
     } : {
@@ -32,8 +27,8 @@ function makeGetter(model, whereClause, idNeeded, extraFields) {
     let query = model.find(whereClause, fields).lean();
 
     query.exec(function (err, data) {
-      if (err) f(err);
-      s(data);
+      if (err) reject(err);
+      resolve(data);
     });
   })
 }
@@ -78,27 +73,30 @@ function getOptions(part) {
 }
 
 function getResults() {
-  return new Promise(function (s, f) {
+  return new Promise(function (resolve, reject) {
     makeGetter(DiMS48Models.Result, null, true, {
         'phase1.answers': 0,
         'phase2.answers': 0
-      })
-      .then(results => {
-        results.forEach(result => {
-          if (result.phase3.answers.length <= 0) result.phase3.scores = null;
-          delete result.phase3.answers;
-        });
+      }).then(results => {
+        results.map(removeScorePhase3IfEmpty);
+        results.map(convertGenderKeyToName);
 
-        results.map((result => {
-          result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
-        }));
-
-        s(results);
+        resolve(results);
       }).catch(err => {
-        console.log(err);
-        f(err);
-      })
-  })
+        reject(err);
+      });
+  });
+}
+
+function removeScorePhase3IfEmpty(result) {
+  if (result.phase3.answers.length <= 0) result.phase3.scores = null;
+  delete result.phase3.answers;
+  return result;
+}
+
+function convertGenderKeyToName(result){
+  result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
+  return result;
 }
 
 function getResult(id) {
@@ -218,7 +216,10 @@ const updateNote = function updateNote(testId, notes) {
   return new Promise((resolve, reject) => {
     DiMS48Models.Result.findById(testId, (err, result) => {
       if (err) {
-        reject(invalidIdError);
+        reject({
+          name: 'CastError',
+          description: 'Invalid Id Supplied'
+        });
       } else {
         if (isValidResult(result)) {
           result.clientInfo.notes = notes;
