@@ -27,6 +27,7 @@
     "schooledFor": "geschoold voor",
     "gender": "geslacht",
     "notes": "notities",
+    "noNotes" : "geen notities gegeven",
     "genders" : {
       "m": "Man",
       "v": "Vrouw",
