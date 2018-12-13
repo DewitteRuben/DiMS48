@@ -136,11 +136,12 @@ export default {
         schooledFor: dataForm.jaren_naar_school
       };
       HowToTestApi.updateClientInfo("dims48", this.testId, clientData)
-        .then(e => {})
-        .catch(e => {})
-        .finally(() => {
+        .then(e => {
           this.setDialog(false);
           this.getDims48Result();
+        })
+        .catch(e => {
+          console.log(e);
         });
     },
     getDims48Result: async function() {
