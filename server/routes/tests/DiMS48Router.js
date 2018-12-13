@@ -326,8 +326,15 @@ const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
     });
   })
   .catch((err) => {
-    res.send(err);
-  })
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.invalidIdSupplied,
+        errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
+        400
+      )
+    );
+  });
 };
 
 module.exports = {
