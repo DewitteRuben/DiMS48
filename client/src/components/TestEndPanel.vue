@@ -51,7 +51,7 @@ export default {
         let data;
         if (!this.id) {
           const clientInfo = this.getClientData;
-          let data = {
+          data = {
             ...clientInfo,
             ...testResults
           };
