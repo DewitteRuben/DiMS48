@@ -116,7 +116,6 @@ function getResult(id) {
 
 function addResult(data) {
   return new Promise((resolve, reject) => {
-
     if (data.clientInfo && data.clientInfo.gender) {
       data.clientInfo.gender = data.clientInfo.gender.toLowerCase();
     }

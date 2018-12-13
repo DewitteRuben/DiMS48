@@ -29,6 +29,16 @@ const makeMockModel = function makeMockModel(toReturn, err) {
     return object;
 };
 
+const makeMockCreate = function makeMockCreate(data, err) {
+    return function (data) {
+        return {
+            "save": function save(toCall) {
+                toCall(err ? err : null, data);
+            }
+        }
+    };
+};
+
 describe('DiMS48Controller', () => {
     it('should exist', () => {
         DiMS48Controller.should.not.be.undefined;
@@ -200,8 +210,7 @@ describe('DiMS48Controller', () => {
     });
 
     it('should pass errors via promise', (done) => {
-        const errorMessage = "SomeError";
-        const mockModel = makeMockModel(undefined, errorMessage);
+        const mockModel = makeMockModel(undefined, "SomeError");
 
         const MockDiMS48Model = {
             Result: mockModel
@@ -214,9 +223,9 @@ describe('DiMS48Controller', () => {
 
             }).catch((error) => {
                 const gottenError = error;
-                const expectedError = errorMessage;
-                
-                gottenError.should.be.equal(gottenError);
+                const expectedError = "SomeError";
+
+                gottenError.should.be.equal(expectedError);
                 done();
             });
     });
@@ -284,4 +293,96 @@ describe('DiMS48Controller', () => {
                 throw err;
             });
     });
+
+    it('should be able to add a result', (done) => {
+        const mockModel = makeMockCreate();
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.addResult({
+                "phase1": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }],
+                "phase2": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }]
+            })
+            .then((data) => {
+                const scoresPhase1 = data.phase1.score;
+                const scoresPhase2 = data.phase2.scores;
+
+                expect(scoresPhase1).to.be.a("number");
+                expect(scoresPhase2).to.be.an("object");
+
+                done();
+            });
+    });
+
+    it('should always lowercase a gender', (done) => {
+        const mockModel = makeMockCreate();
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.addResult({
+                "clientInfo": {
+                    "gender": "M"
+                },
+                "phase1": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }],
+                "phase2": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }]
+            })
+            .then((data) => {
+                const gottenGender = data.clientInfo.gender;
+                const expectedGender = "m";
+
+                expectedGender.should.equal(gottenGender);
+
+                done();
+            });
+    });
+
+    it('should throw an error via promise (addResult)', (done) => {
+        const mockModel = makeMockCreate({}, "SomeError");
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.addResult({
+                "phase1": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }],
+                "phase2": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }]
+            })
+            .then((data) => {
+                //throw "Not Supposed to pass";
+            })
+            .catch((err) => {
+                err.should.equal("SomeError");
+                done();
+            });
+    });
+
+    
 });
