@@ -27,6 +27,7 @@
     "schooledFor": "schooled for",
     "gender": "gender",
     "notes": "notes",
+    "noNotes" : "geen notities gegeven",
     "genders" : {
       "m": "Male",
       "v": "Female",
