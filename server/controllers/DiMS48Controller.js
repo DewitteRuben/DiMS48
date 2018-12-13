@@ -102,11 +102,14 @@ function convertGenderKeyToName(result){
 function getResult(id) {
   return makeGetter(DiMS48Models.Result, {
     '_id': id
-  }, true).then(result => {
+  }, true)
+  .then(result => {
     result = result[0];
+
     if(result.clientInfo && result.clientInfo.gender){
       result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
     }
+    
     return result;
   });
 }
