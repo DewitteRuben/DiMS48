@@ -28,7 +28,7 @@ function getImages() {
 function makeImage(localSrc, id, extra) {
     return new Image({
         _id: id,
-        imgUrl: `${src}/${localSrc}/${id}.jpg`,
+        imgUrl: `${src}/${localSrc}/${id}.jpeg`,
         extra: extra
     })
 }
