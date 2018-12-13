@@ -1,7 +1,7 @@
 <template>
  <v-form ref="form" lazy-validation>
    <v-btn @click="action = action === 'login' ? 'register' : 'login'">{{action}}</v-btn>
-   <span>{{error}}</span>
+   <span>{{msg}}</span>
    <v-text-field
     v-model="email"
     name="email"
@@ -35,7 +35,7 @@
         password: '',
         username: '',
         valid: true,
-        error: ''
+        msg: ''
       }
     },
     methods: {
@@ -50,19 +50,18 @@
               this.$store.dispatch("user/loginUser", json.user);
               this.$router.push(this.$router.currentRoute.query.from || '/');
             }else{
-              this.error = json.msg;
+              this.msg = json.msg;
             }
-          }).catch(err=>{console.error(err); this.error="Could not login, try again later"});
+          }).catch(err=>{console.error(err); this.error="Inloggen mislukt, probeer later opnieuw"});
         if(self.action === "register"){
           howtotestapi.registerUser({email: self.email, password: self.password, username: self.username})
             .then(json=>{
                 if(json.user.username && json.user.email){
-                  this.$store.dispatch("user/loginUser", json.user);
-                  this.$router.push({name: "home"});
+                  this.msg = "Uw verzoek is aangevraagd.";
                 }else{
-                  this.error = json.msg;
+                  this.msg = json.msg;
                 }
-            }).catch(err=>{console.error(err); this.error = "Could not register, try again later"});
+            }).catch(err=>{console.error(err); this.error = "Registeren mislukt, probeer later opnieuw"});
         }
       },
       clear: function(){
