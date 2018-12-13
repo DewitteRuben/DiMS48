@@ -1,16 +1,71 @@
 <template>
-    <div class="TestEndPanel">
-        <h1>Einde van de Test</h1>
-        {{test}}
-        <v-btn to="/" class="TestEndPanel-Button" block color="primary">Ga terug naar de homepagina</v-btn>
-        <v-btn to="/results" class="TestEndPanel-Button" block color="primary">Bekijk de resultaten van de test</v-btn>
-    </div>
+  <div class="TestEndPanel">
+    <h1>Einde van de Test</h1>
+    <v-checkbox
+      label="De resultaten zijn waarheidsgetrouw, bevestig hierbij dat deze mogen opgeslagen worden."
+      v-model="saveCheckbox"
+      value="value"
+    ></v-checkbox>
+    <v-btn
+      @click="saveResults"
+      :disabled="!saveCheckbox"
+      class="TestEndPanel-Button"
+      block
+      color="primary"
+    >Volgende</v-btn>
+    <v-btn to="/" class="TestEndPanel-Button" block color="primary">Terug naar homepage</v-btn>
+  </div>
 </template>
 
 <script>
+import * as howToTestApi from "@/services/api/howtotestapi";
+import { mapGetters } from "vuex";
+
 export default {
+  data() {
+    return {
+      saveCheckbox: false,
+      clientInfo: {
+        age: 22,
+        schooledTill: 12,
+        schooledFor: 3,
+        gender: "v",
+        notes: "Example Note"
+      }
+    };
+  },
   computed: {
-    test: function() {
+    testName: function() {
+      return this.$route.name;
+    },
+    ...mapGetters("dimsManager", ["phaseNumber", "hasFinished"]),
+    ...mapGetters("dimsClientData", ["getClientData"])
+  },
+  methods: {
+    resetTest: function() {
+      this.$store.dispatch("dimsManager/resetState");
+    },
+    isTestCompleted: function() {
+      return this.$store.getters["dimsManager/hasFinished"];
+    },
+    saveResults: function() {
+      if (this.hasFinished && this.saveCheckbox) {
+        const testResults = this.$store.state.dimsTestData[this.testName];
+        const clientInfo = this.getClientData;
+        const data = {
+          ...clientInfo,
+          ...testResults
+        };
+        howToTestApi
+          .postResults(this.phaseNumber, "dims48", data)
+          .then(e => {
+            const id = e.testId;
+            this.$router.push({ path: `/results/dims48/${id}` });
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
     }
   }
 };

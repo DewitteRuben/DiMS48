@@ -112,16 +112,34 @@ function postResultPart1(req, res) {
       });
     })
     .catch((err) => {
-      const errorCode = 500;
-      res.status(errorCode);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
-          errorCode
-        )
-      );
+      const isEnumError = err.errors[Object.keys(err.errors)[0]].properties.type === 'enum';
+      console.log(isEnumError);
+
+      if(isEnumError){
+        const message = err.errors[Object.keys(err.errors)[0]].properties.message;
+
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.invalidIdSupplied,  
+            message,
+            errorCode
+          )
+        );
+      }else{
+        const errorCode = 500;
+        res.status(errorCode);
+        res.json(
+          jsonErrorMessageGenerator.generateGoogleJsonError(
+            errorMessages.global,
+            errorMessages.reasons.internalServerError,
+            errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
+            errorCode
+          )
+        );
+      }
     });
 }
 
@@ -168,6 +186,7 @@ function getPdf(res, id) {
       res.send(new Buffer(fileBuffer, 'binary'));
     })
     .catch((err) => {
+      console.log(err);
       if (err.name === 'CastError') {
         const errorCode = 400;
         res.status(errorCode);
@@ -260,7 +279,7 @@ function getBeginObject(part) {
     const imagePromise = DiMS48Controller.getImages();
     const instructionPromise = DiMS48Controller.getInstructions();
     const optionsPromise = DiMS48Controller.getOptions();
-    const configPromise = TestController.getTestConfig('dims48');
+    const configPromise = TestController.getTestConfig('DiMS48');
 
     const promiseArray = [imagePromise, instructionPromise, optionsPromise, configPromise];
 
@@ -288,6 +307,45 @@ function getBeginObject(part) {
   });
 }
 
+const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
+  const notes = req.body.notes;
+  const testId = req.params.id;
+  let donePromise;
+
+  if (typeof notes !== "undefined"){
+    donePromise = DiMS48Controller.updateNote(testId, notes);
+  }else{
+    donePromise = DiMS48Controller.updateClientInfo(testId, req.body);
+  }
+
+  donePromise
+  .then((result) => {
+    const responseCode = 200;
+    
+    res.status(responseCode);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.documentUpdated,
+        errorMessages.results.updatedDocument,
+        responseCode
+      )
+    );
+  })
+  .catch((err) => {
+    const errorCode = 400;
+    res.status(400);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.invalidIdSupplied,
+        errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
+        errorCode
+      )
+    );
+  });
+};
+
 module.exports = {
   updateConfig,
   initial,
@@ -298,5 +356,6 @@ module.exports = {
   postResultPart2,
   getPdf,
   getExcel,
-  getExcelAllResults
+  getExcelAllResults,
+  updateClientInfoOrNote
 }

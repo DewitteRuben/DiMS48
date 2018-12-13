@@ -1,9 +1,7 @@
 <template>
   <v-container fluid fill-height class="dims48-background">
-    <v-layout flex align-center justify-center>
-      <Dims48aTest v-if="isDims48a"/>
-      <Dims48bTest v-else />
-    </v-layout>
+    <Dims48aTest v-if="isDims48a"/>
+    <Dims48bTest v-else/>
   </v-container>
 </template>
 
@@ -18,11 +16,14 @@ export default {
     Dims48aTest,
     Dims48bTest
   },
-  created: function(){
+  created: function() {
     let self = this;
-    howtotestapi.getDims48().then(data=>{
-      self.$store.dispatch("dimsConfig/initialize", data.config[0].config);
-    }).catch(err=>console.log(err));
+    howtotestapi
+      .getDims48()
+      .then(data => {
+        self.$store.dispatch("dimsConfig/initialize", data.config[0].config);
+      })
+      .catch(err => console.log(err));
   },
   computed: {
     isDims48a: function() {

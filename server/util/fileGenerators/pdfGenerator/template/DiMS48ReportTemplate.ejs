@@ -105,11 +105,11 @@
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.gender %></strong></td>
-                    <td> <%= data.clientInfo.gender === "M" ? locales.clientInfo.genders.M : data.clientInfo.gender === "F" ? locales.clientInfo.genders.F : locales.clientInfo.genders.O %></td>
+                    <td> <%= data.clientInfo.gender === "m" ? locales.clientInfo.genders.m : data.clientInfo.gender === "v" ? locales.clientInfo.genders.v : locales.clientInfo.genders.a %></td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.notes %></strong></td>
-                    <td><%= data.clientInfo.notes %></td>
+                    <td><%= typeof data.clientInfo.notes === "undefined" ? locales.clientInfo.noNotes : data.clientInfo.notes %></td>
                 </tr>
             </table>
         </div>
@@ -120,11 +120,11 @@
             <table>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.correct %></strong></td>
-                    <td><%= (data.answersPhase1.score).toFixed(2) %> %</td>
+                    <td><%= (data.phase1.score).toFixed(2) %> %</td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.wrong %></strong></td>
-                    <td><%= (100 - data.answersPhase1.score).toFixed(2) %> %</td>
+                    <td><%= (100 - data.phase1.score).toFixed(2) %> %</td>
                 </tr>
             </table>
 
@@ -132,22 +132,22 @@
             <table>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.sets.abstractSet %></strong></td>
-                    <td><%= (data.answersPhase2.scores.abstractScore).toFixed(2) %> %</td>
+                    <td><%= (data.phase2.scores.abstractScore).toFixed(2) %> %</td>
                     <td>placeholder %</td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.sets.groupedSet %></strong></td>
-                    <td><%= (data.answersPhase2.scores.groupedScore).toFixed(2) %> %</td>
+                    <td><%= (data.phase2.scores.groupedScore).toFixed(2) %> %</td>
                     <td>placeholder %</td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.sets.uniqueSet %></strong></td>
-                    <td><%= (data.answersPhase2.scores.uniqueScore).toFixed(2) %> %</td>
+                    <td><%= (data.phase2.scores.uniqueScore).toFixed(2) %> %</td>
                     <td>placeholder %</td>
                 </tr>
                 <tr>
                     <td><strong class="capitalize-all-first-letter"><%= locales.total %></strong></td>
-                    <td><%= ((data.answersPhase2.scores.uniqueScore + data.answersPhase2.scores.groupedScore + data.answersPhase2.scores.abstractScore) / 3).toFixed(2) %>
+                    <td><%= ((data.phase2.scores.uniqueScore + data.phase2.scores.groupedScore + data.phase2.scores.abstractScore) / 3).toFixed(2) %>
                         %
                     </td>
                     <td>100 %</td>
@@ -155,26 +155,26 @@
             </table>
 
             <h3 class="capitalize-all-first-letter"><%= locales.phases[2].name %></h3>
-            <%if(data.answersPhase3.answers.length > 0){%>
+            <%if(data.phase3.answers.length > 0){%>
                 <table>
                     <tr>
                         <td class="capitalize-all-first-letter"><strong><%= locales.sets.abstractSet %></strong></td>
-                        <td><%= (data.answersPhase3.scores.abstractScore).toFixed(2) %> %</td>
+                        <td><%= (data.phase3.scores.abstractScore).toFixed(2) %> %</td>
                         <td>placeholder %</td>
                     </tr>
                     <tr>
                         <td class="capitalize-all-first-letter"><strong><%= locales.sets.groupedSet %></strong></td>
-                        <td><%= (data.answersPhase3.scores.groupedScore).toFixed(2) %> %</td>
+                        <td><%= (data.phase3.scores.groupedScore).toFixed(2) %> %</td>
                         <td>placeholder %</td>
                     </tr>
                     <tr>
                         <td class="capitalize-all-first-letter"><strong><%= locales.sets.uniqueSet %></strong></td>
-                        <td><%= (data.answersPhase3.scores.uniqueScore).toFixed(2) %> %</td>
+                        <td><%= (data.phase3.scores.uniqueScore).toFixed(2) %> %</td>
                         <td>placeholder %</td>
                     </tr>
                     <tr>
                         <td class="capitalize-all-first-letter"><strong><%= locales.total %></strong></td>
-                        <td><%= ((data.answersPhase3.scores.uniqueScore + data.answersPhase3.scores.groupedScore + data.answersPhase3.scores.abstractScore) / 3).toFixed(2) %>
+                        <td><%= ((data.phase3.scores.uniqueScore + data.phase3.scores.groupedScore + data.phase3.scores.abstractScore) / 3).toFixed(2) %>
                             %
                         </td>
                         <td>100 %</td>
@@ -195,7 +195,7 @@
                     <th class="capitalize-all-first-letter"><%= locales.answerTypes.correctAnswer %></th>
                     <th class="capitalize-all-first-letter"><%= locales.responseTime %></th>
                 </tr>
-                <% data.answersPhase1.answers.forEach((answer) => {%>
+                <% data.phase1.answers.forEach((answer) => {%>
 
                 <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong' %>">
                     <td><%= answer._id.substring(1) %></td>
@@ -242,7 +242,7 @@
                     <th><%= locales.answerTypes.correctAnswer %></th>
                     <th><%= locales.responseTime %></th>
                 </tr>
-                <% data.answersPhase2.answers.forEach((answer) => {%>
+                <% data.phase2.answers.forEach((answer) => {%>
 
                     <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong' %>">
                         <td><%= answer._id.substring(1) %></td>
@@ -283,7 +283,7 @@
             <br />
 
             <h3 class="capitalize-all-first-letter"><%= locales.phases[2].name %></h3>
-            <%if(data.answersPhase3.answers.length > 0){%>
+            <%if(data.phase3.answers.length > 0){%>
             <table>
                 <tr class="capitalize-all-first-letter">
                     <th><%= locales.photo %></th>
@@ -291,7 +291,7 @@
                     <th><%= locales.answerTypes.correctAnswer %></th>
                     <th><%= locales.responseTime %></th>
                 </tr>
-                <% data.answersPhase2.answers.forEach((answer) => {%>
+                <% data.phase2.answers.forEach((answer) => {%>
 
                     <tr  class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong'%>">
                         <td><%= answer._id.substring(1) %></td>

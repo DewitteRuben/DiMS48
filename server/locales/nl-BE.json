@@ -27,10 +27,11 @@
     "schooledFor": "geschoold voor",
     "gender": "geslacht",
     "notes": "notities",
+    "noNotes" : "geen notities gegeven",
     "genders" : {
-      "M": "Man",
-      "F": "Vrouw",
-      "O": "Andere"
+      "m": "Man",
+      "v": "Vrouw",
+      "a": "Andere"
     }
   },
   "scores": "scores",

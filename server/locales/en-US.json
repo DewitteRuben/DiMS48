@@ -27,10 +27,11 @@
     "schooledFor": "schooled for",
     "gender": "gender",
     "notes": "notes",
+    "noNotes" : "geen notities gegeven",
     "genders" : {
-      "M": "Male",
-      "F": "Female",
-      "O": "Others"
+      "m": "Male",
+      "v": "Female",
+      "a": "Other"
     }
   },
   "scores": "scores",

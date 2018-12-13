@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="client-form">
+  <v-form ref="form" v-model="valid" class="client-form">
     <v-text-field
       v-model="leeftijd"
       min="0"
@@ -67,10 +67,11 @@ export default {
     };
   },
   props: {
-    age: { type: Number },
-    schooledTill: { type: Number },
-    schooledFor: { type: Number },
-    gender: { type: String }
+    age: { type: Number, default: null },
+    schooledTill: { type: Number, default: null },
+    schooledFor: { type: Number, default: null },
+    gender: { type: String, default: "Man" },
+    submit: { type: Function, default: function() {} }
   },
   computed: {
     parsedGender() {
@@ -78,9 +79,6 @@ export default {
         e => e.text.toLowerCase() === this.gender.toLowerCase()
       )[0];
     }
-  },
-  methods: {
-    submit() {}
   },
   created() {
     this.geslacht = this.parsedGender;

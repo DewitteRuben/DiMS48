@@ -1,27 +1,26 @@
-function initialState(){
+function initialState() {
   return {
     user: null
-  }
+  };
 }
 
-export default{
+export default {
   namespaced: true,
   state: initialState,
   getters: {
-    isLoggedIn(state, getters, rootState){
+    isLoggedIn(state, getters, rootState) {
       return state.user != null;
     },
-    getUser(state,getters, rootState){
+    getUser(state, getters, rootState) {
       return state.user || JSON.parse(localStorage.getItem("user"));
     }
   },
   actions: {
-    loginUser: ({commit, state, rootState}, user) =>{
-      // commit('suicide');
+    loginUser: ({ commit, state, rootState }, user) => {
       commit("setUser", user);
     }
   },
-  mutations:{
+  mutations: {
     logoutUser: state => {
       state.user = null;
       localStorage.setItem("user", null);
@@ -31,4 +30,4 @@ export default{
       localStorage.setItem("user", JSON.stringify(user));
     }
   }
-}
+};

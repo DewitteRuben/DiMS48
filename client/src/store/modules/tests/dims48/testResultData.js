@@ -1,20 +1,19 @@
 export default {
-    namespaced: true,
-    state: {
-        answers: {
-            phase1: [],
-            phase2: [],
-            phase3: [],
-        }
+  namespaced: true,
+  state: {
+    dims48a: {
+      phase1: [],
+      phase2: []
     },
-    getters: {
-
-    },
-    mutations: {
-        setAnswer(state, payload) {
-            state.answers[payload.phase].push(payload.answer);
-        }
-    },
-    actions: {
+    dims48b: {
+      phase3: []
     }
-}
+  },
+  getters: {},
+  mutations: {
+    setAnswer(state, payload) {
+      state[payload.test][payload.phase].push(payload.answer);
+    }
+  },
+  actions: {}
+};
