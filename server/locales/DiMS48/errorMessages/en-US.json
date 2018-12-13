@@ -2,7 +2,8 @@
     "global": "global",
     "reasons" : {
         "internalServerError": "internal server error",
-        "invalidIdSupplied": "invalid id supplied"
+        "invalidIdSupplied": "invalid id supplied",
+        "documentUpdated": "document updated"
     },
     "phases": {
         "couldNotGetInitial": "Failed to get initial test data",
@@ -12,7 +13,8 @@
         "couldNotGetResults": "Failed to get results",
         "couldNotGetResult": "Could not get that result",
         "couldNotSaveResult": "Could not save that result",
-        "couldNotAppendResult": "Could not append that result"
+        "couldNotAppendResult": "Could not append that result",
+        "updatedDocument": "Document successfully updated"
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Could not generate PDF",
