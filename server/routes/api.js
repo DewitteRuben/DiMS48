@@ -205,7 +205,7 @@ router.post('/login', function (req, res) {
     })
   }).catch(err => {
     console.log(err);
-    res.send(err);
+    res.send({msg: "Email and password did not match"});
   });
 });
 

@@ -24,11 +24,14 @@ UserSchema.statics.authenticate = function(email, password){
   return new Promise((s,f)=>{
     User.findOne({email:email}).exec(function(err,user){
       if(err) f(err);
-      if(!user) f("User not found");
-      bcrypt.compare(password, user.password, function(err,succes){
-        if(succes) s(user)
-        f("Email or password incorrect");
-      })
+      if(user == null) {f("User not found");}
+      else{
+        console.log("user: ",user);
+        bcrypt.compare(password, user.password, function(err,succes){
+          if(succes) s(user)
+          f("Email or password incorrect");
+        })
+      }
     })
   })
 }

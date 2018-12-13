@@ -1,6 +1,7 @@
 <template>
  <v-form ref="form" lazy-validation>
    <v-btn @click="action = action === 'login' ? 'register' : 'login'">{{action}}</v-btn>
+   <span>{{error}}</span>
    <v-text-field
     v-model="email"
     name="email"
@@ -33,7 +34,8 @@
         email: '',
         password: '',
         username: '',
-        valid: true
+        valid: true,
+        error: ''
       }
     },
     methods: {
@@ -43,11 +45,21 @@
         if(self.action === "login")
         howtotestapi.loginUser({email: self.email, password: self.password})
           .then(json=>{
-            this.$store.dispatch("user/loginUser", json);
-          }).catch(err=>console.error(err));
+            if(json.username && json.email) {
+              this.$store.dispatch("user/loginUser", json);
+            }else{
+              this.error = json.msg;
+            }
+          }).catch(err=>{console.error(err); this.error="Could not login, try again later"});
         if(self.action === "register"){
           howtotestapi.registerUser({email: self.email, password: self.password, username: self.username})
-            .then(json=>console.log(json)).catch(err=>console.error(err));
+            .then(json=>{
+                if(json.username && json.email){
+                  this.$store.dispatch("user/loginUser", json);
+                }else{
+                  this.error = json.msg;
+                }
+            }).catch(err=>{console.error(err); this.error = "Could not register, try again later"});
         }
       },
       clear: function(){
