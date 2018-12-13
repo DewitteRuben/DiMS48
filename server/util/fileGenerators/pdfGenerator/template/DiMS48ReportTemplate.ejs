@@ -109,7 +109,7 @@
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.notes %></strong></td>
-                    <td><%= data.clientInfo.notes %></td>
+                    <td><%= typeof data.clientInfo.notes === "undefined" ? locales.clientInfo.noNotes : data.clientInfo.notes %></td>
                 </tr>
             </table>
         </div>
