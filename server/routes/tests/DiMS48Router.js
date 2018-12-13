@@ -320,7 +320,10 @@ const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
 
   donePromise
   .then((result) => {
-    res.send("ok");
+    res.send({
+      "updated": testId,
+      "updatedValues": req.body
+    });
   })
   .catch((err) => {
     res.send(err);
