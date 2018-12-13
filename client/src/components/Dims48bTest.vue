@@ -1,6 +1,6 @@
 <template>
   <v-layout justify-center align-center fill-height v-if="loaded">
-    <ConfirmIdForm v-show="!hasId"/>
+    <ConfirmIdForm v-on:registerId="registerId" v-show="!hasId"/>
     <InstructionsForm v-show="!hasStarted && !hasFinished && hasId"/>
     <SingleQuestion v-show="hasStarted"/>
     <TestEndPanel v-show="hasFinished"/>
@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       valid: true,
-      hasId: false
+      hasId: false,
+      registeredId: ""
     };
   },
   components: {
@@ -30,6 +31,12 @@ export default {
     InterferenceTest,
     TestEndPanel,
     ConfirmIdForm
+  },
+  methods: {
+    registerId: function(id) {
+      this.registeredId = id;
+      this.hasId = true;
+    }
   },
   computed: {
     hasStarted() {
