@@ -23,12 +23,21 @@
         </v-flex>
         <v-flex xs4 offset-xs-4>
           <h3>Notities van de testgever
-            <v-btn icon flat color="red lighten-2">
-              <v-icon>edit</v-icon>
+            <v-btn @click="toggleNoteEdit" icon flat color="red lighten-2">
+              <v-icon v-if="editingNotes === false">edit</v-icon>
+              <v-icon v-if="editingNotes === true">book</v-icon>
             </v-btn>
           </h3>
 
-          <v-textarea name="notes" :value="this.notes" label="Notities" readonly solo></v-textarea>
+          <v-textarea
+            name="notes"
+            :value="this.notes"
+            label="Notities"
+            ref="notesTextArea"
+            :readonly="!this.editingNotes"
+            solo
+          ></v-textarea>
+          <v-btn v-if="this.editingNotes" color="success">Opslaan</v-btn>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -108,11 +117,17 @@ export default {
       result: null,
       loaded: false,
       error: null,
+      editingNotes: false,
       downloading: false,
       clientInfoDialog: false
     };
   },
   methods: {
+    toggleNoteEdit: function() {
+      if (this.editingNotes) this.$refs.notesTextArea.value = this.notes;
+      console.log(this.$refs.notesTextArea.value);
+      this.editingNotes = !this.editingNotes;
+    },
     updateClientInfo: async function() {
       const dataForm = this.$refs.dataForm;
       const clientData = {
@@ -121,6 +136,7 @@ export default {
         schooledTill: dataForm.leeftijd_naar_school,
         schooledFor: dataForm.jaren_naar_school
       };
+      console.log(dataForm);
       // HowToTestApi.updateClientInfo()
     },
     getDims48Result: async function() {

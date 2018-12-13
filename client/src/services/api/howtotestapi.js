@@ -16,6 +16,8 @@ export const getTestResultsById = (test, id) =>
   processReq(`/results/${test}/${id}`);
 export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
+export const patchClientInfo = (test, id, data) =>
+  processReq(`/results/${test}/${id}`, "PATCH", data);
 
 async function processReq(url, dataObj = {}, method = "GET") {
   const conf = {
