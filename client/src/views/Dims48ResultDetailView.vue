@@ -6,7 +6,7 @@
       <v-layout row wrap mt-4>
         <v-flex xs4>
           <h2>Client Info
-            <v-btn @click="clientInfoDialog = true" icon flat color="red lighten-2">
+            <v-btn @click="setDialog(true)" icon flat color="red lighten-2">
               <v-icon>edit</v-icon>
             </v-btn>
           </h2>
@@ -136,11 +136,11 @@ export default {
         schooledFor: dataForm.jaren_naar_school
       };
       HowToTestApi.updateClientInfo("dims48", this.testId, clientData)
-        .then(e => {
-          console.log(e);
-        })
-        .catch(e => {
-          console.error(e);
+        .then(e => {})
+        .catch(e => {})
+        .finally(() => {
+          this.setDialog(false);
+          this.getDims48Result();
         });
     },
     getDims48Result: async function() {
@@ -173,6 +173,9 @@ export default {
         .finally(() => {
           this.downloading = false;
         });
+    },
+    setDialog: function(bool) {
+      this.clientInfoDialog = bool;
     }
   },
   computed: {
