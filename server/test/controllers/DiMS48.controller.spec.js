@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 
 const DiMS48Controller = require('../../controllers/DiMS48Controller');
 
-const makeMockModel = function makeMockModel(toReturn) {
+const makeMockModel = function makeMockModel(toReturn, err) {
     const object = {
         find: function () {
             return {
@@ -17,9 +17,9 @@ const makeMockModel = function makeMockModel(toReturn) {
                         exec: (testFunction) => {
                             object.amountCalled += 1;
                             let actualToReturn = typeof toReturn !== 'undefined' ? toReturn : {};
-                            testFunction(null, actualToReturn);
+                            testFunction(err ? err : null, actualToReturn);
                         }
-                    }
+                    };
                 },
             };
         },
@@ -167,8 +167,67 @@ describe('DiMS48Controller', () => {
             });
     });
 
+    it("should make the scores of phase 3 null if part 3 is not done", (done) => {
+        const mockModel = makeMockModel([{
+            "clientInfo": {
+                "gender": "m"
+            },
+            "phase3": {
+                "answers": []
+            }
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getResults()
+            .then((result) => {
+                const expected = 1;
+                const actual = mockModel.amountCalled;
+
+                expected.should.be.equal(actual);
+
+                const gottenScore = result[0].phase3.scores;
+                const expectedScore = null;
+
+                expect(gottenScore).to.be.null;
+
+                done();
+            });
+    });
+
+    it('should pass errors via promise', (done) => {
+        const errorMessage = "SomeError";
+        const mockModel = makeMockModel(undefined, errorMessage);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getResults()
+            .then((result) => {
+
+            }).catch((error) => {
+                const gottenError = error;
+                const expectedError = errorMessage;
+                
+                gottenError.should.be.equal(gottenError);
+                done();
+            });
+    });
+
     it('should be able to get a result by Id', (done) => {
-        const mockModel = makeMockModel([{answersPhase3: {answers: [], _id: "A1"}}]);
+        const mockModel = makeMockModel([{
+            answersPhase3: {
+                answers: [],
+                _id: "A1"
+            }
+        }]);
 
         const MockDiMS48Model = {
             Result: mockModel
