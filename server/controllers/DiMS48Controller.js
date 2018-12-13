@@ -165,7 +165,7 @@ function appendResult(data) {
       } else {
         resolve();
       }
-    })
+    });
   })
 }
 
