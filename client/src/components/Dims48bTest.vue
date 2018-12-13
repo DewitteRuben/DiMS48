@@ -3,7 +3,7 @@
     <ConfirmIdForm v-on:registerId="registerId" v-show="!hasId"/>
     <InstructionsForm v-show="!hasStarted && !hasFinished && hasId"/>
     <SingleQuestion v-show="hasStarted"/>
-    <TestEndPanel v-show="hasFinished"/>
+    <TestEndPanel v-show="hasFinished" :id="registeredId"/>
   </v-layout>
   <v-layout justify-center align-center fill-height v-else>
     <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>

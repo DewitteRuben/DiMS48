@@ -108,12 +108,11 @@ function postResultPart1(req, res) {
     .then((data) => {
       res.status(201);
       res.json({
-        testId: data._id
+        _id: data._id
       });
     })
     .catch((err) => {
       const isEnumError = err.errors[Object.keys(err.errors)[0]].properties.type === 'enum';
-      console.log(isEnumError);
 
       if(isEnumError){
         const message = err.errors[Object.keys(err.errors)[0]].properties.message;
@@ -148,7 +147,7 @@ function postResultPart2(req, res) {
     .then(() => {
       res.status(201);
       res.json({
-        created: true
+        _id: req.body._id
       });
     })
     .catch((err) => {

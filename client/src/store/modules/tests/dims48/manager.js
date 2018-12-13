@@ -100,11 +100,9 @@ export default {
         .getDims48()
         .then(res => {
           commit("dimsQuestions/updateImages", res.images, { root: true });
-          // TODO: change this to original url
           res.images.forEach(image => {
             let imageObject = new Image();
-            imageObject.src =
-              "https://how-to-test-apps.herokuapp.com" + image.imgUrl;
+            imageObject.src = "http://localhost:3000" + image.imgUrl;
           });
           commit("dimsInstructions/updateInstructions", res.instructions, {
             root: true

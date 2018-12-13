@@ -24,15 +24,11 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      saveCheckbox: false,
-      clientInfo: {
-        age: 22,
-        schooledTill: 12,
-        schooledFor: 3,
-        gender: "v",
-        notes: "Example Note"
-      }
+      saveCheckbox: false
     };
+  },
+  props: {
+    id: { type: String, default: null }
   },
   computed: {
     testName: function() {
@@ -51,15 +47,25 @@ export default {
     saveResults: function() {
       if (this.hasFinished && this.saveCheckbox) {
         const testResults = this.$store.state.dimsTestData[this.testName];
-        const clientInfo = this.getClientData;
-        const data = {
-          ...clientInfo,
-          ...testResults
-        };
+
+        let data;
+        if (!this.id) {
+          const clientInfo = this.getClientData;
+          data = {
+            ...clientInfo,
+            ...testResults
+          };
+        } else {
+          data = {
+            _id: this.id,
+            ...testResults
+          };
+        }
+
         howToTestApi
           .postResults(this.phaseNumber, "dims48", data)
           .then(e => {
-            const id = e.testId;
+            const id = e._id;
             this.$router.push({ path: `/results/dims48/${id}` });
           })
           .catch(e => {

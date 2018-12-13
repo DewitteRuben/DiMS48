@@ -1,5 +1,4 @@
 const API_URL = "http://localhost:3000/api";
-//const API_URL = "https://how-to-test-apps.herokuapp.com/api";
 
 export const getDims48 = () => processReq("/test/dims48/initial");
 export const getCategories = () => processReq("/categories");
@@ -8,7 +7,7 @@ export const loginUser = credentials =>
   processReq(`/login`, credentials, "POST");
 export const registerUser = credentials =>
   processReq(`/register`, credentials, "POST");
-export const isAdmin = email => processReq('/isAdmin');
+export const isAdmin = email => processReq("/isAdmin");
 export const getTestResults = name => processReq(`/results/${name}`);
 export const updateConfig = (name, newConfig) =>
   processReq(`/test/${name}/updateConfig`, newConfig, "POST");

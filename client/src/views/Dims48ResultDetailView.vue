@@ -1,7 +1,10 @@
 <template>
   <v-container text-xs-left>
-    <h1 class="text-xs-center">Resultaat {{testId}}</h1>
+    <v-btn flat @click="toResultsPage" icon color="blue">
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
 
+    <h1 class="text-xs-center">Resultaat {{testId}}</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
@@ -59,12 +62,17 @@
         </v-flex>
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 3</h2>
-          <h3>Abstract Score</h3>
-          <p class="subheading">{{result.phase3.scores.abstractScore}}</p>
-          <h3>Grouped Score</h3>
-          <p class="subheading">{{result.phase3.scores.groupedScore}}</p>
-          <h3>Unique Score</h3>
-          <p class="subheading">{{result.phase3.scores.uniqueScore}}</p>
+          <div v-if="result.phase3 !== null">
+            <h3>Abstract Score</h3>
+            <p class="subheading">{{result.phase3.scores.abstractScore}}</p>
+            <h3>Grouped Score</h3>
+            <p class="subheading">{{result.phase3.scores.groupedScore}}</p>
+            <h3>Unique Score</h3>
+            <p class="subheading">{{result.phase3.scores.uniqueScore}}</p>
+          </div>
+          <div v-else>
+            <h3>Deze test werd nog niet afgelegd.</h3>
+          </div>
         </v-flex>
       </v-layout>
       <v-layout mt-3 justify-end>
@@ -137,7 +145,6 @@ export default {
         schooledTill: dataForm.leeftijd_naar_school,
         schooledFor: dataForm.jaren_naar_school
       };
-      console.log(clientData);
       HowToTestApi.updateClientInfo("dims48", this.testId, clientData)
         .then(e => {
           this.setDialog(false);
@@ -146,6 +153,9 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    toResultsPage: function() {
+      this.$router.push({ path: "/results/dims48" });
     },
     loadNotes: function() {
       this.notes = this.computedNotes;

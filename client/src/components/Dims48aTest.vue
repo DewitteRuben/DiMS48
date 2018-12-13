@@ -40,7 +40,7 @@ export default {
       const dataForm = this.$refs.dataForm;
       const clientData = {
         age: dataForm.leeftijd,
-        gender: dataForm.geslacht.value,
+        gender: dataForm.geslacht,
         schooledTill: dataForm.leeftijd_naar_school,
         schooledFor: dataForm.jaren_naar_school
       };
