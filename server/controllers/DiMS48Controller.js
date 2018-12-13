@@ -130,14 +130,7 @@ function addResult(data) {
       answers: addCorrectAnswersPhase2(data.phase2)
     };
 
-    data['phase3'] = {
-      scores: {
-        abstractScore: 0,
-        groupedScore: 0,
-        uniqueScore: 0
-      },
-      answers: []
-    };
+    data['phase3'] = null;
 
     const newResult = new DiMS48Models.Result(data);
     newResult.save((err, data) => {
@@ -152,6 +145,7 @@ function addResult(data) {
 
 function appendResult(data) {
   return new Promise((resolve, reject) => {
+
     data.phase3 = {
       scores: scoreCalculator.calculateScorePhase2(data.phase3),
       answers: addCorrectAnswersPhase3(data.phase3)
@@ -165,7 +159,7 @@ function appendResult(data) {
       } else {
         resolve();
       }
-    })
+    });
   })
 }
 
@@ -204,10 +198,6 @@ const addCorrectAnswersPhase3 = function addCorrectAnswersPhase3(clientAnswers) 
   return addCorrectAnswersPhase2(clientAnswers);
 };
 
-const isValidResult = function isValidResult(result) {
-  return result !== 'undefined' && result !== null;
-};
-
 const updateNote = function updateNote(testId, notes) {
   return new Promise((resolve, reject) => {
     DiMS48Models.Result.findById(testId, (err, result) => {
@@ -232,6 +222,10 @@ const updateNote = function updateNote(testId, notes) {
       }
     });
   });
+};
+
+const isValidResult = function isValidResult(result) {
+  return result !== 'undefined' && result !== null;
 };
 
 const updateClientInfo = function updateClientInfo(testId, clientInfo) {

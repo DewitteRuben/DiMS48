@@ -9,7 +9,7 @@ const ResultsPhase2 = require('./results.phase2.server.model');
 
 const ResultSchema = new Schema({
     _id: {type: String,default: shortid.generate},
-    timestamp: {type: Date, default: Date.now()},
+    timestamp: {type: Date, default: new Date()},
     clientInfo: {type: defaultModels.ClientInfoSchema, required: true},
     phase1: {type: ResultsPhase1.schema, required: true},
     phase2: {type: ResultsPhase2.schema, required: true},

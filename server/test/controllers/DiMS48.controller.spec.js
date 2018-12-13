@@ -23,6 +23,9 @@ const makeMockModel = function makeMockModel(toReturn, err) {
                 },
             };
         },
+        findByIdAndUpdate: function(id, toReturn, toCall){
+            toCall(err ? err : null, toReturn);
+        },
         amountCalled: 0
     };
 
@@ -376,7 +379,7 @@ describe('DiMS48Controller', () => {
                 }]
             })
             .then((data) => {
-                //throw "Not Supposed to pass";
+                throw "Not Supposed to pass";
             })
             .catch((err) => {
                 err.should.equal("SomeError");
@@ -384,5 +387,71 @@ describe('DiMS48Controller', () => {
             });
     });
 
-    
+    it('should calculate scores for phase 3 (appendResult)', (done) => {
+        const mockModel = makeMockModel({});
+
+        const MockDiMS48Model = {
+            Result: mockModel,
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.appendResult({
+                "phase3": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }]
+            })
+            .then((data) => {
+                done();
+            })
+            .catch((err) => {
+                throw "not supposed to throw error";
+            });
+    });
+
+    it('should throw an error via promise (appendResult)', (done) => {
+        const mockModel = makeMockModel({}, "SomeError");
+
+        const MockDiMS48Model = {
+            Result: mockModel,
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.appendResult({
+                "phase3": [{
+                    "_id": "A1",
+                    "answer": ">=3"
+                }]
+            })
+            .then((data) => {
+                throw "Not Supposed to pass";
+            })
+            .catch((err) => {
+                console.log(err);
+                err.should.equal("SomeError");
+                done();
+            });
+    });
+
+    it('getPDF should return a promise', (done) => {
+        const diMS48Controller = DiMS48Controller();
+
+        diMS48Controller.getPDF(1)
+        .catch((err) => {
+            //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
+
+    it('getExcel should return a promise',(done) => {
+        const diMS48Controller = DiMS48Controller();
+
+        diMS48Controller.getExcel(1)
+        .catch((err) => {
+            //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
 });
