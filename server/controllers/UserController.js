@@ -8,7 +8,7 @@ function addUser(data){
       let userData = {
         email: data.email,
         username: data.username,
-        password: data.password,
+        password: data.password
       }
       const newUser = new UserModels.User(userData);
       newUser.save((err,data)=>{
@@ -25,7 +25,18 @@ function authUser(data){
   })
 }
 
+function isAdmin(id){
+  return new Promise((s,f)=>{
+    let query = UserModels.User.findOne({_id: id}, {admin: 1, _id:0});
+    query.exec((err,data)=>{
+      if(err) f(err);
+      s(data.admin);
+    })
+  })
+}
+
 module.exports = {
   addUser,
-  authUser
+  authUser,
+  isAdmin
 }
