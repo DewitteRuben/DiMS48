@@ -31,17 +31,8 @@ function isAdmin(id){
     query.exec((err,data)=>{
       if(err) f(err);
       if(data == null) f({msg: "User not found"});
+      console.log("data: ", data);
       s(data.admin);
-    })
-  })
-}
-
-function getRequestedAccounts(){
-  return new Promise((s,f)=>{
-    let query = UserModels.User.find({active: false}, {email:1, _id:0});
-    query.exec((err,data)=>{
-      if(err) f(err);
-      s(data);
     })
   })
 }
@@ -49,6 +40,5 @@ function getRequestedAccounts(){
 module.exports = {
   addUser,
   authUser,
-  isAdmin,
-  getRequestedAccounts
+  isAdmin
 }

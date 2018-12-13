@@ -180,6 +180,7 @@ router.get('/results/:name/excel/:id', function (req, res) {
 
 router.post('/register', function (req, res) {
   UserController.addUser(req.body).then(newUser => {
+    req.session.userId = newUser._id;
     res.status(201);
     res.json({
       user: {email: newUser.email, username: newUser.username}
@@ -204,22 +205,17 @@ router.post('/login', function (req, res) {
     })
   }).catch(err => {
     console.log(err);
-    res.json({msg: "Email and password did not match"});
+    res.send({msg: "Email and password did not match"});
   });
 });
 
 router.get('/isAdmin', function(req,res){
+  console.log(req.session.userId);
   if(req.session.userId){
     UserController.isAdmin(req.session.userId)
       .then(isAdmin=>res.json({isAdmin}))
-      .catch(err=>res.json({msg: err}))
+      .catch(err=>res.send({msg: err}))
   }else res.send({msg: "not logged in"});
-})
-
-router.get('/requestedAccounts', function(req,res){
-  UserController.getRequestedAccounts()
-    .then(emails=>res.json(emails))
-    .catch(err=>res.json({msg: err}));
 })
 
 const sendTestNotFound = function sendTestNotFound(req, res) {
