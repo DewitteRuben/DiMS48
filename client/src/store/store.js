@@ -20,6 +20,6 @@ export default new Vuex.Store({
     dimsClientData: dims48clientData,
     user: user,
     dimsResults: results,
-    dimsConfig: dims48Config
+    dims48Config: dims48Config
   }
 });
