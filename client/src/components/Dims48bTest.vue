@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div v-if="loaded">
-      <InstructionsForm v-show="!hasStarted && !hasFinished"/>
-      <SingleQuestion v-show="hasStarted"/>
-      <TestEndPanel v-show="hasFinished"/>
-    </div>
-    <div v-else>
-      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
-    </div>
-  </div>
+  <v-layout justify-center align-center fill-height v-if="loaded">
+    <InstructionsForm v-show="!hasStarted && !hasFinished"/>
+    <SingleQuestion v-show="hasStarted"/>
+    <TestEndPanel v-show="hasFinished"/>
+  </v-layout>
+  <v-layout justify-center align-center fill-height v-else>
+    <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
+  </v-layout>
 </template>
 
 <script>
