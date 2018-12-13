@@ -321,16 +321,20 @@ const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
   donePromise
   .then((result) => {
     const responseCode = 200;
-    
+
     res.status(responseCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.documentUpdated,
-        errorMessages.results.updatedDocument,
-        responseCode
-      )
+
+    const response =  jsonErrorMessageGenerator.generateGoogleJsonError(
+      errorMessages.global,
+      errorMessages.reasons.documentUpdated,
+      errorMessages.results.updatedDocument,
+      responseCode,
+      true
     );
+
+    delete response.errors;
+
+    res.json(response );
   })
   .catch((err) => {
     const errorCode = 400;
