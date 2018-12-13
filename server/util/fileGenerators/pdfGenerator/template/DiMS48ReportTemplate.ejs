@@ -10,12 +10,13 @@
         text-align: center;
     }
 
-    h3{
+    h3 {
         text-decoration: underline;
     }
 
     table {
         width: 100%;
+        border-collapse: collapse;
     }
 
     table tr td {
@@ -72,253 +73,383 @@
     .capitalize-first-word:first-letter {
         text-transform: uppercase;
     }
+
+    .page {
+        height: 100vh;
+    }
+
+    #notes-container {
+        height: 80px;
+    }
+
+    .clientInfo table tr td:first-child, .scores table tr td:first-child {
+        width: 25vw;
+    }
+
+    #test-id {
+        text-decoration: underline;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
 </style>
 
 <html>
-    <head>
-        <meta charset=utf-8"/>
-        <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
-    </head>
-    <body>
+
+<head>
+    <meta charset=utf-8" />
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+</head>
+
+<body>
+    <div class="page">
         <div class="main-page-header">
-            <img src="https://how-to-test-apps.herokuapp.com/images/logo/logoOriginal.png"/>
-            <h1 class="capitalize-all-first-letter">DiM48 - <%= locales.testResult %></h1>
+            <img src="https://how-to-test-apps.herokuapp.com/images/logo/logoOriginal.png" />
+            <h1 class="capitalize-all-first-letter">DiM48 -
+                <%= locales.testResult %>
+            </h1>
         </div>
         <div class="clientInfo">
-            <h2 class="capitalize-all-first-letter"><%= locales.clientInfo.client %></h2>
+            <h2 class="capitalize-all-first-letter">
+                <%= locales.clientInfo.client %>
+            </h2>
             <table>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.testId %></strong></td>
-                    <td><%= data._id%></td>
+                    <td class="capitalize-all-first-letter">
+                        <strong><%= locales.testId %></strong>
+                    </td>
+                    <td id="test-id">
+                        <%= data._id%>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.age + " " + locales.year%></strong></td>
-                    <td><%= data.clientInfo.age + " " + locales.year%></td>
+                    <td class="capitalize-all-first-letter">
+                        <strong><%= locales.clientInfo.age + " " + locales.year%></strong>
+                    </td>
+                    <td>
+                        <%= data.clientInfo.age + " " + locales.year%>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.schooledTill %></strong></td>
-                    <td><%= data.clientInfo.schooledTill + " " + locales.year %></td>
+                    <td class="capitalize-all-first-letter">
+                        <strong><%= locales.clientInfo.schooledTill %></strong>
+                    </td>
+                    <td>
+                        <%= data.clientInfo.schooledTill + " " + locales.year %>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.schooledFor %></strong></td>
-                    <td><%= data.clientInfo.schooledFor + " " + locales.year%> </td>
+                    <td class="capitalize-all-first-letter">
+                        <strong><%= locales.clientInfo.schooledFor %></strong></td>
+                    <td>
+                        <%= data.clientInfo.schooledFor + " " + locales.year%>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.gender %></strong></td>
-                    <td> <%= data.clientInfo.gender === "m" ? locales.clientInfo.genders.m : data.clientInfo.gender === "v" ? locales.clientInfo.genders.v : locales.clientInfo.genders.a %></td>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.clientInfo.gender %></strong></td>
+                    <td>
+                        <%= data.clientInfo.gender === "m" ? locales.clientInfo.genders.m : data.clientInfo.gender === "v" ? locales.clientInfo.genders.v : locales.clientInfo.genders.a %>
+                    </td>
                 </tr>
-                <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.clientInfo.notes %></strong></td>
-                    <td><%= typeof data.clientInfo.notes === "undefined" ? locales.clientInfo.noNotes : data.clientInfo.notes %></td>
+                <tr id="notes-container">
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.clientInfo.notes %></strong></td>
+                    <td>
+                        <%= typeof data.clientInfo.notes === "undefined" ? locales.clientInfo.noNotes : data.clientInfo.notes %>
+                    </td>
                 </tr>
             </table>
         </div>
 
         <div class="scores">
-            <h2 class="capitalize-all-first-letter"><%= locales.scores %></h2>
-            <h3 class="capitalize-all-first-letter"><%= locales.phases[0].name %></h3>
+            <h2 class="capitalize-all-first-letter">
+                <%= locales.scores %>
+            </h2>
+            <h3 class="capitalize-all-first-letter">
+                <%= locales.phases[0].name %>
+            </h3>
             <table>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.correct %></strong></td>
-                    <td><%= (data.phase1.score).toFixed(2) %> %</td>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.correct %></strong></td>
+                    <td>
+                        <%= (data.phase1.score).toFixed(2) %> %</td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.wrong %></strong></td>
-                    <td><%= (100 - data.phase1.score).toFixed(2) %> %</td>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.wrong %></strong></td>
+                    <td>
+                        <%= (100 - data.phase1.score).toFixed(2) %> %</td>
                 </tr>
             </table>
 
-            <h3 class="capitalize-all-first-letter"><%= locales.phases[1].name%></h3>
+            <h3 class="capitalize-all-first-letter">
+                <%= locales.phases[1].name%>
+            </h3>
             <table>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.sets.abstractSet %></strong></td>
-                    <td><%= (data.phase2.scores.abstractScore).toFixed(2) %> %</td>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.sets.abstractSet %></strong></td>
+                    <td>
+                        <%= (data.phase2.scores.abstractScore).toFixed(2) %> %</td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.sets.groupedSet %></strong></td>
-                    <td><%= (data.phase2.scores.groupedScore).toFixed(2) %> %</td>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.sets.groupedSet %></strong></td>
+                    <td>
+                        <%= (data.phase2.scores.groupedScore).toFixed(2) %> %</td>
                 </tr>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong><%= locales.sets.uniqueSet %></strong></td>
-                    <td><%= (data.phase2.scores.uniqueScore).toFixed(2) %> %</td>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.sets.uniqueSet %></strong></td>
+                    <td>
+                        <%= (data.phase2.scores.uniqueScore).toFixed(2) %> %</td>
                 </tr>
                 <tr>
-                    <td><strong class="capitalize-all-first-letter"><%= locales.total %></strong></td>
-                    <td><%= ((data.phase2.scores.uniqueScore + data.phase2.scores.groupedScore + data.phase2.scores.abstractScore) / 3).toFixed(2) %>
+                    <td><strong class="capitalize-all-first-letter">
+                            <%= locales.total %></strong></td>
+                    <td>
+                        <%= ((data.phase2.scores.uniqueScore + data.phase2.scores.groupedScore + data.phase2.scores.abstractScore) / 3).toFixed(2) %>
                         %
                     </td>
                 </tr>
             </table>
 
-            <h3 class="capitalize-all-first-letter"><%= locales.phases[2].name %></h3>
-            <%if(data.phase3.answers.length > 0){%>
-                <table>
-                    <tr>
-                        <td class="capitalize-all-first-letter"><strong><%= locales.sets.abstractSet %></strong></td>
-                        <td><%= (data.phase3.scores.abstractScore).toFixed(2) %> %</td>
-                        <td>placeholder %</td>
-                    </tr>
-                    <tr>
-                        <td class="capitalize-all-first-letter"><strong><%= locales.sets.groupedSet %></strong></td>
-                        <td><%= (data.phase3.scores.groupedScore).toFixed(2) %> %</td>
-                        <td>placeholder %</td>
-                    </tr>
-                    <tr>
-                        <td class="capitalize-all-first-letter"><strong><%= locales.sets.uniqueSet %></strong></td>
-                        <td><%= (data.phase3.scores.uniqueScore).toFixed(2) %> %</td>
-                        <td>placeholder %</td>
-                    </tr>
-                    <tr>
-                        <td class="capitalize-all-first-letter"><strong><%= locales.total %></strong></td>
-                        <td><%= ((data.phase3.scores.uniqueScore + data.phase3.scores.groupedScore + data.phase3.scores.abstractScore) / 3).toFixed(2) %>
-                            %
-                        </td>
-                        <td>100 %</td>
-                    </tr>
-                </table>
-            <%} else {%>
-                <p class="capitalize-first-word"><%= locales.testNotDoneYet %></p>
-            <%}%>
-        </div>
-
-        <div class="answers">
-            <h2 class="capitalize-all-first-letter"><%= locales.answers %></h2>
-            <h3 class="capitalize-all-first-letter"><%= locales.phases[0].name %></h3>
+            <h3 class="capitalize-all-first-letter">
+                <%= locales.phases[2].name %>
+            </h3>
+            <%if(data.phase3 && data.phase3.answers.length > 0){%>
             <table>
                 <tr>
-                    <th class="capitalize-all-first-letter"><%= locales.photo %></th>
-                    <th class="capitalize-all-first-letter"><%= locales.answerTypes.clientAnswer %></th>
-                    <th class="capitalize-all-first-letter"><%= locales.answerTypes.correctAnswer %></th>
-                    <th class="capitalize-all-first-letter"><%= locales.responseTime %></th>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.sets.abstractSet %></strong></td>
+                    <td>
+                        <%= (data.phase3.scores.abstractScore).toFixed(2) %> %</td>
+                </tr>
+                <tr>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.sets.groupedSet %></strong></td>
+                    <td>
+                        <%= (data.phase3.scores.groupedScore).toFixed(2) %> %</td>
+
+                </tr>
+                <tr>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.sets.uniqueSet %></strong></td>
+                    <td>
+                        <%= (data.phase3.scores.uniqueScore).toFixed(2) %> %</td>
+                </tr>
+                <tr>
+                    <td class="capitalize-all-first-letter"><strong>
+                            <%= locales.total %></strong></td>
+                    <td>
+                        <%= ((data.phase3.scores.uniqueScore + data.phase3.scores.groupedScore + data.phase3.scores.abstractScore) / 3).toFixed(2) %>
+                        %
+                    </td>
+                </tr>
+            </table>
+            <%} else {%>
+            <p class="capitalize-first-word">
+                <%= locales.testNotDoneYet %>
+            </p>
+            <%}%>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="answers">
+            <h2 class="capitalize-all-first-letter">
+                <%= locales.answers %>
+            </h2>
+            <h3 class="capitalize-all-first-letter">
+                <%= locales.phases[0].name %>
+            </h3>
+            <table>
+                <tr>
+                    <th class="capitalize-all-first-letter">
+                        <%= locales.photo %>
+                    </th>
+                    <th class="capitalize-all-first-letter">
+                        <%= locales.answerTypes.clientAnswer %>
+                    </th>
+                    <th class="capitalize-all-first-letter">
+                        <%= locales.answerTypes.correctAnswer %>
+                    </th>
+                    <th class="capitalize-all-first-letter">
+                        <%= locales.responseTime %>
+                    </th>
                 </tr>
                 <% data.phase1.answers.forEach((answer) => {%>
 
                 <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong' %>">
-                    <td><%= answer._id.substring(1) %></td>
-                    <td><%= answer.answer %></td>
-                    <td><%= answer.correctAnswer %></td>
-                    <td><%= answer.responseTime / 1000 + " " + locales.seconds %></td>
+                    <td>
+                        <%= answer._id.substring(1) %>
+                    </td>
+                    <td>
+                        <%= answer.answer %>
+                    </td>
+                    <td>
+                        <%= answer.correctAnswer %>
+                    </td>
+                    <td>
+                        <%= answer.responseTime / 1000 + " " + locales.seconds %>
+                    </td>
                 </tr>
 
                 <% if(answer._id.substring(1) == 24){ %>
             </table>
-                <br/>
-                <br/>
-                <br/>
-            <table>
-                <tr>
-                    <th class="capitalize-all-first-letter"><%= locales.photo %></th>
-                    <th class="capitalize-all-first-letter"><%= locales.answerTypes.clientAnswer %></th>
-                    <th class="capitalize-all-first-letter"><%= locales.answerTypes.correctAnswer %></th>
-                    <th class="capitalize-all-first-letter"><%= locales.responseTime %></th>
-                </tr>
-                <% } %>
-                <%
-                })
-                %>
-            </table>
-
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-
-
-            <h3 class="capitalize-all-first-letter"><%= locales.phases[1].name %></h3>
-            <table>
-                <tr class="capitalize-all-first-letter">
-                    <th><%= locales.photo %></th>
-                    <th><%= locales.answerTypes.clientAnswer %></th>
-                    <th><%= locales.answerTypes.correctAnswer %></th>
-                    <th><%= locales.responseTime %></th>
-                </tr>
-                <% data.phase2.answers.forEach((answer) => {%>
-
-                    <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong' %>">
-                        <td><%= answer._id.substring(1) %></td>
-                        <td><%= answer.answer %></td>
-                        <td><%= answer.correctAnswer %></td>
-                        <td><%= answer.responseTime / 1000 + " " + locales.seconds%></td>
-                    </tr>
-
-                    <% if(answer._id.substring(1) == 25){ %>
-            </table>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <table>
-                <tr class="capitalize-all-first-letter">
-                    <th><%= locales.photo %></th>
-                    <th><%= locales.answerTypes.clientAnswer %></th>
-                    <th><%= locales.answerTypes.correctAnswer %></th>
-                    <th><%= locales.responseTime %></th>
-                </tr>
-                <% } %>
-                <%
-                })
-                %>
-            </table>
-
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-
-            <h3 class="capitalize-all-first-letter"><%= locales.phases[2].name %></h3>
-            <%if(data.phase3.answers.length > 0){%>
-            <table>
-                <tr class="capitalize-all-first-letter">
-                    <th><%= locales.photo %></th>
-                    <th><%= locales.answerTypes.clientAnswer %></th>
-                    <th><%= locales.answerTypes.correctAnswer %></th>
-                    <th><%= locales.responseTime %></th>
-                </tr>
-                <% data.phase2.answers.forEach((answer) => {%>
-
-                    <tr  class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong'%>">
-                        <td><%= answer._id.substring(1) %></td>
-                        <td><%= answer.answer %></td>
-                        <td><%= answer.correctAnswer %></td>
-                        <td><%= answer.responseTime / 1000 %> seconds</td>
-                    </tr>
-
-                    <% if(answer._id.substring(1) == 24){ %>
-            </table>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <table>
-                <tr class="capitalize-all-first-letter">
-                    <th><%= locales.photo %></th>
-                    <th><%= locales.answerTypes.clientAnswer %></th>
-                    <th><%= locales.answerTypes.correctAnswer %></th>
-                    <th><%= locales.responseTime %></th>
-                </tr>
-                <% } %>
-                <%
-                })
-                %>
-            </table>
-            <%} else {%>
-                <p><%= locales.testNotDoneYet %></p>
-            <%}%>
         </div>
-    </body>
+    </div>
+    <div class="page">
+        <table>
+            <tr>
+                <th class="capitalize-all-first-letter">
+                    <%= locales.photo %>
+                </th>
+                <th class="capitalize-all-first-letter">
+                    <%= locales.answerTypes.clientAnswer %>
+                </th>
+                <th class="capitalize-all-first-letter">
+                    <%= locales.answerTypes.correctAnswer %>
+                </th>
+                <th class="capitalize-all-first-letter">
+                    <%= locales.responseTime %>
+                </th>
+            </tr>
+            <% } %>
+            <%
+                })
+                %>
+        </table>
+    </div>
+
+
+    <div class="page">
+        <h3 class="capitalize-all-first-letter">
+            <%= locales.phases[1].name %>
+        </h3>
+        <table>
+            <tr class="capitalize-all-first-letter">
+                <th>
+                    <%= locales.photo %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.clientAnswer %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.correctAnswer %>
+                </th>
+                <th>
+                    <%= locales.responseTime %>
+                </th>
+            </tr>
+            <% data.phase2.answers.forEach((answer) => {%>
+
+            <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong' %>">
+                <td>
+                    <%= answer._id.substring(1) %>
+                </td>
+                <td>
+                    <%= answer.answer %>
+                </td>
+                <td>
+                    <%= answer.correctAnswer %>
+                </td>
+                <td>
+                    <%= answer.responseTime / 1000 + " " + locales.seconds%>
+                </td>
+            </tr>
+
+            <% if(answer._id.substring(1) == 25){ %>
+        </table>
+    </div>
+    <div class="page">
+        <table>
+            <tr class="capitalize-all-first-letter">
+                <th>
+                    <%= locales.photo %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.clientAnswer %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.correctAnswer %>
+                </th>
+                <th>
+                    <%= locales.responseTime %>
+                </th>
+            </tr>
+            <% } %>
+            <%
+                })
+                %>
+        </table>
+    </div>
+
+    <div class="page">
+        <h3 class="capitalize-all-first-letter">
+            <%= locales.phases[2].name %>
+        </h3>
+        <%if(data.phase3 && data.phase3.answers.length > 0){%>
+        <table>
+            <tr class="capitalize-all-first-letter">
+                <th>
+                    <%= locales.photo %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.clientAnswer %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.correctAnswer %>
+                </th>
+                <th>
+                    <%= locales.responseTime %>
+                </th>
+            </tr>
+            <% data.phase2.answers.forEach((answer) => {%>
+
+            <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong'%>">
+                <td>
+                    <%= answer._id.substring(1) %>
+                </td>
+                <td>
+                    <%= answer.answer %>
+                </td>
+                <td>
+                    <%= answer.correctAnswer %>
+                </td>
+                <td>
+                    <%= answer.responseTime / 1000 %> seconds</td>
+            </tr>
+
+            <% if(answer._id.substring(1) == 24){ %>
+        </table>
+    </div>
+    <div class="page">
+        <table>
+            <tr class="capitalize-all-first-letter">
+                <th>
+                    <%= locales.photo %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.clientAnswer %>
+                </th>
+                <th>
+                    <%= locales.answerTypes.correctAnswer %>
+                </th>
+                <th>
+                    <%= locales.responseTime %>
+                </th>
+            </tr>
+            <%}})%>
+        </table>
+        <%} else {%>
+        <p>
+            <%= locales.testNotDoneYet %>
+        </p>
+        <%}%>
+    </div>
+</body>
+
 </html>
