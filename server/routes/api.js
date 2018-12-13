@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-const UserController = require('../Controllers/UserController');
-const TestController = require('../Controllers/TestController');
+const UserController = require('../controllers/UserController');
+const TestController = require('../controllers/TestController');
 
 const DiMS48Router = require('./tests/DiMS48Router');
 

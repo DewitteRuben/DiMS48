@@ -6,7 +6,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const DiMS48Controller = require('../../Controllers/DiMS48Controller');
+const DiMS48Controller = require('../../controllers/DiMS48Controller');
 
 const makeMockModel = function makeMockModel(toReturn) {
     const object = {
