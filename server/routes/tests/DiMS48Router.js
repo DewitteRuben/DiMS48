@@ -4,8 +4,8 @@ var router = express.Router();
 const DiMS48Models = require('../../models/DiMS48Models');
 const DefaultModels = require('../../models/defaultModels');
 
-const DiMS48Controller = require('../../Controllers/DiMS48Controller')(DiMS48Models, DefaultModels);
-const TestController = require('../../Controllers/TestController');
+const DiMS48Controller = require('../../controllers/DiMS48Controller')(DiMS48Models, DefaultModels);
+const TestController = require('../../controllers/TestController');
 
 const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
 
