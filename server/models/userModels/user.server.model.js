@@ -6,7 +6,8 @@ const TestsDatabase = require('../../util/databaseGetter').TestDatabase;
 const UserSchema = new Schema({
   email: {type: String, unique:true, required: true},
   username: {type: String, required: true},
-  password: {type: String, required: true}
+  password: {type: String, required: true},
+  admin: {type: Boolean, default: false}
 })
 
 UserSchema.pre('save', function(next){

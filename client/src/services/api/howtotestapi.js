@@ -7,6 +7,7 @@ export const loginUser = credentials =>
   processReq(`/login`, credentials, "POST");
 export const registerUser = credentials =>
   processReq(`/register`, credentials, "POST");
+export const isAdmin = email => processReq("/isAdmin");
 export const getTestResults = name => processReq(`/results/${name}`);
 export const updateConfig = (name, newConfig) =>
   processReq(`/test/${name}/updateConfig`, newConfig, "POST");

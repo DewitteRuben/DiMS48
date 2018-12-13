@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store/store";
+import * as howtotestapi from "@/services/api/howtotestapi";
 import BaseTestView from "./views/BaseTestView.vue";
 import Dims48View from "./views/Dims48View.vue";
 import Home from "./views/Home.vue";
@@ -68,23 +69,28 @@ const router = new Router({
       path: "/admin",
       name: "admin",
       component: AdminPanelView,
-      beforeEnter: (to, from, next) => {mustBeLoggedIn(to,from,next);}
+      beforeEnter: (to, from, next) => {mustBeLoggedIn(to,from,next, true);}
     },
     {
       path: "/admin/:name",
       name: "adminTest",
       component: AdminPanelTestView,
-      beforeEnter: (to, from, next) => {mustBeLoggedIn(to,from,next);}
+      beforeEnter: (to, from, next) => {mustBeLoggedIn(to,from,next, true);}
     }
   ]
 });
 
-function mustBeLoggedIn(to, from, next){
-  console.log(to);
+function mustBeLoggedIn(to, from, next, requiresAdmin){
   if(!store.getters["user/isLoggedIn"]){
-    //router.push({name: 'login', query: {redirect: to.path} })
-    next({name: 'login', query: {from: to.path}})
+    next({name: 'login', query: {from: to.path}});
   }else{
+    if(requiresAdmin){
+      howtotestapi.isAdmin(store.getters["user/getUser"].email)
+        .then(isAdmin=>{
+          if(isAdmin.isAdmin) next();
+          else next({name: 'home'});
+        }).catch(err=>console.log(err));
+    }else
     next();
   }
 }

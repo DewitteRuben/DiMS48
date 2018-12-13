@@ -13,6 +13,9 @@ export default {
     },
     getUser(state, getters, rootState) {
       return state.user || JSON.parse(localStorage.getItem("user"));
+    },
+    isAdmin(state, getters, rootState){
+      return state.user.admin == true;
     }
   },
   actions: {
@@ -27,7 +30,6 @@ export default {
     },
     setUser: (state, user) => {
       state.user = user;
-      console.log(user);
       localStorage.setItem("user", JSON.stringify(user));
     }
   }

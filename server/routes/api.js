@@ -209,6 +209,15 @@ router.post('/login', function (req, res) {
   });
 });
 
+router.get('/isAdmin', function(req,res){
+  console.log(req.session.userId);
+  if(req.session.userId){
+    UserController.isAdmin(req.session.userId)
+      .then(isAdmin=>res.json({isAdmin}))
+      .catch(err=>res.send({msg: err}))
+  }else res.send({msg: "not logged in"});
+})
+
 const sendTestNotFound = function sendTestNotFound(req, res) {
   const errorCode = 404;
   res.status(errorCode);

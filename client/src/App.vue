@@ -18,7 +18,15 @@
             <v-list-tile-title>Testresultaten</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile flat to="/admin">
+        <v-list-tile v-if="!loggedIn" flat to="/login">
+          <v-list-tile-action>
+            <v-icon>lock</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Login</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-if="admin" flat to="/admin">
           <v-list-tile-action>
             <v-icon>edit</v-icon>
           </v-list-tile-action>
@@ -37,7 +45,10 @@
         <v-btn flat to="/results">
           <v-icon>book</v-icon>Testresultaten
         </v-btn>
-        <v-btn flat to="/admin">
+        <v-btn v-if="!loggedIn" flat to="/login">
+          <v-icon>lock</v-icon>Login
+        </v-btn>
+        <v-btn v-if="admin" flat to="/admin">
           <v-icon>edit</v-icon>Opties
         </v-btn>
       </v-toolbar-items>
@@ -56,10 +67,31 @@
 </template>
 
 <script>
+import * as howtotestapi from "@/services/api/howtotestapi";
 export default {
   data: () => ({
-    drawer: null
-  })
+    drawer: null,
+    admin: false
+  }),
+  computed: {
+    loggedIn() {return this.$store.getters["user/isLoggedIn"];}
+  },
+  methods: {
+    checkUser: function(){
+      let self = this;
+      console.log(this.loggedIn);
+      if(this.loggedIn){
+        howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
+          .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
+      }
+    }
+  },
+  mounted: function(){
+    let self = this;
+    this.$root.$on('loggedIn', function(){
+      setTimeout(function(){self.checkUser()}, 100)
+    });
+  }
 };
 </script>
 
