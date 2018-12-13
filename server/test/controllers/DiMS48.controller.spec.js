@@ -248,6 +248,43 @@ describe('DiMS48Controller', () => {
             });
     });
 
+    it('should convert gender to a key on getResult', (done) => {
+        const mockModel = makeMockModel([{
+            clientInfo: {
+                "gender": "m"
+            },
+            answersPhase3: {
+                answers: [],
+                _id: "A1"
+            }
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getResult(1)
+            .then((result) => {
+                const expected = 1;
+                const actual = mockModel.amountCalled;
+
+                expected.should.be.equal(actual);
+
+                const gottenGender = result.clientInfo.gender;
+                console.log(gottenGender);
+                //TODO convert this with a function
+                const expectedGender = "Man";
+
+                expectedGender.should.be.equal(gottenGender);
+                done();
+            })
+            .catch((err) => {
+                throw err;
+            });
+    });
+
     it('should be able to get unfinished tests', (done) => {
         const mockModel = makeMockModel();
 
