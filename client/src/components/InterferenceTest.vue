@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: 180,
+      totalTimeValue: false,
       resetButton: false,
       nextButton: false,
       instructions:
@@ -94,6 +94,10 @@ export default {
     seconds: function() {
       const seconds = this.totalTime - this.minutes * 60;
       return this.padTime(seconds);
+    },
+    totalTime: {
+      get: function(){return this.totalTimeValue || this.$store.getters["dims48Config/getInterferenceDuration"]},
+      set: function(newValue){this.totalTimeValue = newValue}
     }
   }
 };
