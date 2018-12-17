@@ -1,21 +1,42 @@
 <template>
-  <div>
-    <div class="questions">
-      <img :src="baseUrl + currentImage.L.imgUrl" alt="picture">
-      <img v-if="isDouble" :src="baseUrl+ currentImage.R.imgUrl" alt>
-    </div>
-    <div class="answers" v-if="hasStarted">
-      <v-btn
-        v-for="(option, index) in currentOptions"
-        @click="answer(option.btnValue)"
-        class="answerButton"
-        :key="index"
-        large
-        flat
-        color="primary"
-      >{{option.btnText}}</v-btn>
-    </div>
-  </div>
+<v-layout>
+   <v-flex xs12 sm6 md6 lg6 xl6 offset-sm3>
+      <v-card flat tile>
+          <v-layout>
+              <v-img 
+                :src="baseUrl + currentImage.L.imgUrl" 
+                alt="picture"
+                max-width="300px"
+                max-height="300px"
+                min-width="100px"
+                min-height="100px"
+                class="image"
+              ></v-img>    
+              <v-img 
+                v-if="isDouble" 
+                :src="baseUrl+ currentImage.R.imgUrl" 
+                alt
+                max-width="300px"
+                max-height="300px"
+                class="image"
+              ></v-img>
+          </v-layout>
+          <v-layout justify-center>
+            <v-card-actions v-if="hasStarted">
+              <v-btn
+                v-for="(option, index) in currentOptions"
+                @click="answer(option.btnValue)"
+                class="answerButton"
+                :key="index"
+                large
+                flat
+                color="primary"
+              >{{option.btnText}}</v-btn>
+            </v-card-actions>
+        </v-layout>
+      </v-card>
+    </v-flex>
+</v-layout>
 </template>
 
 <script>
@@ -119,13 +140,31 @@ export default {
 </script>
 
 <style>
+
+.image{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 .questions {
   height: 300px;
 }
 
 .answerButton {
+  width: 50%;
+}
+
+.answerButton:first-child {
   border: 2px #4892db solid;
-  font-weight: bold;
-  margin-left: 30px;
+  font-weight: bolder;
+  margin-top: 25%;
+}
+
+.answerButton:last-child {
+  border: 2px #4892db solid;
+  font-weight: bolder;
+  margin-top: 25%;
 }
 </style>
