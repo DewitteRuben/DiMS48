@@ -79,5 +79,6 @@
 <style scoped>
 .login-form {
   padding: 15px;
+  width:75%;
 }
 </style>
