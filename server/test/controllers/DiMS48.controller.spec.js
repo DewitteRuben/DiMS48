@@ -180,6 +180,42 @@ describe('DiMS48Controller', () => {
             });
     });
 
+    it('should delete answers when getting all results', (done) => {
+        const mockModel = makeMockModel([{
+            "clientInfo": {
+                "gender": "m"
+            },
+            "phase1": {
+                "scores": {},
+                "answers": ["some", "data"]
+            },
+            "phase3": {
+                "scores": {},
+                "answers": ["some", "data"]
+            }
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getResults()
+            .then((result) => {
+                const expected = 1;
+                const actual = mockModel.amountCalled;
+
+                expected.should.be.equal(actual);
+
+                const gottenResults = result[0].phase3;
+
+                expect(gottenResults.answers).to.be.undefined;
+
+                done();
+            });
+    });
+
     it("should make phase 3 null if part 3 is not done", (done) => {
         const mockModel = makeMockModel([{
             "clientInfo": {
