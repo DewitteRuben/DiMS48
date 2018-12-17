@@ -9,6 +9,12 @@ const imageSeeder = require('../seeders/imagesSeeder');
 const locals = require('../locales/nl-BE.json');
 const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
+  //TODO abstract error to seperate file?
+  const invalidIdError = {
+    name: 'CastError',
+    description: 'Invalid Id Supplied'
+  };
+
 function makeGetter(model, whereClause, idNeeded, extraFields) {
   return new Promise(function (resolve, reject) {
     let fields = idNeeded ? {
@@ -105,7 +111,9 @@ function getResult(id) {
     '_id': id
   }, true)
   .then(result => {
-    result = result[0];
+    if(Array.isArray(result)){
+      result = result[0];
+    }
 
     if(result.clientInfo && result.clientInfo.gender){
       result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
@@ -204,10 +212,7 @@ const updateNote = function updateNote(testId, notes) {
   return new Promise((resolve, reject) => {
     DiMS48Models.Result.findById(testId, (err, result) => {
       if (err) {
-        reject({
-          name: 'CastError',
-          description: 'Invalid Id Supplied'
-        });
+        reject(invalidIdError);
       } else {
         if (isValidResult(result)) {
           result.clientInfo.notes = notes;
@@ -259,9 +264,10 @@ const updateClientInfo = function updateClientInfo(testId, clientInfo) {
   });
 };
 
+//TODO abstract to seperate file
 const genderKey2Name = function genderKey2Name(genderKey){
   return locals.clientInfo.genders[genderKey];
-}
+};
 
 module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
   DiMS48Models = injectedDiMS48Models;

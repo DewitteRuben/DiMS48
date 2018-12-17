@@ -26,6 +26,9 @@ const makeMockModel = function makeMockModel(toReturn, err) {
         findByIdAndUpdate: function(id, toReturn, toCall){
             toCall(err ? err : null, toReturn);
         },
+        findById : function(id, toCall){
+            toCall(err ? err : null, toReturn);
+        },
         amountCalled: 0
     };
 
@@ -180,6 +183,42 @@ describe('DiMS48Controller', () => {
             });
     });
 
+    it('should delete answers when getting all results', (done) => {
+        const mockModel = makeMockModel([{
+            "clientInfo": {
+                "gender": "m"
+            },
+            "phase1": {
+                "scores": {},
+                "answers": ["some", "data"]
+            },
+            "phase3": {
+                "scores": {},
+                "answers": ["some", "data"]
+            }
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getResults()
+            .then((result) => {
+                const expected = 1;
+                const actual = mockModel.amountCalled;
+
+                expected.should.be.equal(actual);
+
+                const gottenResults = result[0].phase3;
+
+                expect(gottenResults.answers).to.be.undefined;
+
+                done();
+            });
+    });
+
     it("should make phase 3 null if part 3 is not done", (done) => {
         const mockModel = makeMockModel([{
             "clientInfo": {
@@ -282,7 +321,7 @@ describe('DiMS48Controller', () => {
                 expected.should.be.equal(actual);
 
                 const gottenGender = result.clientInfo.gender;
-                console.log(gottenGender);
+
                 //TODO convert this with a function
                 const expectedGender = "Man";
 
@@ -426,7 +465,6 @@ describe('DiMS48Controller', () => {
                 throw "Not Supposed to pass";
             })
             .catch((err) => {
-                console.log(err);
                 err.should.equal("SomeError");
                 done();
             });
@@ -472,6 +510,349 @@ describe('DiMS48Controller', () => {
         diMS48Controller.getExcel(1)
         .catch((err) => {
             //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
+
+    it('getExcelAllResults should return a promise',(done) => {
+        const mockModel = makeMockModel([{
+            "_id":1,
+            "clientInfo": {
+                "age": 10,
+                "gender": "m"
+            },
+            "phase3": null
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getExcelAllResults()
+        .catch((err) => {
+            //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
+
+    it('should be able to update the note of a given test', (done) => {
+        const mockModel = makeMockModel({
+            "_id":1,
+            "clientInfo": {
+                "age": 10,
+                "gender": "m",
+                "notes": "testNote"
+            },
+            "phase3": null,
+            save: function(toCall){
+                toCall(null);
+            },
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        const updatedNoteText = "updated note";
+        diMS48Controller.updateNote(1, updatedNoteText);
+
+        diMS48Controller.getResult(1).then((result) => {
+            const gottenNote = result.clientInfo.notes;
+
+            gottenNote.should.be.equal(updatedNoteText);
+            done();
+        });
+    });
+
+    it("should throw error for invalid id via promise", (done) => {
+        const errorMessage = "someError";
+
+        const mockModel = makeMockModel({}, errorMessage);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateNote(1).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            done();
+        });
+    });
+
+    it("should throw saving error via promise", (done) => {
+        const mockModel = makeMockModel({
+            "clientInfo": {
+                "notes": "someNote"
+            },
+            save: function(toCall){
+                toCall("errorMessage");
+            }
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateNote(1).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            const receivedError = err;
+
+            receivedError.should.equal("errorMessage");
+            done();
+        });
+    });
+
+    it("should throw an error if updateNote returns null", (done) => {
+        const mockModel = makeMockModel(null, null);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, null);
+
+        diMS48Controller.updateNote(1).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            done();
+        });
+    });
+
+    it("should be able to update the age of a client", (done) => {
+        const testId = 1;
+        const updatedAge = 50;
+        const origionalAge = 9;
+
+        const mockModel = makeMockModel({
+            "_id":testId,
+            "clientInfo": {
+                "age": origionalAge
+            },
+            save: function(toCall) {
+                toCall();
+            }
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, null);
+
+        diMS48Controller.updateClientInfo(testId, {
+            "age": updatedAge
+        }).then(() => {
+            diMS48Controller.getResult(testId).then((result) => {
+                const gottenAge = result.clientInfo.age;
+                
+                gottenAge.should.equal(updatedAge);
+                gottenAge.should.not.equal(origionalAge);
+                done();
+            });
+        });
+    });
+
+    it("should be able to update the gender of a client", (done) => {
+        const testId = 1;
+        const originalGender = "v";
+        const updatedGender = "m";
+        
+        const mockModel = makeMockModel({
+            "_id": testId,
+            "clientInfo": {
+                "gender": originalGender
+            },
+            save: function(toCall) {
+                toCall();
+            }
+        });
+
+        const MockDiMS48Model = {
+            "Result": mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateClientInfo(testId, {
+            "gender": updatedGender
+        }).then(() => {
+            diMS48Controller.getResult(testId).then((result) => {
+                const gottenGender = result.clientInfo.gender;
+
+                gottenGender.should.equal("Man");
+                gottenGender.should.not.equal(originalGender);
+                done();
+            });
+        });
+    });
+
+    it("should be able to update the schooledTill of a client", (done) => {
+        const testId = 1;
+        const originalSchooledTill = 10;
+        const updatedSchooledTill = 20;
+
+        const mockModel = makeMockModel({
+            "_id": testId,
+            "clientInfo": {
+                "schooledTill": originalSchooledTill
+            },
+            save: function(toCall) {
+                toCall();
+            }
+        });
+
+        const MockDiMS48Model = {
+            "Result": mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model);
+
+        diMS48Controller.updateClientInfo(testId, {
+            "schooledTill": updatedSchooledTill
+        }).then(() => {
+            diMS48Controller.getResult(testId).then((result) => {
+                const gottenSchooledTill = result.clientInfo.schooledTill;
+
+                gottenSchooledTill.should.equal(updatedSchooledTill);
+                gottenSchooledTill.should.not.equal(originalSchooledTill);
+                done();
+            });
+        });
+    });
+
+    it("should be able to update the schooledFor of a client", (done) => {
+        const testId = 1;
+        const originalSchooledFor = 10;
+        const updatedSchooledFor = 20;
+
+        const mockModel = makeMockModel({
+            "_id": testId,
+            "clientInfo": {
+                "schooledFor": originalSchooledFor
+            },
+            "save": function(toCall) {
+                toCall();
+            }
+        });
+
+        const MockDiMS48Model = {
+            "Result": mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model);
+
+        diMS48Controller.updateClientInfo(testId, {
+            "schooledFor": updatedSchooledFor
+        }).then(() => {
+            diMS48Controller.getResult(testId).then((result) => {
+                const gottenSchooledFor = result.clientInfo.schooledFor;
+                
+                gottenSchooledFor.should.equal(updatedSchooledFor);
+                gottenSchooledFor.should.not.equal(originalSchooledFor);
+                done();
+            });
+        });
+    });
+
+    it("should not be able to update the notes via updateClientInfo", (done) => {
+        const testId = 1;
+        const originalNotes = "someNote";
+        const updatedNote = "updatedNote";
+
+        const mockModel = makeMockModel({
+            "_id": testId,
+            "clientInfo": {
+                "notes": originalNotes
+            },
+            "save": function(toCall){
+                toCall();
+            }
+        });
+
+        const MockDiMS48Model = {
+            "Result": mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model);
+
+        diMS48Controller.updateClientInfo(testId, {
+            "notes": updatedNote
+        }).then(() => {
+            diMS48Controller.getResult(testId).then((result) => {
+                const gottenNotes = result.clientInfo.notes;
+                
+                gottenNotes.should.equal(originalNotes);
+                gottenNotes.should.not.equal(updatedNote);
+                done();
+            });
+        });
+    });
+
+    it('updateClientInfo should throw error via promise if an invalid id is passed', (done) => {
+        const errorMessage = "someError";
+
+        const mockModel = makeMockModel({}, errorMessage);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateClientInfo(1, {}).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            done();
+        });
+    });
+    it("updateClientInfo should throw saving error via promise", (done) => {
+        const mockModel = makeMockModel({
+            "clientInfo": {
+                "notes": "someNote"
+            },
+            save: function(toCall){
+                toCall("errorMessage");
+            }
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateClientInfo(1, {}).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            const receivedError = err;
+
+            receivedError.should.equal("errorMessage");
+            done();
+        });
+    });
+
+    it("should throw an error if updateClientInfo find returns null", (done) => {
+        const mockModel = makeMockModel(null, null);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, null);
+
+        diMS48Controller.updateClientInfo(1, {}).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
             done();
         });
     });
