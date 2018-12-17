@@ -1,18 +1,18 @@
 <template>
-    <v-container fluid grid-list-lg>
-        <TestDetail
-            v-if="loaded"
-            :title="details[0].title"
-            :description="details[0].description"
-            :phases="details[0].phases"
-        />
-        <v-layout v-if="finished && !hasDetails" align-center justify-center row fill-height>
-            <h1 class="text-lg-center">The test "{{category}}" does not exist!</h1>
-        </v-layout>
-        <v-layout v-if="!finished" align-center justify-center row fill-height>
-            <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
-        </v-layout>
-    </v-container>
+  <v-container fluid grid-list-lg>
+    <TestDetail
+      v-if="loaded"
+      :title="details[0].title"
+      :description="details[0].description"
+      :phases="details[0].phases"
+    />
+    <v-layout v-if="finished && !hasDetails" align-center justify-center row fill-height>
+      <h1 class="text-lg-center">The test "{{category}}" does not exist!</h1>
+    </v-layout>
+    <v-layout v-if="!finished" align-center justify-center row fill-height>
+      <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
