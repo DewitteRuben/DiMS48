@@ -62,14 +62,12 @@ export default {
       howToTestApi
         .getTestDetails(category)
         .then(details => {
-          console.log(details[0].description);
           details[0].description = details[0].description.replace('<interferenceDuration>',
               self.$store.getters["dims48Config/getInterferenceDurationHumanReadable"]);
           details[0].description = details[0].description.replace('<leftBtnKey>',
               self.$store.getters["dims48Config/getLeftBtnKey"]);
           details[0].description = details[0].description.replace('<rightBtnKey>',
               self.$store.getters["dims48Config/getRightBtnKey"]);
-          console.log(details[0].description);
           this.details = details;
         })
         .catch(e => console.log(e))
