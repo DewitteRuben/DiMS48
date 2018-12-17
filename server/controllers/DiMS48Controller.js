@@ -82,7 +82,6 @@ function getResults() {
         results.map(convertGenderKeyToName);
         resolve(results);
       }).catch(err => {
-        console.log(err);
         reject(err);
       });
   });
@@ -166,6 +165,7 @@ function appendResult(data) {
 }
 
 const getPDF = function getPDF(id) {
+  //TODO refactor
   return pdfGenerator(this, id, locals);
 };
 
@@ -175,7 +175,7 @@ const getExcel = function (id) {
 
 const getExcelAllResults = function () {
   return getResults().then(results => excelGeneratorAll(results));
-}
+};
 
 //TODO refactor!!!
 const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(clientAnswers) {
