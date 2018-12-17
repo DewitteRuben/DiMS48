@@ -19,6 +19,9 @@ export default {
               instructions[state.currentInstruction].message.replace("<leftBtnKey>", rootGetters["dims48Config/getLeftBtnKey"]);
             instructions[state.currentInstruction].message =
               instructions[state.currentInstruction].message.replace("<rightBtnKey>", rootGetters["dims48Config/getRightBtnKey"]);
+            instructions[state.currentInstruction].message =
+              instructions[state.currentInstruction].message.replace("<interferenceDuration>", rootGetters["dims48Config/getInterferenceDurationHumanReadable"]);
+
             return instructions[state.currentInstruction];
         },
         getButtonText(state, getters, rootState) {

@@ -16,6 +16,12 @@ export default{
     getInterferenceDuration: (state, getters, rootState) =>{
       return state.interferenceDuration;
     },
+    getInterferenceDurationHumanReadable: (state, getters, rootState)=>{
+      let minutes = Math.floor(state.interferenceDuration / 60);
+      let seconds = state.interferenceDuration % 60;
+      let humanReadable = seconds > 0 ? `${minutes} minuten ${seconds} seconden` : `${minutes} minuten`;
+      return humanReadable;
+    },
     getPhase1SecondsPerImage: (state, getters, rootState) =>{
       return state.phase1SecondsPerImage;
     },

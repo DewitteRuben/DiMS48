@@ -19,7 +19,7 @@ const instructionInterference = new DiMS48Instruction({
     instructions: [
         {
             "title": "Testleider",
-            "message": "Vraag de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding, een registratie ervan is dus niet vereist.",
+            "message": "Vraag de cliënt gedurende <interferenceDuration> zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding, een registratie ervan is dus niet vereist.",
         }
     ]
 
