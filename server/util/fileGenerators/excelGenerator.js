@@ -54,29 +54,34 @@ const styleData = {
 }
 
 function makeExcel(result){
-  let workbook = new excel.Workbook();
-  let worksheetResults = workbook.addWorksheet(text.worksheetNameResults);
-  let worksheetAnswers = workbook.addWorksheet(text.worksheetNameAnswers);
-  worksheetResults.column(1).setWidth(22);
-  worksheetResults.column(4).setWidth(14);
-  worksheetResults.column(5).setWidth(13);
-
-  const phase3Included = result.phase3.answers.length > 0;
-
-  writeClientInfo(worksheetResults, result._id, result.clientInfo);
-  writeHeadingResults(worksheetResults, phase3Included);
-  writeHeadingAnswers(worksheetAnswers, phase3Included);
-  writeResultsPhase1(worksheetResults, result.phase1);
-  writeAnswers(worksheetAnswers, result.phase1.answers, false, 1);
-  writeResultsPhase2(worksheetResults, result.phase2, false);
-  writeAnswers(worksheetAnswers, result.phase2.answers, true, 5);
-  if(phase3Included){
-    writeResultsPhase2(worksheetResults, result.phase3, true);
-    writeAnswers(worksheetAnswers, result.phase3.answers, true, 9);
-  }
-
-  //workbook.write('result.xlsx');
-  return workbook;
+  return new Promise((resolve, reject) => {
+    try{
+      let workbook = new excel.Workbook();
+      let worksheetResults = workbook.addWorksheet(text.worksheetNameResults);
+      let worksheetAnswers = workbook.addWorksheet(text.worksheetNameAnswers);
+      worksheetResults.column(1).setWidth(22);
+      worksheetResults.column(4).setWidth(14);
+      worksheetResults.column(5).setWidth(13);
+    
+      const phase3Included = result.phase3 !== null;
+    
+      writeClientInfo(worksheetResults, result._id, result.clientInfo);
+      writeHeadingResults(worksheetResults, phase3Included);
+      writeHeadingAnswers(worksheetAnswers, phase3Included);
+      writeResultsPhase1(worksheetResults, result.phase1);
+      writeAnswers(worksheetAnswers, result.phase1.answers, false, 1);
+      writeResultsPhase2(worksheetResults, result.phase2, false);
+      writeAnswers(worksheetAnswers, result.phase2.answers, true, 5);
+      if(phase3Included){
+        writeResultsPhase2(worksheetResults, result.phase3, true);
+        writeAnswers(worksheetAnswers, result.phase3.answers, true, 9);
+      }
+  
+      resolve(workbook);
+    }catch(err) {
+      reject(err);
+    }
+  });
 }
 
 function writeClientInfo(worksheet, _id, clientInfo){
