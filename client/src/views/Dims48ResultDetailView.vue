@@ -4,11 +4,12 @@
       <v-icon>arrow_back</v-icon>
     </v-btn>
 
-    <h1 class="text-xs-center">Resultaten {{testId}}</h1>
+    <h1 class="text-xs-center">Resultaten DiMS48 Test</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
-          <h2>Client Info
+          <h2>ID-nummer van cliënt: {{testId}}</h2>
+          <h2>Cliënt Info
             <v-btn @click="setDialog(true)" icon flat color="red lighten-2">
               <v-icon>edit</v-icon>
             </v-btn>
