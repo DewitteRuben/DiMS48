@@ -4,7 +4,7 @@
       <v-icon>arrow_back</v-icon>
     </v-btn>
 
-    <h1 class="text-xs-center">Resultaat {{testId}}</h1>
+    <h1 class="text-xs-center">Resultaten {{testId}}</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>

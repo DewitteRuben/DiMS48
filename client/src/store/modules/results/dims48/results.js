@@ -70,7 +70,6 @@ export default {
   state: initialState,
   getters: {
     filteredFeed: function(state) {
-      console.log(state.resultFeed);
       let results = deepClone(state.resultFeed);
       state.filters.forEach(filter => {
         results = applyFilter(
