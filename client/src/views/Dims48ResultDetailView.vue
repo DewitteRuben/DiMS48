@@ -4,11 +4,12 @@
       <v-icon>arrow_back</v-icon>
     </v-btn>
 
-    <h1 class="text-xs-center">Resultaten {{testId}}</h1>
+    <h1 class="text-xs-center">Resultaten DiMS48 Test</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
-          <h2>Client Info
+          <h2>ID-nummer van cliënt: {{testId}}</h2>
+          <h2>Cliënt Info
             <v-btn @click="setDialog(true)" icon flat color="red lighten-2">
               <v-icon>edit</v-icon>
             </v-btn>
@@ -49,26 +50,26 @@
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 1</h2>
           <h3>Score</h3>
-          <p class="subheading">{{result.phase1.score}}</p>
+          <p class="subheading">{{result.phase1.score.toFixed(2)}}%</p>
         </v-flex>
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 2</h2>
           <h3>Abstract Score</h3>
-          <p class="subheading">{{result.phase2.scores.abstractScore}}</p>
+          <p class="subheading">{{result.phase2.scores.abstractScore.toFixed(2)}}%</p>
           <h3>Grouped Score</h3>
-          <p class="subheading">{{result.phase2.scores.groupedScore}}</p>
+          <p class="subheading">{{result.phase2.scores.groupedScore.toFixed(2)}}%</p>
           <h3>Unique Score</h3>
-          <p class="subheading">{{result.phase2.scores.uniqueScore}}</p>
+          <p class="subheading">{{result.phase2.scores.uniqueScore.toFixed(2)}}%</p>
         </v-flex>
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 3</h2>
           <div v-if="result.phase3 !== null">
             <h3>Abstract Score</h3>
-            <p class="subheading">{{result.phase3.scores.abstractScore}}</p>
+            <p class="subheading">{{result.phase3.scores.abstractScore.toFixed(2)}}%</p>
             <h3>Grouped Score</h3>
-            <p class="subheading">{{result.phase3.scores.groupedScore}}</p>
+            <p class="subheading">{{result.phase3.scores.groupedScore.toFixed(2)}}%</p>
             <h3>Unique Score</h3>
-            <p class="subheading">{{result.phase3.scores.uniqueScore}}</p>
+            <p class="subheading">{{result.phase3.scores.uniqueScore.toFixed(2)}}%</p>
           </div>
           <div v-else>
             <h3>Deze test werd nog niet afgelegd.</h3>

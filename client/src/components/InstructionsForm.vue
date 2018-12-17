@@ -1,9 +1,8 @@
 <template>
-  <div 
-  :class="{ 'grey lighten-2': currentInstruction.title === 'Testleider' }">
+  <div :class="{ 'grey lighten-2': currentInstruction.title === 'Testleider' }">
     <h1 class="display-3 mb-3">Instructies</h1>
     <h2 class="display-2 mb-4">{{ currentInstruction.title }}</h2>
-    <div class="InstructionForm-box " >
+    <div class="InstructionForm-box">
       <p class="headline InstructionForm-message">{{ currentInstruction.message }}</p>
       <v-btn @click="submit" bottom large>{{ buttonText }}</v-btn>
       <div></div>

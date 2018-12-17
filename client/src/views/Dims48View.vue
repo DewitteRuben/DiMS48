@@ -14,9 +14,9 @@
       :decline="true"
     />
   </v-container>
-</template>  
-  
-  <script>
+</template>
+
+<script>
 import Dims48aTest from "@/components/Dims48aTest.vue";
 import Dims48bTest from "@/components/Dims48bTest.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
@@ -86,11 +86,15 @@ export default {
           }
         }
       );
+    } else {
+      next();
+      this.resetTest();
     }
   }
 };
-</script>  
-           <style>
+</script>
+
+<style>
 .dims48-background {
   background-color: white;
 }
