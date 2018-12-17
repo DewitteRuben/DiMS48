@@ -33,7 +33,7 @@
       label="Leeftijd gestopt met school?"
       :rules="[
                 v => !!v || 'Verplicht veld',
-                v => v <= 125 && v < (leeftijd) || 'Geef een geldige waarde in.'
+                v => v <= 125 && v <= (leeftijd) || 'Geef een geldige waarde in.'
               ]"
       required
     ></v-text-field>
