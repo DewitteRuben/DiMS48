@@ -1,3 +1,5 @@
+import keycodes from 'keycodes';
+
 function initialState(){
   return {
     'interferenceDuration': null,
@@ -14,14 +16,26 @@ export default{
     getInterferenceDuration: (state, getters, rootState) =>{
       return state.interferenceDuration;
     },
+    getInterferenceDurationHumanReadable: (state, getters, rootState)=>{
+      let minutes = Math.floor(state.interferenceDuration / 60);
+      let seconds = state.interferenceDuration % 60;
+      let humanReadable = seconds > 0 ? `${minutes} minuten ${seconds} seconden` : `${minutes} minuten`;
+      return humanReadable;
+    },
     getPhase1SecondsPerImage: (state, getters, rootState) =>{
       return state.phase1SecondsPerImage;
     },
     getLeftBtnKeyCode: (state, getters, rootState) =>{
       return state.leftBtnKeyCode
     },
+    getLeftBtnKey: (state, getters, rootState)=>{
+      return keycodes(parseInt(state.leftBtnKeyCode)).replace("left", "Linker pijl");
+    },
     getRightBtnKeyCode: (state, getters, rootState) =>{
       return state.rightBtnKeyCode
+    },
+    getRightBtnKey: (state, getters, rootState)=>{
+      return keycodes(parseInt(state.rightBtnKeyCode)).replace("right", "Rechter pijl");
     }
   },
   actions:{

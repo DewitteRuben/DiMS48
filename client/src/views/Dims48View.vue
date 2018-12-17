@@ -14,9 +14,9 @@
       :decline="true"
     />
   </v-container>
-</template>
-
-<script>
+</template>  
+  
+  <script>
 import Dims48aTest from "@/components/Dims48aTest.vue";
 import Dims48bTest from "@/components/Dims48bTest.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
@@ -35,11 +35,13 @@ export default {
       dialogDeclineButtonText: "Nee"
     };
   },
+
   components: {
     Dims48aTest,
     Dims48bTest,
     ConfirmationDialog
   },
+
   created: function() {
     let self = this;
     howtotestapi
@@ -87,9 +89,8 @@ export default {
     }
   }
 };
-</script>
-
-<style>
+</script>  
+           <style>
 .dims48-background {
   background-color: white;
 }

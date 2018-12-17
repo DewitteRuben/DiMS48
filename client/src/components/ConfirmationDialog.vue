@@ -15,9 +15,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-</template>
-
-<script>
+</template>  <script>
 export default {
   props: {
     title: String,
@@ -30,7 +28,5 @@ export default {
     model: Boolean
   }
 };
-</script>
-
-<style>
+</script>  <style>
 </style>

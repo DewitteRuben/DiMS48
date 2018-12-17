@@ -78,19 +78,21 @@ function getResults() {
         'phase1.answers': 0,
         'phase2.answers': 0
       }).then(results => {
-        results.map(removeScorePhase3IfEmpty);
+        results.map(removeAnswersPhase3);
         results.map(convertGenderKeyToName);
-
         resolve(results);
       }).catch(err => {
+        console.log(err);
         reject(err);
       });
   });
 }
 
-function removeScorePhase3IfEmpty(result) {
-  if (result.phase3.answers.length <= 0) result.phase3.scores = null;
-  delete result.phase3.answers;
+function removeAnswersPhase3(result) {
+  if (result.phase3 !== null) {
+    delete result.phase3.answers;
+  }
+
   return result;
 }
 

@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div 
+  :class="{ 'grey lighten-2': currentInstruction.title === 'Testleider' }">
     <h1 class="display-3 mb-3">Instructies</h1>
     <h2 class="display-2 mb-4">{{ currentInstruction.title }}</h2>
-    <div class="InstructionForm-box">
+    <div class="InstructionForm-box " >
       <p class="headline InstructionForm-message">{{ currentInstruction.message }}</p>
-      <v-btn @click="submit">{{ buttonText }}</v-btn>
+      <v-btn @click="submit" bottom large>{{ buttonText }}</v-btn>
       <div></div>
     </div>
   </div>
@@ -32,7 +33,7 @@ export default {
 .InstructionForm-box {
   margin-left: auto;
   margin-right: auto;
-  width: 65%;
+  width: 70%;
 }
 
 .InstructionForm-message {

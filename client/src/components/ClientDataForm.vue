@@ -2,11 +2,15 @@
   <v-form ref="form" v-model="valid" class="client-form">
     <v-text-field
       v-model="leeftijd"
+      value=""
       min="0"
-      max="200"
+      max="125"
       type="number"
       label="Leeftijd"
-      :rules="[v => !!v || 'Verplicht veld']"
+      :rules="[
+                v => !!v || 'Verplicht veld',
+                v => v <= 125 || 'Geef een geldige leeftijd in.'
+              ]"
       required
     ></v-text-field>
     <v-select
@@ -15,26 +19,34 @@
       :input-value="parsedGender"
       item-text="text"
       item-value="value"
-      :rules="[v => !!v || 'Verplicht veld']"
+      :rules="[
+                v => !!v || 'Verplicht veld'
+              ]"
       label="Geslacht"
       required
     ></v-select>
     <v-text-field
       v-model="leeftijd_naar_school"
       min="0"
-      max="200"
+      max="125"
       type="number"
       label="Leeftijd gestopt met school?"
-      :rules="[v => !!v || 'Verplicht veld']"
+      :rules="[
+                v => !!v || 'Verplicht veld',
+                v => v <= 125 && v < (leeftijd) || 'Geef een geldige waarde in.'
+              ]"
       required
     ></v-text-field>
     <v-text-field
       min="0"
-      max="200"
+      max="125"
       type="number"
       v-model="jaren_naar_school"
       label="Aantal jaren naar school geweest?"
-      :rules="[v => !!v || 'Verplicht veld']"
+      :rules="[
+                v => !!v || 'Verplicht veld',
+                v => v <= 125 && v < (leeftijd_naar_school) || 'Geef een geldige waarde in.'
+              ]"
       required
     ></v-text-field>
     <v-btn :disabled="!valid" @click="submit">Gegevens opslaan</v-btn>

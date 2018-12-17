@@ -43,7 +43,7 @@ function updateConfig(testTitle, newConfig){
     Object.keys(newConfig).forEach(key=>{
         newConfigArr.push({name: key, value: newConfig[key]});
     });
-    Test.update({title: testTitle.toLowerCase()}, {
+    Test.updateOne({title: testTitle}, {
       config: newConfigArr
     }, function(err, numberAffected, rawResponse){
         if(err) f(err);

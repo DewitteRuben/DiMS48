@@ -5,11 +5,11 @@ const instructionPhase1 = new DiMS48Instruction({
     instructions: [
         {
             "title": "Testleider",
-            "message": "Deze test bestaat uit 48 afbeeldingen. Sommige bestaan uit 2 of minder kleuren, andere uit meer dan 3 kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of de tekening uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren bestaat. De tijd tussen de foto’s is maximaal 5 seconden. ",
+            "message": "Deze test bestaat uit 48 afbeeldingen. Sommige bestaan uit 2 of minder kleuren, andere uit meer dan 3 kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of de tekening uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren bestaat. De tijd tussen de foto’s is maximaal <phase1SecondsPerImage> seconden. ",
         },
         {
             "title": "Testnemer",
-            "message": "Je krijgt een aantal afbeeldingen te zien met 2 knoppen erbij. Je moet zo snel mogelijk bepalen of een afbeelding 2 of minder kleuren of 3 of meer kleuren bevat. Je kan klikken op de knoppen",
+            "message": "Je krijgt een aantal afbeeldingen te zien met 2 knoppen erbij. Je moet zo snel mogelijk bepalen of een afbeelding 2 of minder kleuren of 3 of meer kleuren bevat. Je kan klikken op de knoppen op het scherm of drukken op een toets op het toestenbord: '<leftBtnKey>' voor de linkerknop en '<rightBtnKey>' voor de rechterknop.",
         }
     ]
 });
@@ -19,7 +19,7 @@ const instructionInterference = new DiMS48Instruction({
     instructions: [
         {
             "title": "Testleider",
-            "message": "Vraag de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding, een registratie ervan is dus niet vereist.",
+            "message": "Vraag de cliënt gedurende <interferenceDuration> zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding, een registratie ervan is dus niet vereist.",
         }
     ]
 
