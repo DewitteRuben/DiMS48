@@ -86,11 +86,15 @@ export default {
           }
         }
       );
+    } else {
+      next();
+      this.resetTest();
     }
   }
 };
-</script>  
-           <style>
+</script>
+
+<style>
 .dims48-background {
   background-color: white;
 }
