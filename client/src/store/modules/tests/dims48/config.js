@@ -1,3 +1,5 @@
+import keycodes from 'keycodes';
+
 function initialState(){
   return {
     'interferenceDuration': null,
@@ -20,8 +22,14 @@ export default{
     getLeftBtnKeyCode: (state, getters, rootState) =>{
       return state.leftBtnKeyCode
     },
+    getLeftBtnKey: (state, getters, rootState)=>{
+      return keycodes(parseInt(state.leftBtnKeyCode)).replace("left", "Linker pijl");
+    },
     getRightBtnKeyCode: (state, getters, rootState) =>{
       return state.rightBtnKeyCode
+    },
+    getRightBtnKey: (state, getters, rootState)=>{
+      return keycodes(parseInt(state.rightBtnKeyCode)).replace("right", "Rechter pijl");
     }
   },
   actions:{

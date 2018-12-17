@@ -3,18 +3,18 @@
    <v-flex xs12 sm6 md6 lg6 xl6 offset-sm3>
       <v-card flat tile>
           <v-layout>
-              <v-img 
-                :src="baseUrl + currentImage.L.imgUrl" 
+              <v-img
+                :src="baseUrl + currentImage.L.imgUrl"
                 alt="picture"
                 max-width="300px"
                 max-height="300px"
                 min-width="100px"
                 min-height="100px"
                 class="image"
-              ></v-img>    
-              <v-img 
-                v-if="isDouble" 
-                :src="baseUrl+ currentImage.R.imgUrl" 
+              ></v-img>
+              <v-img
+                v-if="isDouble"
+                :src="baseUrl+ currentImage.R.imgUrl"
                 alt
                 max-width="300px"
                 max-height="300px"
