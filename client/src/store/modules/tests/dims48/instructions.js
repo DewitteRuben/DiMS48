@@ -11,7 +11,6 @@ export default {
     state: initialState,
     getters: {
         getCurrentInstruction: (state, getters, rootState, rootGetters) => {
-          console.log(rootGetters);
             const instructions = state.instructions.filter(e => e._id === rootState.dimsManager.currentPhase)[0].instructions;
             instructions[state.currentInstruction].message =
               instructions[state.currentInstruction].message.replace("<phase1SecondsPerImage>", rootGetters["dims48Config/getPhase1SecondsPerImage"]);
