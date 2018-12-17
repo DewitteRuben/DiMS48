@@ -46,7 +46,10 @@ export default {
     getTestResults: async function() {
       HowToTestApi.getTestResults("dims48")
         .then(results => {
-          this.$store.commit("dimsResults/setResultFeed", results);
+          // TODO error displaying
+          if (!"error" in results) {
+            this.$store.commit("dimsResults/setResultFeed", results);
+          }
         })
         .catch(err => {
           console.log(err);

@@ -1,42 +1,38 @@
 <template>
-<v-layout>
-   <v-flex xs12 sm6 md6 lg6 xl6 offset-sm3>
-      <v-card flat tile>
-          <v-layout>
-              <v-img 
-                :src="baseUrl + currentImage.L.imgUrl" 
-                alt="picture"
-                max-width="300px"
-                max-height="300px"
-                min-width="100px"
-                min-height="100px"
-                class="image"
-              ></v-img>    
-              <v-img 
-                v-if="isDouble" 
-                :src="baseUrl+ currentImage.R.imgUrl" 
-                alt
-                max-width="300px"
-                max-height="300px"
-                class="image"
-              ></v-img>
-          </v-layout>
-          <v-layout justify-center>
-            <v-card-actions v-if="hasStarted">
-              <v-btn
-                v-for="(option, index) in currentOptions"
-                @click="answer(option.btnValue)"
-                class="answerButton"
-                :key="index"
-                large
-                flat
-                color="primary"
-              >{{option.btnText}}</v-btn>
-            </v-card-actions>
-        </v-layout>
-      </v-card>
+  <v-layout>
+    <v-flex xs12 sm6 md6 lg6 xl6 offset-sm3>
+      <v-layout justify-center align-center>
+        <v-img
+          :src="baseUrl + currentImage.L.imgUrl"
+          alt="picture"
+          max-width="300px"
+          max-height="300px"
+          min-width="100px"
+          min-height="100px"
+          class="image"
+        ></v-img>
+        <v-img
+          v-if="isDouble"
+          :src="baseUrl+ currentImage.R.imgUrl"
+          alt
+          max-width="300px"
+          max-height="300px"
+          class="image"
+        ></v-img>
+      </v-layout>
+      <v-layout justify-center>
+        <v-flex xs5 sm6 v-for="(option, index) in currentOptions" :key="index">
+          <v-btn
+            @click="answer(option.btnValue)"
+            class="answerButton"
+            large
+            flat
+            color="primary"
+          >{{option.btnText}}</v-btn>
+        </v-flex>
+      </v-layout>
     </v-flex>
-</v-layout>
+  </v-layout>
 </template>
 
 <script>
@@ -140,8 +136,7 @@ export default {
 </script>
 
 <style>
-
-.image{
+.image {
   display: block;
   margin-left: auto;
   margin-right: auto;
