@@ -3,7 +3,7 @@
     <v-card class="pa-5">
       <v-card-title primary-title>
         <div>
-          <h3 class="headline mb-0">Vul het ID-nummer van de complentaire test in:</h3>
+          <h3 class="headline mb-0">Vul het ID-nummer van de complementaire test in:</h3>
         </div>
       </v-card-title>
       <v-card-text>

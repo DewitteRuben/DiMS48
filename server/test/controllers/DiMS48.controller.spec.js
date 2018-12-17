@@ -180,14 +180,12 @@ describe('DiMS48Controller', () => {
             });
     });
 
-    it("should make the scores of phase 3 null if part 3 is not done", (done) => {
+    it("should make phase 3 null if part 3 is not done", (done) => {
         const mockModel = makeMockModel([{
             "clientInfo": {
                 "gender": "m"
             },
-            "phase3": {
-                "answers": []
-            }
+            "phase3": null
         }]);
 
         const MockDiMS48Model = {
@@ -203,8 +201,7 @@ describe('DiMS48Controller', () => {
 
                 expected.should.be.equal(actual);
 
-                const gottenScore = result[0].phase3.scores;
-                const expectedScore = null;
+                const gottenScore = result[0].phase3;
 
                 expect(gottenScore).to.be.null;
 
@@ -436,7 +433,18 @@ describe('DiMS48Controller', () => {
     });
 
     it('getPDF should return a promise', (done) => {
-        const diMS48Controller = DiMS48Controller();
+        const mockModel = makeMockModel([{
+            "clientInfo": {
+                "gender": "m"
+            },
+            "phase3": null
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
 
         diMS48Controller.getPDF(1)
         .catch((err) => {
@@ -446,7 +454,20 @@ describe('DiMS48Controller', () => {
     });
 
     it('getExcel should return a promise',(done) => {
-        const diMS48Controller = DiMS48Controller();
+        const mockModel = makeMockModel([{
+            "_id":1,
+            "clientInfo": {
+                "age": 10,
+                "gender": "m"
+            },
+            "phase3": null
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
 
         diMS48Controller.getExcel(1)
         .catch((err) => {
