@@ -89,12 +89,14 @@ export default {
     answer: function(btnValue) {
       if (this.isDouble) {
         const selectedImageId = this.currentImage[btnValue]._id;
+        const id = "A" + selectedImageId.substring(1);
+        const answer = selectedImageId;
         const doubleAnswer = {
           test: this.testName,
           phase: this.currentPhase,
           answer: {
-            _id: selectedImageId,
-            answer: "A" + selectedImageId.substring(1)
+            _id: id,
+            answer: answer
           }
         };
         this.saveAnswer(doubleAnswer);
