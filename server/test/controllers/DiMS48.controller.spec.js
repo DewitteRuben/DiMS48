@@ -26,6 +26,9 @@ const makeMockModel = function makeMockModel(toReturn, err) {
         findByIdAndUpdate: function(id, toReturn, toCall){
             toCall(err ? err : null, toReturn);
         },
+        findById : function(id, toCall){
+            toCall(err ? err : null, toReturn);
+        },
         amountCalled: 0
     };
 
@@ -508,6 +511,120 @@ describe('DiMS48Controller', () => {
         diMS48Controller.getExcel(1)
         .catch((err) => {
             //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
+
+    it('getExcelAllResults should return a promise',(done) => {
+        const mockModel = makeMockModel([{
+            "_id":1,
+            "clientInfo": {
+                "age": 10,
+                "gender": "m"
+            },
+            "phase3": null
+        }]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getExcelAllResults()
+        .catch((err) => {
+            //Should throw error, correct parameters were not passed
+            done();
+        });
+    });
+
+    it('should be able to update the note of a given test', (done) => {
+        const mockModel = makeMockModel({
+            "_id":1,
+            "clientInfo": {
+                "age": 10,
+                "gender": "m",
+                "notes": "testNote"
+            },
+            "phase3": null,
+            save: function(toCall){
+                toCall(null);
+            },
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        const updatedNoteText = "updated note";
+        diMS48Controller.updateNote(1, updatedNoteText);
+
+        diMS48Controller.getResult(1).then((result) => {
+            const gottenNote = result.clientInfo.notes;
+
+            gottenNote.should.be.equal(updatedNoteText);
+            done();
+        });
+    });
+
+    it("should throw error for invalid id via promise", (done) => {
+        const errorMessage = "someError";
+
+        const mockModel = makeMockModel({}, errorMessage);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateNote(1).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            done();
+        });
+    });
+
+    it("should throw saving error via promise", (done) => {
+        const mockModel = makeMockModel({
+            "clientInfo": {
+                "notes": "someNote"
+            },
+            save: function(toCall){
+                toCall("errorMessage");
+            }
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.updateNote(1).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
+            const receivedError = err;
+
+            receivedError.should.equal("errorMessage");
+            done();
+        });
+    });
+
+    it("should throw an error if updateNote returns null", (done) => {
+        const mockModel = makeMockModel(null, null);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, null);
+
+        diMS48Controller.updateNote(1).then((data) => {
+            throw "invalid note updated passed";
+        }).catch((err) => {
             done();
         });
     });
