@@ -47,7 +47,8 @@ export default {
       HowToTestApi.getTestResults("dims48")
         .then(results => {
           // TODO error displaying
-          if (!"error" in results) {
+          if ("error" in results) {
+          } else {
             this.$store.commit("dimsResults/setResultFeed", results);
           }
         })
