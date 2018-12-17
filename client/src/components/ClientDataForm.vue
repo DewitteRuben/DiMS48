@@ -9,7 +9,7 @@
       label="Leeftijd"
       :rules="[
                 v => !!v || 'Verplicht veld',
-                v => v <= 125 || 'Geef een geldige leeftijd in.'
+                v => parseInt(v) <= 125 || 'Geef een geldige leeftijd in.'
               ]"
       required
     ></v-text-field>
@@ -33,7 +33,7 @@
       label="Leeftijd gestopt met school?"
       :rules="[
                 v => !!v || 'Verplicht veld',
-                v => v <= 125 && v <= (leeftijd) || 'Geef een geldige waarde in.'
+                v => parseInt(v) <= 125 && parseInt(v) <= (leeftijd) || 'Geef een geldige waarde in.'
               ]"
       required
     ></v-text-field>
@@ -45,7 +45,7 @@
       label="Aantal jaren naar school geweest?"
       :rules="[
                 v => !!v || 'Verplicht veld',
-                v => v <= 125 && v < (leeftijd_naar_school) || 'Geef een geldige waarde in.'
+                v => parseInt(v) <= 125 && parseInt(v) < (leeftijd_naar_school) || 'Geef een geldige waarde in.'
               ]"
       required
     ></v-text-field>
