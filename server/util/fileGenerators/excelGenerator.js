@@ -62,9 +62,9 @@ function makeExcel(result){
       worksheetResults.column(1).setWidth(22);
       worksheetResults.column(4).setWidth(14);
       worksheetResults.column(5).setWidth(13);
-    
+
       const phase3Included = result.phase3 !== null;
-    
+
       writeClientInfo(worksheetResults, result._id, result.clientInfo);
       writeHeadingResults(worksheetResults, phase3Included);
       writeHeadingAnswers(worksheetAnswers, phase3Included);
@@ -76,7 +76,7 @@ function makeExcel(result){
         writeResultsPhase2(worksheetResults, result.phase3, true);
         writeAnswers(worksheetAnswers, result.phase3.answers, true, 9);
       }
-  
+
       resolve(workbook);
     }catch(err) {
       reject(err);
@@ -135,16 +135,21 @@ function writeAnswers(worksheet, answers, isPhase2, beginColumn){
   worksheet.cell(beginRow, beginColumn).string(text.index).style(styleHeading);
   worksheet.cell(beginRow, beginColumn+1).string(text.answer).style(styleHeading);
   worksheet.cell(beginRow, beginColumn+2).string(text.correctAnswer).style(styleHeading);
-  let getCorrectAnswer = isPhase2 ? ImageData.getAmountOfColours : ImageData.getSetKind;
+  if(isPhase2)worksheet.cell(beginRow, beginColumn+3).string(text.sort).style(styleHeading);
+  let getCorrectAnswer = !isPhase2 ? ImageData.getAmountOfColours : getCorrectAnswerPhase2;
   let currentRow = beginRow+1;
   answers.forEach(answer=>{
     let index = parseInt(answer._id.substring(1));
     worksheet.cell(currentRow, beginColumn).number(index).style(styleData);
     worksheet.cell(currentRow, beginColumn+1).string(answer.answer).style(styleData);
-    worksheet.cell(currentRow, beginColumn+2)
-      .string(getCorrectAnswer(index)).style(styleData);
+    worksheet.cell(currentRow, beginColumn+2).string(getCorrectAnswer(index)).style(styleData);
+    if(isPhase2)worksheet.cell(currentRow, beginColumn+3).string(ImageData.getSetKind(index));
     currentRow++;
   })
+}
+
+function getCorrectAnswerPhase2(index){
+  return `A${index}`;
 }
 
 function writeResultsPhase2(worksheet, answers, isPart2){
