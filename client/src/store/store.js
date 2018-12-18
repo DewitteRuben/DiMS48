@@ -6,6 +6,7 @@ import dims48resultData from "./modules/tests/dims48/testResultData";
 import dims48manager from "./modules/tests/dims48/manager";
 import dims48Config from "./modules/tests/dims48/config";
 import dims48clientData from "./modules/clientData/clientData";
+import timerStore from "./modules/tests/dims48/timerStore";
 import user from "./modules/user";
 import results from "./modules/results/dims48/results";
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     dimsClientData: dims48clientData,
     user: user,
     dimsResults: results,
-    dims48Config: dims48Config
+    dims48Config: dims48Config,
+    timerStore: timerStore
   }
 });

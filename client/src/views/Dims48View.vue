@@ -41,16 +41,6 @@ export default {
     Dims48bTest,
     ConfirmationDialog
   },
-
-  created: function() {
-    let self = this;
-    howtotestapi
-      .getDims48()
-      .then(data => {
-        self.$store.dispatch("dims48Config/initialize", data.config[0].config);
-      })
-      .catch(err => console.log(err));
-  },
   computed: {
     isDims48a: function() {
       return this.$route.name === "dims48a";

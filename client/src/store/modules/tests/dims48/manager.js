@@ -32,11 +32,26 @@ export default {
     }
   },
   mutations: {
-    startPhase: state => {
+    resetState: state => {
+      const s = initialState();
+      Object.keys(s).forEach(key => {
+        state[key] = s[key];
+      });
+    },
+    initDims48a: state => {
+      state.version = "dims48a";
+      state.currentPhase = "phase1";
+    },
+    initDims48b: state => {
+      state.version = "dims48b";
+      state.currentPhase = "phase3";
+    }
+  },
+  actions: {
+    startPhase: ({ state, commit, dispatch }) => {
       if (state.version === "dims48b") {
         state.double = true;
       }
-
       switch (state.currentPhase) {
         case "end":
           state.finished = true;
@@ -49,7 +64,7 @@ export default {
           break;
       }
     },
-    endPhase: state => {
+    endPhase: ({ state, commit, dispatch }) => {
       switch (state.currentPhase) {
         case "phase1":
           if (state.version === "dims48a") {
@@ -71,22 +86,6 @@ export default {
       }
       state.started = false;
     },
-    resetState: state => {
-      const s = initialState();
-      Object.keys(s).forEach(key => {
-        state[key] = s[key];
-      });
-    },
-    initDims48a: state => {
-      state.version = "dims48a";
-      state.currentPhase = "phase1";
-    },
-    initDims48b: state => {
-      state.version = "dims48b";
-      state.currentPhase = "phase3";
-    }
-  },
-  actions: {
     initDims48a: ({ commit, dispatch }) => {
       commit("initDims48a");
       dispatch("initDims48TestData");
@@ -108,6 +107,9 @@ export default {
             root: true
           });
           commit("dimsQuestions/updateOptions", res.options, { root: true });
+          dispatch("dims48Config/initialize", res.config[0].config, {
+            root: true
+          });
         })
         .catch(err => {
           console.error(err);

@@ -49,7 +49,7 @@ export default {
     }
   },
   actions: {
-    getNextInstruction: ({ commit, state, rootState }, newValue) => {
+    getNextInstruction: ({ commit, state, rootState, dispatch }, newValue) => {
       const instructions = state.instructions.filter(
         e => e._id === rootState.dimsManager.currentPhase
       )[0].instructions;
@@ -57,7 +57,7 @@ export default {
         state.currentInstruction++;
       } else {
         commit("resetCount");
-        commit("dimsManager/startPhase", null, { root: true });
+        dispatch("dimsManager/startPhase", null, { root: true });
       }
     }
   },
