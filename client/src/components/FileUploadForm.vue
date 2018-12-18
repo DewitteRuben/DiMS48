@@ -9,7 +9,7 @@
 export default {
   computed: {
     action(){
-      return `http://localhost:3000/api/upload`;
+      return `http://localhost:3000/api/upload/dims48`;
     }
   }
 }

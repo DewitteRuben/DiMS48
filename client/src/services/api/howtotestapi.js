@@ -19,6 +19,8 @@ export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
 export const updateClientInfo = (test, id, data) =>
   processReq(`/results/${test}/${id}`, data, "PATCH");
+export const getNormValues = name => processReq(`/test/${name}/normValues`);
+export const normValuesExist = name => processReq(`/test/${name}/normValuesExist`);
 
 async function processReq(url, dataObj = {}, method = "GET") {
   const conf = {

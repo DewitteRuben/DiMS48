@@ -178,6 +178,28 @@ router.get('/results/:name/excel/:id', function (req, res) {
   }
 });
 
+router.get('/test/:name/normValuesExist', function(req,res){
+  let testName = req.params.name.toLocaleLowerCase();
+  switch (testName) {
+    case DIMS48_NAME:
+      DiMS48Router.normValuesExist(res);
+      break;
+    default:
+      sendTestNotFound(req,res);
+  }
+})
+
+router.get('/test/:name/normValues', function(req,res){
+  let testName = req.params.name.toLocaleLowerCase();
+  switch (testName) {
+    case DIMS48_NAME:
+      DiMS48Router.getNormValues(res);
+      break;
+    default:
+      sendTestNotFound(req,res);
+  }
+})
+
 router.post('/register', function (req, res) {
   UserController.addUser(req.body).then(newUser => {
     req.session.userId = newUser._id;
@@ -218,13 +240,14 @@ router.get('/isAdmin', function(req,res){
   }else res.send({msg: "not logged in"});
 })
 
-router.post('/upload', function(req,res){
+router.post('/upload/:name', function(req,res){
   console.log(req.files);
   if(Object.keys(req.files).length ==0){
     return res.status(400).send({msg:"Geen file geupload"});
   }
+  let fileName = req.params.name.toLocaleLowerCase() + '.pdf';
   let uploadFile = req.files.toUpload;
-  uploadFile.mv(__dirname + '/../uploads/' + uploadFile.name, function(err){
+  uploadFile.mv(__dirname + '/../uploads/' + fileName, function(err){
     if(err) return res.status(500).json({msg:"Kon file niet uploaden"});
     res.redirect('/');
   })

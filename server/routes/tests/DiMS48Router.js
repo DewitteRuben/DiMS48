@@ -1,4 +1,6 @@
 var express = require('express');
+const path = require('path');
+const fs = require('fs');
 var router = express.Router();
 
 const DiMS48Models = require('../../models/DiMS48Models');
@@ -266,6 +268,14 @@ function ExcelError(err, res){
   }
 }
 
+function normValuesExist(res){
+  res.json({exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))});
+}
+
+function getNormValues(res){
+  res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
+}
+
 function getBeginObject(part) {
   return new Promise(function (resolve, reject) {
     const beginObject = {
@@ -360,5 +370,7 @@ module.exports = {
   getPdf,
   getExcel,
   getExcelAllResults,
-  updateClientInfoOrNote
+  updateClientInfoOrNote,
+  getNormValues,
+  normValuesExist
 }
