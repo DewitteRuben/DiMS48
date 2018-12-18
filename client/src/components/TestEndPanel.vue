@@ -67,6 +67,7 @@ export default {
           .then(e => {
             const id = e._id;
             this.$router.push({ path: `/results/dims48/${id}` });
+            this.resetTest();
           })
           .catch(e => {
             console.error(e);

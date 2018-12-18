@@ -143,9 +143,6 @@ export default {
         this.saveAnswer(singleAnswer);
       }
       this.nextImage();
-    },
-    created() {
-      this.$store.commit("timerStore/setup", this.answerCustom(null));
     }
   }
 };

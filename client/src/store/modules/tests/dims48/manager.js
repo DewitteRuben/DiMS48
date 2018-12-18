@@ -117,7 +117,9 @@ export default {
     },
     initializeTest: ({ commit }) => {},
     resetState: ({ commit }) => {
+      console.log("resetting");
       commit("resetState");
+      commit("dimsTestData/resetState", null, { root: true });
       commit("dimsQuestions/resetState", null, { root: true });
       commit("dimsInstructions/resetState", null, { root: true });
     }

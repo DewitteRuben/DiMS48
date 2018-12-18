@@ -35,7 +35,6 @@ export default {
       dialogDeclineButtonText: "Nee"
     };
   },
-
   components: {
     Dims48aTest,
     Dims48bTest,
@@ -80,6 +79,9 @@ export default {
       next();
       this.resetTest();
     }
+  },
+  created() {
+    this.resetTest();
   }
 };
 </script>
