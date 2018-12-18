@@ -218,6 +218,18 @@ router.get('/isAdmin', function(req,res){
   }else res.send({msg: "not logged in"});
 })
 
+router.post('/upload', function(req,res){
+  console.log(req.files);
+  if(Object.keys(req.files).length ==0){
+    return res.status(400).send({msg:"Geen file geupload"});
+  }
+  let uploadFile = req.files.toUpload;
+  uploadFile.mv(__dirname + '/../uploads/' + uploadFile.name, function(err){
+    if(err) return res.status(500).json({msg:"Kon file niet uploaden"});
+    res.redirect('/');
+  })
+})
+
 const sendTestNotFound = function sendTestNotFound(req, res) {
   const errorCode = 404;
   res.status(errorCode);
