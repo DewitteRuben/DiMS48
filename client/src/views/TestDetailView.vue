@@ -33,7 +33,16 @@ export default {
     };
   },
   created() {
-    this.getDetails();
+    let self = this;
+    howToTestApi
+      .getDims48()
+      .then(data => {
+        self.$store.dispatch("dims48Config/initialize", data.config[0].config);
+      })
+      .then(()=>{
+        this.getDetails();
+      })
+      .catch(err => console.log(err));
   },
   computed: {
     category: function() {
@@ -49,9 +58,16 @@ export default {
   methods: {
     getDetails: async function() {
       let category = this.$route.params.name;
+      let self = this;
       howToTestApi
         .getTestDetails(category)
         .then(details => {
+          details[0].description = details[0].description.replace('<interferenceDuration>',
+              self.$store.getters["dims48Config/getInterferenceDurationHumanReadable"]);
+          details[0].description = details[0].description.replace('<leftBtnKey>',
+              self.$store.getters["dims48Config/getLeftBtnKey"]);
+          details[0].description = details[0].description.replace('<rightBtnKey>',
+              self.$store.getters["dims48Config/getRightBtnKey"]);
           this.details = details;
         })
         .catch(e => console.log(e))

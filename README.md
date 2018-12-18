@@ -8,3 +8,63 @@ Na het eerste deel komt een interferentietaak. Tijdens die taak wordt de proefpe
 Het tweede deel bestaat uit een reeks van 48 paren van afbeeldingen. Nu dient de proefpersoon aan te geven welke van de beide afbeeldingen hij in het eerste deel van de taak heeft gezien, de linkse of de rechtse. Hier is geen tijdslimiet.
 
 Deel 3 is een herhaling van deel 2 na een ongedefinieerde tussentijd. Dit deel van de test dient om het lange termijngeheugen te testen van de proefpersoon.
+
+# Documentatie-Code
+De website is een 1 page application geschreven met Vue.js. De inhoud word opgehaald via API calls naar een Node.js server. 
+
+## Front-End
+
+## Backend
+### Database
+De Node.js server verbind met verschillende mongodb databanken. Eén databank per test die afgelegd kan worden en één algemene databank. De algemene databank houd bij welke testen er beschikbaar zijn, de beschrijving en hun configuratie. De database per test bevat specifieke data voor die test. Voor de verbinding met de databanken, maken we gebruik van [mongoose](https://github.com/Automattic/mongoose).
+
+#### Models
+Per test zijn er specifieke models, deze gebruikt mongoose voor de CRUD acties. Deze models bevinden zich in de map '/models' en verder verdeeld volgens hun functie. Bij toevoeging van een test, worden de test specifieke models hier toegevoegd.
+
+### Controllers
+De controllers zijn de verbinding tussen de database en de routers. De routers gebruiken methodes in de controllers om de data te manipuleren. Bij toevoeging van een test, word er een Controller toegevoegd.
+
+## Routers
+Er is 1 algemene router: '/routes/api.js'. Hier komen alle api requests binnen en worden eventueel doorgestuurd naar de juiste router voor een bepaalde test. Bij toevoeging van een test, word er een Router toegevoegd.
+
+## Seeders
+De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd.
+
+# Toevoegen van een test
+Demonstratie over hoe er een nieuwe test kan toegevoegd worden. Voor deze demo gebruiken we de DiMS48 als in te voegen test.
+
+## Models
+Maak in de map [models](server/models) een nieuwe map: DiMS48Models. Maak de nodige models aan die specifiek zijn voor de test. Duid per model aan welke database connectie dit model moet gebruiken. Gebruik de naming convention: X.server.model.js: [*results.server.model.js*](server/models/DiMS48Models/results.server.model.js). Maak een Javascript file waar je de Schema's en models exporteert: [*DiMS48Models.js*](server/models/DiMS48Models.js).
+
+## Controller
+Maak een nieuwe Javascript file in de map [controllers](server/controllers) en noem deze naar de nieuwe test: [*DiMS48Controller*](server/controllers/DiMS48Controller.js). Maak hier alle functies die data opvragen en/of veranderen in de database. Exporteer alle nodige functies.
+
+## Router
+Maak een nieuwe Javascript file in de map [routes/test](server/routes/test) en noem deze naar de nieuwe test: [*DiMS48Router*](server/routes/test/DiMS48Router.js). Maak hier alle functies die te maken hebben met de API calls die met de nieuwe test te maken hebben. De volgende functies moeten ten minste aangemaakt worden: 
+<dl>
+  <dt>initial()</dt>
+  <dd>Geeft de initiele data terug die de Vue.js applicatie nodig heeft om de test te starten</dd>
+  
+  <dt>getResults()</dt>
+  <dd>Geeft de resultaten van alle testen die tot nu toe afgenomen zijn terug, kan eventueel ook een Excel document met alle resultaten teruggeven</dd>
+  
+  <dt>getResult(id)</dt>
+  <dd>Geeft de resultaten van één specieke test terug</dd>
+  
+  <dt>postResult(result)</dt>
+  <dd>Voegt een nieuw resultaat toe in de database</dd>
+</dl>
+De volgende functies kunnen aangemaakt worden indien gewenst:
+<dl>
+  <dt>getPDF(id)</dt>
+  <dd>Geeft een pdf terug met de resultaten van één test</dd>
+  
+  <dt>getExcel(id)</dt>
+  <dd>Geeft een Excel terug met de resultaten van één test</dd>
+  
+  <dt>updateConfig</dt>
+  <dd>Indien er configuratie nodig is voor de test, kan deze via deze methode veranderd worden</dd>
+</dl>
+
+## Seeders
+Deze zijn enkel nodig indien er specifieke data nodig is om de test te kunnen starten. Maak in de map [*seeders*](server/seeders) een nieuwe Javascript file aan en noem deze naar de data die geseed moet worden: De DiMS48 test heeft afbeeldingen nodig, de Seeder [*imagesSeeder*](server/seeders/imagesSeeder.js) voegt de locaties van de afbeeldingen in. Voeg de nieuwe seeder toe in de hoofd seeder [*seeder.js*](server/seeders/seeder.js).

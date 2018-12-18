@@ -1,9 +1,10 @@
 <template>
- <v-form ref="form" lazy-validation>
-   <v-btn @click="action = action === 'login' ? 'register' : 'login'">{{action}}</v-btn>
+<v-layout justify-center align-center fill-height>
+ <v-form ref="form" v-model="valid" lazy-validation class="login-form">
    <span>{{error}}</span>
    <v-text-field
     v-model="email"
+    :rules=[]
     name="email"
     label="Email"
     required
@@ -20,9 +21,11 @@
     label="Password"
     required
    ></v-text-field>
-   <v-btn @click="submit">{{action}}</v-btn>
-   <v-btn @click="clear">clear</v-btn>
+   <v-btn class="blue white--text" large @click="submit('login')" v-if="action === 'login'">Inloggen</v-btn>
+   <v-btn large @click="action = 'register'" v-if="action === 'login'">Registeren</v-btn>
+   <v-btn class="blue white--text" large @click="submit('login')" v-if="action === 'register'">Registeren</v-btn>
  </v-form>
+ </v-layout>
 </template>
 
 <script>
@@ -39,7 +42,7 @@
       }
     },
     methods: {
-      submit: function(){
+      submit: function(action){
         console.log(this.email, this.password, this.valid);
         let self = this;
         if(self.action === "login")
@@ -52,7 +55,7 @@
             }else{
               this.error = json.msg;
             }
-          }).catch(err=>{console.error(err); this.error="Could not login, try again later"});
+          }).catch(err=>{console.error(err); this.error="Inloggen is mislukt, probeer het later opnieuw"});
         if(self.action === "register"){
           howtotestapi.registerUser({email: self.email, password: self.password, username: self.username})
             .then(json=>{
@@ -62,7 +65,7 @@
                 }else{
                   this.error = json.msg;
                 }
-            }).catch(err=>{console.error(err); this.error = "Could not register, try again later"});
+            }).catch(err=>{console.error(err); this.error = "Registreren is mislukt, probeer het later opnieuw"});
         }
       },
       clear: function(){
@@ -72,3 +75,10 @@
     }
   }
 </script>
+
+<style scoped>
+.login-form {
+  padding: 15px;
+  width:75%;
+}
+</style>
