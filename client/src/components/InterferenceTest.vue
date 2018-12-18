@@ -82,7 +82,7 @@ export default {
       }
     },
     next: function() {
-      this.$store.commit("dimsManager/endPhase");
+      this.$store.dispatch("dimsManager/endPhase");
     }
   },
   // ========================
@@ -96,8 +96,15 @@ export default {
       return this.padTime(seconds);
     },
     totalTime: {
-      get: function(){return this.totalTimeValue || this.$store.getters["dims48Config/getInterferenceDuration"]},
-      set: function(newValue){this.totalTimeValue = newValue}
+      get: function() {
+        return (
+          this.totalTimeValue ||
+          this.$store.getters["dims48Config/getInterferenceDuration"]
+        );
+      },
+      set: function(newValue) {
+        this.totalTimeValue = newValue;
+      }
     }
   }
 };

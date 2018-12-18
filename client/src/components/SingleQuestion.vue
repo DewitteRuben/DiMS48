@@ -38,7 +38,6 @@
 <script>
 export default {
   mounted() {
-    // TODO: Make keycodes interchangable
     window.addEventListener("keyup", e => {
       if (this.hasStarted) {
         const btnValueLeft = this.currentOptions[0].btnValue;
@@ -102,6 +101,20 @@ export default {
     },
     saveAnswer: function(answer) {
       this.$store.commit("dimsTestData/setAnswer", answer);
+    },
+    answerCustom: function(value) {
+      return function() {
+        const selectedImageId = this.currentOptions.L._id;
+        const answer = {
+          test: this.testName,
+          phase: this.currentPhase,
+          answer: {
+            _id: selectedImageId,
+            answer: value
+          }
+        };
+        this.saveAnswer(answer);
+      };
     },
     answer: function(btnValue) {
       if (this.isDouble) {

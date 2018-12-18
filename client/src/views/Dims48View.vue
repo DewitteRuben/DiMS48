@@ -35,21 +35,10 @@ export default {
       dialogDeclineButtonText: "Nee"
     };
   },
-
   components: {
     Dims48aTest,
     Dims48bTest,
     ConfirmationDialog
-  },
-
-  created: function() {
-    let self = this;
-    howtotestapi
-      .getDims48()
-      .then(data => {
-        self.$store.dispatch("dims48Config/initialize", data.config[0].config);
-      })
-      .catch(err => console.log(err));
   },
   computed: {
     isDims48a: function() {
@@ -90,6 +79,9 @@ export default {
       next();
       this.resetTest();
     }
+  },
+  created() {
+    this.resetTest();
   }
 };
 </script>
