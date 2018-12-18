@@ -1,7 +1,6 @@
 <template>
     <fullscreen ref="fullscreen" :fullscreen.sync="fullscreen">
-      <router-view></router-view>
-      <v-btn id="setFullscreen" type="button" @click="toggle" >Fullscreen</v-btn>
+      <router-view @startTest="toggle"></router-view>
     </fullscreen>
 </template>
 
@@ -18,6 +17,12 @@ export default {
     toggle(){
       this.$refs['fullscreen'].toggle();
     }
+  },
+  mounted: function(){
+    let self = this;
+    this.$root.$on('startTest', function(){
+      self.toggle();
+    })
   }
 };
 </script>

@@ -49,7 +49,7 @@
               ]"
       required
     ></v-text-field>
-    <v-btn :disabled="!valid" @click="submit">Gegevens opslaan</v-btn>
+    <v-btn :disabled="!valid" @click="startTest">Gegevens opslaan</v-btn>
   </v-form>
 </template>
 
@@ -94,6 +94,12 @@ export default {
         return parsedGender.value;
       }
       return parsedGender;
+    }
+  },
+  methods: {
+    startTest(){
+      this.submit();
+      this.$root.$emit('startTest');
     }
   },
   created() {
