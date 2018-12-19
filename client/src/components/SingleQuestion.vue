@@ -145,7 +145,7 @@ export default {
           phase: this.currentPhase,
           answer: {
             _id: imageId,
-            reponseTime: responseTime,
+            responseTime: responseTime,
             answer: btnValue
           }
         };
