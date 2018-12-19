@@ -1,30 +1,9 @@
 <template>
-  <Fullscreen ref="fullscreen" :fullscreen.sync="fullscreen">
-    <router-view @startTest="toggle"></router-view>
-  </Fullscreen>
+  <router-view></router-view>
 </template>
 
 <script>
-import Fullscreen from "vue-fullscreen/src/component.vue";
-export default {
-  components: { Fullscreen },
-  data() {
-    return {
-      fullscreen: false
-    };
-  },
-  methods: {
-    toggle() {
-      this.$refs["fullscreen"].toggle();
-    }
-  },
-  mounted: function() {
-    let self = this;
-    this.$root.$on("startTest", function() {
-      self.toggle();
-    });
-  }
-};
+export default {};
 </script>
 
 <style scoped>

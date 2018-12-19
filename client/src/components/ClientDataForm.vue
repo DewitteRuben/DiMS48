@@ -103,7 +103,6 @@ export default {
     startTest(){
       this.resetTestData();
       this.submit();
-      this.$root.$emit('startTest');
     },
   },
   created() {

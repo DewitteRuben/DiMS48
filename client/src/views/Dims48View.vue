@@ -1,7 +1,14 @@
 <template>
   <v-container fluid fill-height class="dims48-background">
-    <Dims48aTest v-if="isDims48a"/>
-    <Dims48bTest v-else/>
+    <v-layout column>
+      <v-layout>
+        <v-btn color="success" @click="toggleFullscreen">Volledig scherm</v-btn>
+      </v-layout>
+      <v-layout class="dims48-background" ref="fullscreen">
+        <Dims48aTest v-if="isDims48a"/>
+        <Dims48bTest v-else/>
+      </v-layout>
+    </v-layout>
     <ConfirmationDialog
       v-on:confirmModal="confirmDialog"
       v-on:declineModal="declineDialog"
@@ -28,6 +35,7 @@ export default {
     return {
       dialog: false,
       answer: null,
+      fullscreen: false,
       dialogTitle: "Dims48",
       dialogHeadline: "Dims48",
       dialogMessage: "",
@@ -56,6 +64,9 @@ export default {
         this.answer = resolve;
       });
     },
+    toggle() {
+      this.$refs["fullscreen"].toggle();
+    },
     confirmDialog: function(cb) {
       this.dialog = false;
       this.answer(true);
@@ -66,6 +77,18 @@ export default {
     },
     clearTimer: function() {
       this.$store.commit("timerStore/clear");
+    },
+    toggleFullscreen: function() {
+      const elem = this.$refs.fullscreen;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
     }
   },
   beforeRouteLeave(to, from, next) {
