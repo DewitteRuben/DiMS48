@@ -278,14 +278,9 @@ router.post('/upload/:name', function (req, res) {
   let fileName = req.params.name.toLocaleLowerCase() + '.pdf';
   let uploadFile = req.files.toUpload;
   uploadFile.mv(__dirname + '/../uploads/' + fileName, function (err) {
-    if (err){ return res.status(500).json({
+    if (err) return res.status(500).json({
       msg: "Kon file niet uploaden"
-      })
-    }else{
-      return res.status(200).json({
-        msg: "File geupload"
-      })
-    };
+    });
     res.redirect('/');
   });
 });
