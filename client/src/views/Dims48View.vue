@@ -18,7 +18,7 @@
       :message="dialogMessage"
       :confirmButtonText="dialogConfirmButtonText"
       :declineButtonText="dialogDeclineButtonText"
-      :decline="true"
+      :decline="dialogDecline"
     />
   </v-container>
 </template>
@@ -31,6 +31,11 @@ import * as howtotestapi from "@/services/api/howtotestapi";
 
 export default {
   name: "Dims48Page",
+  mounted() {
+    this.$root.$on("dialog", data => {
+      this.displayDialogue(data.message, data.decline, data.confirmButtonText);
+    });
+  },
   data() {
     return {
       dialog: false,
@@ -40,7 +45,8 @@ export default {
       dialogHeadline: "Dims48",
       dialogMessage: "",
       dialogConfirmButtonText: "Ja",
-      dialogDeclineButtonText: "Nee"
+      dialogDeclineButtonText: "Nee",
+      dialogDecline: true
     };
   },
   components: {
@@ -57,8 +63,10 @@ export default {
     resetTest: function() {
       this.$store.dispatch("dimsManager/resetState");
     },
-    displayDialogue: function(message) {
+    displayDialogue: function(message, decline, confirmButtonText) {
       this.dialogMessage = message;
+      this.dialogDecline = decline;
+      this.dialogConfirmButtonText = confirmButtonText;
       this.dialog = true;
       return new Promise((resolve, reject) => {
         this.answer = resolve;
@@ -93,15 +101,17 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (!this.$store.getters["dimsManager/hasFinished"]) {
-      this.displayDialogue("Bent u zeker dat u de pagina wilt verlaten?").then(
-        answer => {
-          if (answer) {
-            next();
-            this.resetTest();
-            this.clearTimer();
-          }
+      this.displayDialogue(
+        "Bent u zeker dat u de pagina wilt verlaten?",
+        true,
+        "Ja"
+      ).then(answer => {
+        if (answer) {
+          next();
+          this.resetTest();
+          this.clearTimer();
         }
-      );
+      });
     } else {
       next();
       this.resetTest();

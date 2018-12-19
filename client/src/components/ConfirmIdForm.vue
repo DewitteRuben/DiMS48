@@ -47,7 +47,11 @@ export default {
         HowToTestApi.getTestResultsById("dims48", this.id)
           .then(res => {
             if ("error" in res) {
-              alert("Er werd geen test gevonden met id " + this.id);
+              this.$root.$emit("dialog", {
+                message: "Er werd geen test gevonden met id: " + this.id,
+                decline: false,
+                confirmButtonText: "ok"
+              });
             } else {
               this.$emit("registerId", this.id);
             }
