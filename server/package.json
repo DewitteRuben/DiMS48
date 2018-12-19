@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "SET NODE_ENV=development & node ./bin/www",
-    "start-production": "SET NODE_ENV=production & node ./bin/www",
-    "test": "SET NODE_ENV=test & mocha \"./test/**/*.spec.js\" --exit",
-    "cover": "SET NODE_ENV=test & nyc --reporter=html npm test"
+    "start": "cross-env NODE_ENV=development & node ./bin/www",
+    "start-production": "cross-env NODE_ENV=production & node ./bin/www",
+    "test": "cross-env NODE_ENV=test & mocha \"./test/**/*.spec.js\" --exit",
+    "cover": "cross-env NODE_ENV=test & nyc --reporter=html npm test"
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
@@ -16,6 +16,7 @@
     "ejs": "^2.6.1",
     "excel4node": "^1.7.0",
     "express": "~4.16.0",
+    "express-fileupload": "^1.0.0",
     "express-session": "^1.15.6",
     "fs-extra": "^7.0.1",
     "mongoose": "^5.3.9",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^5.2.0",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "sinon": "^7.1.1"

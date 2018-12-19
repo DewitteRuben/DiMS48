@@ -26,16 +26,19 @@
       :isKeyCode="true"
       @update="onChildUpdate"
     />
+    <FileUploadForm/>
   </v-container>
 </template>
 
 <script>
 import ConfigEditor from "@/components/ConfigEditor.vue";
+import FileUploadForm from "@/components/FileUploadForm.vue";
 import * as howtotestapi from "@/services/api/howtotestapi";
 
 export default {
   components: {
-    ConfigEditor
+    ConfigEditor,
+    FileUploadForm
   },
   data: function(){
     return {
