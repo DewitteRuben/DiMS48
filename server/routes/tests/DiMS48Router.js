@@ -183,6 +183,15 @@ function postResultPart2(req, res) {
     })
 }
 
+function removeResult(req, res){
+  DiMS48Controller.removeResult(req.params.id)
+    .then(()=>{
+      res.json({msg: "Resultaat verwijderd"})
+    }).catch(err=>{
+      res.json({msg: "Kon resultaat niet verwijderen, probeer later opnieuw"});
+    })
+}
+
 function getPdf(req, res) {
   const id = req.params.id;
 
@@ -375,6 +384,7 @@ module.exports = {
   getResult,
   postResultPart1,
   postResultPart2,
+  removeResult,
   getPdf,
   getExcel,
   getExcelAllResults,

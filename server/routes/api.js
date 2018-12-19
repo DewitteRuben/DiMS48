@@ -119,6 +119,21 @@ router.patch('/results/:name/:id', function (req, res) {
   }
 });
 
+router.delete('/results/:name/:id', function(req,res){
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if(router){
+    if(routerHasFunction(router, "removeResult")){
+      router.removeResult(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req,res);
+    }
+  }else{
+    errorSender.sendTestNotFound();
+  }
+})
+
 router.post('/results/:name/1', function (req, res) {
   const requestedTestName = req.params.name.toLocaleLowerCase();
   const router = routerGetter.getRouter(requestedTestName);

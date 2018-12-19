@@ -7,6 +7,7 @@
             <span class="title">{{id}}</span>
             <v-spacer></v-spacer>
             <span class="title">{{timestamp.toLocaleString("nl")}}</span>
+            <v-btn v-if="admin" @click="removeResult"><v-icon>delete</v-icon></v-btn>
           </v-layout>
           <div class="ResultListItem-middle">
             <ul class="text-xs-left subheading">
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import * as howtotestapi from "@/services/api/howtotestapi";
 export default {
   props: {
     id: { type: String },
@@ -35,6 +37,25 @@ export default {
   computed: {
     testResultRoute: function() {
       return `/results/dims48/${this.id}`;
+    },
+    loggedIn() {return this.$store.getters["user/isLoggedIn"];}
+  },
+  data(){
+    return {
+      admin: false
+    }
+  },
+  mounted: function(){
+    let self = this;
+    if(this.loggedIn){
+      howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
+        .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
+    }
+  },
+  methods: {
+    removeResult: function(){
+      console.log(this.id);
+      howtotestapi.removeResult("dims48", this.id).then(data=>console.log(data)).catch(err=>console.log(err));
     }
   }
 };
