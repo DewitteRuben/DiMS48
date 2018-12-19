@@ -1,0 +1,19 @@
+{
+    "global": "global",
+    "reasons" : {
+        "internalServerError": "interne server error",
+        "requestedResourceNotFound": "opgevraagde bron niet gevonden",
+        "requestedEndpointNotValid": "bewerking op de test is niet gevonden"
+    },
+    "categories": {
+        "couldNotGetCategories": "Kon geen categorieën ophalen"
+    },
+    "details": {
+        "testNotFound": "De opgegeven test is niet gevonden",
+        "couldNotGetDetails": "Kon geen details voor de gevraagde test krijgen",
+        "requestedEndpointNotValid": "Het gevraagde bewerking bestaat niet voor de gegeven test"
+    },
+    "dues": {
+        "internalServerError": " door een interne server error"
+    }
+}
