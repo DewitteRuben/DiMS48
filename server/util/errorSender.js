@@ -1,5 +1,5 @@
 const jsonErrorMessageGenerator = require("../util/jsonErrorGenerator");
-const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
+let errorMessages;
 
 const sendTestNotFound = function sendTestNotFound(req, res) {
     const errorCode = 404;
@@ -25,20 +25,24 @@ const sendInvalidEndpointRequested = function sendInvalidEndpointRequested(req, 
     );
 };
 
-const sendInternalServerError = function sendInternalServerError(req, res) {
+const sendInternalServerError = function sendInternalServerError(req, res, details) {
     const errorCode = 500;
     res.status(errorCode);
     res.json(
       jsonErrorMessageGenerator.generateGoogleJsonError(
         errorMessages.global,
         errorMessages.reasons.internalServerError,
-        errorMessages.categories.couldNotGetCategories + errorMessages.dues.internalServerError,
+        message + errorMessages.dues.internalServerError,
         errorCode)
     );
 };
 
-module.exports = {
-    sendTestNotFound,
-    sendInvalidEndpointRequested,
-    sendInternalServerError,
+module.exports = (injectedErrorMessages) => {
+    errorMessages = injectedErrorMessages;
+
+    return {
+        sendTestNotFound,
+        sendInvalidEndpointRequested,
+        sendInternalServerError,
+    };
 };
