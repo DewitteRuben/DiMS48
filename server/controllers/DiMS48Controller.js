@@ -2,12 +2,14 @@ let DiMS48Models;
 let defaultModels;
 
 const scoreCalculator = require('../util/scoreCalculator');
+
+const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 const excelGenerator = require('../util/fileGenerators/excelGenerator').makeExcel;
 const excelGeneratorAll = require('../util/fileGenerators/excelGeneratorAll').makeExcel;
+
 const imageSeeder = require('../seeders/imagesSeeder');
 
 const locals = require('../locales/nl-BE.json');
-const pdfGenerator = require('../util/fileGenerators/pdfGenerator/');
 
   //TODO abstract error to seperate file?
   const invalidIdError = {
@@ -184,17 +186,15 @@ function removeResult(id){
     DiMS48Models.Result.find({_id: id}).deleteOne(function(err){
       if(err)f(err);
       s();
-    })
-  })
+    });
+  });
 }
 
 const getPDF = function getPDF(id) {
-  return new Promise((resolve, reject) => {
-    getResult(id)
+    return getResult(id)
     .then((result) => {
-      resolve(pdfGenerator('DiMS48ReportTemplate', result, locals));
+      return pdfGenerator('DiMS48ReportTemplate', result, locals);
     });
-  });
 };
 
 const getExcel = function (id) {
