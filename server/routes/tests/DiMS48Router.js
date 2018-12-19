@@ -105,8 +105,11 @@ function postResultPart2(req, res) {
     });
 }
 
+//TODO proper error sending
 function removeResult(req, res){
-  DiMS48Controller.removeResult(req.params.id)
+  const idToRemove = req.params.id;
+
+  DiMS48Controller.removeResult(idToRemove)
     .then(()=>{
       res.json({msg: "Resultaat verwijderd"})
     }).catch(err=>{
