@@ -1,4 +1,4 @@
-const jsonErrorMessageGenerator = require("../util/jsonErrorGenerator");
+const jsonMessageGenerator = require("../jsonMessageGenerator");
 
 const ErrorSender = function ErrorSender(errorMessages) {
     this.errorMessages = errorMessages;
@@ -7,7 +7,7 @@ const ErrorSender = function ErrorSender(errorMessages) {
         const errorCode = 404;
         res.status(errorCode);
         res.json(
-            jsonErrorMessageGenerator.generateGoogleJsonError(
+            jsonMessageGenerator.generateGoogleJsonError(
                 errorMessages.global,
                 errorMessages.reasons.requestedResourceNotFound,
                 errorMessages.details.testNotFound,
@@ -19,7 +19,7 @@ const ErrorSender = function ErrorSender(errorMessages) {
         const errorCode = 400;
         res.status(errorCode);
         res.json(
-            jsonErrorMessageGenerator.generateGoogleJsonError(
+            jsonMessageGenerator.generateGoogleJsonError(
                 errorMessages.global,
                 errorMessages.reasons.requestedEndpointNotValid,
                 errorMessages.details.requestedEndpointNotValid,
@@ -31,7 +31,7 @@ const ErrorSender = function ErrorSender(errorMessages) {
         const errorCode = 500;
         res.status(errorCode);
         res.json(
-            jsonErrorMessageGenerator.generateGoogleJsonError(
+            jsonMessageGenerator.generateGoogleJsonError(
                 errorMessages.global,
                 errorMessages.reasons.internalServerError,
                 fullDetail,
@@ -47,7 +47,7 @@ const ErrorSender = function ErrorSender(errorMessages) {
         const errorCode = 400;
         res.status(errorCode);
         res.json(
-            jsonErrorMessageGenerator.generateGoogleJsonError(
+            jsonMessageGenerator.generateGoogleJsonError(
                 errorMessages.global,
                 errorMessages.reasons.invalidIdSupplied,
                 fullDetail,
@@ -60,12 +60,26 @@ const ErrorSender = function ErrorSender(errorMessages) {
         sendInvalidIdSuppliedWithoutDueDetail(req, res, detail + errorMessages.dues.invalidIdSupplied);
     };
 
+    const sendInvalidValueSuppliedWithoutDueDetail = function sendInvalidValueSuppliedWithoutDueDetail(req, res, fullDetail){
+        const errorCode = 400;
+        res.status(errorCode);
+        res.json(
+            jsonMessageGenerator.generateGoogleJsonError(
+                errorMessages.global,
+                errorMessages.reasons.invalidValueSupplied,
+                fullDetail,
+                errorCode
+            )
+        );
+    };
+
     return {
         sendTestNotFound,
         sendInvalidEndpointRequested,
         sendInternalServerError,
         sendInvalidIdSupplied,
-        sendInvalidIdSuppliedWithoutDueDetail
+        sendInvalidIdSuppliedWithoutDueDetail,
+        sendInvalidValueSuppliedWithoutDueDetail,
     };
 };
 

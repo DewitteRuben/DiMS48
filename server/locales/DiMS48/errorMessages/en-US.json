@@ -3,6 +3,7 @@
     "reasons" : {
         "internalServerError": "internal server error",
         "invalidIdSupplied": "invalid id supplied",
+        "invalidValueSupplied": "invalid value supplied",
         "documentUpdated": "document updated"
     },
     "phases": {
@@ -23,6 +24,7 @@
     },
     "dues": {
         "internalServerError": " due to an internal server error",
-        "invalidIdSupplied": " due to an invalid id that was supplied"
+        "invalidIdSupplied": " due to an invalid id that was supplied",
+        "invalidValueSuppliedFor": " due to the invalid id supplied for "
     }
 }

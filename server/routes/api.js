@@ -6,7 +6,7 @@ const TestController = require('../controllers/TestController');
 
 const routerGetter = require('./routerGetter');
 const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
-const ErrorSender = require('../util/errorSender');
+const ErrorSender = require('../util/messageSenders/errorSender');
 const errorSender = new ErrorSender(errorMessages);
 
 router.get('/categories', function (req, res) {
