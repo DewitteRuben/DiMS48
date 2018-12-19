@@ -16,6 +16,11 @@ const ResultSchema = new Schema({
     phase3: ResultsPhase2.schema,
 });
 
+ResultSchema.pre('save', function(next) {
+    this.timestamp = new Date();
+    next();
+  });
+
 module.exports = {
     model: DiMS48Database.model('Results', ResultSchema),
     schema: ResultSchema,
