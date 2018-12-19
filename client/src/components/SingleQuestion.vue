@@ -113,7 +113,7 @@ export default {
           test: this.testName,
           phase: this.currentPhase,
           answer: {
-            responseTime: 0,
+            responseTime: null,
             _id: selectedImageId,
             answer: value
           }
