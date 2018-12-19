@@ -3,6 +3,7 @@
     "reasons" : {
         "internalServerError": "interne server error",
         "invalidIdSupplied": "ongeldige ID gegeven",
+        "invalidValueSupplied": "Ongeldige waarde gegeven",
         "documentUpdated": "document bijgewerkt"
     },
     "phases": {
@@ -23,6 +24,7 @@
     },
     "dues": {
         "internalServerError": " door een interne server error",
-        "invalidIdSupplied": " omdat een ongeldig ID gegeven werd"
+        "invalidIdSupplied": " omdat een ongeldig ID gegeven werd",
+        "invalidValueSuppliedFor": " door de ongeldige waarde gegeven voor "
     }
 }
