@@ -1,7 +1,5 @@
-var express = require('express');
 const path = require('path');
 const fs = require('fs');
-var router = express.Router();
 
 const DiMS48Models = require('../../models/DiMS48Models');
 const DefaultModels = require('../../models/defaultModels');
@@ -9,24 +7,21 @@ const DefaultModels = require('../../models/defaultModels');
 const DiMS48Controller = require('../../controllers/DiMS48Controller')(DiMS48Models, DefaultModels);
 const TestController = require('../../controllers/TestController');
 
-const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
-
 const errorMessages = require('../../locales/DiMS48/errorMessages/nl-BE.json');
 
-function updateConfig(req, res){
+const ErrorSender = require('../../util/messageSenders/errorSender');
+const errorSender = new ErrorSender(errorMessages);
+
+const InfoSender = require('../../util/messageSenders/infoSender');
+const infoSender = new InfoSender(errorMessages);
+
+function updateConfig(req, res) {
   const newConfig = req.body.newConfig;
 
   TestController.updateConfig("DiMS48", newConfig)
-    .then(data=>res.json(data))
-    .catch(err=>{
-      res.status(500);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
-          500)
-      );
+    .then(data => res.json(data))
+    .catch(err => {
+      errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
 }
 
@@ -34,14 +29,7 @@ function initial(req, res) {
   getBeginObject('begin')
     .then(data => res.json(data))
     .catch(err => {
-      res.status(500);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
-          500)
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
 }
 
@@ -49,15 +37,7 @@ function part2(req, res) {
   getBeginObject('part2')
     .then(data => res.json(data))
     .catch(err => {
-      res.status(500);
-      res.send(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.phases.cloudNotGetPart2_InternalServerError + errorMessages.dues.internalServerError,
-          500
-        )
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.phases.cloudNotGetPart2_InternalServerError);
     });
 }
 
@@ -65,15 +45,7 @@ function getResults(req, res) {
   DiMS48Controller.getResults()
     .then(results => res.json(results))
     .catch(err => {
-      res.status(500);
-      res.send(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.couldNotGetResults + errorMessages.dues.internalServerError,
-          500
-        )
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.couldNotGetResults);
     });
 }
 
@@ -84,27 +56,9 @@ function getResult(req, res) {
     .then(result => res.json(result))
     .catch(err => {
       if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.couldNotGetResult);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.results.internalServerError + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.results.internalServerError);
       }
     });
 }
@@ -120,30 +74,12 @@ function postResultPart1(req, res) {
     .catch((err) => {
       const isEnumError = err.errors[Object.keys(err.errors)[0]].properties.type === 'enum';
 
-      if(isEnumError){
+      if (isEnumError) {
         const message = err.errors[Object.keys(err.errors)[0]].properties.message;
 
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            message,
-            errorCode
-          )
-        );
-      }else{
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSuppliedWithoutDueDetail(req, res, message);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotSaveResult);
       }
     });
 }
@@ -158,28 +94,23 @@ function postResultPart2(req, res) {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.results.couldNotAppendResult + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.couldNotAppendResult);
+      } else if (err.name === "ValidationError") {
+        const invalidFieldValue = err.errors[Object.keys(err.errors)[0]].properties.path;
+
+        errorSender.sendInvalidValueSuppliedWithoutDueDetail(req, res, errorMessages.results.cloudNotUpdate + errorMessages.dues.invalidValueSuppliedFor + invalidFieldValue);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.results.couldNotAppendResult + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotAppendResult);
       }
+    });
+}
+
+function removeResult(req, res){
+  DiMS48Controller.removeResult(req.params.id)
+    .then(()=>{
+      res.json({msg: "Resultaat verwijderd"})
+    }).catch(err=>{
+      res.json({msg: "Kon resultaat niet verwijderen, probeer later opnieuw"});
     })
 }
 
@@ -193,44 +124,28 @@ function getPdf(req, res) {
       res.send(new Buffer(fileBuffer, 'binary'));
     })
     .catch((err) => {
-      console.log(err);
       if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGeneratePDF);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGeneratePDF);
       }
     });
 }
 
-function getExcelAllResults(req, res){
+function getExcelAllResults(req, res) {
   DiMS48Controller.getExcelAllResults()
-    .then(workbook=>{
+    .then(workbook => {
       let fileName = 'results.xlsx';
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
-    }).catch((err)=>{
-      console.log(err);
-      SendExcelError(err,res);
-    })
+    }).catch((err) => {
+      if (err.name === 'CastError') {
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      }
+    });
 }
 
 function getExcel(req, res) {
@@ -244,59 +159,50 @@ function getExcel(req, res) {
       return workbook.write(fileName, res);
     })
     .catch((err) => {
-      SendExcelError(err,res);
+      if (err.name === 'CastError') {
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      }
     });
 }
 
-function normValuesExist(req, res){
-  res.json({exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))});
+function normValuesExist(req, res) {
+  res.json({
+    exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))
+  });
 }
 
-function getNormValues(req, res){
+function getNormValues(req, res) {
   res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
 }
 
-const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
+const updateClientInfoOrNote = function updateClientInfoOrNote(req, res) {
   const notes = req.body.notes;
   const testId = req.params.id;
   let donePromise;
 
-  if (typeof notes !== "undefined"){
+  if (typeof notes !== "undefined") {
     donePromise = DiMS48Controller.updateNote(testId, notes);
-  }else{
+  } else {
     donePromise = DiMS48Controller.updateClientInfo(testId, req.body);
   }
 
   donePromise
-  .then((result) => {
-    const responseCode = 200;
+    .then((result) => {
+      infoSender.sendDocumentUpdated(req, res, errorMessages.results.updatedDocument);
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.cloudNotUpdate);
+      } else if (err.name === "ValidationError") {
+        const invalidFieldValue = err.errors[Object.keys(err.errors)[0]].properties.path;
 
-    res.status(responseCode);
-
-    const response =  jsonErrorMessageGenerator.generateGoogleJsonError(
-      errorMessages.global,
-      errorMessages.reasons.documentUpdated,
-      errorMessages.results.updatedDocument,
-      responseCode,
-      true
-    );
-
-    delete response.errors;
-
-    res.json(response );
-  })
-  .catch((err) => {
-    const errorCode = 400;
-    res.status(400);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.invalidIdSupplied,
-        errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
-        errorCode
-      )
-    );
-  });
+        errorSender.sendInvalidValueSuppliedWithoutDueDetail(req, res, errorMessages.results.cloudNotUpdate + errorMessages.dues.invalidValueSuppliedFor + invalidFieldValue);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.results.cloudNotUpdate);
+      }
+    });
 };
 
 
@@ -341,32 +247,6 @@ function getBeginObject(part) {
   });
 }
 
-function SendExcelError(err, res){
-  if (err.name === 'CastError') {
-    const errorCode = 400;
-    res.status(errorCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.invalidIdSupplied,
-        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
-        errorCode
-      )
-    );
-  } else {
-    const errorCode = 500;
-    res.status(errorCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.internalServerError,
-        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
-        errorCode
-      )
-    );
-  }
-}
-
 module.exports = {
   updateConfig,
   initial,
@@ -375,6 +255,7 @@ module.exports = {
   getResult,
   postResultPart1,
   postResultPart2,
+  removeResult,
   getPdf,
   getExcel,
   getExcelAllResults,

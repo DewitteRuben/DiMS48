@@ -5,13 +5,15 @@ const UserController = require('../controllers/UserController');
 const TestController = require('../controllers/TestController');
 
 const routerGetter = require('./routerGetter');
-const errorSender = require('../util/errorSender');
+const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
+const ErrorSender = require('../util/messageSenders/errorSender');
+const errorSender = new ErrorSender(errorMessages);
 
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      sendInternalServerError(req, res);
+      sendInternalServerError(req, res, errorMessages.categories.couldNotGetCategories);
     });
 });
 
@@ -23,24 +25,36 @@ router.get('/detail/:name', function (req, res) {
       if (err.name && err.name === 'notFound') {
         errorSender.sendTestNotFound(req, res);
       } else {
-        sendInternalServerError(req, res);
+        sendInternalServerError(req, res, errorMessages.details.couldNotGetDetails);
       }
     });
 });
 
 router.post('/test/:name/updateConfig', function (req, res) {
-  const requestedTestName = req.params.name.toLowerCase();
-  const router = routerGetter.getRouter(requestedTestName);
+  if(req.session.userId){
+    UserController.isAdmin(req.session.userId).then(isAdmin=>{
+      if(isAdmin){
+        const requestedTestName = req.params.name.toLowerCase();
+        const router = routerGetter.getRouter(requestedTestName);
 
-  if (router) {
-    if (routerHasFunction(router, "updateConfig")) {
-      router.updateConfig(req, res);
-    } else {
-      errorSender.sendInvalidEndpointRequested(req, res);
-    }
+        if (router) {
+          if (routerHasFunction(router, "updateConfig")) {
+            router.updateConfig(req, res);
+          } else {
+            errorSender.sendInvalidEndpointRequested(req, res);
+          }
 
-  } else {
-    sendTestNotFound(req, res);
+        } else {
+          sendTestNotFound(req, res);
+        }
+      }else{
+        errorSender.sendInvalidEndpointRequested(req,res);
+      }
+    }).catch(err=>{
+      errorSender.sendInternalServerError(req,res, err);
+    })
+  }else{
+    errorSender.sendInvalidEndpointRequested(req,res);
   }
 });
 
@@ -118,6 +132,33 @@ router.patch('/results/:name/:id', function (req, res) {
     errorSender.sendTestNotFound();
   }
 });
+
+router.delete('/results/:name/:id', function(req,res){
+  if(req.session.userId){
+    UserController.isAdmin(req.session.userId).then(isAdmin=>{
+      if(isAdmin){
+        const requestedTestName = req.params.name.toLocaleLowerCase();
+        const router = routerGetter.getRouter(requestedTestName);
+
+        if(router){
+          if(routerHasFunction(router, "removeResult")){
+            router.removeResult(req, res);
+          }else{
+            errorSender.sendInvalidEndpointRequested(req,res);
+          }
+        }else{
+          errorSender.sendTestNotFound();
+        }
+      }else{
+        errorSender.sendInvalidEndpointRequested(req,res)
+      }
+    }).catch(err=>{
+      errorSender.sendInternalServerError(req,res,err);
+    })
+  }else{
+    errorSender.sendInvalidEndpointRequested(req,res);
+  }
+})
 
 router.post('/results/:name/1', function (req, res) {
   const requestedTestName = req.params.name.toLocaleLowerCase();
@@ -223,7 +264,6 @@ router.post('/register', function (req, res) {
       }
     });
   }).catch(err => {
-    console.log(err);
     res.status(500);
     res.send({
       msg: "Could not register user"
@@ -247,7 +287,6 @@ router.post('/login', function (req, res) {
       }
     })
   }).catch(err => {
-    console.log(err);
     res.send({
       msg: "Email and password did not match"
     });
@@ -255,7 +294,6 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/isAdmin', function (req, res) {
-  console.log(req.session.userId);
   if (req.session.userId) {
     UserController.isAdmin(req.session.userId)
       .then(isAdmin => res.json({

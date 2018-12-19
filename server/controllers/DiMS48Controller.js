@@ -111,6 +111,10 @@ function getResult(id) {
     '_id': id
   }, true)
   .then(result => {
+    if(result.length <= 0){
+      throw invalidIdError;
+    }
+
     if(Array.isArray(result)){
       result = result[0];
     }
@@ -144,7 +148,7 @@ function addResult(data) {
     data['phase3'] = null;
 
     const newResult = new DiMS48Models.Result(data);
-    
+
     newResult.save((err, data) => {
       if (err) {
         reject(err);
@@ -172,6 +176,15 @@ function appendResult(data) {
         resolve();
       }
     });
+  })
+}
+
+function removeResult(id){
+  return new Promise((s,f)=>{
+    DiMS48Models.Result.find({_id: id}).deleteOne(function(err){
+      if(err)f(err);
+      s();
+    })
   })
 }
 
@@ -289,6 +302,7 @@ module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
     getExcel,
     getExcelAllResults,
     updateNote,
-    updateClientInfo
+    updateClientInfo,
+    removeResult
   };
 };

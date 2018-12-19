@@ -3,6 +3,7 @@
     "reasons" : {
         "internalServerError": "internal server error",
         "invalidIdSupplied": "invalid id supplied",
+        "invalidValueSupplied": "invalid value supplied",
         "documentUpdated": "document updated"
     },
     "phases": {
@@ -14,7 +15,8 @@
         "couldNotGetResult": "Could not get that result",
         "couldNotSaveResult": "Could not save that result",
         "couldNotAppendResult": "Could not append that result",
-        "updatedDocument": "Document successfully updated"
+        "updatedDocument": "Document successfully updated",
+        "cloudNotUpdate": "Could not update the result "
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Could not generate PDF",
@@ -22,6 +24,7 @@
     },
     "dues": {
         "internalServerError": " due to an internal server error",
-        "invalidIdSupplied": " due to an invalid id that was supplied"
+        "invalidIdSupplied": " due to an invalid id that was supplied",
+        "invalidValueSuppliedFor": " due to the invalid id supplied for "
     }
 }

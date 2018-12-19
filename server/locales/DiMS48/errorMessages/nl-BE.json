@@ -3,6 +3,7 @@
     "reasons" : {
         "internalServerError": "interne server error",
         "invalidIdSupplied": "ongeldige ID gegeven",
+        "invalidValueSupplied": "Ongeldige waarde gegeven",
         "documentUpdated": "document bijgewerkt"
     },
     "phases": {
@@ -14,7 +15,8 @@
         "couldNotGetResult": "Kon resultaten van de gegeven test niet ophalen",
         "couldNotSaveResult": "Kon resultaat niet opslaan",
         "couldNotAppendResult": "Kon resultaten niet toevoegen",
-        "updatedDocument": "Het document is successvol bijgewerkt"
+        "updatedDocument": "Het document is successvol bijgewerkt",
+        "cloudNotUpdate": "Het resultaat kon niet worden bijgewerkt"
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Kon PDF niet genereren",
@@ -22,6 +24,7 @@
     },
     "dues": {
         "internalServerError": " door een interne server error",
-        "invalidIdSupplied": " omdat een ongeldig ID gegeven werd"
+        "invalidIdSupplied": " omdat een ongeldig ID gegeven werd",
+        "invalidValueSuppliedFor": " door de ongeldige waarde gegeven voor "
     }
 }
