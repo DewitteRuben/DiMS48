@@ -34,8 +34,12 @@ export default {
   },
   methods: {
     registerId: function(id) {
+      this.resetTestData();
       this.registeredId = id;
       this.hasId = true;
+    },
+    resetTestData: function() {
+      this.$store.commit("dimsTestData/resetState");
     }
   },
   computed: {

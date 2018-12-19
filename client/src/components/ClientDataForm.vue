@@ -97,10 +97,14 @@ export default {
     }
   },
   methods: {
+    resetTestData: function() {
+      this.$store.commit("dimsTestData/resetState");
+    },
     startTest(){
+      this.resetTestData();
       this.submit();
       this.$root.$emit('startTest');
-    }
+    },
   },
   created() {
     this.geslacht = this.parsedGender;

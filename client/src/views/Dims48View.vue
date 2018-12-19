@@ -84,9 +84,6 @@ export default {
       this.resetTest();
       this.clearTimer();
     }
-  },
-  created() {
-    this.resetTest();
   }
 };
 </script>
