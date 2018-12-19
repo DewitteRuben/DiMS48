@@ -31,18 +31,30 @@ router.get('/detail/:name', function (req, res) {
 });
 
 router.post('/test/:name/updateConfig', function (req, res) {
-  const requestedTestName = req.params.name.toLowerCase();
-  const router = routerGetter.getRouter(requestedTestName);
+  if(req.session.userId){
+    UserController.isAdmin(req.session.userId).then(isAdmin=>{
+      if(isAdmin){
+        const requestedTestName = req.params.name.toLowerCase();
+        const router = routerGetter.getRouter(requestedTestName);
 
-  if (router) {
-    if (routerHasFunction(router, "updateConfig")) {
-      router.updateConfig(req, res);
-    } else {
-      errorSender.sendInvalidEndpointRequested(req, res);
-    }
+        if (router) {
+          if (routerHasFunction(router, "updateConfig")) {
+            router.updateConfig(req, res);
+          } else {
+            errorSender.sendInvalidEndpointRequested(req, res);
+          }
 
-  } else {
-    sendTestNotFound(req, res);
+        } else {
+          sendTestNotFound(req, res);
+        }
+      }else{
+        errorSender.sendInvalidEndpointRequested(req,res);
+      }
+    }).catch(err=>{
+      errorSender.sendInternalServerError(req,res, err);
+    })
+  }else{
+    errorSender.sendInvalidEndpointRequested(req,res);
   }
 });
 
@@ -122,17 +134,29 @@ router.patch('/results/:name/:id', function (req, res) {
 });
 
 router.delete('/results/:name/:id', function(req,res){
-  const requestedTestName = req.params.name.toLocaleLowerCase();
-  const router = routerGetter.getRouter(requestedTestName);
+  if(req.session.userId){
+    UserController.isAdmin(req.session.userId).then(isAdmin=>{
+      if(isAdmin){
+        const requestedTestName = req.params.name.toLocaleLowerCase();
+        const router = routerGetter.getRouter(requestedTestName);
 
-  if(router){
-    if(routerHasFunction(router, "removeResult")){
-      router.removeResult(req, res);
-    }else{
-      errorSender.sendInvalidEndpointRequested(req,res);
-    }
+        if(router){
+          if(routerHasFunction(router, "removeResult")){
+            router.removeResult(req, res);
+          }else{
+            errorSender.sendInvalidEndpointRequested(req,res);
+          }
+        }else{
+          errorSender.sendTestNotFound();
+        }
+      }else{
+        errorSender.sendInvalidEndpointRequested(req,res)
+      }
+    }).catch(err=>{
+      errorSender.sendInternalServerError(req,res,err);
+    })
   }else{
-    errorSender.sendTestNotFound();
+    errorSender.sendInvalidEndpointRequested(req,res);
   }
 })
 
