@@ -142,6 +142,7 @@ function addResult(data) {
     data['phase3'] = null;
 
     const newResult = new DiMS48Models.Result(data);
+    
     newResult.save((err, data) => {
       if (err) {
         reject(err);

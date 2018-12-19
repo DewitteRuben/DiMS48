@@ -4,9 +4,9 @@ const DiMS48Database = require('../../util/databaseGetter').DiMS48Database;
 
 const AnswerSchema = new Schema({
     _id: String,
-    answer: {type: String, required: true},
+    answer: {type: String},
     correctAnswer: {type: String, required: true},
-    responseTime: {type: Number},
+    responseTime: {type: Number}
 }, {_id: false});
 
 module.exports = {
