@@ -13,7 +13,9 @@ const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
 
 const errorMessages = require('../../locales/DiMS48/errorMessages/en-US.json');
 
-function updateConfig(newConfig, res){
+function updateConfig(req, res){
+  const newConfig = req.body.newConfig;
+
   TestController.updateConfig("DiMS48", newConfig)
     .then(data=>res.json(data))
     .catch(err=>{
@@ -25,10 +27,10 @@ function updateConfig(newConfig, res){
           errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
           500)
       );
-    })
+    });
 }
 
-function initial(res) {
+function initial(req, res) {
   getBeginObject('begin')
     .then(data => res.json(data))
     .catch(err => {
@@ -43,7 +45,7 @@ function initial(res) {
     });
 }
 
-function part2(res) {
+function part2(req, res) {
   getBeginObject('part2')
     .then(data => res.json(data))
     .catch(err => {
@@ -59,7 +61,7 @@ function part2(res) {
     });
 }
 
-function getResults(res) {
+function getResults(req, res) {
   DiMS48Controller.getResults()
     .then(results => res.json(results))
     .catch(err => {
@@ -75,7 +77,9 @@ function getResults(res) {
     });
 }
 
-function getResult(res, id) {
+function getResult(req, res) {
+  const id = req.params.id;
+
   DiMS48Controller.getResult(id)
     .then(result => res.json(result))
     .catch(err => {
@@ -179,7 +183,9 @@ function postResultPart2(req, res) {
     })
 }
 
-function getPdf(res, id) {
+function getPdf(req, res) {
+  const id = req.params.id;
+
   DiMS48Controller.getPDF(id)
     .then((fileBuffer) => {
       res.setHeader('Content-Type', 'application/pdf');
@@ -214,7 +220,7 @@ function getPdf(res, id) {
     });
 }
 
-function getExcelAllResults(res){
+function getExcelAllResults(req, res){
   DiMS48Controller.getExcelAllResults()
     .then(workbook=>{
       let fileName = 'results.xlsx';
@@ -223,7 +229,7 @@ function getExcelAllResults(res){
       return workbook.write(fileName, res);
     }).catch((err)=>{
       console.log(err);
-      ExcelError(err,res);
+      SendExcelError(err,res);
     })
 }
 
@@ -238,82 +244,16 @@ function getExcel(req, res) {
       return workbook.write(fileName, res);
     })
     .catch((err) => {
-      ExcelError(err,res);
+      SendExcelError(err,res);
     });
 }
 
-function ExcelError(err, res){
-  if (err.name === 'CastError') {
-    const errorCode = 400;
-    res.status(errorCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.invalidIdSupplied,
-        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
-        errorCode
-      )
-    );
-  } else {
-    const errorCode = 500;
-    res.status(errorCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.internalServerError,
-        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
-        errorCode
-      )
-    );
-  }
-}
-
-function normValuesExist(res){
+function normValuesExist(req, res){
   res.json({exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))});
 }
 
-function getNormValues(res){
+function getNormValues(req, res){
   res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
-}
-
-function getBeginObject(part) {
-  return new Promise(function (resolve, reject) {
-    const beginObject = {
-      images: null,
-      instructions: null,
-      options: null,
-      config: null
-    };
-
-    const imagePromise = DiMS48Controller.getImages();
-    const instructionPromise = DiMS48Controller.getInstructions();
-    const optionsPromise = DiMS48Controller.getOptions();
-    const configPromise = TestController.getTestConfig('DiMS48');
-
-    const promiseArray = [imagePromise, instructionPromise, optionsPromise, configPromise];
-
-    imagePromise.then((images) => {
-      beginObject.images = images;
-    });
-
-    instructionPromise.then((instructions) => {
-      beginObject.instructions = instructions;
-    });
-
-    optionsPromise.then((options) => {
-      beginObject.options = options;
-    });
-
-    configPromise.then((config) => {
-      beginObject.config = config;
-    });
-
-    Promise.all(promiseArray).then((data) => {
-      resolve(beginObject);
-    }).catch((err) => {
-      reject(err);
-    });
-  });
 }
 
 const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
@@ -359,6 +299,74 @@ const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
   });
 };
 
+
+//Util Functions
+function getBeginObject(part) {
+  return new Promise(function (resolve, reject) {
+    const beginObject = {
+      images: null,
+      instructions: null,
+      options: null,
+      config: null
+    };
+
+    const imagePromise = DiMS48Controller.getImages();
+    const instructionPromise = DiMS48Controller.getInstructions();
+    const optionsPromise = DiMS48Controller.getOptions();
+    const configPromise = TestController.getTestConfig('DiMS48');
+
+    const promiseArray = [imagePromise, instructionPromise, optionsPromise, configPromise];
+
+    imagePromise.then((images) => {
+      beginObject.images = images;
+    });
+
+    instructionPromise.then((instructions) => {
+      beginObject.instructions = instructions;
+    });
+
+    optionsPromise.then((options) => {
+      beginObject.options = options;
+    });
+
+    configPromise.then((config) => {
+      beginObject.config = config;
+    });
+
+    Promise.all(promiseArray).then((data) => {
+      resolve(beginObject);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+function SendExcelError(err, res){
+  if (err.name === 'CastError') {
+    const errorCode = 400;
+    res.status(errorCode);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.invalidIdSupplied,
+        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
+        errorCode
+      )
+    );
+  } else {
+    const errorCode = 500;
+    res.status(errorCode);
+    res.json(
+      jsonErrorMessageGenerator.generateGoogleJsonError(
+        errorMessages.global,
+        errorMessages.reasons.internalServerError,
+        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
+        errorCode
+      )
+    );
+  }
+}
+
 module.exports = {
   updateConfig,
   initial,
@@ -373,4 +381,4 @@ module.exports = {
   updateClientInfoOrNote,
   getNormValues,
   normValuesExist
-}
+};

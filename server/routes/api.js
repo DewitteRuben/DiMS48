@@ -48,14 +48,14 @@ router.get('/detail/:name', function (req, res) {
     });
 });
 
-router.post('/test/:name/updateConfig', function(req,res){
+router.post('/test/:name/updateConfig', function(req, res){
   let testName = req.params.name.toLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.updateConfig(req.body.newConfig, res);
+      DiMS48Router.updateConfig(req, res);
       break;
     default:
-      sendTestNotFound(req,res);
+      sendTestNotFound(req, res);
   }
 });
 
@@ -63,7 +63,7 @@ router.get('/test/:name/initial', function (req, res) {
   let testName = req.params.name.toLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.initial(res);
+      DiMS48Router.initial(req, res);
       break;
     default:
       sendTestNotFound(req, res);
@@ -74,7 +74,7 @@ router.get('/test/:name/part2', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.part2(res);
+      DiMS48Router.part2(req, res);
       break;
     default:
       sendTestNotFound(req, res);
@@ -85,7 +85,7 @@ router.get('/results/:name', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getResults(res);
+      DiMS48Router.getResults(req, res);
       break;
     default:
       sendTestNotFound(req, res);
@@ -96,10 +96,11 @@ router.get('/results/:name', function (req, res) {
 router.get('/results/:name/:id', function (req, res) {
   const testName = req.params.name.toLocaleLowerCase();
   const id = req.params.id;
+
   if(id == 'excel'){
     switch (testName) {
       case DIMS48_NAME:
-        DiMS48Router.getExcelAllResults(res);
+        DiMS48Router.getExcelAllResults(req, res);
         break;
       default:
         sendTestNotFound(req, res);
@@ -107,7 +108,7 @@ router.get('/results/:name/:id', function (req, res) {
   }else{
     switch (testName) {
       case DIMS48_NAME:
-        DiMS48Router.getResult(res, id);
+        DiMS48Router.getResult(req, res);
         break;
       default:
         sendTestNotFound(req, res);
@@ -117,7 +118,6 @@ router.get('/results/:name/:id', function (req, res) {
 
 router.patch('/results/:name/:id', function (req, res) {
   const testName = req.params.name.toLocaleLowerCase();
-  const id = req.params.id;
 
   switch (testName) {
     case DIMS48_NAME:
@@ -154,10 +154,10 @@ router.post('/results/:name/2', function (req, res) {
 //TODO protect against DDOS!
 router.get('/results/:name/pdf/:id', (req, res) => {
   let testName = req.params.name.toLocaleLowerCase();
-  const id = req.params.id;
+
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getPdf(res, id);
+      DiMS48Router.getPdf(req, res);
       break;
     default:
       sendTestNotFound(req, res);
@@ -176,22 +176,22 @@ router.get('/results/:name/excel/:id', function (req, res) {
   }
 });
 
-router.get('/test/:name/normValuesExist', function(req,res){
+router.get('/test/:name/normValuesExist', function(req, res){
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.normValuesExist(res);
+      DiMS48Router.normValuesExist(req, res);
       break;
     default:
-      sendTestNotFound(req,res);
+      sendTestNotFound(req, res);
   }
 })
 
-router.get('/test/:name/normValues', function(req,res){
+router.get('/test/:name/normValues', function(req, res){
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
     case DIMS48_NAME:
-      DiMS48Router.getNormValues(res);
+      DiMS48Router.getNormValues(req, res);
       break;
     default:
       sendTestNotFound(req,res);
