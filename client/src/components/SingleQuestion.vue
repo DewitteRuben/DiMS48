@@ -98,13 +98,14 @@ export default {
   methods: {
     nextImage: function() {
       this.$store.dispatch("dimsQuestions/getNextImage");
+      this.$store.dispatch("timerStore/reset");
     },
     saveAnswer: function(answer) {
       this.$store.commit("dimsTestData/setAnswer", answer);
     },
     answerCustom: function(value) {
       return function() {
-        const selectedImageId = this.currentOptions.L._id;
+        const selectedImageId = this.currentImage.L._id;
         const answer = {
           test: this.testName,
           phase: this.currentPhase,
@@ -114,6 +115,7 @@ export default {
           }
         };
         this.saveAnswer(answer);
+        this.nextImage();
       };
     },
     answer: function(btnValue) {
@@ -144,6 +146,9 @@ export default {
       }
       this.nextImage();
     }
+  },
+  created() {
+    this.$store.commit("timerStore/setup", this.answerCustom(null).bind(this));
   }
 };
 </script>

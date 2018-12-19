@@ -48,7 +48,7 @@ export default {
     }
   },
   actions: {
-    startPhase: ({ state, commit, dispatch }) => {
+    startPhase: ({ state, commit, dispatch, rootState }) => {
       if (state.version === "dims48b") {
         state.double = true;
       }
@@ -61,10 +61,13 @@ export default {
           break;
         default:
           state.started = true;
+          if (state.version === "dims48a" && state.currentPhase === "phase1") {
+            dispatch("timerStore/start", null, { root: true });
+          }
           break;
       }
     },
-    endPhase: ({ state, commit, dispatch }) => {
+    endPhase: ({ state, commit, dispatch, rootState }) => {
       switch (state.currentPhase) {
         case "phase1":
           if (state.version === "dims48a") {
@@ -83,6 +86,9 @@ export default {
         case "phase3":
           state.currentPhase = "end";
           break;
+      }
+      if (rootState.timerStore.setup) {
+        commit("timerStore/clear", null, { root: true });
       }
       state.started = false;
     },
@@ -117,7 +123,6 @@ export default {
     },
     initializeTest: ({ commit }) => {},
     resetState: ({ commit }) => {
-      console.log("resetting");
       commit("resetState");
       commit("dimsTestData/resetState", null, { root: true });
       commit("dimsQuestions/resetState", null, { root: true });

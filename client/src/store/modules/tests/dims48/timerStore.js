@@ -1,9 +1,13 @@
-const Timer = require("tiny-timer");
+var Timer = require("tiny-timer").default;
 
 function initialState() {
   return {
     timer: null,
-    started: false
+    setup: false,
+    started: false,
+    callback: null,
+    target: 3,
+    currentMillisecond: null
   };
 }
 
@@ -15,17 +19,39 @@ export default {
     setup: function(state, cb) {
       state.timer = new Timer();
       state.timer.on("done", cb);
-      state.timer.on("tick", ms => console.log("tick", ms));
-    },
-    start: function(state) {
-      state.timer.start(2000);
-      state.started = true;
+      state.timer.on("tick", ms => {
+        state.currentMillisecond = ms;
+      });
+      state.callback = cb;
+      state.setup = true;
     },
     stop: function(state) {
       state.timer.stop();
+      state.started = false;
+    },
+    clear: function(state) {
+      if (state.setup) state.timer.stop();
       state.timer = null;
       state.started = false;
+      state.setup = false;
     }
   },
-  actions: {}
+  actions: {
+    reset: ({ commit, dispatch, state, rootState }) => {
+      if (state.setup) {
+        commit("clear");
+        commit("setup", state.callback);
+        dispatch("start");
+      }
+    },
+    start: ({ commit, state, rootState, rootGetters }) => {
+      const secondsPerImage = parseInt(
+        rootGetters["dims48Config/getPhase1SecondsPerImage"]
+      );
+      const target = secondsPerImage || state.target;
+      const targetInSeconds = target * 1000;
+      state.timer.start(targetInSeconds);
+      state.started = true;
+    }
+  }
 };
