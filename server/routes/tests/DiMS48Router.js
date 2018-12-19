@@ -1,7 +1,5 @@
-var express = require('express');
 const path = require('path');
 const fs = require('fs');
-var router = express.Router();
 
 const DiMS48Models = require('../../models/DiMS48Models');
 const DefaultModels = require('../../models/defaultModels');
@@ -9,19 +7,20 @@ const DefaultModels = require('../../models/defaultModels');
 const DiMS48Controller = require('../../controllers/DiMS48Controller')(DiMS48Models, DefaultModels);
 const TestController = require('../../controllers/TestController');
 
-const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
-
 const errorMessages = require('../../locales/DiMS48/errorMessages/nl-BE.json');
 
-const ErrorSender = require('../../util/errorSender');
+const ErrorSender = require('../../util/messageSenders/errorSender');
 const errorSender = new ErrorSender(errorMessages);
 
-function updateConfig(req, res){
+const InfoSender = require('../../util/messageSenders/infoSender');
+const infoSender = new InfoSender(errorMessages);
+
+function updateConfig(req, res) {
   const newConfig = req.body.newConfig;
 
   TestController.updateConfig("DiMS48", newConfig)
-    .then(data=>res.json(data))
-    .catch(err=>{
+    .then(data => res.json(data))
+    .catch(err => {
       errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
 }
@@ -75,11 +74,11 @@ function postResultPart1(req, res) {
     .catch((err) => {
       const isEnumError = err.errors[Object.keys(err.errors)[0]].properties.type === 'enum';
 
-      if(isEnumError){
+      if (isEnumError) {
         const message = err.errors[Object.keys(err.errors)[0]].properties.message;
-        
+
         errorSender.sendInvalidIdSuppliedWithoutDueDetail(req, res, message);
-      }else{
+      } else {
         errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotSaveResult);
       }
     });
@@ -96,6 +95,10 @@ function postResultPart2(req, res) {
     .catch((err) => {
       if (err.name === 'CastError') {
         errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.couldNotAppendResult);
+      } else if (err.name === "ValidationError") {
+        const invalidFieldValue = err.errors[Object.keys(err.errors)[0]].properties.path;
+
+        errorSender.sendInvalidValueSuppliedWithoutDueDetail(req, res, errorMessages.results.cloudNotUpdate + errorMessages.dues.invalidValueSuppliedFor + invalidFieldValue);
       } else {
         errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotAppendResult);
       }
@@ -129,14 +132,14 @@ function getPdf(req, res) {
     });
 }
 
-function getExcelAllResults(req, res){
+function getExcelAllResults(req, res) {
   DiMS48Controller.getExcelAllResults()
-    .then(workbook=>{
+    .then(workbook => {
       let fileName = 'results.xlsx';
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
-    }).catch((err)=>{
+    }).catch((err) => {
       if (err.name === 'CastError') {
         errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
       } else {
@@ -164,50 +167,42 @@ function getExcel(req, res) {
     });
 }
 
-function normValuesExist(req, res){
-  res.json({exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))});
+function normValuesExist(req, res) {
+  res.json({
+    exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))
+  });
 }
 
-function getNormValues(req, res){
+function getNormValues(req, res) {
   res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
 }
 
-const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
+const updateClientInfoOrNote = function updateClientInfoOrNote(req, res) {
   const notes = req.body.notes;
   const testId = req.params.id;
   let donePromise;
 
-  if (typeof notes !== "undefined"){
+  if (typeof notes !== "undefined") {
     donePromise = DiMS48Controller.updateNote(testId, notes);
-  }else{
+  } else {
     donePromise = DiMS48Controller.updateClientInfo(testId, req.body);
   }
 
   donePromise
-  .then((result) => {
-    const responseCode = 200;
+    .then((result) => {
+      infoSender.sendDocumentUpdated(req, res, errorMessages.results.updatedDocument);
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.cloudNotUpdate);
+      } else if (err.name === "ValidationError") {
+        const invalidFieldValue = err.errors[Object.keys(err.errors)[0]].properties.path;
 
-    res.status(responseCode);
-
-    const response =  jsonErrorMessageGenerator.generateGoogleJsonError(
-      errorMessages.global,
-      errorMessages.reasons.documentUpdated,
-      errorMessages.results.updatedDocument,
-      responseCode,
-      true
-    );
-
-    delete response.errors;
-
-    res.json(response );
-  })
-  .catch((err) => {
-    if(err.name === "CastError"){
-      errorSender.sendInvalidIdSupplied(errorMessages.results.cloudNotUpdate);
-    }else{
-      errorSender.sendInternalServerError(errorMessages.results.cloudNotUpdate);
-    }
-  });
+        errorSender.sendInvalidValueSuppliedWithoutDueDetail(req, res, errorMessages.results.cloudNotUpdate + errorMessages.dues.invalidValueSuppliedFor + invalidFieldValue);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.results.cloudNotUpdate);
+      }
+    });
 };
 
 
