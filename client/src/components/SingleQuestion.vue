@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   mounted() {
     window.addEventListener("keyup", e => {
@@ -62,6 +64,7 @@ export default {
     rightBtnKeyCode: function() {
       return parseInt(this.$store.getters["dims48Config/getRightBtnKeyCode"]);
     },
+    ...mapGetters("timerStore", ["getCurrentMs"]),
     currentImage: function() {
       const isDouble = this.$store.state.dimsManager.double;
       const images = this.$store.getters["dimsQuestions/getCurrentImage"];
@@ -144,6 +147,7 @@ export default {
         };
         this.saveAnswer(singleAnswer);
       }
+      console.log(this.getCurrentMs);
       this.nextImage();
     }
   },

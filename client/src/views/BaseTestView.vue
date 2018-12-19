@@ -1,7 +1,7 @@
 <template>
-  <fullscreen ref="fullscreen" :fullscreen.sync="fullscreen">
+  <Fullscreen ref="fullscreen" :fullscreen.sync="fullscreen">
     <router-view @startTest="toggle"></router-view>
-  </fullscreen>
+  </Fullscreen>
 </template>
 
 <script>
