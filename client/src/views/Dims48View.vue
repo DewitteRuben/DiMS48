@@ -63,6 +63,9 @@ export default {
     declineDialog: function(cb) {
       this.dialog = false;
       this.answer(false);
+    },
+    clearTimer: function() {
+      this.$store.commit("timerStore/clear");
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -72,12 +75,14 @@ export default {
           if (answer) {
             next();
             this.resetTest();
+            this.clearTimer();
           }
         }
       );
     } else {
       next();
       this.resetTest();
+      this.clearTimer();
     }
   },
   created() {

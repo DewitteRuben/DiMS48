@@ -65,6 +65,14 @@ function deepClone(structure) {
   return structure.map(a => Object.assign({}, a));
 }
 
+function sortByDate(a, b) {
+  if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime())
+    return -1;
+  if (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime())
+    return 1;
+  return 0;
+}
+
 export default {
   namespaced: true,
   state: initialState,
@@ -80,7 +88,7 @@ export default {
           filter.type
         );
       });
-      return results;
+      return results.sort(sortByDate);
     }
   },
   actions: {},

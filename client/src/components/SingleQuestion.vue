@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   mounted() {
     window.addEventListener("keyup", e => {
@@ -62,6 +64,7 @@ export default {
     rightBtnKeyCode: function() {
       return parseInt(this.$store.getters["dims48Config/getRightBtnKeyCode"]);
     },
+    ...mapGetters("timerStore", ["getCurrentMs"]),
     currentImage: function() {
       const isDouble = this.$store.state.dimsManager.double;
       const images = this.$store.getters["dimsQuestions/getCurrentImage"];
@@ -98,25 +101,29 @@ export default {
   methods: {
     nextImage: function() {
       this.$store.dispatch("dimsQuestions/getNextImage");
+      this.$store.dispatch("timerStore/reset");
     },
     saveAnswer: function(answer) {
       this.$store.commit("dimsTestData/setAnswer", answer);
     },
     answerCustom: function(value) {
       return function() {
-        const selectedImageId = this.currentOptions.L._id;
+        const selectedImageId = this.currentImage.L._id;
         const answer = {
           test: this.testName,
           phase: this.currentPhase,
           answer: {
+            responseTime: null,
             _id: selectedImageId,
             answer: value
           }
         };
         this.saveAnswer(answer);
+        this.nextImage();
       };
     },
     answer: function(btnValue) {
+      const responseTime = this.getCurrentMs;
       if (this.isDouble) {
         const selectedImageId = this.currentImage[btnValue]._id;
         const id = "A" + selectedImageId.substring(1);
@@ -126,6 +133,7 @@ export default {
           phase: this.currentPhase,
           answer: {
             _id: id,
+            responseTime: responseTime,
             answer: answer
           }
         };
@@ -137,6 +145,7 @@ export default {
           phase: this.currentPhase,
           answer: {
             _id: imageId,
+            responseTime: responseTime,
             answer: btnValue
           }
         };
@@ -144,6 +153,14 @@ export default {
       }
       this.nextImage();
     }
+  },
+  created() {
+    if (this.currentPhase === "phase1")
+      this.$store.commit(
+        "timerStore/setup",
+        this.answerCustom(null).bind(this)
+      );
+    else this.$store.commit("timerStore/setup", () => {});
   }
 };
 </script>

@@ -1,28 +1,28 @@
 <template>
-    <fullscreen ref="fullscreen" :fullscreen.sync="fullscreen">
-      <router-view @startTest="toggle"></router-view>
-    </fullscreen>
+  <Fullscreen ref="fullscreen" :fullscreen.sync="fullscreen">
+    <router-view @startTest="toggle"></router-view>
+  </Fullscreen>
 </template>
 
 <script>
-import Fullscreen from 'vue-fullscreen/src/component.vue';
+import Fullscreen from "vue-fullscreen/src/component.vue";
 export default {
-  components: {Fullscreen},
-  data(){
+  components: { Fullscreen },
+  data() {
     return {
       fullscreen: false
+    };
+  },
+  methods: {
+    toggle() {
+      this.$refs["fullscreen"].toggle();
     }
   },
-  methods:{
-    toggle(){
-      this.$refs['fullscreen'].toggle();
-    }
-  },
-  mounted: function(){
+  mounted: function() {
     let self = this;
-    this.$root.$on('startTest', function(){
+    this.$root.$on("startTest", function() {
       self.toggle();
-    })
+    });
   }
 };
 </script>

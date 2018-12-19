@@ -22,9 +22,11 @@ export default {
       return double ? doubleImages : singleImages;
     },
     getCurrentOptions: (state, getters, rootState) => {
-      const options = state.options.filter(
+      const currentOptions = state.options.filter(
         e => e._id === rootState.dimsManager.currentPhase
-      )[0].options;
+      );
+      let options = null;
+      if (currentOptions.length > 0) options = currentOptions[0].options;
       return options;
     },
     isLoaded: state => {
