@@ -113,6 +113,7 @@ export default {
           test: this.testName,
           phase: this.currentPhase,
           answer: {
+            responseTime: 0,
             _id: selectedImageId,
             answer: value
           }
@@ -122,6 +123,7 @@ export default {
       };
     },
     answer: function(btnValue) {
+      const responseTime = this.getCurrentMs;
       if (this.isDouble) {
         const selectedImageId = this.currentImage[btnValue]._id;
         const id = "A" + selectedImageId.substring(1);
@@ -131,6 +133,7 @@ export default {
           phase: this.currentPhase,
           answer: {
             _id: id,
+            responseTime: responseTime,
             answer: answer
           }
         };
@@ -142,17 +145,16 @@ export default {
           phase: this.currentPhase,
           answer: {
             _id: imageId,
+            reponseTime: responseTime,
             answer: btnValue
           }
         };
         this.saveAnswer(singleAnswer);
       }
-      console.log(this.getCurrentMs);
       this.nextImage();
     }
   },
   created() {
-    console.log(this.currentPhase);
     if (this.currentPhase === "phase1")
       this.$store.commit(
         "timerStore/setup",
