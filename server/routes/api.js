@@ -81,8 +81,6 @@ router.get('/test/:name/part2', function (req, res) {
   }
 });
 
-//TODO are all the given answers really needed here?
-//How about just te scores, when you need all the answers just do a request on /result/:id
 router.get('/results/:name', function (req, res) {
   let testName = req.params.name.toLocaleLowerCase();
   switch (testName) {
