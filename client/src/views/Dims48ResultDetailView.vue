@@ -236,7 +236,6 @@ export default {
         console.log(err);
       });
     HowToTestApi.normValuesExist("DiMS48").then(data=>{
-      console.log(data);
       if(data.exists){
         this.normValuesText = "<a href='http://localhost:3000/api/test/DiMS48/normValues'> Normwaarden </a>";
       }else{
