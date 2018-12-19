@@ -66,6 +66,10 @@
         background-color: rgba(255, 0, 0, 0.64);
     }
 
+    .noAnswer {
+        background-color: gray !important;
+    }
+
     .capitalize-all-first-letter {
         text-transform: capitalize;
     }
@@ -124,7 +128,7 @@
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter">
-                        <strong><%= locales.clientInfo.age + " " + locales.year%></strong>
+                        <strong><%= locales.clientInfo.age%></strong>
                     </td>
                     <td>
                         <%= data.clientInfo.age + " " + locales.year%>
@@ -149,7 +153,7 @@
                     <td class="capitalize-all-first-letter"><strong>
                             <%= locales.clientInfo.gender %></strong></td>
                     <td>
-                        <%= data.clientInfo.gender === "m" ? locales.clientInfo.genders.m : data.clientInfo.gender === "v" ? locales.clientInfo.genders.v : locales.clientInfo.genders.a %>
+                        <%= data.clientInfo.gender %>
                     </td>
                 </tr>
                 <tr id="notes-container">
@@ -282,18 +286,18 @@
                 </tr>
                 <% data.phase1.answers.forEach((answer) => {%>
 
-                <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong' %>">
+                <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : (answer.answer === null ? 'noAnswer' : 'wrong') %>">
                     <td>
                         <%= answer._id.substring(1) %>
                     </td>
                     <td>
-                        <%= answer.answer %>
+                        <%= answer.answer !== null ? answer.answer : locales.noAnswerGiven%>
                     </td>
                     <td>
                         <%= answer.correctAnswer %>
                     </td>
                     <td>
-                        <%= answer.responseTime / 1000 + " " + locales.seconds %>
+                        <%= answer.responseTime !== null ? (answer.responseTime / 1000 + " " + locales.seconds) : ""%>
                     </td>
                 </tr>
 
@@ -409,8 +413,8 @@
             </tr>
             <% data.phase2.answers.forEach((answer) => {%>
 
-            <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : 'wrong'%>">
-                <td>
+            <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : answer.answer === 'null' ? 'noAnswer' : 'wrong'%>">
+                <td></td>
                     <%= answer._id.substring(1) %>
                 </td>
                 <td>

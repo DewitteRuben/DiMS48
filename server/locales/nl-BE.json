@@ -11,6 +11,7 @@
   "responseTime": "response tijd",
   "seconds" : "seconden",
   "report": "rapport",
+  "noAnswerGiven": "Cliënt heeft niet binnen de tijd geantwoord",
   "answerTypes": {
     "clientAnswer": "antwoord cliënt",
     "correctAnswer": "juist antwoord"

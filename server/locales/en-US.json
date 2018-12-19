@@ -11,6 +11,7 @@
   "responseTime": "response time",
   "seconds" : "seconds",
   "report": "report",
+  "noAnswerGiven": "Test subject did not answer",
   "answerTypes": {
     "clientAnswer": "client answer",
     "correctAnswer": "correct answer"
