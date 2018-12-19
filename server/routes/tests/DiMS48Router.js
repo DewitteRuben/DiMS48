@@ -11,7 +11,7 @@ const TestController = require('../../controllers/TestController');
 
 const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
 
-const errorMessages = require('../../locales/DiMS48/errorMessages/en-US.json');
+const errorMessages = require('../../locales/DiMS48/errorMessages/nl-BE.json');
 
 function updateConfig(req, res){
   const newConfig = req.body.newConfig;

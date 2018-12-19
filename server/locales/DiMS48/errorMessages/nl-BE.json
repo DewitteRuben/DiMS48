@@ -1,0 +1,27 @@
+{
+    "global": "global",
+    "reasons" : {
+        "internalServerError": "interne server error",
+        "invalidIdSupplied": "ongeldige ID gegeven",
+        "documentUpdated": "document bijgewerkt"
+    },
+    "phases": {
+        "couldNotGetInitial": "Het ophalen van de initiële testgegevens is mislukt",
+        "cloudNotGetPart2": "Kan deel 2 van de testgegevens niet ophalen"
+    },
+    "results": {
+        "couldNotGetResults": "Kon resultaten niet ophalen",
+        "couldNotGetResult": "Kon resultaten van de gegeven test niet ophalen",
+        "couldNotSaveResult": "Kon resultaat niet opslaan",
+        "couldNotAppendResult": "Kon resultaten niet toevoegen",
+        "updatedDocument": "Het document is successvol bijgewerkt"
+    },
+    "fileGenerators": {
+        "couldNotGeneratePDF": "Kon PDF niet genereren",
+        "couldNotGenerateExcel": "Kon Excel niet genereren"
+    },
+    "dues": {
+        "internalServerError": " door een interne server error",
+        "invalidIdSupplied": " omdat een ongeldig ID gegeven werd"
+    }
+}

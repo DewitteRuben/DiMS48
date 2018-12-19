@@ -1,5 +1,5 @@
 const jsonErrorMessageGenerator = require("../util/jsonErrorGenerator");
-const errorMessages = require('../locales/general/errorMessages/en-US.json');
+const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
 
 const sendTestNotFound = function sendTestNotFound(req, res) {
     const errorCode = 404;
