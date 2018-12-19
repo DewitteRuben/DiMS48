@@ -181,7 +181,7 @@ function appendResult(data) {
 
 function removeResult(id){
   return new Promise((s,f)=>{
-    DiMS48Models.Result.find({_id: id}).remove(function(err){
+    DiMS48Models.Result.find({_id: id}).deleteOne(function(err){
       if(err)f(err);
       s();
     })
