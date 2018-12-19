@@ -189,8 +189,12 @@ function removeResult(id){
 }
 
 const getPDF = function getPDF(id) {
-  //TODO refactor
-  return pdfGenerator(this, id, locals);
+  return new Promise((resolve, reject) => {
+    getResult(id)
+    .then((result) => {
+      resolve(pdfGenerator('DiMS48ReportTemplate', result, locals));
+    });
+  });
 };
 
 const getExcel = function (id) {
