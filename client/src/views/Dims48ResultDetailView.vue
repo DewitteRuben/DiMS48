@@ -8,7 +8,11 @@
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
-          <h2>ID-nummer van cliënt: {{testId}}</h2>
+          <h2>Gemaakt op {{new Date(result.timestamp).toLocaleString("nl")}}</h2>
+          <h2>
+            ID-nummer testnemer:
+            <span class="red--text">{{testId}}</span>
+          </h2>
           <h2>Cliënt Info
             <v-btn @click="setDialog(true)" icon flat color="red lighten-2">
               <v-icon>edit</v-icon>
@@ -235,13 +239,15 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    HowToTestApi.normValuesExist("DiMS48").then(data=>{
-      if(data.exists){
-        this.normValuesText = "<a href='http://localhost:3000/api/test/DiMS48/normValues'> Normwaarden </a>";
-      }else{
-        this.normValuesText = "Er zijn op dit moment geen normwaarden beschikbaar";
+    HowToTestApi.normValuesExist("DiMS48").then(data => {
+      if (data.exists) {
+        this.normValuesText =
+          "<a href='http://localhost:3000/api/test/DiMS48/normValues'> Normwaarden </a>";
+      } else {
+        this.normValuesText =
+          "Er zijn op dit moment geen normwaarden beschikbaar";
       }
-    })
+    });
   }
 };
 </script>

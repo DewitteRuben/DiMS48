@@ -62,6 +62,7 @@ export default {
           };
         }
 
+        console.log(data);
         howToTestApi
           .postResults(this.phaseNumber, "dims48", data)
           .then(e => {

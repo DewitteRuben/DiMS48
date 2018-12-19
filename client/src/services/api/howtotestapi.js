@@ -1,4 +1,4 @@
-const API_URL = "http://howtotest.howest.be/api";
+const API_URL = "http://localhost:3000/api";
 
 export const getDims48 = () => processReq("/test/dims48/initial");
 export const getCategories = () => processReq("/categories");
@@ -20,7 +20,8 @@ export const downloadTestResults = (test, format, id) =>
 export const updateClientInfo = (test, id, data) =>
   processReq(`/results/${test}/${id}`, data, "PATCH");
 export const getNormValues = name => processReq(`/test/${name}/normValues`);
-export const normValuesExist = name => processReq(`/test/${name}/normValuesExist`);
+export const normValuesExist = name =>
+  processReq(`/test/${name}/normValuesExist`);
 
 async function processReq(url, dataObj = {}, method = "GET") {
   const conf = {
