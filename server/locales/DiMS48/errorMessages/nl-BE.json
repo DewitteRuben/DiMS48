@@ -14,7 +14,8 @@
         "couldNotGetResult": "Kon resultaten van de gegeven test niet ophalen",
         "couldNotSaveResult": "Kon resultaat niet opslaan",
         "couldNotAppendResult": "Kon resultaten niet toevoegen",
-        "updatedDocument": "Het document is successvol bijgewerkt"
+        "updatedDocument": "Het document is successvol bijgewerkt",
+        "cloudNotUpdate": "Het resultaat kon niet worden bijgewerkt"
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Kon PDF niet genereren",

@@ -111,6 +111,10 @@ function getResult(id) {
     '_id': id
   }, true)
   .then(result => {
+    if(result.length <= 0){
+      throw invalidIdError;
+    }
+
     if(Array.isArray(result)){
       result = result[0];
     }

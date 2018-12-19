@@ -14,7 +14,8 @@
         "couldNotGetResult": "Could not get that result",
         "couldNotSaveResult": "Could not save that result",
         "couldNotAppendResult": "Could not append that result",
-        "updatedDocument": "Document successfully updated"
+        "updatedDocument": "Document successfully updated",
+        "cloudNotUpdate": "Could not update the result "
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Could not generate PDF",

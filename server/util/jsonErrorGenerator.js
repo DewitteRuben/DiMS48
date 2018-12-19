@@ -1,7 +1,7 @@
-const generateGoogleJsonError = function generateGoogleJsonError(domain, reason, message, code, noError) {
+const generateGoogleJsonError = function generateGoogleJsonError(domain, reason, message, code, isError) {
     let toReturn;
     
-    if(!noError){
+    if(!isError){
         toReturn =  {
             "error": {
                 "errors": [{
