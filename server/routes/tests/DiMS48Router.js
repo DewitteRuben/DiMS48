@@ -180,7 +180,7 @@ function postResultPart2(req, res) {
           )
         );
       }
-    })
+    });
 }
 
 function getPdf(req, res) {
@@ -230,7 +230,7 @@ function getExcelAllResults(req, res){
     }).catch((err)=>{
       console.log(err);
       SendExcelError(err,res);
-    })
+    });
 }
 
 function getExcel(req, res) {
