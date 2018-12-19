@@ -4,26 +4,14 @@ var router = express.Router();
 const UserController = require('../controllers/UserController');
 const TestController = require('../controllers/TestController');
 
-const DiMS48Router = require('./tests/DiMS48Router');
-
-const DIMS48_NAME = 'dims48';
-
-const jsonErrorMessageGenerator = require("../util/jsonErrorGenerator");
-const errorMessages = require('../locales/general/errorMessages/en-US.json');
+const routerGetter = require('./routerGetter');
+const errorSender = require('../util/errorSender');
 
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      const errorCode = 500;
-      res.status(errorCode);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.categories.couldNotGetCategories + errorMessages.dues.internalServerError,
-          errorCode)
-      );
+      sendInternalServerError(req, res);
     });
 });
 
@@ -33,182 +21,213 @@ router.get('/detail/:name', function (req, res) {
     .then(details => res.json(details))
     .catch(err => {
       if (err.name && err.name === 'notFound') {
-        sendTestNotFound(req, res);
+        errorSender.sendTestNotFound(req, res);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.details.couldNotGetDetails + errorMessages.dues.internalServerError,
-            errorCode)
-        );
+        sendInternalServerError(req, res);
       }
     });
 });
 
-router.post('/test/:name/updateConfig', function(req, res){
-  let testName = req.params.name.toLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.updateConfig(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+router.post('/test/:name/updateConfig', function (req, res) {
+  const requestedTestName = req.params.name.toLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if (router) {
+    if (routerHasFunction(router, "updateConfig")) {
+      router.updateConfig(req, res);
+    } else {
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+
+  } else {
+    sendTestNotFound(req, res);
   }
 });
 
 router.get('/test/:name/initial', function (req, res) {
-  let testName = req.params.name.toLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.initial(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+  const requestedTestName = req.params.name.toLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if (router) {
+    if (routerHasFunction(router, "initial")) {
+      router.initial(req, res);
+    } else {
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
 });
 
 router.get('/test/:name/part2', function (req, res) {
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.part2(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+  const requestedTestName = req.params.name.toLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if (router) { 
+    if(routerHasFunction(router, "part2")){
+      router.part2(req, res);
+    }else{
+      sendInvalidEndpointRequested();
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
 });
 
 router.get('/results/:name', function (req, res) {
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.getResults(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
-  }
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
 
+  if (router) {
+    if(routerHasFunction(router, "getResults")){
+      router.getResults(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
+  }
 });
 
 router.get('/results/:name/:id', function (req, res) {
-  const testName = req.params.name.toLocaleLowerCase();
-  const id = req.params.id;
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
 
-  if(id == 'excel'){
-    switch (testName) {
-      case DIMS48_NAME:
-        DiMS48Router.getExcelAllResults(req, res);
-        break;
-      default:
-        sendTestNotFound(req, res);
+  if (router) {
+    if(routerHasFunction(router, "getResult")){
+      router.getResult(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req, res);
     }
-  }else{
-    switch (testName) {
-      case DIMS48_NAME:
-        DiMS48Router.getResult(req, res);
-        break;
-      default:
-        sendTestNotFound(req, res);
-    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
 });
 
 router.patch('/results/:name/:id', function (req, res) {
-  const testName = req.params.name.toLocaleLowerCase();
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
 
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.updateClientInfoOrNote(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+  if (router) {
+    if(routerHasFunction(router, "updateClientInfoOrNote")){
+      router.updateClientInfoOrNote(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+  } else {
+    errorSender.sendTestNotFound();
   }
 });
 
 router.post('/results/:name/1', function (req, res) {
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.postResultPart1(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
-  }
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
 
+  if (router) {
+    if(routerHasFunction(router, "postResultPart1")){
+      router.postResultPart1(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested();
+    }
+
+  } else {
+    errorSender.sendTestNotFound();
+  }
 });
 
 router.post('/results/:name/2', function (req, res) {
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.postResultPart2(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if (router) {   
+    if(routerHasFunction(router, "postResultPart2")){
+      router.postResultPart2(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
 });
 
 //TODO protect against DDOS!
 router.get('/results/:name/pdf/:id', (req, res) => {
-  let testName = req.params.name.toLocaleLowerCase();
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
 
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.getPdf(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+  if (router) {
+    if(routerHasFunction(router, "getPdf")){
+      router.getPdf(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested();
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
-
 });
 
 router.get('/results/:name/excel/:id', function (req, res) {
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.getExcel(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if (router) {
+    if(routerHasFunction(router, "getExcel")){
+      router.getExcel(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+
+  } else {
+    errorSender.sendTestNotFound();
   }
 });
 
-router.get('/test/:name/normValuesExist', function(req, res){
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.normValuesExist(req, res);
-      break;
-    default:
-      sendTestNotFound(req, res);
-  }
-})
+router.get('/test/:name/normValuesExist', function (req, res) {
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
 
-router.get('/test/:name/normValues', function(req, res){
-  let testName = req.params.name.toLocaleLowerCase();
-  switch (testName) {
-    case DIMS48_NAME:
-      DiMS48Router.getNormValues(req, res);
-      break;
-    default:
-      sendTestNotFound(req,res);
+  if (router) {
+    if(routerHasFunction(router, "normValuesExist")){
+      router.normValuesExist(req, res);
+    }else{
+      sendInvalidEndpointRequested(req, res);
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
-})
+});
+
+router.get('/test/:name/normValues', function (req, res) {
+  const requestedTestName = req.params.name.toLocaleLowerCase();
+  const router = routerGetter.getRouter(requestedTestName);
+
+  if (router) {
+    if(routerHasFunction(router, "getNormValues")){
+      router.getNormValues(req, res);
+    }else{
+      errorSender.sendInvalidEndpointRequested(req, res);
+    }
+  } else {
+    errorSender.sendTestNotFound(req, res);
+  }
+});
 
 router.post('/register', function (req, res) {
   UserController.addUser(req.body).then(newUser => {
     req.session.userId = newUser._id;
     res.status(201);
     res.json({
-      user: {email: newUser.email, username: newUser.username}
+      user: {
+        email: newUser.email,
+        username: newUser.username
+      }
     });
   }).catch(err => {
     console.log(err);
     res.status(500);
-    res.send({msg: "Could not register user"});
+    res.send({
+      msg: "Could not register user"
+    });
   })
 });
 
@@ -217,50 +236,57 @@ router.post('/login', function (req, res) {
     email: req.body.email,
     password: req.body.password
   };
+
   UserController.authUser(loginData).then(userData => {
     req.session.userId = userData._id;
     res.status(200);
     res.json({
-      user: {email: userData.email, username: userData.username}
+      user: {
+        email: userData.email,
+        username: userData.username
+      }
     })
   }).catch(err => {
     console.log(err);
-    res.send({msg: "Email and password did not match"});
+    res.send({
+      msg: "Email and password did not match"
+    });
   });
 });
 
-router.get('/isAdmin', function(req,res){
+router.get('/isAdmin', function (req, res) {
   console.log(req.session.userId);
-  if(req.session.userId){
+  if (req.session.userId) {
     UserController.isAdmin(req.session.userId)
-      .then(isAdmin=>res.json({isAdmin}))
-      .catch(err=>res.send({msg: err}))
-  }else res.send({msg: "not logged in"});
-})
+      .then(isAdmin => res.json({
+        isAdmin
+      }))
+      .catch(err => res.send({
+        msg: err
+      }))
+  } else res.send({
+    msg: "not logged in"
+  });
+});
 
-router.post('/upload/:name', function(req,res){
-  console.log(req.files);
-  if(Object.keys(req.files).length ==0){
-    return res.status(400).send({msg:"Geen file geupload"});
+router.post('/upload/:name', function (req, res) {
+  if (Object.keys(req.files).length == 0) {
+    return res.status(400).send({
+      msg: "Geen file geupload"
+    });
   }
   let fileName = req.params.name.toLocaleLowerCase() + '.pdf';
   let uploadFile = req.files.toUpload;
-  uploadFile.mv(__dirname + '/../uploads/' + fileName, function(err){
-    if(err) return res.status(500).json({msg:"Kon file niet uploaden"});
+  uploadFile.mv(__dirname + '/../uploads/' + fileName, function (err) {
+    if (err) return res.status(500).json({
+      msg: "Kon file niet uploaden"
+    });
     res.redirect('/');
-  })
-})
+  });
+});
 
-const sendTestNotFound = function sendTestNotFound(req, res) {
-  const errorCode = 404;
-  res.status(errorCode);
-  res.json(
-    jsonErrorMessageGenerator.generateGoogleJsonError(
-      errorMessages.global,
-      errorMessages.reasons.requestedResourceNotFound,
-      errorMessages.details.testNotFound,
-      errorCode)
-  );
+const routerHasFunction = function routerHasFunction(router, functionToCheck){
+  return typeof router[functionToCheck] !== "undefined";
 };
 
 module.exports = router;
