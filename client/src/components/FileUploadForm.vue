@@ -1,7 +1,7 @@
 <template>
   <form enctype="multipart/form-data" :action="action" method="post">
     <input type="file" name="toUpload" accept="application/pdf"/>
-    <input type="submit" value="Upload">
+    <input id="submitFile" type="submit" value="Upload">
   </form>
 </template>
 
@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style lang="css">
+  #submitFile{
+    color: blue;
+  }
 </style>

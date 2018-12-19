@@ -8,6 +8,8 @@
             @loaded="dataLoaded=true" @updateParentWithChildData="updateValues"/>
           <v-btn @click="submitValues">Opslaan</v-btn>
         </v-form>
+        <br/>
+        <FileUploadForm/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -16,10 +18,11 @@
 <script>
 import Dims48AdminPanel from "@/components/Dims48AdminPanel";
 import * as howtotestapi from "@/services/api/howtotestapi";
+import FileUploadForm from "@/components/FileUploadForm.vue";
 
 export default {
   components: {
-    Dims48AdminPanel
+    Dims48AdminPanel, FileUploadForm
   },
   data: function() {
     return {
@@ -30,10 +33,12 @@ export default {
   methods: {
     submitValues: function() {
       let self = this;
-      this.$store.dispatch(`${self.$route.params.name}Config/updateConfigValues`, self.currentConfig);
-      howtotestapi
-        .updateConfig(self.$route.params.name, { newConfig: self.currentConfig })
-        .then(data => console.log(data));
+      if(this.currentConfig){
+        this.$store.dispatch(`${self.$route.params.name}Config/updateConfigValues`, self.currentConfig);
+        howtotestapi
+          .updateConfig(self.$route.params.name, { newConfig: self.currentConfig })
+          .then(data => console.log(data));
+      }
     },
     updateValues: function(newConfig){
       this.currentConfig = newConfig
