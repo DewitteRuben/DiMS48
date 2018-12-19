@@ -5,13 +5,14 @@ const UserController = require('../controllers/UserController');
 const TestController = require('../controllers/TestController');
 
 const routerGetter = require('./routerGetter');
-const errorSender = require('../util/errorSender');
+const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
+const errorSender = require('../util/errorSender')(errorMessages);
 
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      sendInternalServerError(req, res);
+      sendInternalServerError(req, res, errorMessages.categories.couldNotGetCategories);
     });
 });
 
@@ -23,7 +24,7 @@ router.get('/detail/:name', function (req, res) {
       if (err.name && err.name === 'notFound') {
         errorSender.sendTestNotFound(req, res);
       } else {
-        sendInternalServerError(req, res);
+        sendInternalServerError(req, res, errorMessages.details.couldNotGetDetails);
       }
     });
 });
