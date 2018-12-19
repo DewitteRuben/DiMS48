@@ -125,6 +125,8 @@ function getResult(id) {
 
 function addResult(data) {
   return new Promise((resolve, reject) => {
+    data.timestamp = new Date();
+
     if (data.clientInfo && data.clientInfo.gender) {
       data.clientInfo.gender = data.clientInfo.gender.toLowerCase();
     }
