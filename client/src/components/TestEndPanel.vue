@@ -66,8 +66,8 @@ export default {
           .postResults(this.phaseNumber, "dims48", data)
           .then(e => {
             const id = e._id;
-            this.$router.push({ path: `/results/dims48/${id}` });
             this.resetTest();
+            this.$router.push({ path: `/results/dims48/${id}` });
           })
           .catch(e => {
             console.error(e);
