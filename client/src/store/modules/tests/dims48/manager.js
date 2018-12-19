@@ -18,6 +18,9 @@ export default {
     hasStarted: state => {
       return state.started;
     },
+    getCurrentPhase: state => {
+      return state.currentPhase;
+    },
     isLoaded: (state, getters, rootState, rootGetters) => {
       return (
         rootGetters["dimsQuestions/isLoaded"] &&
@@ -61,9 +64,7 @@ export default {
           break;
         default:
           state.started = true;
-          if (state.version === "dims48a" && state.currentPhase === "phase1") {
-            dispatch("timerStore/start", null, { root: true });
-          }
+          dispatch("timerStore/start", null, { root: true });
           break;
       }
     },
@@ -87,9 +88,7 @@ export default {
           state.currentPhase = "end";
           break;
       }
-      if (rootState.timerStore.setup) {
-        commit("timerStore/clear", null, { root: true });
-      }
+      commit("timerStore/stop", null, { root: true });
       state.started = false;
     },
     initDims48a: ({ commit, dispatch }) => {

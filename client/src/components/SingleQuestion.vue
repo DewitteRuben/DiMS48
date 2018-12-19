@@ -152,7 +152,13 @@ export default {
     }
   },
   created() {
-    this.$store.commit("timerStore/setup", this.answerCustom(null).bind(this));
+    console.log(this.currentPhase);
+    if (this.currentPhase === "phase1")
+      this.$store.commit(
+        "timerStore/setup",
+        this.answerCustom(null).bind(this)
+      );
+    else this.$store.commit("timerStore/setup", () => {});
   }
 };
 </script>

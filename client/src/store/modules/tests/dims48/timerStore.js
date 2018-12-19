@@ -6,6 +6,8 @@ function initialState() {
     setup: false,
     started: false,
     callback: null,
+    infinite: false,
+    max: 36000,
     target: 3
   };
 }
@@ -26,8 +28,10 @@ export default {
       state.setup = true;
     },
     stop: function(state) {
-      state.timer.stop();
-      state.started = false;
+      if (state.setup) {
+        state.timer.stop();
+        state.started = false;
+      }
     },
     clear: function(state) {
       if (state.setup) state.timer.stop();
@@ -48,7 +52,12 @@ export default {
       const secondsPerImage = parseInt(
         rootGetters["dims48Config/getPhase1SecondsPerImage"]
       );
-      const target = secondsPerImage || state.target;
+
+      let target = secondsPerImage || state.target;
+      const currentPhase = rootGetters["dimsManager/getCurrentPhase"];
+      const limited = currentPhase === "phase1";
+      if (!limited) target = state.max;
+
       state.target = target;
 
       const targetInMilliseconds = target * 1000;
