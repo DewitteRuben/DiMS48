@@ -3,29 +3,24 @@ const fs = require('fs-extra');
 const ejs = require('ejs');
 const path = require('path');
 
+let browser;
+
+/* jshint ignore:start */
 const compile = async function (templateName, data) {
     const filePath = path.join(__dirname, 'template', `${templateName}.ejs`);
     const html = await fs.readFile(filePath, 'utf-8');
     return ejs.render(html, data);
 };
 
-let browser;
-
-module.exports = (async function (controller, id, locals) {
-    try {
+const generatePDF = async function generatePDF(templateName, data, locales){
+    try{
         browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+
         const page = await browser.newPage();
-        await page.setRequestInterception(true);
-
-        let data = await controller.getResult(id);
-
-        const content = await compile('DiMS48ReportTemplate', {
-            locales: locals,
-            data: data
-        });
-
-        page.on('request', request => {
-            request.continue()
+    
+        const content = await compile(templateName, {
+            locales,
+            data
         });
 
         await page.goto(`data:text/html,${content}`, {
@@ -40,12 +35,18 @@ module.exports = (async function (controller, id, locals) {
         await browser.close();
 
         return file;
-    } catch (e) {
+
+    }catch(err){
+        console.log(err);
         if(typeof browser !== 'undefined' ){
             await browser.close();
         }
 
         throw e;
     }
-});
+}
 
+module.exports = generatePDF;
+
+
+/* jshint ignore:end */
