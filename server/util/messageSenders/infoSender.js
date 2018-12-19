@@ -8,10 +8,9 @@ const InfoSender = function InfoSender(infoMessages){
         res.status(responseCode);
 
         res.json(jsonMessageGenerator.generateGoogleInfoMessage(
-            errorMessages.global,
-            errorMessages.reasons.documentUpdated,
-            detail,
-            responseCode
+            responseCode,
+            detail
+   
           ));
     };
 
