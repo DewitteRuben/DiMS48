@@ -5,13 +5,15 @@ const UserController = require('../controllers/UserController');
 const TestController = require('../controllers/TestController');
 
 const routerGetter = require('./routerGetter');
-const errorSender = require('../util/errorSender');
+const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
+const ErrorSender = require('../util/errorSender');
+const errorSender = new ErrorSender(errorMessages);
 
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      sendInternalServerError(req, res);
+      sendInternalServerError(req, res, errorMessages.categories.couldNotGetCategories);
     });
 });
 
@@ -23,7 +25,7 @@ router.get('/detail/:name', function (req, res) {
       if (err.name && err.name === 'notFound') {
         errorSender.sendTestNotFound(req, res);
       } else {
-        sendInternalServerError(req, res);
+        sendInternalServerError(req, res, errorMessages.details.couldNotGetDetails);
       }
     });
 });
@@ -223,7 +225,6 @@ router.post('/register', function (req, res) {
       }
     });
   }).catch(err => {
-    console.log(err);
     res.status(500);
     res.send({
       msg: "Could not register user"
@@ -247,7 +248,6 @@ router.post('/login', function (req, res) {
       }
     })
   }).catch(err => {
-    console.log(err);
     res.send({
       msg: "Email and password did not match"
     });
@@ -255,7 +255,6 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/isAdmin', function (req, res) {
-  console.log(req.session.userId);
   if (req.session.userId) {
     UserController.isAdmin(req.session.userId)
       .then(isAdmin => res.json({

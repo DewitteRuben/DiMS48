@@ -13,20 +13,16 @@ const jsonErrorMessageGenerator = require("../../util/jsonErrorGenerator");
 
 const errorMessages = require('../../locales/DiMS48/errorMessages/nl-BE.json');
 
+const ErrorSender = require('../../util/errorSender');
+const errorSender = new ErrorSender(errorMessages);
+
 function updateConfig(req, res){
   const newConfig = req.body.newConfig;
 
   TestController.updateConfig("DiMS48", newConfig)
     .then(data=>res.json(data))
     .catch(err=>{
-      res.status(500);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
-          500)
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
 }
 
@@ -34,14 +30,7 @@ function initial(req, res) {
   getBeginObject('begin')
     .then(data => res.json(data))
     .catch(err => {
-      res.status(500);
-      res.json(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.phases.couldNotGetInitial + errorMessages.dues.internalServerError,
-          500)
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
 }
 
@@ -49,15 +38,7 @@ function part2(req, res) {
   getBeginObject('part2')
     .then(data => res.json(data))
     .catch(err => {
-      res.status(500);
-      res.send(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.phases.cloudNotGetPart2_InternalServerError + errorMessages.dues.internalServerError,
-          500
-        )
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.phases.cloudNotGetPart2_InternalServerError);
     });
 }
 
@@ -65,15 +46,7 @@ function getResults(req, res) {
   DiMS48Controller.getResults()
     .then(results => res.json(results))
     .catch(err => {
-      res.status(500);
-      res.send(
-        jsonErrorMessageGenerator.generateGoogleJsonError(
-          errorMessages.global,
-          errorMessages.reasons.internalServerError,
-          errorMessages.couldNotGetResults + errorMessages.dues.internalServerError,
-          500
-        )
-      );
+      errorSender.sendInternalServerError(req, res, errorMessages.couldNotGetResults);
     });
 }
 
@@ -84,27 +57,9 @@ function getResult(req, res) {
     .then(result => res.json(result))
     .catch(err => {
       if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.couldNotGetResult);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.results.internalServerError + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.results.internalServerError);
       }
     });
 }
@@ -122,28 +77,10 @@ function postResultPart1(req, res) {
 
       if(isEnumError){
         const message = err.errors[Object.keys(err.errors)[0]].properties.message;
-
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            message,
-            errorCode
-          )
-        );
+        
+        errorSender.sendInvalidIdSuppliedWithoutDueDetail(req, res, message);
       }else{
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.results.couldNotSaveResult + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotSaveResult);
       }
     });
 }
@@ -158,29 +95,11 @@ function postResultPart2(req, res) {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.results.couldNotAppendResult + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.results.couldNotAppendResult);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.results.couldNotAppendResult + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotAppendResult);
       }
-    })
+    });
 }
 
 function getPdf(req, res) {
@@ -193,29 +112,10 @@ function getPdf(req, res) {
       res.send(new Buffer(fileBuffer, 'binary'));
     })
     .catch((err) => {
-      console.log(err);
       if (err.name === 'CastError') {
-        const errorCode = 400;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.invalidIdSupplied,
-            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.invalidIdSupplied,
-            errorCode
-          )
-        );
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGeneratePDF);
       } else {
-        const errorCode = 500;
-        res.status(errorCode);
-        res.json(
-          jsonErrorMessageGenerator.generateGoogleJsonError(
-            errorMessages.global,
-            errorMessages.reasons.internalServerError,
-            errorMessages.fileGenerators.couldNotGeneratePDF + errorMessages.dues.internalServerError,
-            errorCode
-          )
-        );
+        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGeneratePDF);
       }
     });
 }
@@ -228,9 +128,12 @@ function getExcelAllResults(req, res){
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
     }).catch((err)=>{
-      console.log(err);
-      SendExcelError(err,res);
-    })
+      if (err.name === 'CastError') {
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      }
+    });
 }
 
 function getExcel(req, res) {
@@ -244,7 +147,11 @@ function getExcel(req, res) {
       return workbook.write(fileName, res);
     })
     .catch((err) => {
-      SendExcelError(err,res);
+      if (err.name === 'CastError') {
+        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      } else {
+        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+      }
     });
 }
 
@@ -286,16 +193,11 @@ const updateClientInfoOrNote = function updateClientInfoOrNote(req, res){
     res.json(response );
   })
   .catch((err) => {
-    const errorCode = 400;
-    res.status(400);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.invalidIdSupplied,
-        errorMessages.results.couldNotGetResult + errorMessages.dues.invalidIdSupplied,
-        errorCode
-      )
-    );
+    if(err.name === "CastError"){
+      errorSender.sendInvalidIdSupplied(errorMessages.results.cloudNotUpdate);
+    }else{
+      errorSender.sendInternalServerError(errorMessages.results.cloudNotUpdate);
+    }
   });
 };
 
@@ -339,32 +241,6 @@ function getBeginObject(part) {
       reject(err);
     });
   });
-}
-
-function SendExcelError(err, res){
-  if (err.name === 'CastError') {
-    const errorCode = 400;
-    res.status(errorCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.invalidIdSupplied,
-        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.invalidIdSupplied,
-        errorCode
-      )
-    );
-  } else {
-    const errorCode = 500;
-    res.status(errorCode);
-    res.json(
-      jsonErrorMessageGenerator.generateGoogleJsonError(
-        errorMessages.global,
-        errorMessages.reasons.internalServerError,
-        errorMessages.fileGenerators.couldNotGenerateExcel + errorMessages.dues.internalServerError,
-        errorCode
-      )
-    );
-  }
 }
 
 module.exports = {

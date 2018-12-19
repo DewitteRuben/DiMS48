@@ -14,7 +14,7 @@ const ResultSchema = new Schema({
     phase1: {type: ResultsPhase1.schema, required: true},
     phase2: {type: ResultsPhase2.schema, required: true},
     phase3: ResultsPhase2.schema,
-});
+}); 
 
 module.exports = {
     model: DiMS48Database.model('Results', ResultSchema),
