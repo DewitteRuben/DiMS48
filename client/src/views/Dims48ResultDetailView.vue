@@ -85,7 +85,7 @@
       <v-layout mt-3 justify-end>
         <h3 v-if="downloading">Downloaden..</h3>
         <v-btn color="success" @click="downloadTestResults('excel')">Download Excel</v-btn>
-        <v-btn color="success" @click="downloadTestResults('pdf')">Download PDF</v-btn>
+        <v-btn style="display: none;" color="success" @click="downloadTestResults('pdf')">Download PDF</v-btn>
       </v-layout>
       <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
         <v-card>
@@ -242,7 +242,7 @@ export default {
     HowToTestApi.normValuesExist("DiMS48").then(data => {
       if (data.exists) {
         this.normValuesText =
-          "<a href='http://localhost:3000/api/test/DiMS48/normValues'> Normwaarden </a>";
+          "<a href='/api/test/DiMS48/normValues'> Normwaarden </a>";
       } else {
         this.normValuesText =
           "Er zijn op dit moment geen normwaarden beschikbaar";

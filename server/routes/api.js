@@ -63,7 +63,7 @@ router.get('/test/:name/part2', function (req, res) {
   const requestedTestName = req.params.name.toLowerCase();
   const router = routerGetter.getRouter(requestedTestName);
 
-  if (router) { 
+  if (router) {
     if(routerHasFunction(router, "part2")){
       router.part2(req, res);
     }else{
@@ -139,7 +139,7 @@ router.post('/results/:name/2', function (req, res) {
   const requestedTestName = req.params.name.toLocaleLowerCase();
   const router = routerGetter.getRouter(requestedTestName);
 
-  if (router) {   
+  if (router) {
     if(routerHasFunction(router, "postResultPart2")){
       router.postResultPart2(req, res);
     }else{
