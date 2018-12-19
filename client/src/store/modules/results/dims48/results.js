@@ -66,10 +66,10 @@ function deepClone(structure) {
 }
 
 function sortByDate(a, b) {
-  if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime())
-    return -1;
-  if (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime())
-    return 1;
+  const epochTimeA = new Date(a.timestamp).getTime();
+  const epochTimeB = new Date(b.timestamp).getTime();
+  if (epochTimeA > epochTimeB) return -1;
+  if (epochTimeA < epochTimeB) return 1;
   return 0;
 }
 
