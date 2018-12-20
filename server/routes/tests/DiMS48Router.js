@@ -111,9 +111,9 @@ function removeResult(req, res){
 
   DiMS48Controller.removeResult(idToRemove)
     .then(()=>{
-      res.json({msg: "Resultaat verwijderd"})
+      res.json({deleted: true, msg: "Resultaat verwijderd"})
     }).catch(err=>{
-      res.json({msg: "Kon resultaat niet verwijderen, probeer later opnieuw"});
+      res.json({deleted: false, msg: "Kon resultaat niet verwijderen, probeer later opnieuw"});
     })
 }
 
