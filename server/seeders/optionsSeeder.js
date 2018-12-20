@@ -1,37 +1,26 @@
-const Option = require('../models/DiMS48Models').Option;
+const initialOptionsRepository = require('../data/initial/options/initialOptions.repository');
+const Option = initialOptionsRepository.getDatabaseModel();
 
-const optionsPhase1 = new Option({
-    _id: "phase1",
-    options: [
-        {btnText: '2 of minder', btnValue: '<=2'},
-        {btnText: '3 of meer', btnValue: '>=3'},
-    ],
-});
+const seed = function seed() {
+    const options = initialOptionsRepository.getOptions();
+    options.forEach((option) => option.save());
+};
 
-const optionsPhase2 = new Option({
-    _id: "phase2",
-    options: [
-        {btnText: 'Links', btnValue: 'L'},
-        {btnText: 'Rechts', btnValue: 'R'},
-    ],
-});
+const isDatabaseSeeded = function isDatabaseSeeded() {
+    return new Promise((resolve, reject) => {
+        const optionQuery = Option.find();
 
-const optionsPhase3 = new Option({
-    _id: "phase3",
-    options: [
-        {btnText: 'Links', btnValue: 'L'},
-        {btnText: 'Rechts', btnValue: 'R'},
-    ],
-});
-
-const getOptions = function getOptions() {
-  return [
-      optionsPhase1,
-      optionsPhase2,
-      optionsPhase3,
-  ];
+        optionQuery.exec((err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data.length !== 0);
+            }
+        });
+    });
 };
 
 module.exports = {
-    getOptions
+    seed,
+    isDatabaseSeeded
 };
