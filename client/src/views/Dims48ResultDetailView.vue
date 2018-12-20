@@ -1,16 +1,18 @@
 <template>
   <v-container text-xs-left>
-    <v-btn flat @click="toResultsPage" icon color="blue">
-      <v-icon>arrow_back</v-icon>
-    </v-btn>
-
+    <v-layout>
+      <v-btn flat @click="toResultsPage" icon color="blue">
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn flat icon color="black lighten-2" v-if="admin" @click="removeResult">
+        <v-icon>delete</v-icon>
+      </v-btn>
+    </v-layout>
     <h1 class="text-xs-center">Resultaten DiMS48 Test</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
-          <v-btn v-if="admin" @click="removeResult">
-            <v-icon>delete</v-icon>
-          </v-btn>
           <h2>Gemaakt op {{new Date(result.timestamp).toLocaleString("nl")}}</h2>
           <h2>
             ID-nummer testnemer:
@@ -219,13 +221,12 @@ export default {
     },
     removeResult: function() {
       let self = this;
-      HowToTestApi
-        .removeResult("dims48", this.testId)
+      HowToTestApi.removeResult("dims48", this.testId)
         .then(data => {
-          if(data.deleted){
-            self.$router.push('/results/dims48');
-          }else{
-            console.log('remove result failed');
+          if (data.deleted) {
+            self.$router.push("/results/dims48");
+          } else {
+            console.log("remove result failed");
           }
         })
         .catch(err => console.log(err));
@@ -272,8 +273,7 @@ export default {
   mounted: function() {
     let self = this;
     if (this.loggedIn) {
-      HowToTestApi
-        .isAdmin(self.$store.getters["user/getUser"].email)
+      HowToTestApi.isAdmin(self.$store.getters["user/getUser"].email)
         .then(isAdmin => (self.admin = isAdmin.isAdmin))
         .catch(err => console.log(err));
     }
