@@ -42,7 +42,7 @@ const generatePDF = async function generatePDF(templateName, data, locales){
             await browser.close();
         }
 
-        throw e;
+        throw err;
     }
 }
 
