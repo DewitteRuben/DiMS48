@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:3000/api";
-// const API_URL = "/api";
+import { API_URL } from "../constants";
 
 export const getDims48 = () => processReq("/test/dims48/initial");
 export const getCategories = () => processReq("/categories");
@@ -18,7 +17,8 @@ export const getTestResultsById = (test, id) =>
   processReq(`/results/${test}/${id}`);
 export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
-export const removeResult = (test, id) => processReq(`/results/${test}/${id}`, {}, "DELETE");
+export const removeResult = (test, id) =>
+  processReq(`/results/${test}/${id}`, {}, "DELETE");
 export const updateClientInfo = (test, id, data) =>
   processReq(`/results/${test}/${id}`, data, "PATCH");
 export const getNormValues = name => processReq(`/test/${name}/normValues`);
