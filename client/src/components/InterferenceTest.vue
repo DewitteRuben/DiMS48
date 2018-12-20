@@ -54,7 +54,7 @@ export default {
   // ========================
   methods: {
     startTimer: function() {
-      this.currentTime = this.totalTime;
+      if (this.currentTime === 0) this.currentTime = this.totalTime;
       this.countdownTimer = setInterval(() => this.countdown(), 1000);
       this.nextButton = false;
     },
