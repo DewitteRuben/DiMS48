@@ -47,8 +47,7 @@ const getAmountOfAnswersPhase1 = function getAmountOfAnswersPhase1(){
 
 const getAmountOfAnswersPhase2 = function getAmountOfAnswersPhase2(){
     let amountAnswers = {abstract: 0, group: 0, unique: 0};
-
-    Object.values(imageConstants.SET_KINDS).forEach(kind => {
+    Object.values(imageConstants.PHASE2_LABELS).forEach(kind => {
         switch (kind) {
             case imageConstants.SET_KINDS.Abstract:
                 amountAnswers.abstract++;
@@ -60,13 +59,20 @@ const getAmountOfAnswersPhase2 = function getAmountOfAnswersPhase2(){
                 amountAnswers.unique++;
         }
     });
-
     return amountAnswers;
 };
 
 const getAmountOfAnswersPhase3 = function getAmountOfAnswersPhase3(){
     return getAmountOfAnswersPhase2();
 };
+
+function getDistributionSets(){
+  let amountAnswers = getAmountOfAnswersPhase2();
+  amountAnswers.abstract = amountAnswers.abstract / imageConstants.AMOUNT_IMAGES;
+  amountAnswers.group = amountAnswers.group / imageConstants.AMOUNT_IMAGES;
+  amountAnswers.unique = amountAnswers.unique / imageConstants.AMOUNT_IMAGES;
+  return amountAnswers;
+}
 
 module.exports = {
     getDatabaseModel,
@@ -76,5 +82,6 @@ module.exports = {
     getPhase3Label,
     getAmountOfAnswersPhase1,
     getAmountOfAnswersPhase2,
-    getAmountOfAnswersPhase3
+    getAmountOfAnswersPhase3,
+    getDistributionSets
 };

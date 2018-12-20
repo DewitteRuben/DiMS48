@@ -86,7 +86,7 @@ export default {
       return this.$store.getters["dimsManager/hasStarted"];
     },
     baseUrl: () => {
-      return "https://how-to-test-apps.herokuapp.com";
+      return "http://howtotest.howest.be";
     },
     currentPhase: function() {
       return this.$store.state.dimsManager.currentPhase;
