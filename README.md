@@ -83,3 +83,76 @@ De volgende functies kunnen aangemaakt worden indien gewenst:
 
 ## Seeders
 Deze zijn enkel nodig indien er specifieke data nodig is om de test te kunnen starten. Maak ik in map [/data/initial](server/data/initial) een nieuwe map en noem deze naar de test: [initialDiMS48](server/data/initialDiMS48). Zet in deze map alle data die geseed moet worden. Maak in de map [*seeders*](server/seeders) een nieuwe Javascript file aan en noem deze naar de data die geseed moet worden: De DiMS48 test heeft bijvoorbeeld afbeeldingen nodig. de Seeder [*imagesSeeder*](server/seeders/imagesSeeder.js) voegt dan de locaties van de afbeeldingen in. Voeg de nieuwe seeder toe in de hoofd seeder [*seeder.js*](server/seeders/seeder.js).
+
+# Documentatie Gebruik
+## Documentatie Testleiders
+### Home
+De test DiMS48 staat hier, in de toekomst kunnen er hier dus meerdere testen staan.
+Onder ‘Details’ vind je <br/>
+-De pdf waarop de test is gebaseerd (die de testleiders zelf ook kunnen downloaden) <br/>
+-De startknop voor de eerste fase (deel 1, interferentietaak en deel 2) van de test<br/>
+-De startknop voor de tweede fase (deel 3) van de test<br/>
+#### Fase 1 Verwerkingsfase en onmiddellijke herkenningsfase
+##### Deel 1 van Fase 1
+-Klikken op ‘start’<br/>
+-Rechtsboven staat er een knop ‘Volledig scherm’, daarop kan je klikken om de test in volledig scherm te tonen. Dat zorgt voor minder afleiding. <br/>
+-De gegevens van de testnemer invoeren: <br/>
+--De leeftijd (kan niet groter zijn dan 125)<br/>
+--Het geslacht: Man, Vrouw, Andere<br/>
+--De leeftijd waarop de testnemer met school is gestopt (niet groter dan de leeftijd)<br/>
+--Hoe lang de testnemer naar school is geweest (kan niet groter zijn dan de leeftijd waarop de testnemer gestopt is met school)<br/>
+-Daarna sla je de gegevens op door op ‘ Gegevens opslaan’ te klikken (indien er foutieve gegevens ingevoerd zijn kunnen die later (bij testresultaten) aangepast worden). <br/>
+
+-Vervolgens krijg je als testleider en de testnemer beiden nog instructies. Je kan op ‘volgende’ klikken om naar de volgende instructie te gaan. <br/>
+
+-Wanneer er op volgende geklikt wordt bij de instructies van de testnemer, dan start deel 1 van de test. <br/>
+##### Fase 1 interferentie taak tussen deel 1 en deel 2:
+-Na deel 1 volgen er opnieuw instructies voor de testleider. <br/>
+-Dan start de interferentie taak. Je klikt op start om de timer te starten en zolang de tijd loopt kan je niet naar het volgende deel, namelijk deel 2. <br/>
+-Na de interferentie taak, krijgen de testleider en testnemer opnieuw beiden instructies.<br/>
+-Wanneer er op volgende geklikt wordt bij de instructies van de testnemer, dan start deel 2 van de test.<br/>
+
+#### Fase 2 Uitgestelde herkenningsfase
+-Klikken op 'start'<br/>
+-Rechtsboven staat er een knop ‘Volledig scherm’, daarop kan je klikken om de test in volledig scherm te tonen. Dat zorgt voor minder afleiding. <br/>
+-Het unieke ID-nummer ingeven dat de testafnemer toegewezen heeft gekregen na Fase 1. Indien de ID niet terug gevonden kan worden, kan er in de resultaten gekeken worden en kan er gefilterd worden op de info die de testafnemer tijdens Fase 1 heeft ingevuld.<br/>
+-Klik hierna op 'start'<br/>
+-Vervolgens krijg je als testleider en de testnemer beiden nog instructies. Je kan op ‘volgende’ klikken om naar de volgende instructie te gaan. <br/>
+-Wanneer er op volgende geklikt wordt bij de instructies van de testnemer, dan start Fase 2 van de test. <br/>
+
+### Testresultaten
+#### Algemeen
+-De test DiMS48 staat hier, in de toekomst kunnen er hier dus meerdere testen staan.<br/>
+-Onder ‘Toon resultaten’ staan alle testresultaten, de nieuwste test staat bovenaan. <br/>
+
+-Linksboven vind je het unieke id van de test. Dit id heb je nodig om deel 3 van de test te koppelen aan deel 1 en deel 2). <br/>
+-Rechtsboven de datum en tijd waarop de test is afgelegd.<br/>
+
+#### Testen filteren
+-Bovenaan het scherm vind je filters, waarmee je kan zoeken naar een bepaalde test of een groep testen. <br/>
+-Een filter toevoegen: <br/>
+--selecteer een filter : dus een categorie waarop je wil filteren bv. “Geslacht”<br/>
+--Selecteer een operator : waaraan de categorie moet voldoen bv. “= “<br/>
+--Selecteer een waarde: een cijfer, datum, letter bv. ‘m’ <br/>
+--Klik op ‘toevoegen’<br/>
+--Op deze manier verkrijg je alle testen die door een man zijn gemaakt.<br/>
+-Je kan verschillende filters toevoegen<br/>
+-Een filter verwijderen kan door op het kruisje te klikken<br/>
+-ALLE filters verwijderen kan door op “Leegmaken’ te klikken<br/>
+
+#### Resultaat van een test bekijken
+-Om de resultaten van een test te zien, klik je in het vak van die test. <br/>
+-Dan krijg je een overzicht van de resultaten.<br/>
+
+## Documentatie Admins
+### Opties
+Als hoofdgebruiker krijg je toegang tot ‘Opties’ en kan je de instellingen voor komende testen aanpassen. Opgelet: de testen die al in het systeem staan worden niet aangepast. Dit kan eventueel belangrijk zijn om de normwaarden te bepalen!<br/>
+
+De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **blauwe link ‘Upload’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
+
+
+Deze zaken zijn aanpasbaar: <br/>
+-De tijd tussen de afbeeldingen in deel 1 in seconden van de test (dus de tijd die testnemer heeft om te kiezen tussen 2 of minder kleuren en 3 of meer kleuren )<br/>
+-De tijd voor de interferentietest in seconden (standaard 3 minuten = 180 seconden) waarbij de testleider de testnemer woorden laat opsommen die met een ‘p’ beginnen<br/>
+-De knoppen op het toetsenbord die gebruikt worden om de testen te maken. Aanpassen kan door te klikken op de woorden van de knop die er staat en dan de gewenste toets in te drukken <br/>
+-Deze nieuwe opties worden opgeslagen wanneer er op ‘Opslaan’ geklikt word.<br/>
