@@ -18,11 +18,11 @@
         :done="result.done"
       />
     </v-layout>
-    <v-layout justify-center align-center v-if="!hasItems && loaded">
-      <p class="headline">Er werden nog geen testen afgelegd.</p>
-    </v-layout>
     <v-layout v-else justify-center align-center mt-5>
       <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
+    </v-layout>
+    <v-layout justify-center align-center v-if="!hasItems && loaded">
+      <p class="headline">Er werden nog geen testen afgelegd.</p>
     </v-layout>
   </v-container>
 </template>
