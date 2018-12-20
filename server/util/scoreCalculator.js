@@ -3,7 +3,7 @@ const imagesRepository = require('../data/initial/images/initialImage.repository
 
 const calculateScorePhase1 = function calculateScorePhase1(answers) {
     let amountRightAnswersPhase1 = 0;
-
+    let totalTime = 0;
     answers.forEach((answerAndId) => {
 
         const answerIDIndexString = answerAndId._id.substring(1);
@@ -14,17 +14,22 @@ const calculateScorePhase1 = function calculateScorePhase1(answers) {
         if (answerAndId.answer === correctAnswer) {
             amountRightAnswersPhase1++;
         }
+        totalTime += answerAndId.responseTime;
     });
 
     const maxAmountOfCorrectAnswers = imagesRepository.getAmountOfAnswersPhase1();
 
-    return (amountRightAnswersPhase1 / maxAmountOfCorrectAnswers) * 100;
+    return {
+      score: (amountRightAnswersPhase1 / maxAmountOfCorrectAnswers) * 100,
+      totalTime
+    };
 };
 
 const calculateScorePhase2 = function calculateScorePhase2(answers) {
     const SET_KINDS = imageConstants.SET_KINDS;
 
     let amountRightAnswers = {abstract: 0, group: 0, unique: 0};
+    let totalTime = 0;
 
     answers.forEach((answerAndId) => {
         const answerIDIndexString = answerAndId._id.substring(1);
@@ -46,14 +51,18 @@ const calculateScorePhase2 = function calculateScorePhase2(answers) {
                     amountRightAnswers.group += 1;
             }
         }
+        totalTime += answerAndId.responseTime;
     });
 
     let maxAmountCorrectAnswers = imagesRepository.getAmountOfAnswersPhase2();
 
     return {
-        abstractScore: (amountRightAnswers.abstract / maxAmountCorrectAnswers.abstract) * 100,
-        groupedScore: (amountRightAnswers.group / maxAmountCorrectAnswers.group) * 100,
-        uniqueScore: (amountRightAnswers.unique / maxAmountCorrectAnswers.unique) * 100
+        scores:{
+          abstractScore: (amountRightAnswers.abstract / maxAmountCorrectAnswers.abstract) * 100,
+          groupedScore: (amountRightAnswers.group / maxAmountCorrectAnswers.group) * 100,
+          uniqueScore: (amountRightAnswers.unique / maxAmountCorrectAnswers.unique) * 100
+        },
+        totalTime
     };
 };
 

@@ -2,7 +2,7 @@
   <div class="TestEndPanel">
     <h1>Einde van de Test</h1>
     <v-checkbox
-      label="De resultaten zijn waarheidsgetrouw, bevestig hierbij dat deze mogen opgeslagen worden."
+      label="De resultaten zijn waarheidsgetrouw en mogen gebruikt worden voor normeringsonderzoek."
       v-model="saveCheckbox"
       value="value"
     ></v-checkbox>

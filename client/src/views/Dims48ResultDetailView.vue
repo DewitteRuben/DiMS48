@@ -89,7 +89,7 @@
       </v-layout>
       <v-layout mt-3 justify-end>
         <h3 v-if="downloading">Downloaden..</h3>
-        <v-btn color="success" @click="downloadTestResults('excel')">Download Excel</v-btn>
+        <v-btn color="success" @click="downloadTestResults('excel')">Download resultaten in Excel</v-btn>
         <v-btn color="success" @click="downloadTestResults('pdf')">Download PDF</v-btn>
       </v-layout>
       <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
@@ -302,7 +302,7 @@ export default {
           "<a href='/api/test/DiMS48/normValues'> Normwaarden </a>";
       } else {
         this.normValuesText =
-          "Er zijn op dit moment geen normwaarden beschikbaar";
+          "Er zijn op dit moment geen normscores beschikbaar";
       }
     });
   },
