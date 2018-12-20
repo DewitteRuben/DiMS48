@@ -1,19 +1,23 @@
 <template>
-  <v-container>
-    <v-layout align-center justify-center fill-height v-show="dataLoaded">
-      <v-flex xs12 sm8 lg6>
-        <h1>Configuratie {{$route.params.name}} Test</h1>
-        <v-form class="mt-5">
-          <Dims48AdminPanel
-            v-if="$route.params.name == 'dims48'"
-            @loaded="dataLoaded=true"
-            @updateParentWithChildData="updateValues"
-          />
-          <v-btn @click="submitValues">Opslaan</v-btn>
-        </v-form>
-        <br>
+  <v-container v-show="dataLoaded">
+    <h1>Configuratie {{$route.params.name}} Test</h1>
+    <v-layout column>
+      <v-layout align-center justify-center fill-height>
+        <v-flex xs12 sm8 lg6>
+          <v-form class="mt-5">
+            <Dims48AdminPanel
+              v-if="$route.params.name == 'dims48'"
+              @loaded="dataLoaded=true"
+              @updateParentWithChildData="updateValues"
+            />
+            <v-btn @click="submitValues">Opslaan</v-btn>
+          </v-form>
+        </v-flex>
+      </v-layout>
+      <v-layout mt-5 justify-cente column>
+        <h2 class="mb-5">Normwaarden uploaden</h2>
         <FileUploadForm/>
-      </v-flex>
+      </v-layout>
     </v-layout>
     <v-layout justify-center align-center fill-height v-show="!dataLoaded">
       <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
