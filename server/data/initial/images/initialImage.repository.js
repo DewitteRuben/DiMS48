@@ -47,6 +47,7 @@ const getAmountOfAnswersPhase1 = function getAmountOfAnswersPhase1(){
 
 const getAmountOfAnswersPhase2 = function getAmountOfAnswersPhase2(){
     let amountAnswers = {abstract: 0, group: 0, unique: 0};
+
     Object.values(imageConstants.PHASE2_LABELS).forEach(kind => {
         switch (kind) {
             case imageConstants.SET_KINDS.Abstract:
