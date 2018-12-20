@@ -1,3 +1,12 @@
+#Inhoud
+[DiMS48](#dims48)
+[Documentatie Code](#documentatie-code)
+-[Front-End](#front-end)
+-[Backend](#backend)
+[Documentatie Gebruik](#documentatie-gebruik)
+-[Testleiders](#documentatie-testleiders)
+-[Admins](#documentatie-admins)
+
 # DiMS48
 
 De DIMS48 test bestaat uit drie delen. Deel 1 bestaat uit 48 afbeeldingen. Sommige bestaan uit 3 of minder kleuren, andere uit meer dan 3 kleuren. De proefpersoon dient voor elke afbeelding telkens zo snel mogelijk te bepalen of de tekening uit 3 of minder kleuren bestaat, of uit meer dan 3 kleuren.
@@ -8,7 +17,7 @@ Het tweede deel bestaat uit een reeks van 48 paren van afbeeldingen. Nu dient de
 
 Deel 3 is een herhaling van deel 2 na een ongedefinieerde tussentijd. Dit deel van de test dient om het lange termijngeheugen te testen van de proefpersoon.
 
-# Documentatie-Code
+# Documentatie Code
 De website is een 1 page application geschreven met Vue.js. De inhoud word opgehaald via API calls naar een Node.js server.
 
 ## Front-End
