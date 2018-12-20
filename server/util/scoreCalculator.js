@@ -1,5 +1,5 @@
-const imageConstants = require('../data/initial/images/imageConstants');
-const imagesRepository = require('../data/initial/images/initialImage.repository');
+const imageConstants = require('../data/initialDiMS48/images/imageConstants');
+const imagesRepository = require('../data/initialDiMS48/images/initialImage.repository');
 
 const calculateScorePhase1 = function calculateScorePhase1(answers) {
     let amountRightAnswersPhase1 = 0;

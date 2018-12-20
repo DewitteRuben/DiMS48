@@ -1,4 +1,4 @@
-const initialInstructionRepository = require('../data/initial/instructions/initialInstructions.repository');
+const initialInstructionRepository = require('../data/initialDiMS48/instructions/initialInstructions.repository');
 const Instruction = initialInstructionRepository.getDatabaseModel();
 
 const seed = function seed() {

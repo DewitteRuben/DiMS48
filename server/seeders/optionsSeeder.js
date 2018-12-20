@@ -1,4 +1,4 @@
-const initialOptionsRepository = require('../data/initial/options/initialOptions.repository');
+const initialOptionsRepository = require('../data/initialDiMS48/options/initialOptions.repository');
 const Option = initialOptionsRepository.getDatabaseModel();
 
 const seed = function seed() {

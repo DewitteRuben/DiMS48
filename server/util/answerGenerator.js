@@ -1,4 +1,4 @@
-const imageRepository = require('../data/initial/images/initialImage.repository');
+const imageRepository = require('../data/initialDiMS48/images/initialImage.repository');
 
 const generateAnswersPhase1 = function generateAnswersPhase1() {
     const exampleAnswersAllCorrect = [];

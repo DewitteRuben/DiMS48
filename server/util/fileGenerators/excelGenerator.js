@@ -1,6 +1,6 @@
 const excel = require('excel4node');
-const ImageData = require('../../data/initial/images/initialImage.repository');
-const ImageConstants = require('../../data/initial/images/imageConstants');
+const ImageData = require('../../data/initialDiMS48/images/initialImage.repository');
+const ImageConstants = require('../../data/initialDiMS48/images/imageConstants');
 
 const text = {
   worksheetNameResults: 'Resultaten',

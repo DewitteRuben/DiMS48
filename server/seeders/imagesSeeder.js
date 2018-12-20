@@ -1,4 +1,4 @@
-const initialImageRepository = require('../data/initial/images/initialImage.repository');
+const initialImageRepository = require('../data/initialDiMS48/images/initialImage.repository');
 const Image = initialImageRepository.getDatabaseModel();
 
 const seed = function seed(){
