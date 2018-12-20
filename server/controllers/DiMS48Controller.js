@@ -169,14 +169,18 @@ function addResult(data) {
       data.clientInfo.gender = data.clientInfo.gender.toLowerCase();
     }
 
+    let scorePhase1 = scoreCalculator.calculateScorePhase1(data.phase1);
     data["phase1"] = {
-      score: scoreCalculator.calculateScorePhase1(data.phase1),
-      answers: addCorrectAnswersPhase1(data.phase1)
+      score: scorePhase1.score,
+      answers: addCorrectAnswersPhase1(data.phase1),
+      totalTime: scorePhase1.totalTime
     };
 
+    let scoresPhase2 = scoreCalculator.calculateScorePhase2(data.phase2)
     data["phase2"] = {
-      scores: scoreCalculator.calculateScorePhase2(data.phase2),
-      answers: addCorrectAnswersPhase2(data.phase2)
+      scores: scoresPhase2.scores,
+      answers: addCorrectAnswersPhase2(data.phase2),
+      totalTime: scoresPhase2.totalTime
     };
 
     data["phase3"] = null;
@@ -195,9 +199,11 @@ function addResult(data) {
 
 function appendResult(data) {
   return new Promise((resolve, reject) => {
+    let scoresPhase3 = scoreCalculator.calculateScorePhase2(data.phase3);
     data.phase3 = {
-      scores: scoreCalculator.calculateScorePhase2(data.phase3),
-      answers: addCorrectAnswersPhase3(data.phase3)
+      scores: scoresPhase3.scores,
+      answers: addCorrectAnswersPhase3(data.phase3),
+      totalTime: scoresPhase3.totalTime
     };
 
     DiMS48Models.Result.findByIdAndUpdate(
