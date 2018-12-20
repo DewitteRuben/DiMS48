@@ -10,7 +10,7 @@
               @loaded="dataLoaded=true"
               @updateParentWithChildData="updateValues"
             />
-            <v-btn @click="submitValues">Opslaan</v-btn>
+            <v-btn @click="submitValues">Configuratie Updaten</v-btn>
           </v-form>
         </v-flex>
       </v-layout>
