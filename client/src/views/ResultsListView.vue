@@ -15,6 +15,7 @@
         :schooledTill="result.clientInfo.schooledTill"
         :schooledFor="result.clientInfo.schooledFor"
         :timestamp="new Date(result.timestamp)"
+        :done="result.phase3 !== null"
       />
     </v-layout>
     <v-layout v-else justify-center align-center mt-5>
