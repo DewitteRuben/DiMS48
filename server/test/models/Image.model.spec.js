@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
 const chai = require('chai');
-const should = require('chai').should();
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
