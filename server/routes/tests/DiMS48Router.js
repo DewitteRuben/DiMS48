@@ -22,7 +22,10 @@ const updateConfig = function updateConfig(req, res) {
   // TODO refactor robin senpai pls
   TestController.updateConfig("DiMS48", newConfig)
     .then(data => {
-      return res.json({ status: "ok", code: 200 });
+      return res.json({
+        status: "ok",
+        code: 200
+      });
     })
     .catch(err => {
       errorSender.sendInternalServerError(
@@ -141,8 +144,14 @@ const postResultPart2 = function postResultPart2(req, res) {
           req,
           res,
           errorMessages.results.cloudNotUpdate +
-            errorMessages.dues.invalidValueSuppliedFor +
-            invalidFieldValue
+          errorMessages.dues.invalidValueSuppliedFor +
+          invalidFieldValue
+        );
+      } else if (err.name === "AppendError") {
+        errorSender.sendInvalidValueSuppliedWithoutDueDetail(
+          req,
+          res,
+          errorMessages.results.couldNotAppend + errorMessages.dues.answersPhase3AlreadyPresent
         );
       } else {
         errorSender.sendInternalServerError(
@@ -311,8 +320,8 @@ const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
           req,
           res,
           errorMessages.results.cloudNotUpdate +
-            errorMessages.dues.invalidValueSuppliedFor +
-            invalidFieldValue
+          errorMessages.dues.invalidValueSuppliedFor +
+          invalidFieldValue
         );
       } else {
         errorSender.sendInternalServerError(
@@ -326,7 +335,7 @@ const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
 
 //Util Functions
 function getBeginObject(part) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const beginObject = {
       images: null,
       instructions: null,

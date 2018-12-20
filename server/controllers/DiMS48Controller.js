@@ -10,14 +10,11 @@ const excelGeneratorAll = require("../util/fileGenerators/excelGeneratorAll")
   .makeExcel;
 
 const imageRepository = require("../data/initialDiMS48/images/initialImage.repository");
-
 const locals = require("../locales/nl-BE.json");
 
-//TODO abstract error to seperate file?
-const invalidIdError = {
-  name: "CastError",
-  description: "Invalid Id Supplied"
-};
+const throwableErrors = require('../util/errors/errors');
+const invalidIdError = throwableErrors.invalidIdError;
+const resultAlreadyAppendedError = throwableErrors.resultAlreadyAppendedError;
 
 function makeGetter(model, whereClause, idNeeded, extraFields) {
   return new Promise(function(resolve, reject) {
@@ -222,19 +219,27 @@ function appendResult(data) {
       totalTime: scoresPhase3.totalTime
     };
 
-    DiMS48Models.Result.findByIdAndUpdate(
-      data._id,
-      {
-        phase3: data.phase3
-      },
-      (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
+    getResult(data._id)
+    .then((result) => {
+      if(result.phase3 !== null){
+        reject(resultAlreadyAppendedError);
+      }else{
+           DiMS48Models.Result.findByIdAndUpdate(
+             data._id, {
+               phase3: data.phase3
+             },
+             (err, data) => {
+               if (err) {
+                 reject(err);
+               } else {
+                 resolve();
+               }
+             }
+           );
       }
-    );
+    }).catch(err => {
+      reject(err);
+    });
   });
 }
 

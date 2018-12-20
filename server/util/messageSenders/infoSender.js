@@ -10,7 +10,6 @@ const InfoSender = function InfoSender(infoMessages){
         res.json(jsonMessageGenerator.generateGoogleInfoMessage(
             responseCode,
             detail
-   
           ));
     };
 
