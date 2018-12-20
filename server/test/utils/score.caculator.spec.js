@@ -4,7 +4,8 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
 const scoreCalculator = require('../../util/scoreCalculator');
-const imageSeeder = require('../../seeders/imagesSeeder');
+const imageConstants = require('../../data/initial/images/imageConstants');
+const imageRepository = require('../../data/initial/images/initialImage.repository');
 
 describe('Score Calculator', () => {
     it('should exist', () => {
@@ -27,8 +28,8 @@ describe('Score Calculator', () => {
         it('should return 50 if half of the answers were correct', () => {
             const exampleAnswersAllCorrect = [];
 
-            for (let i = 1; i <= imageSeeder.getMaxAmountOfCorrectAnswersPhase1() / 2; i++) {
-                const correctAnswer = imageSeeder.getAmountOfColours(i);
+            for (let i = 1; i <= imageRepository.getAmountOfAnswersPhase1() / 2; i++) {
+                const correctAnswer = imageRepository.getPhase1Label(i);
 
                 const exampleAnswer = {
                     "_id": `A${i}`,
@@ -48,8 +49,8 @@ describe('Score Calculator', () => {
             const imageSeeder = require('../../seeders/imagesSeeder');
             const exampleAnswersAllCorrect = [];
 
-            for (let i = 1; i <= imageSeeder.getMaxAmountOfCorrectAnswersPhase1(); i++) {
-                const correctAnswer = imageSeeder.getAmountOfColours(i);
+            for (let i = 1; i <= imageRepository.getAmountOfAnswersPhase1(); i++) {
+                const correctAnswer = imageRepository.getPhase1Label(i);
 
                 const exampleAnswer = {
                     "_id": `A${i}`,
@@ -86,7 +87,7 @@ describe('Score Calculator', () => {
         });
 
         it('should return 100 for abstract if all abstract were correct', () => {
-            const abstractAllCorrectArray = createCorrectAnswerArrayPhase2(imageSeeder.SET_KINDS.Abstract);
+            const abstractAllCorrectArray = createCorrectAnswerArrayPhase2(imageConstants.SET_KINDS.Abstract);
 
             const calulatedScore = scoreCalculator.calculateScorePhase2(abstractAllCorrectArray).abstractScore;
             const expectedScore = 100;
@@ -95,7 +96,7 @@ describe('Score Calculator', () => {
         });
 
         it('should return 100 for unique if all unique were correct', () => {
-            const uniqueAllCorrectArray = createCorrectAnswerArrayPhase2(imageSeeder.SET_KINDS.Unique);
+            const uniqueAllCorrectArray = createCorrectAnswerArrayPhase2(imageConstants.SET_KINDS.Unique);
 
             const calculatedScore = scoreCalculator.calculateScorePhase2(uniqueAllCorrectArray).uniqueScore;
             const expectedScore = 100;
@@ -104,7 +105,7 @@ describe('Score Calculator', () => {
         });
 
         it('should return 100 for grouped if all grouped correct', () => {
-            const groupedAllCorrectArray = createCorrectAnswerArrayPhase2(imageSeeder.SET_KINDS.Group);
+            const groupedAllCorrectArray = createCorrectAnswerArrayPhase2(imageConstants.SET_KINDS.Group);
 
             const calculatedScore = scoreCalculator.calculateScorePhase2(groupedAllCorrectArray).groupedScore;
             const expectedScore = 100;
@@ -118,13 +119,13 @@ const createCorrectAnswerArrayPhase2 = function createCorrectAnswerArrayPhase2(s
     const correctAnswerArray = [];
 
     let totalAmountMaxPossibleAnswers = 0;
-    Object.keys(imageSeeder.SET_KINDS).forEach((key) => {
-        totalAmountMaxPossibleAnswers += imageSeeder.getMaxAmountCorrectAnswersPhase2()[setKind2ScoreKey(imageSeeder.SET_KINDS[key])];
+    Object.keys(imageConstants.SET_KINDS).forEach((key) => {
+        totalAmountMaxPossibleAnswers += imageRepository.getAmountOfAnswersPhase2()[setKind2ScoreKey(imageConstants.SET_KINDS[key])];
     });
 
 
     for (let i = 1; i <= totalAmountMaxPossibleAnswers; i++) {
-        const currentSetKind = imageSeeder.getSetKind(i);
+        const currentSetKind = imageRepository.getPhase2Label(i);
 
         if (currentSetKind === setKind) {
             const exampleCorrectAnswer = {
@@ -141,11 +142,11 @@ const createCorrectAnswerArrayPhase2 = function createCorrectAnswerArrayPhase2(s
 
 const setKind2ScoreKey = function setKind2ScoreKey(setKind) {
     switch (setKind) {
-        case imageSeeder.SET_KINDS.Abstract:
+        case imageConstants.SET_KINDS.Abstract:
             return "abstract";
-        case imageSeeder.SET_KINDS.Group:
+        case imageConstants.SET_KINDS.Group:
             return "group";
-        case imageSeeder.SET_KINDS.Unique:
+        case imageConstants.SET_KINDS.Unique:
             return "unique";
     }
 };
