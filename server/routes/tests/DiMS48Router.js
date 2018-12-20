@@ -8,14 +8,12 @@ const DiMS48Controller = require('../../controllers/DiMS48Controller')(DiMS48Mod
 const TestController = require('../../controllers/TestController');
 
 const errorMessages = require('../../locales/DiMS48/errorMessages/nl-BE.json');
-
 const ErrorSender = require('../../util/messageSenders/errorSender');
 const errorSender = new ErrorSender(errorMessages);
-
 const InfoSender = require('../../util/messageSenders/infoSender');
 const infoSender = new InfoSender(errorMessages);
 
-function updateConfig(req, res) {
+const updateConfig = function updateConfig(req, res) {
   const newConfig = req.body.newConfig;
 
   TestController.updateConfig("DiMS48", newConfig)
@@ -23,33 +21,33 @@ function updateConfig(req, res) {
     .catch(err => {
       errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
-}
+};
 
-function initial(req, res) {
+const getInitial = function getInitial(req, res) {
   getBeginObject('begin')
     .then(data => res.json(data))
     .catch(err => {
       errorSender.sendInternalServerError(req, res, errorMessages.phases.couldNotGetInitial);
     });
-}
+};
 
-function part2(req, res) {
+const getPart2 = function getPart2(req, res) {
   getBeginObject('part2')
     .then(data => res.json(data))
     .catch(err => {
       errorSender.sendInternalServerError(req, res, errorMessages.phases.cloudNotGetPart2_InternalServerError);
     });
-}
+};
 
-function getResults(req, res) {
+const getResults = function getResults(req, res) {
   DiMS48Controller.getResults()
     .then(results => res.json(results))
     .catch(err => {
       errorSender.sendInternalServerError(req, res, errorMessages.couldNotGetResults);
     });
-}
+};
 
-function getResult(req, res) {
+const getResult = function getResult(req, res) {
   const id = req.params.id;
 
   DiMS48Controller.getResult(id)
@@ -61,9 +59,9 @@ function getResult(req, res) {
         errorSender.sendInternalServerError(req, res, errorMessages.results.internalServerError);
       }
     });
-}
+};
 
-function postResultPart1(req, res) {
+const postResultPart1 = function postResultPart1(req, res) {
   DiMS48Controller.addResult(req.body)
     .then((data) => {
       res.status(201);
@@ -82,9 +80,9 @@ function postResultPart1(req, res) {
         errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotSaveResult);
       }
     });
-}
+};
 
-function postResultPart2(req, res) {
+const postResultPart2 = function postResultPart2(req, res) {
   DiMS48Controller.appendResult(req.body)
     .then(() => {
       res.status(201);
@@ -103,21 +101,27 @@ function postResultPart2(req, res) {
         errorSender.sendInternalServerError(req, res, errorMessages.results.couldNotAppendResult);
       }
     });
-}
+};
 
 //TODO proper error sending
-function removeResult(req, res){
+const deleteResult = function deleteResult(req, res) {
   const idToRemove = req.params.id;
 
   DiMS48Controller.removeResult(idToRemove)
-    .then(()=>{
-      res.json({deleted: true, msg: "Resultaat verwijderd"})
-    }).catch(err=>{
-      res.json({deleted: false, msg: "Kon resultaat niet verwijderen, probeer later opnieuw"});
-    })
+    .then(() => {
+      res.json({
+        deleted: true,
+        msg: "Resultaat verwijderd"
+      });
+    }).catch(err => {
+      res.json({
+        deleted: false,
+        msg: "Kon resultaat niet verwijderen, probeer later opnieuw"
+      });
+    });
 }
 
-function getPdf(req, res) {
+const getPdf = function getPdf(req, res) {
   const id = req.params.id;
 
   DiMS48Controller.getPDF(id)
@@ -133,12 +137,12 @@ function getPdf(req, res) {
         errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGeneratePDF);
       }
     });
-}
+};
 
-function getExcelAllResults(req, res) {
+const getExcelAllResults = function getExcelAllResults(req, res) {
   DiMS48Controller.getExcelAllResults()
     .then(workbook => {
-      let fileName = 'results.xlsx';
+      let fileName = 'DiMS48_all_results.xlsx';
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
       return workbook.write(fileName, res);
@@ -149,39 +153,42 @@ function getExcelAllResults(req, res) {
         errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
       }
     });
-}
+};
 
-function getExcel(req, res) {
+const getExcel = function getExcel(req, res) {
   const id = req.params.id;
 
-  DiMS48Controller.getExcel(id)
-    .then(workbook => {
-      let fileName = `results${id}.xlsx`;
-      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
-      return workbook.write(fileName, res);
-    })
-    .catch((err) => {
-      console.log(err);
-      if (err.name === 'CastError') {
-        errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
-      } else {
-        errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
-      }
-    });
-}
+  if (id === "all") {
+    getExcelAllResults(req, res);
+  } else {
+    DiMS48Controller.getExcel(id)
+      .then(workbook => {
+        let fileName = `results-${id}.xlsx`;
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+        return workbook.write(fileName, res);
+      })
+      .catch((err) => {
+        if (err.name === 'CastError') {
+          errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+        } else {
+          errorSender.sendInternalServerError(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
+        }
+      });
+  }
+};
 
-function normValuesExist(req, res) {
+const getNormValuesExist = function getNormValuesExist(req, res) {
   res.json({
     exists: fs.existsSync(path.join(__dirname + "/../../uploads/dims48.pdf"))
   });
-}
+};
 
 function getNormValues(req, res) {
   res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
 }
 
-const updateClientInfoOrNote = function updateClientInfoOrNote(req, res) {
+const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
   const notes = req.body.notes;
   const testId = req.params.id;
   let donePromise;
@@ -253,17 +260,17 @@ function getBeginObject(part) {
 
 module.exports = {
   updateConfig,
-  initial,
-  part2,
+  getInitial,
+  getPart2,
   getResults,
   getResult,
   postResultPart1,
   postResultPart2,
-  removeResult,
+  deleteResult,
   getPdf,
   getExcel,
   getExcelAllResults,
-  updateClientInfoOrNote,
+  patchClientInfoOrNote,
   getNormValues,
-  normValuesExist
+  getNormValuesExist
 };
