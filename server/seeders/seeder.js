@@ -3,9 +3,7 @@ const defaultModels = require('../models/defaultModels');
 const DiMS48Models = require('../models/DiMS48Models');
 
 const imageSeeder = require('./imagesSeeder');
-
-const Instruction = DiMS48Models.Instruction;
-const getInstructions = require('./instructionsSeeder').getInstructions;
+const instructionSeeder = require('./instructionsSeeder');
 
 const Option = require('../models/DiMS48Models').Option;
 const optionSeeder = require('../seeders/optionsSeeder');
@@ -13,7 +11,7 @@ const optionSeeder = require('../seeders/optionsSeeder');
 const Test = defaultModels.Test;
 const getTests = require('./testsSeeder').getTests;
 
-const checkImages = function checkImages() {
+const checkAndSeedImages = function checkImages() {
     console.log('Checking Images');
     imageSeeder.isDatabaseSeeded()
         .then((isDatabaseSeeded) => {
@@ -26,17 +24,19 @@ const checkImages = function checkImages() {
         });
 }
 
-function checkInstructions() {
-    const queryInstructions = Instruction.find();
+const checkAndSeedInstructions = function checkAndSeedInstructions() {
     console.log('Checking Instructions');
-    queryInstructions.exec((err, data) => {
-        if (data.length <= 0) {
-            console.log('Instructions need seeding');
-            getInstructions().forEach((instruction) => instruction.save());
-            console.log('Instructions seeded');
-        }
-    });
-}
+
+    instructionSeeder.isDatabaseSeeded()
+        .then((isDatabaseSeeded) => {
+            if (!isDatabaseSeeded) {
+                console.log('Instructions need seeding');
+                instructionSeeder.seed();
+            } else {
+                console.log('Instructions don\'t need seeding');
+            }
+        });
+};
 
 function checkOptions() {
     console.log('Checking Options');
@@ -64,8 +64,8 @@ function checkTests() {
 }
 
 function checkAll() {
-    checkImages();
-    checkInstructions();
+    checkAndSeedImages();
+    checkAndSeedInstructions();
     checkOptions();
     checkTests();
 }

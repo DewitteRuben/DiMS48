@@ -1,4 +1,4 @@
-const initialImageRepository = require('../data/initial/images/intialImage.repository');
+const initialImageRepository = require('../data/initial/images/initialImage.repository');
 const Image = initialImageRepository.getDatabaseModel();
 
 const seed = function seed(){
@@ -11,7 +11,11 @@ const isDatabaseSeeded = function isDatabaseSeeded() {
         const imageQuery = Image.find();
 
         imageQuery.exec((err, data) => {
-            resolve(data.length !== 0);
+            if(err){
+                reject(err);
+            }else{
+                resolve(data.length !== 0);
+            }
         });
     });
 };
