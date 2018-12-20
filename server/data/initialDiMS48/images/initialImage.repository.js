@@ -13,19 +13,32 @@ const makeImage = function makeImage(localSrc, id, extra) {
     });
 };
 
-const getImages = function getImages() {
+const getImagesPhase1 = function getImagesPhase1(){
     let imagesArr = [];
 
     for (let i = 1; i <= imageConstants.AMOUNT_IMAGES; i++) {
         let idA = `A${i}`;
-        let idB = `B${i}`;
+
         let localSrc = `set${i}`;
 
         let amountColours = getPhase1Label(i);
-        let set = getPhase2Label(i);
         imagesArr.push(makeImage(localSrc, idA, amountColours));
+    }
+
+    return imagesArr;
+};
+
+const getImagesPhase2 = function getImagesPhase2(){
+    let imagesArr = [];
+
+    for (let i = 1; i <= imageConstants.AMOUNT_IMAGES; i++) {
+        let idB = `B${i}`;
+        let localSrc = `set${i}`;
+
+        let set = getPhase2Label(i);
         imagesArr.push(makeImage(localSrc, idB, set));
     }
+
     return imagesArr;
 };
 
@@ -77,7 +90,8 @@ function getDistributionSets(){
 
 module.exports = {
     getDatabaseModel,
-    getImages,
+    getImagesPhase1,
+    getImagesPhase2,
     getPhase1Label,
     getPhase2Label,
     getPhase3Label,
