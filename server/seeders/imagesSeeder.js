@@ -2,8 +2,11 @@ const initialImageRepository = require('../data/initialDiMS48/images/initialImag
 const Image = initialImageRepository.getDatabaseModel();
 
 const seed = function seed(){
-    const images = initialImageRepository.getImages();
-    images.forEach(image => image.save());
+    const imagesPhase1 = initialImageRepository.getImagesPhase1();
+    const imagesPhase2 = initialImageRepository.getImagesPhase2();
+
+    imagesPhase1.forEach(image => image.save());
+    imagesPhase2.forEach(image => image.save());
 };
 
 const isDatabaseSeeded = function isDatabaseSeeded() {

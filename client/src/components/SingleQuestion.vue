@@ -37,6 +37,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { API_URL } from "../services/constants";
 
 export default {
   mounted() {
@@ -86,6 +87,7 @@ export default {
       return this.$store.getters["dimsManager/hasStarted"];
     },
     baseUrl: () => {
+      if (process.env.NODE_ENV === "production") return "";
       return "http://howtotest.howest.be";
     },
     currentPhase: function() {

@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:3000/api";
-// const API_URL = "/api";
+import { API_URL } from "../constants";
 
 export const getDims48 = () => processReq("/test/dims48/initial");
 export const getCategories = () => processReq("/categories");
