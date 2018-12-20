@@ -23,7 +23,7 @@ function checkImages() {
           getImages().forEach(img => img.save());
           console.log('Images seeded');
         }
-    })
+    });
 }
 
 function checkInstructions() {
@@ -35,7 +35,7 @@ function checkInstructions() {
             getInstructions().forEach((instruction) => instruction.save());
             console.log('Instructions seeded');
         }
-    })
+    });
 }
 
 function checkOptions() {
@@ -47,7 +47,7 @@ function checkOptions() {
             optionSeeder.getOptions().forEach((option) => option.save());
             console.log('Options seeded');
         }
-    })
+    });
 }
 
 function checkTests(){
@@ -60,7 +60,7 @@ function checkTests(){
       getTests().forEach(test=> test.save());
       console.log('Tests seeded');
     }
-  })
+  });
 }
 
 function checkAll() {
