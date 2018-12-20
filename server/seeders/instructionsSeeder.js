@@ -9,7 +9,7 @@ const instructionPhase1 = new DiMS48Instruction({
         },
         {
             "title": "Testnemer",
-            "message": "Je krijgt een aantal afbeeldingen te zien met 2 knoppen erbij. Je moet zo snel mogelijk bepalen of een afbeelding 2 of minder kleuren of 3 of meer kleuren bevat. Je kan klikken op de knoppen op het scherm of drukken op een toets op het toestenbord: '<leftBtnKey>' voor de linkerknop en '<rightBtnKey>' voor de rechterknop.",
+            "message": "Je krijgt een aantal afbeeldingen te zien met 2 knoppen erbij. Je moet zo snel mogelijk bepalen of een afbeelding 2 of minder kleuren of 3 of meer kleuren bevat. Je kan klikken op de knoppen op het scherm of drukken op een toets op het toestenbord: '<leftBtnKey>' voor de linkerknop en '<rightBtnKey>' voor de rechterknop. Klik op de knop 'Volgende' om de test te starten.",
         }
     ]
 });
@@ -34,7 +34,7 @@ const instructionPhase2 = new DiMS48Instruction({
         },
         {
             "title": "Testnemer",
-            "message": "Duid aan welke van de twee afbeeldingen je in de eerste reeks hebt gezien.",
+            "message": "Duid aan welke van de twee afbeeldingen je in de eerste reeks hebt gezien. Klik op de knop 'Volgende' om de test te starten.",
         }
     ]
 });
@@ -48,7 +48,7 @@ const instructionPhase3 = new DiMS48Instruction({
         },
         {
             "title": "Testnemer",
-            "message": "Duid aan welke van de twee afbeeldingen je in de eerste reeks hebt gezien."
+            "message": "Duid aan welke van de twee afbeeldingen je in de eerste reeks hebt gezien. Klik op de knop 'Volgende' om de test te starten."
         }
     ]
 });
