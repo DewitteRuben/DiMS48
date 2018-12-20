@@ -1,22 +1,19 @@
 <template>
   <form enctype="multipart/form-data" :action="action" method="post">
-    <input type="file" name="toUpload" accept="application/pdf"/>
-    <input id="submitFile" type="submit" value="Upload">
+    <input type="file" name="toUpload" accept="application/pdf">
+    <v-btn color="primary" type="submit">Upload</v-btn>
   </form>
 </template>
 
 <script>
 export default {
   computed: {
-    action(){
+    action() {
       return `/api/upload/dims48`;
     }
   }
-}
+};
 </script>
 
-<style lang="css">
-  #submitFile{
-    color: blue;
-  }
+<style scoped>
 </style>
