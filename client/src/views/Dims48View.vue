@@ -28,6 +28,7 @@ import Dims48aTest from "@/components/Dims48aTest.vue";
 import Dims48bTest from "@/components/Dims48bTest.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import * as howtotestapi from "@/services/api/howtotestapi";
+import store from "@/store/store";
 
 export default {
   name: "Dims48Page",
@@ -117,6 +118,10 @@ export default {
       this.resetTest();
       this.clearTimer();
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    store.dispatch("dimsManager/resetState");
+    next();
   }
 };
 </script>
