@@ -7,8 +7,28 @@ function initialState() {
     double: false,
     interference: false,
     started: false,
-    finished: false
+    finished: false,
+    imagesLoaded: false,
+    loadedData: false
   };
+}
+
+function preloadImages(urls, allImagesLoadedCallback) {
+  var loadedCounter = 0;
+  var toBeLoadedNumber = urls.length;
+  urls.forEach(function(url) {
+    preloadImage(url, function() {
+      loadedCounter++;
+      if (loadedCounter == toBeLoadedNumber) {
+        allImagesLoadedCallback();
+      }
+    });
+  });
+  function preloadImage(url, anImageLoadedCallback) {
+    var img = new Image();
+    img.src = url;
+    img.onload = anImageLoadedCallback;
+  }
 }
 
 export default {
@@ -24,7 +44,9 @@ export default {
     isLoaded: (state, getters, rootState, rootGetters) => {
       return (
         rootGetters["dimsQuestions/isLoaded"] &&
-        rootGetters["dimsInstructions/isLoaded"]
+        rootGetters["dimsInstructions/isLoaded"] &&
+        state.imagesLoaded &&
+        state.loadedData
       );
     },
     hasFinished: state => {
@@ -99,15 +121,15 @@ export default {
       commit("initDims48b");
       dispatch("initDims48TestData");
     },
-    initDims48TestData: ({ commit, dispatch }) => {
+    initDims48TestData: ({ commit, dispatch, state }) => {
       howToTestApi
         .getDims48()
         .then(res => {
           commit("dimsQuestions/updateImages", res.images, { root: true });
-          res.images.forEach(image => {
-            let imageObject = new Image();
-            imageObject.src = "http://localhost:3000" + image.imgUrl;
-          });
+          const imageUrls = res.images.map(
+            e => `http://localhost:3000${e.imgUrl}`
+          );
+          preloadImages(imageUrls, () => (state.imagesLoaded = true));
           commit("dimsInstructions/updateInstructions", res.instructions, {
             root: true
           });
@@ -115,6 +137,8 @@ export default {
           dispatch("dims48Config/initialize", res.config[0].config, {
             root: true
           });
+          state.loadedData = true;
+          console.log(state);
         })
         .catch(err => {
           console.error(err);

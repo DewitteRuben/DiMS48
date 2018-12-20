@@ -15,8 +15,11 @@
         :schooledTill="result.clientInfo.schooledTill"
         :schooledFor="result.clientInfo.schooledFor"
         :timestamp="new Date(result.timestamp)"
-        :done="result.phase3 !== null"
+        :done="result.done"
       />
+    </v-layout>
+    <v-layout justify-center align-center v-if="!hasItems && loaded">
+      <p class="headline">Er werden nog geen testen afgelegd.</p>
     </v-layout>
     <v-layout v-else justify-center align-center mt-5>
       <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
@@ -41,7 +44,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("dimsResults", ["filteredFeed"])
+    ...mapGetters("dimsResults", ["filteredFeed"]),
+    hasItems: function() {
+      return this.filteredFeed.length > 0;
+    }
   },
   methods: {
     getTestResults: async function() {
