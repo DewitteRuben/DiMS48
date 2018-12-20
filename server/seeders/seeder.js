@@ -5,7 +5,7 @@ const DiMS48Models = require('../models/DiMS48Models');
 const Image = defaultModels.Image;
 const getImages = require('./imagesSeeder').getImages;
 
-const Instuction = DiMS48Models.Instruction;
+const Instruction = DiMS48Models.Instruction;
 const getInstructions = require('./instructionsSeeder').getInstructions;
 
 const Option = require('../models/DiMS48Models').Option;
@@ -27,7 +27,7 @@ function checkImages() {
 }
 
 function checkInstructions() {
-    const queryInstructions = Instuction.find();
+    const queryInstructions = Instruction.find();
     console.log('Checking Instructions');
     queryInstructions.exec((err, data) => {
         if (data.length <= 0) {
