@@ -56,7 +56,7 @@ function applyFilter(filters, property, value, operator, type) {
 
 function initialState() {
   return {
-    resultFeed: null,
+    resultFeed: [],
     filters: []
   };
 }
