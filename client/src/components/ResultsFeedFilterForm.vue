@@ -120,6 +120,7 @@ export default {
           property: "clientInfo.age",
           type: Number
         },
+
         {
           name: "Geslacht",
           type: String,
@@ -134,6 +135,11 @@ export default {
           name: "Aantal jaar naar school geweest",
           type: Number,
           property: "clientInfo.schooledFor"
+        },
+        {
+          name: "Is test voltooid",
+          type: Boolean,
+          property: "phase3"
         },
         {
           name: "Datum",
@@ -211,7 +217,9 @@ export default {
         { symbol: ">", supportedTypes: [Number, Date] },
         { symbol: "<", supportedTypes: [Number, Date] },
         { symbol: "≥", supportedTypes: [Number, Date] },
-        { symbol: "≤", supportedTypes: [Number, Date] }
+        { symbol: "≤", supportedTypes: [Number, Date] },
+        { symbol: "Waar", supportedTypes: [Boolean] },
+        { symbol: "Niet waar", supportedTypes: [Boolean] }
       ];
 
       const valueType =
