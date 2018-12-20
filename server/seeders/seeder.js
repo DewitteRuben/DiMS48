@@ -1,12 +1,8 @@
-const mongoose = require('mongoose');
 const defaultModels = require('../models/defaultModels');
-const DiMS48Models = require('../models/DiMS48Models');
 
 const imageSeeder = require('./imagesSeeder');
 const instructionSeeder = require('./instructionsSeeder');
-
-const Option = require('../models/DiMS48Models').Option;
-const optionSeeder = require('../seeders/optionsSeeder');
+const optionSeeder = require('./optionsSeeder');
 
 const Test = defaultModels.Test;
 const getTests = require('./testsSeeder').getTests;
@@ -22,7 +18,7 @@ const checkAndSeedImages = function checkImages() {
                 console.log('Images don\'t need seeding');
             }
         });
-}
+};
 
 const checkAndSeedInstructions = function checkAndSeedInstructions() {
     console.log('Checking Instructions');
@@ -38,17 +34,19 @@ const checkAndSeedInstructions = function checkAndSeedInstructions() {
         });
 };
 
-function checkOptions() {
+const checkAndSeedOptions = function checkAndSeedOptions() {
     console.log('Checking Options');
-    const queryOptions = Option.find();
-    queryOptions.exec((err, data) => {
-        if (data.length <= 0) {
-            console.log('Options need seeding');
-            optionSeeder.getOptions().forEach((option) => option.save());
-            console.log('Options seeded');
-        }
-    });
-}
+
+    optionSeeder.isDatabaseSeeded()
+        .then((isDatabaseSeeded) => {
+            if (!isDatabaseSeeded) {
+                console.log('Options need seeding');
+                optionSeeder.seed();
+            } else {
+                console.log('Options don\'t need seeding');
+            }
+        });
+};
 
 function checkTests() {
     console.log('Checking tests');
@@ -66,7 +64,7 @@ function checkTests() {
 function checkAll() {
     checkAndSeedImages();
     checkAndSeedInstructions();
-    checkOptions();
+    checkAndSeedOptions();
     checkTests();
 }
 
