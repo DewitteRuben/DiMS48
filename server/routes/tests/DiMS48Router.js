@@ -162,6 +162,7 @@ function getExcel(req, res) {
       return workbook.write(fileName, res);
     })
     .catch((err) => {
+      console.log(err);
       if (err.name === 'CastError') {
         errorSender.sendInvalidIdSupplied(req, res, errorMessages.fileGenerators.couldNotGenerateExcel);
       } else {

@@ -1,73 +1,71 @@
-const mongoose = require('mongoose');
-const defaultModels = require('../models/defaultModels');
-const DiMS48Models = require('../models/DiMS48Models');
+const imageSeeder = require('./imagesSeeder');
+const instructionSeeder = require('./instructionsSeeder');
+const optionSeeder = require('./optionsSeeder');
+const testSeeder = require('./testsSeeder');
 
-const Image = defaultModels.Image;
-const getImages = require('./imagesSeeder').getImages;
+const checkAndSeedImages = function checkImages() {
+    console.log('Checking Images');
 
-const Instuction = DiMS48Models.Instruction;
-const getInstructions = require('./instructionsSeeder').getInstructions;
+    imageSeeder.isDatabaseSeeded()
+        .then((isDatabaseSeeded) => {
+            if (!isDatabaseSeeded) {
+                console.log('Images need seeding');
+                imageSeeder.seed();
+            } else {
+                console.log('Images don\'t need seeding');
+            }
+        });
+};
 
-const Option = require('../models/DiMS48Models').Option;
-const optionSeeder = require('../seeders/optionsSeeder');
-
-const Test = defaultModels.Test;
-const getTests = require('./testsSeeder').getTests;
-
-function checkImages() {
-  console.log('Checking images');
-    const queryImages = Image.find();
-    queryImages.exec(function (err, data) {
-        if (data.length === 0){
-          console.log('Images need seeding');
-          getImages().forEach(img => img.save());
-          console.log('Images seeded');
-        }
-    })
-}
-
-function checkInstructions() {
-    const queryInstructions = Instuction.find();
+const checkAndSeedInstructions = function checkAndSeedInstructions() {
     console.log('Checking Instructions');
-    queryInstructions.exec((err, data) => {
-        if (data.length <= 0) {
-            console.log('Instructions need seeding');
-            getInstructions().forEach((instruction) => instruction.save());
-            console.log('Instructions seeded');
+
+    instructionSeeder.isDatabaseSeeded()
+        .then((isDatabaseSeeded) => {
+            if (!isDatabaseSeeded) {
+                console.log('Instructions need seeding');
+                instructionSeeder.seed();
+            } else {
+                console.log('Instructions don\'t need seeding');
+            }
+        });
+};
+
+const checkAndSeedOptions = function checkAndSeedOptions() {
+    console.log('Checking Options');
+
+    optionSeeder.isDatabaseSeeded()
+        .then((isDatabaseSeeded) => {
+            if (!isDatabaseSeeded) {
+                console.log('Options need seeding');
+                optionSeeder.seed();
+            } else {
+                console.log('Options don\'t need seeding');
+            }
+        });
+};
+
+const checkAndSeedTests = function checkAndSeedTests() {
+    console.log('Checking Tests');
+
+    testSeeder.isDatabaseSeeded()
+    .then((isDatabaseSeeded) => {
+        if(!isDatabaseSeeded){
+            console.log('Tests need seeding');
+            testSeeder.seed();
+        }else{
+            console.log('Tests don\'t need seeding');
         }
-    })
-}
+    });
+};
 
-function checkOptions() {
-  console.log('Checking Options');
-    const queryOptions = Option.find();
-    queryOptions.exec((err, data) => {
-        if(data.length <= 0){
-            console.log('Options need seeding');
-            optionSeeder.getOptions().forEach((option) => option.save());
-            console.log('Options seeded');
-        }
-    })
-}
+const checkAndSeedAll = function checkAndSeedAll() {
+    checkAndSeedImages();
+    checkAndSeedInstructions();
+    checkAndSeedOptions();
+    checkAndSeedTests();
+};
 
-function checkTests(){
-  console.log('Checking tests');
-  const queryTests = Test.find();
-  queryTests.exec((err, data)=>{
-    if(err)console.log(err);
-    if (data.length <= 0){
-      console.log('Tests need seeding');
-      getTests().forEach(test=> test.save());
-      console.log('Tests seeded');
-    }
-  })
-}
-
-function checkAll() {
-    checkImages();
-    checkInstructions();
-    checkOptions();
-    checkTests();
-}
-
-module.exports = {checkAll};
+module.exports = {
+    checkAndSeedAll
+};

@@ -53,7 +53,15 @@ export default {
                 confirmButtonText: "ok"
               });
             } else {
-              this.$emit("registerId", this.id);
+              if (res.done) {
+                this.$root.$emit("dialog", {
+                  message: "De laatste fase van deze test werd reeds gemaakt.",
+                  decline: false,
+                  confirmButtonText: "ok"
+                });
+              } else {
+                this.$emit("registerId", this.id);
+              }
             }
           })
           .catch(err => {

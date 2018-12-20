@@ -121,6 +121,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     store.commit("dimsTestData/resetState");
+    store.commit("timerStore/stop");
     next();
   }
 };

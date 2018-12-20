@@ -1,5 +1,6 @@
 const excel = require('excel4node');
-const ImageData = require('../../seeders/imagesSeeder');
+const ImageData = require('../../data/initial/images/initialImage.repository');
+const ImageConstants = require('../../data/initial/images/imageConstants');
 
 const text = {
   worksheetNameResults: 'Resultaten',
@@ -189,10 +190,8 @@ function writeBordersResults(worksheet, phase3Included){
 }
 
 function setBorders(worksheet, startRow, startCol, endRow, endCol){
-  console.log(`startRow: ${startRow} startCol: ${startCol} endRow: ${endRow} endCol: ${endCol}`);
   for(let row=startRow;row<=endRow;row++){
     for(let col=startCol;col<=endCol;col++){
-      console.log(`setting border for ${row},${col}`);
       if(row==startRow) worksheet.cell(row,col).style(styleBorder.top);
       if(col==startCol) worksheet.cell(row,col).style(styleBorder.left);
       if(row==endRow) worksheet.cell(row,col).style(styleBorder.bottom);
@@ -234,32 +233,28 @@ function writeAnswers(worksheet, answers, isPhase2, beginColumn){
   worksheet.cell(beginRow, beginColumn+1).string(text.answer).style(styleHeading);
   worksheet.cell(beginRow, beginColumn+2).string(text.correctAnswer).style(styleHeading);
   if(isPhase2)worksheet.cell(beginRow, beginColumn+3).string(text.sort).style(styleHeading);
-  let getCorrectAnswer = !isPhase2 ? ImageData.getAmountOfColours : getCorrectAnswerPhase2;
+  let getCorrectAnswer = !isPhase2 ? ImageData.getPhase1Label : ImageData.getPhase2Label;
   let currentRow = beginRow+1;
   answers.forEach(answer=>{
     let index = parseInt(answer._id.substring(1));
     worksheet.cell(currentRow, beginColumn).number(index).style(styleData);
     worksheet.cell(currentRow, beginColumn+1).string(answer.answer).style(styleData);
     worksheet.cell(currentRow, beginColumn+2).string(getCorrectAnswer(index)).style(styleData);
-    if(isPhase2)worksheet.cell(currentRow, beginColumn+3).string(ImageData.getSetKind(index));
+    if(isPhase2)worksheet.cell(currentRow, beginColumn+3).string(ImageData.getPhase2Label(index));
     currentRow++;
   })
 }
 
-function getCorrectAnswerPhase2(index){
-  return `A${index}`;
-}
-
 function writeResultsPhase2(worksheet, answers, isPart2){
-  let sortDistribution = ImageData.getMaxAmountCorrectAnswersPhase2();
-  let amountOfImages = ImageData.amountOfImages/2;
+  let sortDistribution = ImageData.getAmountOfAnswersPhase2();
+  let amountOfImages = ImageConstants.AMOUNT_IMAGES/2;
   let startRow = beginRows.phase2Results+1;
   if(isPart2) startRow = beginRows.phase3Results+1;
-  worksheet.cell(startRow,1).string(`${text.uniqueSet} (${Math.floor(ImageData.GetDistributionSets().unique*100)}%)`).style(styleHeading);
+  worksheet.cell(startRow,1).string(`${text.uniqueSet} (${Math.floor(ImageData.getDistributionSets().unique*100)}%)`).style(styleHeading);
   worksheet.cell(startRow,2).number(answers.scores.uniqueScore).style(styleData);
-  worksheet.cell(startRow+1,1).string(`${text.groupedSet} (${Math.floor(ImageData.GetDistributionSets().group*100)}%)`).style(styleHeading);
+  worksheet.cell(startRow+1,1).string(`${text.groupedSet} (${Math.floor(ImageData.getDistributionSets().group*100)}%)`).style(styleHeading);
   worksheet.cell(startRow+1,2).number(answers.scores.groupedScore).style(styleData);
-  worksheet.cell(startRow+2,1).string(`${text.abstractSet} (${Math.floor(ImageData.GetDistributionSets().abstract*100)}%)`).style(styleHeading);
+  worksheet.cell(startRow+2,1).string(`${text.abstractSet} (${Math.floor(ImageData.getDistributionSets().abstract*100)}%)`).style(styleHeading);
   worksheet.cell(startRow+2,2).number(answers.scores.abstractScore).style(styleData);
   worksheet.cell(startRow+3,1).string(`${text.total} (100%)`).style(styleHeading);
   let totalScore = answers.scores.uniqueScore + answers.scores.groupedScore + answers.scores.abstractScore;

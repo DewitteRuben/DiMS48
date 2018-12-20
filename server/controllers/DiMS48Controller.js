@@ -9,7 +9,7 @@ const excelGenerator = require("../util/fileGenerators/excelGenerator")
 const excelGeneratorAll = require("../util/fileGenerators/excelGeneratorAll")
   .makeExcel;
 
-const imageSeeder = require("../seeders/imagesSeeder");
+const imageRepository = require("../data/initial/images/initialImage.repository");
 
 const locals = require("../locales/nl-BE.json");
 
@@ -154,6 +154,9 @@ function getResult(id) {
       result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
     }
 
+    const isPhase3Done = result.phase3 !== null;
+    result["done"] = isPhase3Done;
+
     return result;
   });
 }
@@ -242,7 +245,7 @@ const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(
 ) {
   clientAnswers.forEach(answerAndId => {
     const answerIdIndex = parseInt(answerAndId._id.substring(1));
-    answerAndId.correctAnswer = imageSeeder.getAmountOfColours(answerIdIndex);
+    answerAndId.correctAnswer = imageRepository.getAmountOfAnswersPhase1(answerIdIndex);
   });
 
   return clientAnswers;

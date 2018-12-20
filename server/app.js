@@ -5,7 +5,6 @@ var logger = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
 const seeder = require('./seeders/seeder');
-const mongoose = require('mongoose');
 const fileupload = require('express-fileupload');
 
 var apiRouter = require('./routes/api');
@@ -14,15 +13,7 @@ var app = express();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-let mongoConfig;
-
-if (isProduction) {
-    mongoConfig = require('./config/DiMS48/mongo.production.config');
-}else {
-    mongoConfig = require('./config/DiMS48/mongo.development.config');
-}
-
-seeder.checkAll();
+seeder.checkAndSeedAll();
 
 app.use(session({
   secret: 'howtotestapps',
@@ -41,7 +32,7 @@ app.use(fileupload());
 
 app.use('/api', apiRouter);
 
-//if (process.env.NODE_ENV === 'production') {
+//if (isProduction) {
      app.use(express.static('./build'));
      app.get('*', (request, response) => {
          response.sendFile(path.join(__dirname, './build', 'index.html'));
