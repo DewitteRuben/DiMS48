@@ -1,14 +1,11 @@
-const defaultModels = require('../models/defaultModels');
-
 const imageSeeder = require('./imagesSeeder');
 const instructionSeeder = require('./instructionsSeeder');
 const optionSeeder = require('./optionsSeeder');
-
-const Test = defaultModels.Test;
-const getTests = require('./testsSeeder').getTests;
+const testSeeder = require('./testsSeeder');
 
 const checkAndSeedImages = function checkImages() {
     console.log('Checking Images');
+
     imageSeeder.isDatabaseSeeded()
         .then((isDatabaseSeeded) => {
             if (!isDatabaseSeeded) {
@@ -48,26 +45,27 @@ const checkAndSeedOptions = function checkAndSeedOptions() {
         });
 };
 
-function checkTests() {
-    console.log('Checking tests');
-    const queryTests = Test.find();
-    queryTests.exec((err, data) => {
-        if (err) console.log(err);
-        if (data.length <= 0) {
+const checkAndSeedTests = function checkAndSeedTests() {
+    console.log('Checking Tests');
+
+    testSeeder.isDatabaseSeeded()
+    .then((isDatabaseSeeded) => {
+        if(!isDatabaseSeeded){
             console.log('Tests need seeding');
-            getTests().forEach(test => test.save());
-            console.log('Tests seeded');
+            testSeeder.seed();
+        }else{
+            console.log('Tests don\'t need seeding');
         }
     });
-}
+};
 
-function checkAll() {
+const checkAndSeedAll = function checkAndSeedAll() {
     checkAndSeedImages();
     checkAndSeedInstructions();
     checkAndSeedOptions();
-    checkTests();
-}
+    checkAndSeedTests();
+};
 
 module.exports = {
-    checkAll
+    checkAndSeedAll
 };

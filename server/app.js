@@ -13,7 +13,7 @@ var app = express();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-seeder.checkAll();
+seeder.checkAndSeedAll();
 
 app.use(session({
   secret: 'howtotestapps',
