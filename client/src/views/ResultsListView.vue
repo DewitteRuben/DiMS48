@@ -4,6 +4,7 @@
     <h2 class="text-xs-left mb-2">Voeg een filter toe</h2>
     <ResultsFeedFilterForm/>
     <h2 class="text-xs-left">Resultaten</h2>
+    <v-btn v-if="admin" @click="downloadAllTestResults">Download alle resultaten in Excel</v-btn>
     <v-layout v-if="loaded" row wrap>
       <ResultListItem
         v-if="loaded"
@@ -32,6 +33,7 @@ import ResultListItem from "@/components/ResultListItem.vue";
 import ResultsFeedFilterForm from "@/components/ResultsFeedFilterForm.vue";
 import * as HowToTestApi from "@/services/api/howtotestapi";
 import { mapGetters } from "vuex";
+import * as download from "downloadjs";
 
 export default {
   components: {
@@ -40,13 +42,17 @@ export default {
   },
   data() {
     return {
-      loaded: false
+      loaded: false,
+      admin: false
     };
   },
   computed: {
     ...mapGetters("dimsResults", ["filteredFeed"]),
     hasItems: function() {
       return this.filteredFeed.length > 0;
+    },
+    loggedIn() {
+      return this.$store.getters["user/isLoggedIn"];
     }
   },
   methods: {
@@ -65,10 +71,24 @@ export default {
         .finally(() => {
           this.loaded = true;
         });
+    },
+    downloadAllTestResults: async function(){
+      HowToTestApi.downloadAllTestResults("dims48")
+        .then(blob=>{
+          download(blob, "dims48-alle-resultaten")
+        }).catch(err=>console.log(err));
     }
   },
   created() {
     this.getTestResults();
+  },
+  mounted: function(){
+    let self = this;
+    if (this.loggedIn) {
+      HowToTestApi.isAdmin(self.$store.getters["user/getUser"].email)
+        .then(isAdmin => (self.admin = isAdmin.isAdmin))
+        .catch(err => console.log(err));
+    }
   }
 };
 </script>

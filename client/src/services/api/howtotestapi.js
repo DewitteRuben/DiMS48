@@ -18,6 +18,8 @@ export const getTestResultsById = (test, id) =>
   processReq(`/results/${test}/${id}`);
 export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
+export const downloadAllTestResults = (test) =>
+  processBlob(`/results/${test}/excel/all`);
 export const removeResult = (test, id) => processReq(`/results/${test}/${id}`, {}, "DELETE");
 export const updateClientInfo = (test, id, data) =>
   processReq(`/results/${test}/${id}`, data, "PATCH");

@@ -202,7 +202,7 @@ const getPdf = function getPdf(req, res) {
     });
 };
 
-const getExcelAllResults = function getExcelAllResults(req, res) {
+const getExcelAll = function getExcelAll(req, res) {
   DiMS48Controller.getExcelAllResults()
     .then(workbook => {
       let fileName = "DiMS48_all_results.xlsx";
@@ -234,7 +234,7 @@ const getExcel = function getExcel(req, res) {
   const id = req.params.id;
 
   if (id === "all") {
-    getExcelAllResults(req, res);
+    getExcelAll(req, res);
   } else {
     DiMS48Controller.getExcel(id)
       .then(workbook => {
@@ -383,7 +383,6 @@ module.exports = {
   deleteResult,
   getPdf,
   getExcel,
-  getExcelAllResults,
   patchClientInfoOrNote,
   getNormValues,
   getNormValuesExist
