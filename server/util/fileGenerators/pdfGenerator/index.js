@@ -23,9 +23,7 @@ const generatePDF = async function generatePDF(templateName, data, locales){
             data
         });
 
-        await page.goto(`data:text/html,${content}`, {
-            waitUntil: 'networkidle0'
-        });
+        await page.setContent(content);
 
         const file = await page.pdf({
             format: 'A4',
@@ -42,7 +40,7 @@ const generatePDF = async function generatePDF(templateName, data, locales){
             await browser.close();
         }
 
-        throw e;
+        throw err;
     }
 }
 
