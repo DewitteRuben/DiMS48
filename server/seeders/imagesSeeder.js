@@ -166,6 +166,14 @@ function getMaxAmountCorrectAnswersPhase2() {
     return amountAnswers;
 }
 
+function GetDistributionSets(){
+  let amountAnswers = getMaxAmountCorrectAnswersPhase2();
+  amountAnswers.abstract = amountAnswers.abstract / amountOfImages;
+  amountAnswers.group = amountAnswers.group / amountOfImages;
+  amountAnswers.unique = amountAnswers.unique / amountOfImages;
+  return amountAnswers;
+}
+
 module.exports = {
     getImages,
     amountOfImages: amountOfImages * 2,
@@ -176,4 +184,5 @@ module.exports = {
     amountOfColours,
     set: setKind,
     SET_KINDS,
+    GetDistributionSets
 };

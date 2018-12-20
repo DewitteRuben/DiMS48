@@ -10,8 +10,9 @@ const text = {
   schooledFor: 'geschoold voor',
   schooledTill: 'geschoold tot',
   notes: 'notities',
-  results: 'Resultaten (in %)',
+  results: 'Resultaten',
   answers: 'Antwoorden',
+  percentage: '%',
   phase1: 'Fase 1',
   phase2: 'Fase 2',
   phase3: 'Fase 3',
@@ -53,6 +54,83 @@ const styleData = {
   numberFormat: '#0; (#0); -'
 }
 
+const borderStyle = "thick";
+const borderColour = "#000000";
+const styleBorder = {
+  top: {
+    border:{
+      top:{
+        style: borderStyle,
+        color: borderColour
+      }
+    }
+  },
+  bottom:{
+    border:{
+      bottom:{
+        style: borderStyle,
+        color: borderColour
+      }
+    }
+  },
+  right:{
+    border:{
+      right:{
+        style: borderStyle,
+        color: borderColour
+      }
+    }
+  },
+  left:{
+    border:{
+      left:{
+        style: borderStyle,
+        color: borderColour
+      }
+    }
+  },
+  none:{
+    border:{
+      left:{
+        style: 'none',
+        color: borderColour
+      },
+      right:{
+        style: 'none',
+        color: borderColour
+      },
+      top:{
+        style: 'none',
+        color: borderColour
+      },
+      bottom:{
+        style: 'none',
+        color: borderColour
+      }
+    }
+  },
+  all:{
+    border:{
+      top:{
+        style: borderStyle,
+        color: borderColour
+      },
+      bottom:{
+        style: borderStyle,
+        color: borderColour
+      },
+      left:{
+        style: borderStyle,
+        color: borderColour
+      },
+      right:{
+        style: borderStyle,
+        color: borderColour
+      }
+    }
+  }
+}
+
 function makeExcel(result){
   return new Promise((resolve, reject) => {
     try{
@@ -60,6 +138,7 @@ function makeExcel(result){
       let worksheetResults = workbook.addWorksheet(text.worksheetNameResults);
       let worksheetAnswers = workbook.addWorksheet(text.worksheetNameAnswers);
       worksheetResults.column(1).setWidth(22);
+      worksheetResults.column(2).setWidth(12);
       worksheetResults.column(4).setWidth(14);
       worksheetResults.column(5).setWidth(13);
 
@@ -67,6 +146,7 @@ function makeExcel(result){
 
       writeClientInfo(worksheetResults, result._id, result.clientInfo);
       writeHeadingResults(worksheetResults, phase3Included);
+      writeBordersResults(worksheetResults, phase3Included);
       writeHeadingAnswers(worksheetAnswers, phase3Included);
       writeResultsPhase1(worksheetResults, result.phase1);
       writeAnswers(worksheetAnswers, result.phase1.answers, false, 1);
@@ -99,22 +179,40 @@ function writeClientInfo(worksheet, _id, clientInfo){
   worksheet.cell(beginRows.clientInfo+1,6, beginRows.clientInfo+4, 10, true).string(clientInfo.notes);
 }
 
+function writeBordersResults(worksheet, phase3Included){
+  setBorders(worksheet, beginRows.phase1Results,1,beginRows.phase1Results+2,2);
+
+  setBorders(worksheet, beginRows.phase2Results,1,beginRows.phase2Results+4,2);
+  if(phase3Included){
+    setBorders(worksheet, beginRows.phase3Results,1,beginRows.phase3Results+4,2);
+  }
+}
+
+function setBorders(worksheet, startRow, startCol, endRow, endCol){
+  console.log(`startRow: ${startRow} startCol: ${startCol} endRow: ${endRow} endCol: ${endCol}`);
+  for(let row=startRow;row<=endRow;row++){
+    for(let col=startCol;col<=endCol;col++){
+      console.log(`setting border for ${row},${col}`);
+      if(row==startRow) worksheet.cell(row,col).style(styleBorder.top);
+      if(col==startCol) worksheet.cell(row,col).style(styleBorder.left);
+      if(row==endRow) worksheet.cell(row,col).style(styleBorder.bottom);
+      if(col==endCol) worksheet.cell(row,col).style(styleBorder.right);
+    }
+  }
+}
+
 function writeHeadingResults(worksheet, phase3Included){
   worksheet.cell(beginRows.results,1).string(text.results).style(styleHeading);
 
   worksheet.cell(beginRows.phase1Results,1).string(text.phase1).style(styleHeading);
-  worksheet.cell(beginRows.phase1Results+1,1).string(text.right).style(styleData);
-  worksheet.cell(beginRows.phase1Results+2,1).string(text.wrong).style(styleData);
+  worksheet.cell(beginRows.phase1Results+1,1).string(`${text.percentage} ${text.right}`).style(styleData);
+  worksheet.cell(beginRows.phase1Results+2,1).string(`${text.percentage} ${text.wrong}`).style(styleData);
 
   worksheet.cell(beginRows.phase2Results,1).string(text.phase2).style(styleHeading);
-  worksheet.cell(beginRows.phase2Results+1,1).string(text.sort).style(styleHeading);
-  worksheet.cell(beginRows.phase2Results+1,2).string(text.right).style(styleHeading);
-  worksheet.cell(beginRows.phase2Results+1,3).string(text.distribution).style(styleHeading);
+  worksheet.cell(beginRows.phase2Results,2).string(`${text.percentage} ${text.results}`);
   if(phase3Included) {
     worksheet.cell(beginRows.phase3Results,1).string(text.phase3).style(styleHeading);
-    worksheet.cell(beginRows.phase3Results+1,1).string(text.sort).style(styleHeading);
-    worksheet.cell(beginRows.phase3Results+1,2).string(text.right).style(styleHeading);
-    worksheet.cell(beginRows.phase3Results+1,3).string(text.distribution).style(styleHeading);
+    worksheet.cell(beginRows.phase3Results,2).string(`${text.percentage} ${text.results}`);
   }
 }
 
@@ -157,20 +255,15 @@ function writeResultsPhase2(worksheet, answers, isPart2){
   let amountOfImages = ImageData.amountOfImages/2;
   let startRow = beginRows.phase2Results+1;
   if(isPart2) startRow = beginRows.phase3Results+1;
-  worksheet.cell(startRow,1).string(text.uniqueSet).style(styleHeading);
+  worksheet.cell(startRow,1).string(`${text.uniqueSet} (${Math.floor(ImageData.GetDistributionSets().unique*100)}%)`).style(styleHeading);
   worksheet.cell(startRow,2).number(answers.scores.uniqueScore).style(styleData);
-  worksheet.cell(startRow,3).number(sortDistribution.unique/amountOfImages*100).style(styleData);
-  worksheet.cell(startRow+1,1).string(text.groupedSet).style(styleHeading);
+  worksheet.cell(startRow+1,1).string(`${text.groupedSet} (${Math.floor(ImageData.GetDistributionSets().group*100)}%)`).style(styleHeading);
   worksheet.cell(startRow+1,2).number(answers.scores.groupedScore).style(styleData);
-  worksheet.cell(startRow+1,3).number(sortDistribution.group/amountOfImages*100).style(styleData);
-  worksheet.cell(startRow+2,1).string(text.abstractSet).style(styleHeading);
+  worksheet.cell(startRow+2,1).string(`${text.abstractSet} (${Math.floor(ImageData.GetDistributionSets().abstract*100)}%)`).style(styleHeading);
   worksheet.cell(startRow+2,2).number(answers.scores.abstractScore).style(styleData);
-  worksheet.cell(startRow+2,3).number(sortDistribution.abstract/amountOfImages*100).style(styleData);
-  worksheet.cell(startRow+3,1).string(text.total).style(styleHeading);
+  worksheet.cell(startRow+3,1).string(`${text.total} (100%)`).style(styleHeading);
   let totalScore = answers.scores.uniqueScore + answers.scores.groupedScore + answers.scores.abstractScore;
-  let totalDistribution = (sortDistribution.unique + sortDistribution.group + sortDistribution.abstract) / amountOfImages * 100;
   worksheet.cell(startRow+3,2).number(totalScore).style(styleData);
-  worksheet.cell(startRow+3,3).number(totalDistribution).style(styleData);
 }
 
 module.exports = {
