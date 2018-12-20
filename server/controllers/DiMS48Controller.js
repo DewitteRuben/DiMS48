@@ -251,7 +251,7 @@ const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(
 ) {
   clientAnswers.forEach(answerAndId => {
     const answerIdIndex = parseInt(answerAndId._id.substring(1));
-    answerAndId.correctAnswer = imageRepository.getAmountOfAnswersPhase1(answerIdIndex);
+    answerAndId.correctAnswer = imageRepository.getPhase1Label(answerIdIndex);
   });
 
   return clientAnswers;

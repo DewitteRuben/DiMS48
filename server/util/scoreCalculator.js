@@ -42,13 +42,13 @@ const calculateScorePhase2 = function calculateScorePhase2(answers) {
 
             switch (currentSetKind) {
                 case SET_KINDS.Abstract:
-                    amountRightAnswers.abstract++;
+                    amountRightAnswers.abstract += 1;
                     break;
                 case SET_KINDS.Unique:
-                    amountRightAnswers.unique++;
+                    amountRightAnswers.unique += 1;
                     break;
                 case SET_KINDS.Group:
-                    amountRightAnswers.group++;
+                    amountRightAnswers.group += 1;
             }
         }
         totalTime += answerAndId.responseTime;

@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-lg>
     <h1>How To Test Apps</h1>
-    <CategoryList baseRoute="/detail" buttonText="Details"/>
+    <CategoryList baseRoute="/detail" buttonText="Start"/>
   </v-container>
 </template>
 

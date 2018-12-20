@@ -6,6 +6,7 @@ chai.use(chaiAsPromised);
 const scoreCalculator = require('../../util/scoreCalculator');
 const imageConstants = require('../../data/initial/images/imageConstants');
 const imageRepository = require('../../data/initial/images/initialImage.repository');
+const answerGenerator = require('../../util/answerGenerator');
 
 describe('Score Calculator', () => {
     it('should exist', () => {
@@ -123,7 +124,6 @@ const createCorrectAnswerArrayPhase2 = function createCorrectAnswerArrayPhase2(s
         totalAmountMaxPossibleAnswers += imageRepository.getAmountOfAnswersPhase2()[setKind2ScoreKey(imageConstants.SET_KINDS[key])];
     });
 
-
     for (let i = 1; i <= totalAmountMaxPossibleAnswers; i++) {
         const currentSetKind = imageRepository.getPhase2Label(i);
 
@@ -136,7 +136,7 @@ const createCorrectAnswerArrayPhase2 = function createCorrectAnswerArrayPhase2(s
             correctAnswerArray.push(exampleCorrectAnswer);
         }
     }
-
+    
     return correctAnswerArray;
 };
 
