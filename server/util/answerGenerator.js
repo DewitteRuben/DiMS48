@@ -1,10 +1,10 @@
-const imageSeeder = require('../seeders/imagesSeeder');
+const imageRepository = require('../data/initial/images/initialImage.repository');
 
 const generateAnswersPhase1 = function generateAnswersPhase1() {
     const exampleAnswersAllCorrect = [];
 
-    for (let i = 1; i <= imageSeeder.getMaxAmountOfCorrectAnswersPhase1(); i++) {
-        const correctAnswer = imageSeeder.getAmountOfColours(i);
+    for (let i = 1; i <= imageRepository.getAmountOfAnswersPhase1(); i++) {
+        const correctAnswer = imageRepository.getPhase1Label(i);
 
         const exampleAnswer = {
             "_id": `A${i}`,
@@ -21,7 +21,7 @@ const generateAnswersPhase2 = function generateAnswersPhase2() {
     const exampleAnswersAllCorrect = [];
 
     for (let i = 1; i <= 48; i++) {
-        const correctAnswer = imageSeeder.getAmountOfColours(i);
+        const correctAnswer = imageRepository.getPhase1Label(i);
 
         const exampleAnswer = {
             "_id": `A${i}`,
