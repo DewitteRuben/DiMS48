@@ -22,6 +22,17 @@
     <v-layout justify-center align-center fill-height v-show="!dataLoaded">
       <v-progress-circular :size="65" color="primary" indeterminate></v-progress-circular>
     </v-layout>
+    <ConfirmationDialog
+      v-on:confirmModal="() => dialog = false"
+      v-on:declineModal="() => dialog = false"
+      :title="dialogTitle"
+      :model="dialog"
+      :headline="dialogHeadline"
+      :message="dialogMessage"
+      :confirmButtonText="dialogConfirmButtonText"
+      :declineButtonText="dialogDeclineButtonText"
+      :decline="dialogDecline"
+    />
   </v-container>
 </template>
 
@@ -29,16 +40,25 @@
 import Dims48AdminPanel from "@/components/Dims48AdminPanel";
 import * as howtotestapi from "@/services/api/howtotestapi";
 import FileUploadForm from "@/components/FileUploadForm.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 export default {
   components: {
     Dims48AdminPanel,
-    FileUploadForm
+    FileUploadForm,
+    ConfirmationDialog
   },
   data: function() {
     return {
       dataLoaded: false,
-      currentConfig: false
+      currentConfig: false,
+      dialog: false,
+      dialogTitle: "Dims48",
+      dialogHeadline: "Dims48",
+      dialogMessage: "",
+      dialogConfirmButtonText: "Ok",
+      dialogDeclineButtonText: "",
+      dialogDecline: false
     };
   },
   methods: {
@@ -53,11 +73,23 @@ export default {
           .updateConfig(self.$route.params.name, {
             newConfig: self.currentConfig
           })
-          .then(data => console.log(data));
+          .then(data => {
+            if ("error" in data) {
+              this.displayDialog(
+                "Er is liep iets fout bij het updaten van de configuratie."
+              );
+            } else {
+              this.displayDialog("De configuratie is successvol geüpdatet!");
+            }
+          });
       }
     },
     updateValues: function(newConfig) {
       this.currentConfig = newConfig;
+    },
+    displayDialog: function(message) {
+      this.dialogMessage = message;
+      this.dialog = true;
     }
   }
 };
