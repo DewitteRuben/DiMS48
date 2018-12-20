@@ -11,8 +11,10 @@ const DiMS48Controller = require("../../controllers/DiMS48Controller")(
 const TestController = require("../../controllers/TestController");
 
 const errorMessages = require("../../locales/DiMS48/errorMessages/nl-BE.json");
+
 const ErrorSender = require("../../util/messageSenders/errorSender");
 const errorSender = new ErrorSender(errorMessages);
+
 const InfoSender = require("../../util/messageSenders/infoSender");
 const infoSender = new InfoSender(errorMessages);
 
