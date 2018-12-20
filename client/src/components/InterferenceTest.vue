@@ -15,13 +15,13 @@
             <v-btn
               color="primary"
               class="button is-dark is-large"
-              v-if="!timer"
+              v-if="!countdownTimer"
               @click="startTimer"
             >Start</v-btn>
             <!--     Pause Timer -->
             <v-btn
               class="button is-dark is-large"
-              v-if="timer && !nextButton"
+              v-if="countdownTimer && !nextButton"
               @click="stopTimer"
             >Pauze</v-btn>
             <v-btn
@@ -42,9 +42,9 @@
 export default {
   data() {
     return {
-      timer: null,
+      countdownTimer: null,
       totalTimeValue: false,
-      resetButton: false,
+      currentTime: 0,
       nextButton: false,
       instructions:
         "Laat de client zoveel mogelijk woorden met een 'p' opsommen",
@@ -54,30 +54,24 @@ export default {
   // ========================
   methods: {
     startTimer: function() {
-      this.timer = setInterval(() => this.countdown(), 1000);
-      this.resetButton = true;
+      this.currentTime = this.totalTime;
+      this.countdownTimer = setInterval(() => this.countdown(), 1000);
       this.nextButton = false;
     },
     stopTimer: function() {
-      clearInterval(this.timer);
-      this.timer = null;
-      this.nextButton = false;
-    },
-    resetTimer: function() {
-      this.totalTime = 180;
-      clearInterval(this.timer);
-      this.timer = null;
-      this.resetButton = false;
+      clearInterval(this.countdownTimer);
+      this.countdownTimer = null;
       this.nextButton = false;
     },
     padTime: function(time) {
       return (time < 10 ? "0" : "") + time;
     },
     countdown: function() {
-      if (this.totalTime >= 1) {
-        this.totalTime--;
+      if (this.currentTime > 1) {
+        this.currentTime--;
       } else {
-        this.totalTime = 0;
+        this.stopTimer();
+        this.currentTime = 0;
         this.nextButton = true;
       }
     },
@@ -88,24 +82,19 @@ export default {
   // ========================
   computed: {
     minutes: function() {
-      const minutes = Math.floor(this.totalTime / 60);
+      const minutes = Math.floor(this.currentTime / 60);
       return this.padTime(minutes);
     },
     seconds: function() {
-      const seconds = this.totalTime - this.minutes * 60;
+      const seconds = this.currentTime - this.minutes * 60;
       return this.padTime(seconds);
     },
-    totalTime: {
-      get: function() {
-        return (
-          this.totalTimeValue ||
-          this.$store.getters["dims48Config/getInterferenceDuration"]
-        );
-      },
-      set: function(newValue) {
-        this.totalTimeValue = newValue;
-      }
+    totalTime: function() {
+      return this.$store.getters["dims48Config/getInterferenceDuration"] || 180;
     }
+  },
+  created() {
+    this.currentTime = this.totalTime;
   }
 };
 </script>
