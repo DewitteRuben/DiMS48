@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const defaultModels = require('../models/defaultModels');
 const DiMS48Models = require('../models/DiMS48Models');
 
-const Image = defaultModels.Image;
-const getImages = require('./imagesSeeder').getImages;
+const imageSeeder = require('./imagesSeeder');
 
 const Instruction = DiMS48Models.Instruction;
 const getInstructions = require('./instructionsSeeder').getInstructions;
@@ -14,16 +13,17 @@ const optionSeeder = require('../seeders/optionsSeeder');
 const Test = defaultModels.Test;
 const getTests = require('./testsSeeder').getTests;
 
-function checkImages() {
-  console.log('Checking images');
-    const queryImages = Image.find();
-    queryImages.exec(function (err, data) {
-        if (data.length === 0){
-          console.log('Images need seeding');
-          getImages().forEach(img => img.save());
-          console.log('Images seeded');
-        }
-    });
+const checkImages = function checkImages() {
+  console.log('Checking Images');
+  imageSeeder.isDatabaseSeeded()
+  .then((isDatabaseSeeded) => {
+    if(!isDatabaseSeeded){
+        console.log('Images need seeding');
+        imageSeeder.seed();
+    }else{
+        console.log('Images don\'t need seeding');
+    }
+  });
 }
 
 function checkInstructions() {
