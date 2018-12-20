@@ -49,7 +49,11 @@ function getTests() {
 function getImages() {
   return makeGetter(defaultModels.Image, null, true)
   .then((images) => {
-    return images.sort(compareImage);
+    if(Array.isArray(images)){
+      return images.sort(compareImage);
+    }else{
+      return images;
+    }
   });
 }
 
