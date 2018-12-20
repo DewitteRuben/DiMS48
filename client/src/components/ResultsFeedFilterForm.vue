@@ -139,7 +139,7 @@ export default {
         {
           name: "Is test voltooid",
           type: Boolean,
-          property: "phase3"
+          property: "done"
         },
         {
           name: "Datum",
@@ -159,29 +159,30 @@ export default {
   },
   methods: {
     addFilter: function() {
-      const valueType = this.selectedFilter.type;
+      if (this.selectedFilter && this.selectedOperator && this.inputValue) {
+        const valueType = this.selectedFilter.type;
+        let input;
+        if (this.dateFilter) {
+          input = calcuateTimeInMsFromString(this.date, this.time);
+        } else {
+          input = this.inputValue.trim();
+        }
 
-      let input;
-      if (this.dateFilter) {
-        input = calcuateTimeInMsFromString(this.date, this.time);
-      } else {
-        input = this.inputValue.trim();
-      }
+        const isValid = this.isValidValue(valueType, input);
 
-      const isValid = this.isValidValue(valueType, input);
+        if (isValid) {
+          const parsedValue = this.dateFilter ? input : valueType(input);
 
-      if (isValid) {
-        const parsedValue = this.dateFilter ? input : valueType(input);
+          this.$store.commit("dimsResults/addFilter", {
+            ...this.selectedFilter,
+            operator: this.selectedOperator,
+            value: parsedValue
+          });
 
-        this.$store.commit("dimsResults/addFilter", {
-          ...this.selectedFilter,
-          operator: this.selectedOperator,
-          value: parsedValue
-        });
-
-        this.clearForm();
-      } else {
-        console.log("invalid type");
+          this.clearForm();
+        } else {
+          console.log("invalid type");
+        }
       }
     },
     removeFilter(id) {
@@ -211,15 +212,13 @@ export default {
     },
     operations: function() {
       let operations = [
-        { symbol: "=", supportedTypes: [Number, String, Date] },
-        { symbol: "≠", supportedTypes: [Number, String, Date] },
+        { symbol: "=", supportedTypes: [Number, String, Date, Boolean] },
+        { symbol: "≠", supportedTypes: [Number, String, Date, Boolean] },
         { symbol: "Bevat", supportedTypes: [String] },
         { symbol: ">", supportedTypes: [Number, Date] },
         { symbol: "<", supportedTypes: [Number, Date] },
         { symbol: "≥", supportedTypes: [Number, Date] },
-        { symbol: "≤", supportedTypes: [Number, Date] },
-        { symbol: "Waar", supportedTypes: [Boolean] },
-        { symbol: "Niet waar", supportedTypes: [Boolean] }
+        { symbol: "≤", supportedTypes: [Number, Date] }
       ];
 
       const valueType =
