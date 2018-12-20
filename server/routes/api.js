@@ -9,6 +9,14 @@ const errorMessages = require('../locales/general/errorMessages/nl-BE.json');
 const ErrorSender = require('../util/messageSenders/errorSender');
 const errorSender = new ErrorSender(errorMessages);
 
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+
+router.use(function(err, req, res, next) {
+  logger.error('Main API router threw', err);
+  next();
+});
+
 router.get('/categories', function (req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
