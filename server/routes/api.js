@@ -63,8 +63,8 @@ router.get('/test/:name/initial', function (req, res) {
   const router = routerGetter.getRouter(requestedTestName);
 
   if (router) {
-    if (routerHasFunction(router, "initial")) {
-      router.initial(req, res);
+    if (routerHasFunction(router, "getInitial")) {
+      router.getInitial(req, res);
     } else {
       errorSender.sendInvalidEndpointRequested(req, res);
     }
@@ -78,8 +78,8 @@ router.get('/test/:name/part2', function (req, res) {
   const router = routerGetter.getRouter(requestedTestName);
 
   if (router) {
-    if(routerHasFunction(router, "part2")){
-      router.part2(req, res);
+    if(routerHasFunction(router, "getPart2")){
+      router.getPart2(req, res);
     }else{
       sendInvalidEndpointRequested();
     }
@@ -123,8 +123,8 @@ router.patch('/results/:name/:id', function (req, res) {
   const router = routerGetter.getRouter(requestedTestName);
 
   if (router) {
-    if(routerHasFunction(router, "updateClientInfoOrNote")){
-      router.updateClientInfoOrNote(req, res);
+    if(routerHasFunction(router, "patchClientInfoOrNote")){
+      router.patchClientInfoOrNote(req, res);
     }else{
       errorSender.sendInvalidEndpointRequested(req, res);
     }
@@ -141,8 +141,8 @@ router.delete('/results/:name/:id', function(req,res){
         const router = routerGetter.getRouter(requestedTestName);
 
         if(router){
-          if(routerHasFunction(router, "removeResult")){
-            router.removeResult(req, res);
+          if(routerHasFunction(router, "deleteResult")){
+            router.deleteResult(req, res);
           }else{
             errorSender.sendInvalidEndpointRequested(req,res);
           }
@@ -217,7 +217,6 @@ router.get('/results/:name/excel/:id', function (req, res) {
     }else{
       errorSender.sendInvalidEndpointRequested(req, res);
     }
-
   } else {
     errorSender.sendTestNotFound();
   }
@@ -228,8 +227,8 @@ router.get('/test/:name/normValuesExist', function (req, res) {
   const router = routerGetter.getRouter(requestedTestName);
 
   if (router) {
-    if(routerHasFunction(router, "normValuesExist")){
-      router.normValuesExist(req, res);
+    if(routerHasFunction(router, "getNormValuesExist")){
+      router.getNormValuesExist(req, res);
     }else{
       sendInvalidEndpointRequested(req, res);
     }

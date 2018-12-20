@@ -94,14 +94,15 @@ function writeResults(worksheet, results){
     worksheet.cell(row, columns.age).number(result.clientInfo.age).style(styleData);
     worksheet.cell(row, columns.schooledFor).number(result.clientInfo.schooledFor).style(styleData);
     worksheet.cell(row, columns.schooledTill).number(result.clientInfo.schooledTill).style(styleData);
-    worksheet.cell(row, columns.resultPart1).number(result.answersPhase1.score).style(styleData);
-    worksheet.cell(row, columns.resultPart2UniqueSet).number(result.answersPhase2.scores.uniqueScore).style(styleData);
-    worksheet.cell(row, columns.resultPart2GroupedSet).number(result.answersPhase2.scores.groupedScore).style(styleData);
-    worksheet.cell(row, columns.resultPart2AbstractSet).number(result.answersPhase2.scores.abstractScore).style(styleData);
-    if(result.answersPhase3.scores){
-      worksheet.cell(row, columns.resultPart3UniqueSet).number(result.answersPhase3.scores.uniqueScore).style(styleData);
-      worksheet.cell(row, columns.resultPart3GroupedSet).number(result.answersPhase3.scores.groupedScore).style(styleData);
-      worksheet.cell(row, columns.resultPart3AbstractSet).number(result.answersPhase3.scores.abstractScore).style(styleData);
+    worksheet.cell(row, columns.resultPart1).number(result.phase1.score).style(styleData);
+    worksheet.cell(row, columns.resultPart2UniqueSet).number(result.phase2.scores.uniqueScore).style(styleData);
+    worksheet.cell(row, columns.resultPart2GroupedSet).number(result.phase2.scores.groupedScore).style(styleData);
+    worksheet.cell(row, columns.resultPart2AbstractSet).number(result.phase2.scores.abstractScore).style(styleData);
+    console.log(result.phase3);
+    if(result.phase3 !== null){
+      worksheet.cell(row, columns.resultPart3UniqueSet).number(result.phase3.scores.uniqueScore).style(styleData);
+      worksheet.cell(row, columns.resultPart3GroupedSet).number(result.phase3.scores.groupedScore).style(styleData);
+      worksheet.cell(row, columns.resultPart3AbstractSet).number(result.phase3.scores.abstractScore).style(styleData);
     }
     row++;
   })
