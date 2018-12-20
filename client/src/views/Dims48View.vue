@@ -120,7 +120,7 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    store.dispatch("dimsManager/resetState");
+    store.commit("dimsTestData/resetState");
     next();
   }
 };
