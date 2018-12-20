@@ -169,14 +169,18 @@ function addResult(data) {
       data.clientInfo.gender = data.clientInfo.gender.toLowerCase();
     }
 
+    let scorePhase1 = scoreCalculator.calculateScorePhase1(data.phase1);
     data["phase1"] = {
-      score: scoreCalculator.calculateScorePhase1(data.phase1),
-      answers: addCorrectAnswersPhase1(data.phase1)
+      score: scorePhase1.score,
+      answers: addCorrectAnswersPhase1(data.phase1),
+      totalTime: Math.floor(scorePhase1.totalTime/1000)
     };
 
+    let scoresPhase2 = scoreCalculator.calculateScorePhase2(data.phase2)
     data["phase2"] = {
-      scores: scoreCalculator.calculateScorePhase2(data.phase2),
-      answers: addCorrectAnswersPhase2(data.phase2)
+      scores: scoresPhase2.scores,
+      answers: addCorrectAnswersPhase2(data.phase2),
+      totalTime: Math.floor(scoresPhase2.totalTime/1000) //scoresPhase2.totalTime is in milliseconds
     };
 
     data["phase3"] = null;
