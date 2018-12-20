@@ -53,6 +53,7 @@ export default {
                 confirmButtonText: "ok"
               });
             } else {
+              console.log(res);
               this.$emit("registerId", this.id);
             }
           })
