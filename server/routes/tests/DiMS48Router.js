@@ -19,13 +19,13 @@ const infoSender = new InfoSender(errorMessages);
 const updateConfig = function updateConfig(req, res) {
   const newConfig = req.body.newConfig;
 
-  // TODO refactor robin senpai pls
   TestController.updateConfig("DiMS48", newConfig)
     .then(data => {
-      return res.json({
-        status: "ok",
-        code: 200
-      });
+      infoSender.sendDocumentUpdated(
+        req,
+        res,
+        errorMessages.results.updatedDocument
+      );
     })
     .catch(err => {
       errorSender.sendInternalServerError(
