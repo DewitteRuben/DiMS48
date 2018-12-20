@@ -1,6 +1,5 @@
 # DiMS48
 
-
 De DIMS48 test bestaat uit drie delen. Deel 1 bestaat uit 48 afbeeldingen. Sommige bestaan uit 3 of minder kleuren, andere uit meer dan 3 kleuren. De proefpersoon dient voor elke afbeelding telkens zo snel mogelijk te bepalen of de tekening uit 3 of minder kleuren bestaat, of uit meer dan 3 kleuren.
 
 Na het eerste deel komt een interferentietaak. Tijdens die taak wordt de proefpersoon gevraagd om gedurende drie minuten zo veel mogelijk woorden op te noemen die beginnen met de letter ‘P’. Deze taak dient enkel als afleiding, een registratie ervan is dus niet vereist.
@@ -10,7 +9,7 @@ Het tweede deel bestaat uit een reeks van 48 paren van afbeeldingen. Nu dient de
 Deel 3 is een herhaling van deel 2 na een ongedefinieerde tussentijd. Dit deel van de test dient om het lange termijngeheugen te testen van de proefpersoon.
 
 # Documentatie-Code
-De website is een 1 page application geschreven met Vue.js. De inhoud word opgehaald via API calls naar een Node.js server. 
+De website is een 1 page application geschreven met Vue.js. De inhoud word opgehaald via API calls naar een Node.js server.
 
 ## Front-End
 ### HTML
@@ -18,9 +17,9 @@ Vue.js gebruikt Views en components om de website op te bouwen. Een view bestaat
 ### Javascript
 De Javascript voor elke pagina is te vinden in de bijhorende component of view. De scope is dus telkens beperkt tot die component of view. Data kan meegegeven worden aan de hand van properties op een child-component of via events.
 ### Vuex
-Vue.js heeft haar eigen data store. Hier bevind zich alle data van die sessie. Hier wordt bijvoorbeeld de configuratie voor de DiMS48 test opgeslagen. De vuex store is te vinden in de map [/store](client/src/store). In deze map is de data verdeeld in modules. Deze modules zijn te vinden in de map [/modules](client/src/store/modules) en worden in één vuex store gevormd door het bestand [store.js](client/src/store/store.js). De data in de vuex store kan opgevraagd worden aan de hand van getters (this.$store.getters).
+Vue.js heeft haar eigen data store. Hier bevind zich alle data van die sessie. Hier wordt bijvoorbeeld de configuratie voor de DiMS48 test opgeslagen. De vuex store is te vinden in de map [/store](client/src/store). In deze map is de data verdeeld in modules. Deze modules zijn te vinden in de map [/modules](client/src/store/modules) en worden in één vuex store gevormd door het bestand [store.js](client/src/store/store.js). De webapplicatie mag niet rechtsreek contact hebben met de data in de vuex store. De data in de vuex store kan opgevraagd worden aan de hand van getters (this.$store.getters["moduleNaam/getterNaam"]). Vanuit de webapplicatie kunnen er actions opgeroepen worden om de data in de vuex store aan te passen (this.$store.dispatch("moduleNaam/actionNaam")). Deze acties zullen dan in de module mutations gebruiken om de data effectief aan te passen.
 ### API
-Voor de data op te halen die de web applicatie nodig heeft om de testen te tonen, uit te voeren... Maakt de webapplicatie gebruik van [howtotestapi.js](client/src/services/api/howtotestapi.js). Dit bestand exporteert verschillende functies die de requests versturen en hun resultaat ontvangen. 
+Voor de data op te halen die de web applicatie nodig heeft om de testen te tonen, uit te voeren... Maakt de webapplicatie gebruik van [howtotestapi.js](client/src/services/api/howtotestapi.js). Dit bestand exporteert verschillende functies die de requests versturen en hun resultaat ontvangen.
 ## Backend
 ### Database
 De Node.js server verbind met verschillende mongodb databanken. Eén databank per test die afgelegd kan worden en één algemene databank. De algemene databank houd bij welke testen er beschikbaar zijn, de beschrijving en hun configuratie. De database per test bevat specifieke data voor die test. Voor de verbinding met de databanken, maken we gebruik van [mongoose](https://github.com/Automattic/mongoose).
@@ -35,7 +34,7 @@ De controllers zijn de verbinding tussen de database en de routers. Deze staan i
 Er is 1 algemene router: [api.js](server/routes/api.js). Hier komen alle api requests binnen en worden eventueel doorgestuurd naar de juiste router voor een bepaalde test. De routers die deze requests kunnen afhandelen bevinden zich in de map [/routes/tests](server/routes/tests). Bij toevoeging van een test, word er in die map een Router toegevoegd.
 
 ## Seeders
-De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevint zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data. 
+De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevint zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data.
 
 # Toevoegen van een test
 Demonstratie over hoe er een nieuwe test kan toegevoegd worden. Voor deze demo gebruiken we de DiMS48 als in te voegen test.
@@ -47,26 +46,26 @@ Maak in de map [models](server/models) een nieuwe map: DiMS48Models. Maak de nod
 Maak een nieuwe Javascript file in de map [controllers](server/controllers) en noem deze naar de nieuwe test: [*DiMS48Controller*](server/controllers/DiMS48Controller.js). Maak hier alle functies die data opvragen en/of veranderen in de database. Exporteer alle nodige functies.
 
 ### Router
-Maak een nieuwe Javascript file in de map [routes/test](server/routes/test) en noem deze naar de nieuwe test: [*DiMS48Router*](server/routes/test/DiMS48Router.js). Maak hier alle functies die te maken hebben met de API calls die met de nieuwe test te maken hebben. De volgende functies moeten ten minste aangemaakt worden: 
+Maak een nieuwe Javascript file in de map [routes/test](server/routes/test) en noem deze naar de nieuwe test: [*DiMS48Router*](server/routes/test/DiMS48Router.js). Maak hier alle functies die te maken hebben met de API calls die met de nieuwe test te maken hebben. De volgende functies moeten ten minste aangemaakt worden:
 <dl>
   <dt>getDetails()</dt>
   <dd>Geeft de beschrijving terug van die test</dd>
-  
+
   <dt>getInitial()</dt>
   <dd>Geeft de initiele data terug die de Vue.js applicatie nodig heeft om de test te starten</dd>
-  
+
   <dt>getResults()</dt>
   <dd>Geeft de resultaten van alle testen die tot nu toe afgenomen zijn terug, kan eventueel ook een Excel document met alle resultaten teruggeven</dd>
-  
+
   <dt>getResult()</dt>
   <dd>Geeft de resultaten van één specieke test terug</dd>
-  
+
   <dt>postResult()</dt>
   <dd>Voegt een nieuw resultaat toe in de database</dd>
-  
+
   <dt>patchClientInfoOrNote()</dt>
   <dd>Voegt de nieuwe waarden in voor de ingevulde velden</dd>
-  
+
   <dt>deleteREsult()</dt>
   <dd>Verwijderd een resultaat (enkel voor admins)</dd>
 </dl>
@@ -74,16 +73,16 @@ De volgende functies kunnen aangemaakt worden indien gewenst:
 <dl>
   <dt>getNormValuesExist()</dt>
   <dd>Zegt of er normscores voor de test bestaan</dd>
-  
+
   <dt>getNormValues()</dt>
   <dd>Geeft de normscores terug</dd>
-  
+
   <dt>getPDF(id)</dt>
   <dd>Geeft een pdf terug met de resultaten van één test</dd>
-  
+
   <dt>getExcel(id)</dt>
   <dd>Geeft een Excel terug met de resultaten van één test</dd>
-  
+
   <dt>updateConfig</dt>
   <dd>Indien er configuratie nodig is voor de test, kan deze via deze methode veranderd worden (enkel voor admins)</dd>
 </dl>
@@ -98,7 +97,12 @@ Maak de benodigde views aan in de map [/views](client/src/views) en de benodigde
 Schrijf bij elke view en component de benodigde functies om de specifieke view of component zijn functie uit te laten voeren. Probeer hier altijd zo modulair mogelijk te werken en elke component zijn eigen en enige functie toe te wijzen.
 
 ### Vuex
-Maak ik de map [/store/modules/test](client/src/store/modules/test) een nieuwe map en noem deze naam de nieuwe test: [dims48](client/src/store/modules/test/dims48). Maak hier de nodige modules aan. Importeer daarna de aangemaakte modules in de [store.js](client/src/store/store.js) en exporteer de nieuwe modules in de Vuex store.
+Maak ik de map [/store/modules/test](client/src/store/modules/test) een nieuwe map en noem deze naam de nieuwe test: [dims48](client/src/store/modules/test/dims48). Maak hier de nodige modules aan. Importeer daarna de aangemaakte modules in de [store.js](client/src/store/store.js) en exporteer de nieuwe modules in de Vuex store. Nu zijn de getters en de actions beschikbaar in de hele web applicatie.
+
+### API
+Indien er verbinding moet gemaakt worden met de Node.js server, wordt er een nieuwe functie geëxporteerd in de file [howtotestapi.js](client/src/services/api/howtotestapi.js). Om een nieuwe GET request toe te voegen, exporteer een functie ```javascript export const newGETrequest = (someParameter) => processReq(`/url/to/somewhere/${someParameter}`) ```
+Om een nieuwe POST request toe te voegen, exporteer een function ```javascript export const newPOSTrequest = (someParameter, bodyToSend) => processReq(`url/to/somewhere/${someParameter}`, bodyToSend, "POST") ```
+Om een file te ontvangen, exporteer een nieuwe functie ```javascript export const getFile = (url) => processBlob(url) ```
 # Documentatie Gebruik
 ## Documentatie Testleiders
 ### Home
