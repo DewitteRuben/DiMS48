@@ -1,0 +1,37 @@
+[{
+        "_id": "phase1",
+        "options": [{
+                "btnText": "2 of minder",
+                "btnValue": "<=2"
+            },
+            {
+                "btnText": "3 of meer",
+                "btnValue": ">=3"
+            }
+        ]
+    },
+    {
+        "_id": "phase2",
+        "options": [{
+                "btnText": "Links",
+                "btnValue": "L"
+            },
+            {
+                "btnText": "Rechts",
+                "btnValue": "R"
+            }
+        ]
+    },
+    {
+        "_id": "phase3",
+        "options": [{
+                "btnText": "Links",
+                "btnValue": "L"
+            },
+            {
+                "btnText": "Rechts",
+                "btnValue": "R"
+            }
+        ]
+    }
+]
