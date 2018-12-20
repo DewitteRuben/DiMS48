@@ -173,14 +173,14 @@ function addResult(data) {
     data["phase1"] = {
       score: scorePhase1.score,
       answers: addCorrectAnswersPhase1(data.phase1),
-      totalTime: Math.floor(scorePhase1.totalTime/1000)
+      totalTime: scorePhase1.totalTime
     };
 
     let scoresPhase2 = scoreCalculator.calculateScorePhase2(data.phase2)
     data["phase2"] = {
       scores: scoresPhase2.scores,
       answers: addCorrectAnswersPhase2(data.phase2),
-      totalTime: Math.floor(scoresPhase2.totalTime/1000) //scoresPhase2.totalTime is in milliseconds
+      totalTime: scoresPhase2.totalTime/1000
     };
 
     data["phase3"] = null;
