@@ -16,7 +16,7 @@
               <li>Geslacht: {{gender}}</li>
             </ul>
           </div>
-          <v-layout>
+          <v-layout justify-end>
             <span class="green--text" v-if="done">
               <v-icon medium color="green">check_circle</v-icon>
             </span>

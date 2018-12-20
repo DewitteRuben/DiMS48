@@ -154,6 +154,9 @@ function getResult(id) {
       result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
     }
 
+    const isPhase3Done = result.phase3 !== null;
+    result["done"] = isPhase3Done;
+
     return result;
   });
 }

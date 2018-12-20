@@ -1,16 +1,18 @@
 <template>
   <v-container text-xs-left>
-    <v-btn flat @click="toResultsPage" icon color="blue">
-      <v-icon>arrow_back</v-icon>
-    </v-btn>
-
+    <v-layout>
+      <v-btn flat @click="toResultsPage" icon color="blue">
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn flat icon color="black lighten-2" v-if="admin" @click="promptRemoveDialog">
+        <v-icon>delete</v-icon>
+      </v-btn>
+    </v-layout>
     <h1 class="text-xs-center">Resultaten DiMS48 Test</h1>
     <div v-if="loadedSuccessfully">
       <v-layout row wrap mt-4>
         <v-flex xs4>
-          <v-btn v-if="admin" @click="removeResult">
-            <v-icon>delete</v-icon>
-          </v-btn>
           <h2>Gemaakt op {{new Date(result.timestamp).toLocaleString("nl")}}</h2>
           <h2>
             ID-nummer testnemer:
@@ -119,17 +121,30 @@
     <v-layout v-if="isInvalidId" justify-center align-center fill-height>
       <h2>De resultaten met het id "{{testId}}" werden niet gevonden.</h2>
     </v-layout>
+    <ConfirmationDialog
+      v-on:confirmModal="confirmDialog"
+      v-on:declineModal="declineDialog"
+      :title="dialogTitle"
+      :model="dialog"
+      :headline="dialogHeadline"
+      :message="dialogMessage"
+      :confirmButtonText="dialogConfirmButtonText"
+      :declineButtonText="dialogDeclineButtonText"
+      :decline="dialogDecline"
+    />
   </v-container>
 </template>
 
 <script>
 import * as HowToTestApi from "@/services/api/howtotestapi";
 import ClientDataForm from "@/components/ClientDataForm.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import * as download from "downloadjs";
 
 export default {
   components: {
-    ClientDataForm
+    ClientDataForm,
+    ConfirmationDialog
   },
   data() {
     return {
@@ -141,7 +156,14 @@ export default {
       downloading: false,
       clientInfoDialog: false,
       normValuesText: "",
-      admin: false
+      admin: false,
+      dialog: false,
+      dialogTitle: "Dims48",
+      dialogHeadline: "Dims48",
+      dialogMessage: "",
+      dialogConfirmButtonText: "Ja",
+      dialogDeclineButtonText: "Nee",
+      dialogDecline: true
     };
   },
   methods: {
@@ -171,6 +193,13 @@ export default {
     },
     loadNotes: function() {
       this.notes = this.computedNotes;
+    },
+    confirmDialog: function() {
+      this.dialog = false;
+      this.removeResult();
+    },
+    declineDialog: function() {
+      this.dialog = false;
     },
     getDims48Result: async function() {
       return HowToTestApi.getTestResultsById("dims48", this.testId)
@@ -219,16 +248,24 @@ export default {
     },
     removeResult: function() {
       let self = this;
-      HowToTestApi
-        .removeResult("dims48", this.testId)
+      HowToTestApi.removeResult("dims48", this.testId)
         .then(data => {
-          if(data.deleted){
-            self.$router.push('/results/dims48');
-          }else{
-            console.log('remove result failed');
+          if (data.deleted) {
+            self.$router.push("/results/dims48");
+          } else {
+            console.log("remove result failed");
           }
         })
         .catch(err => console.log(err));
+    },
+    displayDialogue: function(message) {
+      this.dialogMessage = message;
+      this.dialog = true;
+    },
+    promptRemoveDialog: function() {
+      this.displayDialogue(
+        "Bent u zeker dat u deze testresultaten wil verwijderen?"
+      );
     }
   },
   computed: {
@@ -272,8 +309,7 @@ export default {
   mounted: function() {
     let self = this;
     if (this.loggedIn) {
-      HowToTestApi
-        .isAdmin(self.$store.getters["user/getUser"].email)
+      HowToTestApi.isAdmin(self.$store.getters["user/getUser"].email)
         .then(isAdmin => (self.admin = isAdmin.isAdmin))
         .catch(err => console.log(err));
     }
