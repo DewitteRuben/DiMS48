@@ -14,16 +14,16 @@ const Test = defaultModels.Test;
 const getTests = require('./testsSeeder').getTests;
 
 const checkImages = function checkImages() {
-  console.log('Checking Images');
-  imageSeeder.isDatabaseSeeded()
-  .then((isDatabaseSeeded) => {
-    if(!isDatabaseSeeded){
-        console.log('Images need seeding');
-        imageSeeder.seed();
-    }else{
-        console.log('Images don\'t need seeding');
-    }
-  });
+    console.log('Checking Images');
+    imageSeeder.isDatabaseSeeded()
+        .then((isDatabaseSeeded) => {
+            if (!isDatabaseSeeded) {
+                console.log('Images need seeding');
+                imageSeeder.seed();
+            } else {
+                console.log('Images don\'t need seeding');
+            }
+        });
 }
 
 function checkInstructions() {
@@ -39,10 +39,10 @@ function checkInstructions() {
 }
 
 function checkOptions() {
-  console.log('Checking Options');
+    console.log('Checking Options');
     const queryOptions = Option.find();
     queryOptions.exec((err, data) => {
-        if(data.length <= 0){
+        if (data.length <= 0) {
             console.log('Options need seeding');
             optionSeeder.getOptions().forEach((option) => option.save());
             console.log('Options seeded');
@@ -50,17 +50,17 @@ function checkOptions() {
     });
 }
 
-function checkTests(){
-  console.log('Checking tests');
-  const queryTests = Test.find();
-  queryTests.exec((err, data)=>{
-    if(err)console.log(err);
-    if (data.length <= 0){
-      console.log('Tests need seeding');
-      getTests().forEach(test=> test.save());
-      console.log('Tests seeded');
-    }
-  });
+function checkTests() {
+    console.log('Checking tests');
+    const queryTests = Test.find();
+    queryTests.exec((err, data) => {
+        if (err) console.log(err);
+        if (data.length <= 0) {
+            console.log('Tests need seeding');
+            getTests().forEach(test => test.save());
+            console.log('Tests seeded');
+        }
+    });
 }
 
 function checkAll() {
@@ -70,4 +70,6 @@ function checkAll() {
     checkTests();
 }
 
-module.exports = {checkAll};
+module.exports = {
+    checkAll
+};
