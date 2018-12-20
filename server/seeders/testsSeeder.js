@@ -1,4 +1,4 @@
-const initialTestRepository = require('../data/initial/tests/initialTests.repository');
+const initialTestRepository = require('../data/tests/initialTests.repository');
 const Test = initialTestRepository.getDatabaseModel();
 
 const seed = function seed() {

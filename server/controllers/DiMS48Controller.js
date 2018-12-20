@@ -9,7 +9,7 @@ const excelGenerator = require("../util/fileGenerators/excelGenerator")
 const excelGeneratorAll = require("../util/fileGenerators/excelGeneratorAll")
   .makeExcel;
 
-const imageRepository = require("../data/initial/images/initialImage.repository");
+const imageRepository = require("../data/initialDiMS48/images/initialImage.repository");
 
 const locals = require("../locales/nl-BE.json");
 

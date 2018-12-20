@@ -4,8 +4,8 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
 const scoreCalculator = require('../../util/scoreCalculator');
-const imageConstants = require('../../data/initial/images/imageConstants');
-const imageRepository = require('../../data/initial/images/initialImage.repository');
+const imageConstants = require('../../data/initialDiMS48/images/imageConstants');
+const imageRepository = require('../../data/initialDiMS48/images/initialImage.repository');
 const answerGenerator = require('../../util/answerGenerator');
 
 describe('Score Calculator', () => {
@@ -136,7 +136,7 @@ const createCorrectAnswerArrayPhase2 = function createCorrectAnswerArrayPhase2(s
             correctAnswerArray.push(exampleCorrectAnswer);
         }
     }
-    
+
     return correctAnswerArray;
 };
 
