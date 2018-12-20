@@ -184,3 +184,5 @@ Deze zaken zijn aanpasbaar: <br/>
 -De tijd voor de interferentietest in seconden (standaard 3 minuten = 180 seconden) waarbij de testleider de testnemer woorden laat opsommen die met een ‘p’ beginnen<br/>
 -De knoppen op het toetsenbord die gebruikt worden om de testen te maken. Aanpassen kan door te klikken op de woorden van de knop die er staat en dan de gewenste toets in te drukken <br/>
 -Deze nieuwe opties worden opgeslagen wanneer er op ‘Opslaan’ geklikt word.<br/>
+
+De hoofdgebruiker kan op de pagina waar alle resultaten getoont worden ook een Excel bestand downloaden waarin alle resultaten staan zodat er makkelijk berekeningen kunnen worden uitgevoerd.
