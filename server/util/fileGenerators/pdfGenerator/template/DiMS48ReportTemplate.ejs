@@ -4,6 +4,7 @@
         font-family: sans-serif;
         font-weight: 200;
         margin: 50px;
+        margin-top: 10px;
     }
 
     h1 {
@@ -58,6 +59,12 @@
         border: 1px solid black;
     }
 
+    .scores table tr:last-child { 
+        border-top: solid black 3px;
+        text-decoration: underline;
+        background-color: rgba(230, 225, 225, 0.699);
+     }
+
     .correct {
         background-color: rgba(0, 128, 0, 0.65);
     }
@@ -86,7 +93,8 @@
         height: 80px;
     }
 
-    .clientInfo table tr td:first-child, .scores table tr td:first-child {
+    .clientInfo table tr td:first-child,
+    .scores table tr td:first-child {
         width: 25vw;
     }
 
@@ -95,7 +103,6 @@
         font-weight: bold;
         font-size: 1.2em;
     }
-
 </style>
 
 <html>
@@ -120,7 +127,8 @@
             <table>
                 <tr>
                     <td class="capitalize-all-first-letter">
-                        <strong><%= locales.testId %></strong>
+                        <strong>
+                            <%= locales.testId %></strong>
                     </td>
                     <td id="test-id">
                         <%= data._id%>
@@ -128,7 +136,8 @@
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter">
-                        <strong><%= locales.clientInfo.age%></strong>
+                        <strong>
+                            <%= locales.clientInfo.age%></strong>
                     </td>
                     <td>
                         <%= data.clientInfo.age + " " + locales.year%>
@@ -136,7 +145,8 @@
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter">
-                        <strong><%= locales.clientInfo.schooledTill %></strong>
+                        <strong>
+                            <%= locales.clientInfo.schooledTill %></strong>
                     </td>
                     <td>
                         <%= data.clientInfo.schooledTill + " " + locales.year %>
@@ -144,7 +154,8 @@
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter">
-                        <strong><%= locales.clientInfo.schooledFor %></strong></td>
+                        <strong>
+                            <%= locales.clientInfo.schooledFor %></strong></td>
                     <td>
                         <%= data.clientInfo.schooledFor + " " + locales.year%>
                     </td>
@@ -175,10 +186,11 @@
             </h3>
             <table>
                 <tr>
-                    <td class="capitalize-all-first-letter"><strong>
-                            <%= locales.correct %></strong></td>
+                    <td class="capitalize-all-first-letter">
+                        <strong><%= locales.correct %></strong>
                     <td>
-                        <%= (data.phase1.score).toFixed(2) %> %</td>
+                        <%= (data.phase1.score).toFixed(2) %> %
+                    </td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong>
@@ -186,10 +198,18 @@
                     <td>
                         <%= (100 - data.phase1.score).toFixed(2) %> %</td>
                 </tr>
+                <tr>
+                    <td class="capitalize-all-first-letter">
+                        <strong><%= locales.totalTime %></strong>
+                    </td>
+                    <td>
+                        <%= (data.phase1.totalTime / 1000).toFixed(2) %> <%= locales.seconds %>
+                    </td>
+                </tr>
             </table>
 
             <h3 class="capitalize-all-first-letter">
-                <%= locales.phases[1].name%>
+                <%= locales.phases[1].name%> 
             </h3>
             <table>
                 <tr>
@@ -218,6 +238,14 @@
                         %
                     </td>
                 </tr>
+                <tr>
+                        <td class="capitalize-all-first-letter">
+                            <strong><%= locales.totalTime %></strong>
+                        </td>
+                        <td>
+                            <%= (data.phase2.totalTime / 1000).toFixed(2) %> <%= locales.seconds %>
+                        </td>
+                    </tr>
             </table>
 
             <h3 class="capitalize-all-first-letter">
@@ -227,20 +255,20 @@
             <table>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong>
-                            <%= locales.sets.abstractSet %></strong></td>
+                            <%= locales.sets.abstractSet %></strong>
                     <td>
                         <%= (data.phase3.scores.abstractScore).toFixed(2) %> %</td>
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong>
-                            <%= locales.sets.groupedSet %></strong></td>
+                            <%= locales.sets.groupedSet %></strong>
                     <td>
                         <%= (data.phase3.scores.groupedScore).toFixed(2) %> %</td>
 
                 </tr>
                 <tr>
                     <td class="capitalize-all-first-letter"><strong>
-                            <%= locales.sets.uniqueSet %></strong></td>
+                            <%= locales.sets.uniqueSet %></strong>
                     <td>
                         <%= (data.phase3.scores.uniqueScore).toFixed(2) %> %</td>
                 </tr>
@@ -252,6 +280,14 @@
                         %
                     </td>
                 </tr>
+                <tr>
+                        <td class="capitalize-all-first-letter">
+                            <strong><%= locales.totalTime %></strong>
+                        </td>
+                        <td>
+                            <%= (data.phase3.totalTime / 1000).toFixed(2) %> <%= locales.seconds %>
+                        </td>
+                    </tr>
             </table>
             <%} else {%>
             <p class="capitalize-first-word">
@@ -411,11 +447,11 @@
                     <%= locales.responseTime %>
                 </th>
             </tr>
-            <% data.phase2.answers.forEach((answer) => {%>
+            <% data.phase3.answers.forEach((answer) => {%>
 
             <tr class="<%= answer.answer === answer.correctAnswer ? 'correct' : answer.answer === 'null' ? 'noAnswer' : 'wrong'%>">
-                <td></td>
-                    <%= answer._id.substring(1) %>
+                <td>
+                        <%= answer._id.substring(1) %>
                 </td>
                 <td>
                     <%= answer.answer %>
