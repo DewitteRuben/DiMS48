@@ -111,6 +111,9 @@ const PHASE2_LABELS = {
 
 const PHASE3_LABELS = PHASE2_LABELS;
 
+const CORRECT_OPTION = 'A';
+const WRONG_OPTION = 'B';
+
 module.exports = {
     IMAGE_FOLDER,
     AMOUNT_IMAGES,
@@ -118,4 +121,6 @@ module.exports = {
     PHASE1_LABELS,
     PHASE2_LABELS,
     PHASE3_LABELS,
+    CORRECT_OPTION,
+    WRONG_OPTION
 };
