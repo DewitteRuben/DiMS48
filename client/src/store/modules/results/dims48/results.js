@@ -22,7 +22,6 @@ function compareValues(operator, testValue, inputValue, type) {
     const removeTime = !hasTimeData(inputValue);
     testValue = removeSeconds(testValue, removeTime);
     inputValue = removeSeconds(inputValue, removeTime);
-    console.log(inputValue);
   }
   if (type === Boolean) {
     operator = "=";
