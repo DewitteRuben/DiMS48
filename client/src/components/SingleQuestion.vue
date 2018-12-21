@@ -3,7 +3,7 @@
     <v-flex xs12 sm6 md6 lg6 xl6 offset-sm3>
       <v-layout justify-center align-center>
         <v-img
-          :src="baseUrl + currentImage.L.imgUrl"
+          :src="BASE_URL + currentImage.L.imgUrl"
           alt="picture"
           max-width="300px"
           max-height="300px"
@@ -13,7 +13,7 @@
         ></v-img>
         <v-img
           v-if="isDouble"
-          :src="baseUrl+ currentImage.R.imgUrl"
+          :src="BASE_URL + currentImage.R.imgUrl"
           alt
           max-width="300px"
           max-height="300px"
@@ -37,7 +37,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { API_URL } from "../services/constants";
+import { BASE_URL } from "../services/constants";
 
 export default {
   mounted() {
@@ -85,10 +85,6 @@ export default {
     },
     hasStarted: function() {
       return this.$store.getters["dimsManager/hasStarted"];
-    },
-    baseUrl: () => {
-      if (process.env.NODE_ENV === "production") return "";
-      return "http://localhost:3000";
     },
     currentPhase: function() {
       return this.$store.state.dimsManager.currentPhase;

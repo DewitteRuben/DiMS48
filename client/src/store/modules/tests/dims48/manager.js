@@ -1,4 +1,5 @@
 import * as howToTestApi from "@/services/api/howtotestapi";
+import { BASE_URL } from "../../../../services/constants";
 
 function initialState() {
   return {
@@ -126,9 +127,7 @@ export default {
         .getDims48()
         .then(res => {
           commit("dimsQuestions/updateImages", res.images, { root: true });
-          const imageUrls = res.images.map(
-            e => `http://localhost:3000${e.imgUrl}`
-          );
+          const imageUrls = res.images.map(e => `${BASE_URL}${e.imgUrl}`);
           preloadImages(imageUrls, () => (state.imagesLoaded = true));
           commit("dimsInstructions/updateInstructions", res.instructions, {
             root: true
