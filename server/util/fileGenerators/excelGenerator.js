@@ -251,7 +251,7 @@ function writeHeadingAnswers(worksheet, phase3Included){
 function writeResultsPhase1(worksheet, answers){
   worksheet.cell(beginRows.phase1Results+1,2).number(answers.score).style(styleData);
   worksheet.cell(beginRows.phase1Results+2,2).number(100-answers.score).style(styleData);
-  worksheet.cell(beginRows.phase1Results+3,2).number(answers.totalTime).style(styleData);
+  worksheet.cell(beginRows.phase1Results+3,2).number(Math.floor(answers.totalTime / 1000)).style(styleData);
 }
 
 function writeAnswers(worksheet, answers, isPhase2, beginColumn){
@@ -291,7 +291,7 @@ function writeResultsPhase2(worksheet, answers, isPart2){
   let totalScore = Math.floor((answers.scores.uniqueScore + answers.scores.groupedScore + answers.scores.abstractScore)/3);
   worksheet.cell(startRow+3,2).number(totalScore).style(styleData);
   worksheet.cell(startRow+4,1).string(text.timeNeeded).style(styleData);
-  worksheet.cell(startRow+4,2).number(answers.totalTime).style(styleData);
+  worksheet.cell(startRow+4,2).number(Math.floor(answers.totalTime/1000)).style(styleData);
 }
 
 module.exports = {

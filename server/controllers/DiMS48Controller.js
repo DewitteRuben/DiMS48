@@ -98,14 +98,14 @@ const addResult = function addResult(data) {
     data["phase1"] = {
       score: scorePhase1.score,
       answers: addCorrectAnswersPhase1(data.phase1),
-      totalTime: Math.floor(scorePhase1.totalTime / 1000) //miliseconds -> seconds
+      totalTime: scorePhase1.totalTime //miliseconds -> seconds
     };
 
     let scoresPhase2 = scoreCalculator.calculateScorePhase2(data.phase2);
     data["phase2"] = {
       scores: scoresPhase2.scores,
       answers: addCorrectAnswersPhase2(data.phase2),
-      totalTime: Math.floor(scoresPhase2.totalTime / 1000)
+      totalTime: scoresPhase2.totalTime
     };
 
     data["phase3"] = null;
@@ -128,7 +128,7 @@ const appendResult = function appendResult(data) {
     data.phase3 = {
       scores: scoresPhase3.scores,
       answers: addCorrectAnswersPhase3(data.phase3),
-      totalTime: Math.floor(scoresPhase3.totalTime / 1000)
+      totalTime: scoresPhase3.totalTime
     };
 
     getResult(data._id)
