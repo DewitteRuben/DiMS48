@@ -18,10 +18,14 @@ De DiMS 48 test bestaat uit 3 delen en een interferentietaak:
 
 ## Deel 1: verwerkingsfase. 
 Hierin worden 48 afbeeldingen één voor één aangeboden. Sommige bestaan uit 2 of minder kleuren, andere uit 3 of meer kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of ze uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren.
-    - Voor '2 of minder' kleuren dient de cliënt zo snel mogelijk op de corresponderende linkerknop te klikken of via het toetsenbord de op de ingestelde Linker pijl toets te drukken.
-    - Voor '3 of meer kleuren' dient de cliënt zo snel mogelijk op de corresponderende rechterknop te klikken of via het toetsenbord op de ingestelde Rechter pijl toets te drukken.
-    - In de test is het grijze instructiescherm bedoeld voor de testleider en het witte instructiescherm voor de cliënt.
-    Interferentietaak: Hier dient de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding; een registratie ervan is dus niet vereist.
+
+- Voor '2 of minder' kleuren dient de cliënt zo snel mogelijk op de corresponderende linkerknop te klikken of via het toetsenbord de op de ingestelde Linker pijl toets te drukken.
+
+- Voor '3 of meer kleuren' dient de cliënt zo snel mogelijk op de corresponderende rechterknop te klikken of via het toetsenbord op de ingestelde Rechter pijl toets te drukken.
+
+- In de test is het grijze instructiescherm bedoeld voor de testleider en het witte instructiescherm voor de cliënt.
+Interferentietaak: Hier dient de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding; een registratie ervan is dus niet vereist.
+
 ## Deel 2: herkenningsfase 
 Tijdens de herkenningsfase worden 48 paren van afbeeldingen aangeboden. Voor elk paar dient de cliënt aan te duiden welke afbeelding uit de verwerkingsfase hij herkent. Hier is geen tijdslimiet.
 ## Deel 3 is uitgestelde herkenningsfase (optioneel). 
