@@ -297,7 +297,7 @@ const getNormValuesExist = function getNormValuesExist(req, res) {
   });
 };
 
-function getNormValues(req, res) {
+const getNormValues = function getNormValues(req, res) {
   res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
 }
 
@@ -350,7 +350,7 @@ const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
 };
 
 //Util Functions
-function getBeginObject(part) {
+const getBeginObject = function getBeginObject(part) {
   return new Promise(function (resolve, reject) {
     const beginObject = {
       images: null,
