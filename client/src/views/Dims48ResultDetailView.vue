@@ -61,7 +61,8 @@
           <h3>Score</h3>
           <p class="subheading">{{result.phase1.score.toFixed(2)}}%</p>
           <h3>Normscores</h3>
-          <p v-html="normValuesText"></p>
+          <v-btn v-if="normValues" color="success">Download normwaarden</v-btn>
+          <p v-if="!normValues">{{normValuesText}}</p>
         </v-flex>
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 2</h2>
@@ -151,11 +152,12 @@ export default {
       result: null,
       loaded: false,
       error: null,
+      normValues: false,
       notes: "",
       editingNotes: false,
       downloading: false,
       clientInfoDialog: false,
-      normValuesText: "",
+      normValuesText: "Er zijn op dit moment geen normscores beschikbaar",
       admin: false,
       dialog: false,
       dialogTitle: "Dims48",
@@ -297,13 +299,7 @@ export default {
         console.log(err);
       });
     HowToTestApi.normValuesExist("DiMS48").then(data => {
-      if (data.exists) {
-        this.normValuesText =
-          "<a href='/api/test/DiMS48/normValues'> Normwaarden </a>";
-      } else {
-        this.normValuesText =
-          "Er zijn op dit moment geen normscores beschikbaar";
-      }
+      this.normValues = data.exists;
     });
   },
   mounted: function() {
