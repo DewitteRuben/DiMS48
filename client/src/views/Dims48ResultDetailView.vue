@@ -48,7 +48,7 @@
             label="Notities"
             ref="notesTextArea"
             :readonly="!editingNotes"
-            placeholder="Er werden nog geen notities gemaakt"
+            placeholder="Noteer hier eventuele opmerkingen"
             solo
           ></v-textarea>
           <v-btn v-if="editingNotes" @click="saveNotes" color="success">Opslaan</v-btn>
