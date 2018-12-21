@@ -205,7 +205,7 @@ Onder ‘Start’ vind je <br/>
 ### Opties
 Als hoofdgebruiker krijg je toegang tot ‘Opties’ en kan je de instellingen voor komende testen aanpassen. Opgelet: de testen die al in het systeem staan worden niet aangepast. Dit kan eventueel belangrijk zijn om de normwaarden te bepalen!<br/>
 
-De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **blauwe link ‘Upload’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
+De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **groene knop ‘Uploaden’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
 
 
 Deze zaken zijn aanpasbaar: <br/>
