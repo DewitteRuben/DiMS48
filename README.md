@@ -96,6 +96,10 @@ De volgende functies kunnen aangemaakt worden indien gewenst:
   <dd>Indien er configuratie nodig is voor de test, kan deze via deze methode veranderd worden (enkel voor admins)</dd>
 </dl>
 
+Voeg nu deze nieuwe router toe in de file [tests.js](server/routes/tests.js) en volg de naming convention. De api zal nu automatisch de juiste requests doorsturen naar de juiste router en in de router, de juiste functie.
+
+Indien er test specifieke error boodschappen moeten worden terug gestuurd, kunnen deze in de map [/locales](server/locales) aangemaakt worden. In de map [/DiMS48](server/locales/DiMS48) bevinden zich bijvoorbeeld de error berichten specifiek voor de DiMS48 test. Deze locales kunnen dan in de test specifieke router gebruikt worden. (zie [/DiMS48Router.js](server/routes/tests/DiMS48Router.js))
+
 ### Seeders
 Deze zijn enkel nodig indien er specifieke data nodig is om de test te kunnen starten. Maak ik in map [/data/initial](server/data/initial) een nieuwe map en noem deze naar de test: [initialDiMS48](server/data/initialDiMS48). Zet in deze map alle data die geseed moet worden. Maak in de map [*seeders*](server/seeders) een nieuwe Javascript file aan en noem deze naar de data die geseed moet worden: De DiMS48 test heeft bijvoorbeeld afbeeldingen nodig. de Seeder [*imagesSeeder*](server/seeders/imagesSeeder.js) voegt dan de locaties van de afbeeldingen in. Voeg de nieuwe seeder toe in de hoofd seeder [*seeder.js*](server/seeders/seeder.js).
 
