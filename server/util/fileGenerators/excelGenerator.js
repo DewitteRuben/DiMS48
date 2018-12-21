@@ -29,7 +29,7 @@ const text = {
   index: 'nr.',
   answer: 'antwoord',
   correctAnswer: 'juist antwoord',
-  timeNeeded: 'Benodigde tijd in miliseconden',
+  timeNeeded: 'Benodigde tijd in seconden',
   exUnqiue: "Vb Vogel of vis?",
   exGroup: "Vb welke van twee vogels?",
   exAbstract: "Vb abstracte figuren"
