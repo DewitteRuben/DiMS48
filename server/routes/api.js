@@ -10,10 +10,10 @@ const ErrorSender = require('../util/messageSenders/errorSender');
 const errorSender = new ErrorSender(errorMessages);
 
 const log4js = require('log4js');
-const logger = log4js.getLogger();
+const errorLogger = log4js.getLogger('error');
 
 router.use(function(err, req, res, next) {
-  logger.error('Main API router threw', err);
+  errorLogger.error('Main API router threw', err);
   next();
 });
 
