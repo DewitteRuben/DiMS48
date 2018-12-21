@@ -12,7 +12,7 @@ const errorSender = new ErrorSender(errorMessages);
 const log4js = require('log4js');
 const errorLogger = log4js.getLogger('error');
 
-router.use(function(err, req, res, next) {
+router.use(function (err, req, res, next) {
   errorLogger.error('Main API router threw', err);
   next();
 });
@@ -39,56 +39,55 @@ router.get('/detail/:name', function (req, res) {
 });
 
 router.post('/test/:name/updateConfig', function (req, res) {
-  adminOnlyTestSpecificAction(req,res,"updateConfig");
+  adminOnlyTestSpecificAction(req, res, "updateConfig");
 });
 
 router.get('/test/:name/initial', function (req, res) {
-  testSpecificAction(req,res,"getInitial");
+  testSpecificAction(req, res, "getInitial");
 });
 
 router.get('/test/:name/part2', function (req, res) {
-  testSpecificAction(req,res,"getPart2");
+  testSpecificAction(req, res, "getPart2");
 });
 
 router.get('/results/:name', function (req, res) {
-  testSpecificAction(req,res,"getResults");
+  testSpecificAction(req, res, "getResults");
 });
 
 router.get('/results/:name/:id', function (req, res) {
-  testSpecificAction(req,res,"getResult");
+  testSpecificAction(req, res, "getResult");
 });
 
 router.patch('/results/:name/:id', function (req, res) {
-  testSpecificAction(req,res,"patchClientInfoOrNote");
+  testSpecificAction(req, res, "patchClientInfoOrNote");
 });
 
-router.delete('/results/:name/:id', function(req,res){
-  adminOnlyTestSpecificAction(req,res,"deleteResult");
-})
+router.delete('/results/:name/:id', function (req, res) {
+  adminOnlyTestSpecificAction(req, res, "deleteResult");
+});
 
 router.post('/results/:name/1', function (req, res) {
-  testSpecificAction(req,res,"postResultPart1");
+  testSpecificAction(req, res, "postResultPart1");
 });
 
 router.post('/results/:name/2', function (req, res) {
-  testSpecificAction(req,res,"postResultPart2");
+  testSpecificAction(req, res, "postResultPart2");
 });
 
-//TODO protect against DDOS!
 router.get('/results/:name/pdf/:id', (req, res) => {
-  testSpecificAction(req,res,"getPdf");
+  testSpecificAction(req, res, "getPdf");
 });
 
 router.get('/results/:name/excel/:id', function (req, res) {
-  testSpecificAction(req,res,"getExcel");
+  testSpecificAction(req, res, "getExcel");
 });
 
 router.get('/test/:name/normValuesExist', function (req, res) {
-  testSpecificAction(req,res, "getNormValuesExist");
+  testSpecificAction(req, res, "getNormValuesExist");
 });
 
 router.get('/test/:name/normValues', function (req, res) {
-  testSpecificAction(req,res, "getNormValues");
+  testSpecificAction(req, res, "getNormValues");
 });
 
 router.post('/register', function (req, res) {
@@ -106,7 +105,7 @@ router.post('/register', function (req, res) {
     res.send({
       msg: "Could not register user"
     });
-  })
+  });
 });
 
 router.post('/login', function (req, res) {
@@ -123,7 +122,7 @@ router.post('/login', function (req, res) {
         email: userData.email,
         username: userData.username
       }
-    })
+    });
   }).catch(err => {
     res.send({
       msg: "Email and password did not match"
@@ -139,7 +138,7 @@ router.get('/isAdmin', function (req, res) {
       }))
       .catch(err => res.send({
         msg: err
-      }))
+      }));
   } else res.send({
     msg: "not logged in"
   });
@@ -161,37 +160,37 @@ router.post('/upload/:name', function (req, res) {
   });
 });
 
-const adminOnlyTestSpecificAction = function(req,res,functionName){
-  if(req.session.userId){
-    UserController.isAdmin(req.session.userId).then(isAdmin=>{
-      if(isAdmin){
-        testSpecificAction(req,res,functionName);
-      }else{
-        errorSender.sendInvalidEndpointRequested(req,res)
+const adminOnlyTestSpecificAction = function (req, res, functionName) {
+  if (req.session.userId) {
+    UserController.isAdmin(req.session.userId).then(isAdmin => {
+      if (isAdmin) {
+        testSpecificAction(req, res, functionName);
+      } else {
+        errorSender.sendInvalidEndpointRequested(req, res);
       }
-    }).catch(err=>{
-      errorSender.sendInternalServerError(req,res,err);
-    })
-  }else{
-    errorSender.sendInvalidEndpointRequested(req,res);
+    }).catch(err => {
+      errorSender.sendInternalServerError(req, res, err);
+    });
+  } else {
+    errorSender.sendInvalidEndpointRequested(req, res);
   }
-}
+};
 
-const testSpecificAction = function(req, res, functionName){
+const testSpecificAction = function (req, res, functionName) {
   const requestedTestName = req.params.name.toLocaleLowerCase();
   const router = routerGetter.getRouter(requestedTestName);
-  if(router){
-    if(routerHasFunction(router, functionName)){
-      router[functionName](req,res);
-    }else{
-      errorSender.sendInvalidEndpointRequested(req,res);
+  if (router) {
+    if (routerHasFunction(router, functionName)) {
+      router[functionName](req, res);
+    } else {
+      errorSender.sendInvalidEndpointRequested(req, res);
     }
-  }else{
-    errorSender.sendTestNotFound(req,res);
+  } else {
+    errorSender.sendTestNotFound(req, res);
   }
-}
+};
 
-const routerHasFunction = function routerHasFunction(router, functionToCheck){
+const routerHasFunction = function routerHasFunction(router, functionToCheck) {
   return typeof router[functionToCheck] !== "undefined";
 };
 
