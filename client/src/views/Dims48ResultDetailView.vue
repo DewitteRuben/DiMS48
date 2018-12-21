@@ -91,7 +91,7 @@
       <v-layout mt-3 justify-end>
         <h3 v-if="downloading">Downloaden..</h3>
         <v-btn color="success" @click="downloadTestResults('excel')">Download resultaten in Excel</v-btn>
-        <v-btn color="success" @click="downloadTestResults('pdf')">Download PDF</v-btn>
+        <v-btn color="success" @click="downloadTestResults('pdf')">Download resultaten in PDF</v-btn>
       </v-layout>
       <v-dialog v-model="clientInfoDialog" persistent max-width="600px">
         <v-card>
