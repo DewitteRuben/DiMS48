@@ -12,15 +12,14 @@
         name="upload"
         label="Geen bestand geselecteerd"
       ></v-text-field>
-      <UploadButton
-        title="Selecteer een file"
-        :fileChangedCallback="fileChanged"
-        accept="application/pdf"
-      >
+      <UploadButton title :fileChangedCallback="fileChanged" accept="application/pdf">
         <template slot="icon">
           <v-icon color="white">add</v-icon>
         </template>
       </UploadButton>
+    </v-layout>
+    <v-layout column>
+      <v-btn @click="uploadPdf" color="success">Uploaden</v-btn>
     </v-layout>
   </v-form>
 </template>
@@ -44,12 +43,15 @@ export default {
     UploadButton
   },
   methods: {
-    fileChanged(file) {
+    fileChanged: function(file) {
       this.uploadFile = file;
       this.uploadText = file.name;
       // handle file here. File will be an object.
       // If multiple prop is true, it will return an object array of files.
-      console.log(this.uploadFile);
+    },
+    uploadPdf: function() {
+      if (this.uploadFile) {
+      }
     }
   }
 };
