@@ -4,7 +4,7 @@
 -[Front-End](#front-end) <br/>
 -[Backend](#backend) <br/>
 -[Scripts](#scripts) <br/>
--[Toevoeging nieuwe test](#toevoegen-van-een-test)
+-[Toevoeging nieuwe test](#toevoegen-van-een-test) <br/>
 [Documentatie Gebruik](#documentatie-gebruik) <br/>
 -[Testleiders](#documentatie-testleiders) <br/>
 -[Admins](#documentatie-admins) <br/>
