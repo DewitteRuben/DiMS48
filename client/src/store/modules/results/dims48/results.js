@@ -1,8 +1,22 @@
-function removeSeconds(timestamp) {
+function removeSeconds(timestamp, removeTime) {
   const date = new Date(timestamp);
   date.setMilliseconds(0);
   date.setSeconds(0);
+  if (removeTime) {
+    date.setHours(0);
+    date.setMinutes(0);
+  }
   return date.getTime();
+}
+
+function hasTimeData(timestamp) {
+  const date = new Date(timestamp);
+  const sum =
+    date.getHours() +
+    date.getMinutes() +
+    date.getSeconds() +
+    date.getMilliseconds();
+  return sum > 0;
 }
 
 function compareValues(operator, testValue, inputValue, type) {
@@ -11,8 +25,9 @@ function compareValues(operator, testValue, inputValue, type) {
     inputValue = inputValue.toLowerCase();
   }
   if (type === Date) {
-    testValue = removeSeconds(testValue);
-    inputValue = removeSeconds(inputValue);
+    const removeTime = !hasTimeData(inputValue);
+    testValue = removeSeconds(testValue, removeTime);
+    inputValue = removeSeconds(inputValue, removeTime);
   }
   if (type === Boolean) {
     operator = "=";

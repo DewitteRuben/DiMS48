@@ -117,7 +117,7 @@ function calcuateTimeInMsFromString(dateString, timeString) {
   let date = new Date(dateString);
   date.setHours(0);
   const dateInMs = date.getTime();
-  const timeInMs = timeStringToMilliseconds(timeString);
+  const timeInMs = timeString ? timeStringToMilliseconds(timeString) : 0;
   return dateInMs + timeInMs;
 }
 
