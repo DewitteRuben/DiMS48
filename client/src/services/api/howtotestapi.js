@@ -27,6 +27,9 @@ export const getNormValues = name => processReq(`/test/${name}/normValues`);
 export const normValuesExist = name =>
   processReq(`/test/${name}/normValuesExist`);
 
+export const uploadNormPdf = file =>
+  processReq("/upload/dims48", file, "POST", {}, true);
+
 async function processReq(
   url,
   dataObj = {},
@@ -34,7 +37,8 @@ async function processReq(
   headers = {
     Accept: "application/json",
     "Content-Type": "application/json"
-  }
+  },
+  file = false
 ) {
   const conf = {
     method: method,
@@ -43,7 +47,7 @@ async function processReq(
     cache: "no-cache"
   };
   if (method.toUpperCase() !== "GET") {
-    conf.body = JSON.stringify(dataObj);
+    conf.body = file ? dataObj : JSON.stringify(dataObj);
     conf.headers = headers;
   }
 
