@@ -12,6 +12,8 @@
   "seconds" : "seconds",
   "report": "report",
   "noAnswerGiven": "Test subject did not answer",
+  "totalTime": "Total time for phase",
+  "secondes": "seconds",
   "answerTypes": {
     "clientAnswer": "client answer",
     "correctAnswer": "correct answer"

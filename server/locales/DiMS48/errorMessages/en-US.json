@@ -16,7 +16,8 @@
         "couldNotSaveResult": "Could not save that result",
         "couldNotAppendResult": "Could not append that result",
         "updatedDocument": "Document successfully updated",
-        "cloudNotUpdate": "Could not update the result "
+        "cloudNotUpdate": "Could not update the result ",
+        "couldNotAppend": "Could not append result"
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Could not generate PDF",
@@ -25,6 +26,7 @@
     "dues": {
         "internalServerError": " due to an internal server error",
         "invalidIdSupplied": " due to an invalid id that was supplied",
-        "invalidValueSuppliedFor": " due to the invalid id supplied for "
+        "invalidValueSuppliedFor": " due to the invalid id supplied for ",
+        "answersPhase3AlreadyPresent": " because the results for phase 3 are already present on that test"
     }
 }

@@ -14,14 +14,18 @@ describe('Score Calculator', () => {
     });
 
     describe('Phase 1', () => {
-        it('should return a number', () => {
-            scoreCalculator.calculateScorePhase1([]).should.be.a('number');
+        it('should return an object', () => {
+            scoreCalculator.calculateScorePhase1([]).should.be.an('object');
+        });
+
+        it('should return a number as score', () => {
+            scoreCalculator.calculateScorePhase1([]).score.should.be.a('number');
         });
 
         it('should return 0 if no correct answers were given', () => {
             const exampleAnswersPhase1 = [];
 
-            const calculatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersPhase1);
+            const calculatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersPhase1).score;
             const expectedScore = 0;
             calculatedScore.should.equal(expectedScore);
         });
@@ -40,7 +44,7 @@ describe('Score Calculator', () => {
                 exampleAnswersAllCorrect.push(exampleAnswer);
             }
 
-            const calcuatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersAllCorrect);
+            const calcuatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersAllCorrect).score;
             const expectedScore = 50;
 
             calcuatedScore.should.equal(expectedScore);
@@ -61,7 +65,7 @@ describe('Score Calculator', () => {
                 exampleAnswersAllCorrect.push(exampleAnswer);
             }
 
-            const calculatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersAllCorrect);
+            const calculatedScore = scoreCalculator.calculateScorePhase1(exampleAnswersAllCorrect).score;
             const expectedScore = 100;
 
             calculatedScore.should.equal(expectedScore);
@@ -73,14 +77,13 @@ describe('Score Calculator', () => {
             scoreCalculator.calculateScorePhase2([]).should.be.an('object');
         });
 
-        it('should return an object with 3 properties (abstractScore, groupedScore, uniqueScore)', () => {
-            const emptyScore = scoreCalculator.calculateScorePhase2([]);
-
+        it('should return an object with 3 properties (abstractScore, groupedScore, uniqueScore) as scores', () => {
+            const emptyScore = scoreCalculator.calculateScorePhase2([]).scores;
             emptyScore.should.have.all.keys('abstractScore', 'groupedScore', 'uniqueScore');
         });
 
         it('should return 0 for all if not answers are given', () => {
-            const emptyScore = scoreCalculator.calculateScorePhase2([]);
+            const emptyScore = scoreCalculator.calculateScorePhase2([]).scores;
 
             emptyScore.groupedScore.should.be.equal(0);
             emptyScore.uniqueScore.should.be.equal(0);
@@ -90,16 +93,16 @@ describe('Score Calculator', () => {
         it('should return 100 for abstract if all abstract were correct', () => {
             const abstractAllCorrectArray = createCorrectAnswerArrayPhase2(imageConstants.SET_KINDS.Abstract);
 
-            const calulatedScore = scoreCalculator.calculateScorePhase2(abstractAllCorrectArray).abstractScore;
+            const calculatedScore = scoreCalculator.calculateScorePhase2(abstractAllCorrectArray).scores.abstractScore;
             const expectedScore = 100;
 
-            calulatedScore.should.be.equal(expectedScore);
+            calculatedScore.should.be.equal(expectedScore);
         });
 
         it('should return 100 for unique if all unique were correct', () => {
             const uniqueAllCorrectArray = createCorrectAnswerArrayPhase2(imageConstants.SET_KINDS.Unique);
 
-            const calculatedScore = scoreCalculator.calculateScorePhase2(uniqueAllCorrectArray).uniqueScore;
+            const calculatedScore = scoreCalculator.calculateScorePhase2(uniqueAllCorrectArray).scores.uniqueScore;
             const expectedScore = 100;
 
             calculatedScore.should.be.equal(expectedScore);
@@ -108,7 +111,7 @@ describe('Score Calculator', () => {
         it('should return 100 for grouped if all grouped correct', () => {
             const groupedAllCorrectArray = createCorrectAnswerArrayPhase2(imageConstants.SET_KINDS.Group);
 
-            const calculatedScore = scoreCalculator.calculateScorePhase2(groupedAllCorrectArray).groupedScore;
+            const calculatedScore = scoreCalculator.calculateScorePhase2(groupedAllCorrectArray).scores.groupedScore;
             const expectedScore = 100;
 
             calculatedScore.should.be.equal(expectedScore);

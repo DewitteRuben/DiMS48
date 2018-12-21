@@ -11,18 +11,26 @@ const DiMS48Controller = require("../../controllers/DiMS48Controller")(
 const TestController = require("../../controllers/TestController");
 
 const errorMessages = require("../../locales/DiMS48/errorMessages/nl-BE.json");
+
 const ErrorSender = require("../../util/messageSenders/errorSender");
 const errorSender = new ErrorSender(errorMessages);
+
 const InfoSender = require("../../util/messageSenders/infoSender");
 const infoSender = new InfoSender(errorMessages);
+
+const log4js = require('log4js');
+const errorLogger = log4js.getLogger('error');
 
 const updateConfig = function updateConfig(req, res) {
   const newConfig = req.body.newConfig;
 
-  // TODO refactor robin senpai pls
   TestController.updateConfig("DiMS48", newConfig)
     .then(data => {
-      return res.json({ status: "ok", code: 200 });
+      infoSender.sendDocumentUpdated(
+        req,
+        res,
+        errorMessages.results.updatedDocument
+      );
     })
     .catch(err => {
       errorSender.sendInternalServerError(
@@ -37,6 +45,7 @@ const getInitial = function getInitial(req, res) {
   getBeginObject("begin")
     .then(data => res.json(data))
     .catch(err => {
+      errorLogger.error("getInitial threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -49,6 +58,7 @@ const getPart2 = function getPart2(req, res) {
   getBeginObject("part2")
     .then(data => res.json(data))
     .catch(err => {
+      errorLogger.error("getPart2 threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -61,6 +71,7 @@ const getResults = function getResults(req, res) {
   DiMS48Controller.getResults()
     .then(results => res.json(results))
     .catch(err => {
+      errorLogger.error("getResults threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -82,6 +93,7 @@ const getResult = function getResult(req, res) {
           errorMessages.results.couldNotGetResult
         );
       } else {
+        errorLogger.error("getResult threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -109,6 +121,7 @@ const postResultPart1 = function postResultPart1(req, res) {
 
         errorSender.sendInvalidIdSuppliedWithoutDueDetail(req, res, message);
       } else {
+        errorLogger.error("postResultPart1 threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -141,10 +154,17 @@ const postResultPart2 = function postResultPart2(req, res) {
           req,
           res,
           errorMessages.results.cloudNotUpdate +
-            errorMessages.dues.invalidValueSuppliedFor +
-            invalidFieldValue
+          errorMessages.dues.invalidValueSuppliedFor +
+          invalidFieldValue
+        );
+      } else if (err.name === "AppendError") {
+        errorSender.sendInvalidValueSuppliedWithoutDueDetail(
+          req,
+          res,
+          errorMessages.results.couldNotAppend + errorMessages.dues.answersPhase3AlreadyPresent
         );
       } else {
+        errorLogger.error("postResultPart2 threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -166,6 +186,7 @@ const deleteResult = function deleteResult(req, res) {
       });
     })
     .catch(err => {
+      errorLogger.error("deleteResult threw", err);
       res.json({
         deleted: false,
         msg: "Kon resultaat niet verwijderen, probeer later opnieuw"
@@ -193,6 +214,7 @@ const getPdf = function getPdf(req, res) {
           errorMessages.fileGenerators.couldNotGeneratePDF
         );
       } else {
+        errorLogger.error("getPdf threw",err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -221,6 +243,7 @@ const getExcelAll = function getExcelAll(req, res) {
           errorMessages.fileGenerators.couldNotGenerateExcel
         );
       } else {
+        errorLogger.error("getExcelAll threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -257,6 +280,7 @@ const getExcel = function getExcel(req, res) {
             errorMessages.fileGenerators.couldNotGenerateExcel
           );
         } else {
+          errorLogger.error("getExcel threw", err);
           errorSender.sendInternalServerError(
             req,
             res,
@@ -311,10 +335,11 @@ const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
           req,
           res,
           errorMessages.results.cloudNotUpdate +
-            errorMessages.dues.invalidValueSuppliedFor +
-            invalidFieldValue
+          errorMessages.dues.invalidValueSuppliedFor +
+          invalidFieldValue
         );
       } else {
+        errorLogger.error("patchClientInfoOrNote threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -326,7 +351,7 @@ const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
 
 //Util Functions
 function getBeginObject(part) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const beginObject = {
       images: null,
       instructions: null,

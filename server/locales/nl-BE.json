@@ -12,6 +12,8 @@
   "seconds" : "seconden",
   "report": "rapport",
   "noAnswerGiven": "Cliënt heeft niet binnen de tijd geantwoord",
+  "totalTime": "Totale tijd voor fase",
+  "secondes": "seconden",
   "answerTypes": {
     "clientAnswer": "antwoord cliënt",
     "correctAnswer": "juist antwoord"
