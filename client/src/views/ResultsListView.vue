@@ -3,11 +3,11 @@
     <h1 class="text-xs-center">Testresultaten DiMS48</h1>
     <h2 class="text-xs-left mb-2">Voeg een filter toe</h2>
     <ResultsFeedFilterForm/>
-    <h2 class="text-xs-left">Resultaten</h2>
     <v-btn
       v-if="admin && hasItems"
       @click="downloadAllTestResults"
     >Download alle resultaten in Excel</v-btn>
+    <h2 class="text-xs-left">Resultaten</h2>
     <v-layout v-if="loaded" row wrap>
       <ResultListItem
         v-if="loaded"
