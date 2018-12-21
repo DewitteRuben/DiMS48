@@ -1,11 +1,13 @@
-#Inhoud
-[DiMS48](#dims48)
-[Documentatie Code](#documentatie-code)
--[Front-End](#front-end)
--[Backend](#backend)
-[Documentatie Gebruik](#documentatie-gebruik)
--[Testleiders](#documentatie-testleiders)
--[Admins](#documentatie-admins)
+#Inhoud <br/>
+[DiMS48](#dims48) <br/>
+[Documentatie Code](#documentatie-code) <br/>
+-[Front-End](#front-end) <br/>
+-[Backend](#backend) <br/>
+-[Scripts](#scripts) <br/>
+-[Toevoeging nieuwe test](#toevoegen-van-een-test) <br/>
+[Documentatie Gebruik](#documentatie-gebruik) <br/>
+-[Testleiders](#documentatie-testleiders) <br/>
+-[Admins](#documentatie-admins) <br/>
 
 # DiMS48
 
@@ -29,9 +31,11 @@ Interferentietaak: Hier dient de cliënt gedurende 3 minuten zo veel mogelijk wo
 ## Deel 2: herkenningsfase 
 Tijdens de herkenningsfase worden 48 paren van afbeeldingen aangeboden. Voor elk paar dient de cliënt aan te duiden welke afbeelding uit de verwerkingsfase hij herkent. Hier is geen tijdslimiet.
 ## Deel 3 is uitgestelde herkenningsfase (optioneel). 
-Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, daarom kan ze ook overgeslagen worden. 
-Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. U vindt dat nummer bij TESTRESULTATEN (links bovenaan) en door op de corresponderende test te klikken en dan het ID-nummer te selecteren, rechts te klikken en op 'kopiëren'te klikken. 
-Dan gaat u terug naar HOME (links bovenaan) en gaat u naar 'Uitgestelde herkennings fase en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en 'plakken' kiezen.
+Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, 
+daarom kan ze ook overgeslagen worden. Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. 
+Daarvoor gaat u naar TESTRESULTATEN (links bovenaan) en dan klikt u TOON TESTRESULTATEN bij de DiMS48. 
+Daar vindt u alle testen, kies de test van de client en klik op die test. 
+Selecteer dan het ID-nummer, klik er rechts op en klik op 'kopiëren'. Dan gaat u terug naar HOME (links bovenaan), START van DiMS48 en gaat u naar 'Uitgestelde herkennings fase' en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en kies 'plakken' vervolgens drukt u op START. 
  
 Op dit moment zijn er nog geen normen voor de DiMS48 beschikbaar. Op het einde van de test zal gevraagd worden of de data waarheidsgetrouw (dus van levensechte cliënten) zijn en dus kunnen gebruikt worden voor normenirgsonderzoek. Als u dat aanklikt zullen die opgenomen worden in de databank, aan de hand waarvan howtotest op termijn normen zal kunnen genereren. Voor het opvragen van de testresultaten dient u op het einde van de test linksboven op 'testresultaten' te klikken.
 
@@ -62,6 +66,9 @@ Er is 1 algemene router: [api.js](server/routes/api.js). Hier komen alle api req
 
 ## Seeders
 De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevindt zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data.
+
+# Scripts
+Voor documentatie over de scripts die de server starten, zie de map [/scripts](scripts)
 
 # Toevoegen van een test
 Demonstratie over hoe er een nieuwe test kan toegevoegd worden. Voor deze demo gebruiken we de DiMS48 als in te voegen test.
@@ -198,7 +205,7 @@ Onder ‘Start’ vind je <br/>
 ### Opties
 Als hoofdgebruiker krijg je toegang tot ‘Opties’ en kan je de instellingen voor komende testen aanpassen. Opgelet: de testen die al in het systeem staan worden niet aangepast. Dit kan eventueel belangrijk zijn om de normwaarden te bepalen!<br/>
 
-De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **blauwe link ‘Upload’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
+De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **groene knop ‘Uploaden’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
 
 
 Deze zaken zijn aanpasbaar: <br/>

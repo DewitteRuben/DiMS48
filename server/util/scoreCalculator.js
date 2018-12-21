@@ -66,6 +66,10 @@ const calculateScorePhase2 = function calculateScorePhase2(answers) {
     };
 };
 
+const calculateScorePhase3 = function calculateScorePhase3(answers) {
+    return calculateScorePhase2(answers);
+};
+
 const isCorrectOption = function isCorrectOption(chosenOption){
     return chosenOption === imageConstants.CORRECT_OPTION;
 };
@@ -73,4 +77,5 @@ const isCorrectOption = function isCorrectOption(chosenOption){
 module.exports = {
     calculateScorePhase1,
     calculateScorePhase2,
+    calculateScorePhase3
 };

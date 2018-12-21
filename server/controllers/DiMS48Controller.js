@@ -9,118 +9,45 @@ const excelGenerator = require("../util/fileGenerators/excelGenerator")
 const excelGeneratorAll = require("../util/fileGenerators/excelGeneratorAll")
   .makeExcel;
 
-const imageRepository = require("../data/initialDiMS48/images/initialImage.repository");
-const locals = require("../locales/nl-BE.json");
+const locales = require("../locales/nl-BE.json");
 
 const throwableErrors = require('../util/errors/errors');
 const invalidIdError = throwableErrors.invalidIdError;
 const resultAlreadyAppendedError = throwableErrors.resultAlreadyAppendedError;
 
-function makeGetter(model, whereClause, idNeeded, extraFields) {
-  return new Promise(function(resolve, reject) {
-    let fields = idNeeded
-      ? {
-          __v: 0
-        }
-      : {
-          __v: 0,
-          _id: 0
-        };
 
-    if (extraFields) {
-      Object.keys(extraFields).forEach(key => {
-        fields[key] = extraFields[key];
-      });
-    }
+const imageComparator = require('../util/comparators/imageComparators');
+const DiMS48ControllerUtils = require('../util/controller/DiMS48ControllerUtils');
 
-    let query = model.find(whereClause, fields).lean();
-
-    query.exec(function(err, data) {
-      if (err) reject(err);
-      resolve(data);
-    });
-  });
-}
-
-function getTests() {
+const getTests = function getTests() {
   return makeGetter(defaultModels.Test, null, true);
-}
-
-function getImages() {
-  return makeGetter(defaultModels.Image, null, true)
-  .then((images) => {
-    if(Array.isArray(images)){
-      return images.sort(compareImage);
-    }else{
-      return images;
-    }
-  });
-}
-
-const compareImage = function compareImage(img1, img2) {
-  const img1Id = parseInt(img1._id.substring(1));
-  const img2Id = parseInt(img2._id.substring(1));
-
-  if (img1Id < img2Id) {
-    return -1;
-  }
-  if (img1Id > img2Id) {
-    return 1;
-  }
-  return 0;
 };
 
-//TODO SUPPORT FOR PART3
-function getInstructions(part) {
-  let whereClause =
-    part === "begin"
-      ? {
-          $or: [
-            {
-              _id: "phase1"
-            },
-            {
-              _id: "interference"
-            },
-            {
-              _id: "phase2"
-            },
-            {
-              _id: "end"
-            }
-          ]
-        }
-      : {
-          _id: "phase3"
-        };
+const getImages = function getImages() {
+  return makeGetter(defaultModels.Image, null, true)
+    .then((images) => {
+      if (Array.isArray(images)) {
+        return images.sort(imageComparator.compareImage);
+      } else {
+        return images;
+      }
+    });
+};
+
+const getInstructions = function getInstructions() {
   return makeGetter(DiMS48Models.Instruction, null, true);
-}
+};
 
-function getOptions(part) {
-  let whereClause =
-    part === "begin"
-      ? {
-          $or: [
-            {
-              _id: "phase1"
-            },
-            {
-              _id: "phase2"
-            }
-          ]
-        }
-      : {
-          _id: "phase2"
-        };
+const getOptions = function getOptions() {
   return makeGetter(DiMS48Models.Option, null, true);
-}
+};
 
-function getResults() {
-  return new Promise(function(resolve, reject) {
+const getResults = function getResults() {
+  return new Promise(function (resolve, reject) {
     makeGetter(DiMS48Models.Result, null, true, {
-      "phase1.answers": 0,
-      "phase2.answers": 0
-    })
+        "phase1.answers": 0,
+        "phase2.answers": 0
+      })
       .then(results => {
         results.map(removeAnswersPhase3);
         results.map(convertGenderKeyToName);
@@ -131,30 +58,11 @@ function getResults() {
         reject(err);
       });
   });
-}
+};
 
-function addPhase3IsDone(result) {
-  result["done"] = result.phase3 !== null;
-  return result;
-}
-
-function removeAnswersPhase3(result) {
-  if (result.phase3 !== null) {
-    delete result.phase3.answers;
-  }
-
-  return result;
-}
-
-function convertGenderKeyToName(result) {
-  result.clientInfo.gender = genderKey2Name(result.clientInfo.gender);
-  return result;
-}
-
-function getResult(id) {
+const getResult = function getResult(id) {
   return makeGetter(
-    DiMS48Models.Result,
-    {
+    DiMS48Models.Result, {
       _id: id
     },
     true
@@ -176,9 +84,9 @@ function getResult(id) {
 
     return result;
   });
-}
+};
 
-function addResult(data) {
+const addResult = function addResult(data) {
   return new Promise((resolve, reject) => {
     data.timestamp = new Date();
 
@@ -193,7 +101,7 @@ function addResult(data) {
       totalTime: scorePhase1.totalTime
     };
 
-    let scoresPhase2 = scoreCalculator.calculateScorePhase2(data.phase2)
+    let scoresPhase2 = scoreCalculator.calculateScorePhase2(data.phase2);
     data["phase2"] = {
       scores: scoresPhase2.scores,
       answers: addCorrectAnswersPhase2(data.phase2),
@@ -212,11 +120,11 @@ function addResult(data) {
       }
     });
   });
-}
+};
 
-function appendResult(data) {
+const appendResult = function appendResult(data) {
   return new Promise((resolve, reject) => {
-    let scoresPhase3 = scoreCalculator.calculateScorePhase2(data.phase3);
+    let scoresPhase3 = scoreCalculator.calculateScorePhase3(data.phase3);
     data.phase3 = {
       scores: scoresPhase3.scores,
       answers: addCorrectAnswersPhase3(data.phase3),
@@ -224,79 +132,55 @@ function appendResult(data) {
     };
 
     getResult(data._id)
-    .then((result) => {
-      if(result.phase3 !== null){
-        reject(resultAlreadyAppendedError);
-      }else{
-           DiMS48Models.Result.findByIdAndUpdate(
-             data._id, {
-               phase3: data.phase3
-             },
-             (err, data) => {
-               if (err) {
-                 reject(err);
-               } else {
-                 resolve();
-               }
-             }
-           );
-      }
-    }).catch(err => {
-      reject(err);
-    });
+      .then((result) => {
+        if (result.phase3 !== null) {
+          reject(resultAlreadyAppendedError);
+        } else {
+          DiMS48Models.Result.findByIdAndUpdate(
+            data._id, {
+              phase3: data.phase3
+            },
+            (err, data) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve();
+              }
+            }
+          );
+        }
+      }).catch(err => {
+        reject(err);
+      });
   });
-}
+};
 
-function removeResult(id) {
-  return new Promise((s, f) => {
-    DiMS48Models.Result.find({ _id: id }).deleteOne(function(err) {
-      if (err) f(err);
-      s();
+const removeResult = function removeResult(id) {
+  return new Promise((resolve, reject) => {
+    DiMS48Models.Result.find({
+      _id: id
+    }).deleteOne(function (err) {
+      if (err) {
+        reject(err);
+      }else{
+        resolve();
+      }
     });
   });
-}
+};
 
 const getPDF = function getPDF(id) {
   return getResult(id).then(result => {
-    return pdfGenerator("DiMS48ReportTemplate", result, locals);
+    return pdfGenerator("DiMS48ReportTemplate", result, locales);
   });
 };
 
-const getExcel = function(id) {
+const getExcel = function (id) {
   return getResult(id).then(result => excelGenerator(result));
 };
 
-const getExcelAllResults = function() {
+const getExcelAllResults = function () {
   return getResults().then(results => excelGeneratorAll(results));
-};
-
-//TODO refactor!!!
-const addCorrectAnswersPhase1 = function addCorrectAnswersPhase1(
-  clientAnswers
-) {
-  clientAnswers.forEach(answerAndId => {
-    const answerIdIndex = parseInt(answerAndId._id.substring(1));
-    answerAndId.correctAnswer = imageRepository.getPhase1Label(answerIdIndex);
-  });
-
-  return clientAnswers;
-};
-
-const addCorrectAnswersPhase2 = function addCorrectAnswersPhase2(
-  clientAnswers
-) {
-  clientAnswers.forEach(answerAndId => {
-    const answerIdIndex = parseInt(answerAndId._id.substring(1));
-    answerAndId.correctAnswer = `A${answerIdIndex}`;
-  });
-
-  return clientAnswers;
-};
-
-const addCorrectAnswersPhase3 = function addCorrectAnswersPhase3(
-  clientAnswers
-) {
-  return addCorrectAnswersPhase2(clientAnswers);
 };
 
 const updateNote = function updateNote(testId, notes) {
@@ -356,9 +240,17 @@ const updateClientInfo = function updateClientInfo(testId, clientInfo) {
 };
 
 //TODO abstract to seperate file
-const genderKey2Name = function genderKey2Name(genderKey) {
-  return locals.clientInfo.genders[genderKey];
-};
+//Util Functions
+const makeGetter = DiMS48ControllerUtils.makeGetter;
+const addPhase3IsDone = DiMS48ControllerUtils.addPhase3IsDone;
+const removeAnswersPhase3 = DiMS48ControllerUtils.removeAnswersPhase3;
+
+const genderConvertor = require('../util/controller/genderConverter')(locales);
+const genderKey2Name = genderConvertor.genderKey2Name;
+const convertGenderKeyToName = genderConvertor.convertGenderKeyToName;
+const addCorrectAnswersPhase1 = DiMS48ControllerUtils.addCorrectAnswersPhase1;
+const addCorrectAnswersPhase2 = DiMS48ControllerUtils.addCorrectAnswersPhase2;
+const addCorrectAnswersPhase3 = DiMS48ControllerUtils.addCorrectAnswersPhase3;
 
 module.exports = (injectedDiMS48Models, injectedDefaultModels) => {
   DiMS48Models = injectedDiMS48Models;
