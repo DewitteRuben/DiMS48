@@ -18,7 +18,7 @@
             solo
             v-model="selectedOperator"
             :items="operations"
-            :disabled="truthFilter"
+            v-if="!truthFilter"
             item-text="symbol"
             label="Selecteer een operator"
           ></v-select>

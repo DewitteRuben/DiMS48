@@ -1,9 +1,9 @@
 <template>
   <v-container fluid fill-height class="dims48-background">
     <v-layout column>
-      <v-layout>
-        <v-btn color="success" @click="toggleFullscreen">Volledig scherm</v-btn>
-      </v-layout>
+      <div>
+        <v-btn class="Fullscreen-button" color="success" @click="toggleFullscreen">Volledig scherm</v-btn>
+      </div>
       <v-layout class="dims48-background" ref="fullscreen">
         <Dims48aTest v-if="isDims48a"/>
         <Dims48bTest v-else/>
@@ -130,5 +130,9 @@ export default {
 <style>
 .dims48-background {
   background-color: white;
+}
+
+.Fullscreen-button {
+  float: left;
 }
 </style>
