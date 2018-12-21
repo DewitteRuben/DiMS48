@@ -18,12 +18,15 @@ const makeMockModel = function makeMockModel(toReturn, err) {
                         }
                     };
                 },
+                deleteOne: function (toCall) {
+                    toCall(err);
+                }
             };
         },
-        findByIdAndUpdate: function(id, toReturn, toCall){
+        findByIdAndUpdate: function (id, toReturn, toCall) {
             toCall(err ? err : null, toReturn);
         },
-        findById : function(id, toCall){
+        findById: function (id, toCall) {
             toCall(err ? err : null, toReturn);
         },
         amountCalled: 0
@@ -81,6 +84,43 @@ describe('DiMS48Controller', () => {
                 const actual = mockModel.amountCalled;
 
                 expected.should.be.equal(actual);
+                done();
+            });
+    });
+
+    it('should sort images', (done) => {
+        const mockModel = makeMockModel([{
+                "_id": "A10"
+            },
+            {
+                "_id": "A1"
+            },
+            {
+                "_id": "B1"
+            },
+            {
+                "_id": "B3"
+            }
+        ]);
+
+        const MockDefaultModels = {
+            Image: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller({}, MockDefaultModels);
+
+        diMS48Controller.getImages()
+            .then((images) => {
+                const expected = [{
+                    _id: 'A1'
+                }, {
+                    _id: 'B1'
+                }, {
+                    _id: 'B3'
+                }, {
+                    _id: 'A10'
+                }];
+                JSON.stringify(images).should.equal(JSON.stringify(expected));
                 done();
             });
     });
@@ -330,6 +370,24 @@ describe('DiMS48Controller', () => {
             });
     });
 
+    it('should throw an error via promise if getResult doesn\'t find anything', (done) => {
+        const mockModel = makeMockModel([]);
+
+        const MockDiMS48Model = {
+            Result: mockModel
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.getResult(1)
+            .then(() => {
+                done('test failed, promise resolved');
+            })
+            .catch((err) => {
+                done();
+            });
+    });
+
     it('should be able to add a result', (done) => {
         const mockModel = makeMockCreate();
 
@@ -469,6 +527,66 @@ describe('DiMS48Controller', () => {
             });
     });
 
+    it('should reject the promise if appendResult tries to append where a result part 3 already exists', (done) => {
+        const mockModel = makeMockModel({
+            _id: 1,
+            phase3: []
+        });
+
+        const MockDiMS48Model = {
+            Result: mockModel,
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.appendResult({
+                _id: 1,
+                phase3: []
+            })
+            .then(() => {
+                throw "Test failed, should not resolved";
+            })
+            .catch((err) => {
+                done();
+            });
+    });
+
+    it('removeResult should return a promise', (done) => {
+        const mockModel = makeMockModel({});
+
+        const MockDiMS48Model = {
+            Result: mockModel,
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.removeResult()
+            .then(() => {
+                done();
+            }).catch(() => {
+                done();
+            });
+    });
+
+    it('removeResult should return fail using a promise', (done) => {
+        const givenError = "error";
+        const mockModel = makeMockModel({}, givenError);
+
+        const MockDiMS48Model = {
+            Result: mockModel,
+        };
+
+        const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
+
+        diMS48Controller.removeResult()
+            .then(() => {
+                throw "Test failed, promise was not rejected";
+            }).catch((receivedError) => {
+                receivedError.should.equal(givenError);
+                done();
+            });
+    });
+
     it('getPDF should return a promise', (done) => {
         const mockModel = makeMockModel([{
             "clientInfo": {
@@ -484,15 +602,15 @@ describe('DiMS48Controller', () => {
         const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
 
         diMS48Controller.getPDF(1)
-        .catch((err) => {
-            //Should throw error, correct parameters were not passed
-            done();
-        });
+            .catch((err) => {
+                //Should throw error, correct parameters were not passed
+                done();
+            });
     });
 
-    it('getExcel should return a promise',(done) => {
+    it('getExcel should return a promise', (done) => {
         const mockModel = makeMockModel([{
-            "_id":1,
+            "_id": 1,
             "clientInfo": {
                 "age": 10,
                 "gender": "m"
@@ -507,15 +625,15 @@ describe('DiMS48Controller', () => {
         const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
 
         diMS48Controller.getExcel(1)
-        .catch((err) => {
-            //Should throw error, correct parameters were not passed
-            done();
-        });
+            .catch((err) => {
+                //Should throw error, correct parameters were not passed
+                done();
+            });
     });
 
-    it('getExcelAllResults should return a promise',(done) => {
+    it('getExcelAllResults should return a promise', (done) => {
         const mockModel = makeMockModel([{
-            "_id":1,
+            "_id": 1,
             "clientInfo": {
                 "age": 10,
                 "gender": "m"
@@ -530,22 +648,22 @@ describe('DiMS48Controller', () => {
         const diMS48Controller = DiMS48Controller(MockDiMS48Model, {});
 
         diMS48Controller.getExcelAllResults()
-        .catch((err) => {
-            //Should throw error, correct parameters were not passed
-            done();
-        });
+            .catch((err) => {
+                //Should throw error, correct parameters were not passed
+                done();
+            });
     });
 
     it('should be able to update the note of a given test', (done) => {
         const mockModel = makeMockModel({
-            "_id":1,
+            "_id": 1,
             "clientInfo": {
                 "age": 10,
                 "gender": "m",
                 "notes": "testNote"
             },
             "phase3": null,
-            save: function(toCall){
+            save: function (toCall) {
                 toCall(null);
             },
         });
@@ -590,7 +708,7 @@ describe('DiMS48Controller', () => {
             "clientInfo": {
                 "notes": "someNote"
             },
-            save: function(toCall){
+            save: function (toCall) {
                 toCall("errorMessage");
             }
         });
@@ -633,11 +751,11 @@ describe('DiMS48Controller', () => {
         const origionalAge = 9;
 
         const mockModel = makeMockModel({
-            "_id":testId,
+            "_id": testId,
             "clientInfo": {
                 "age": origionalAge
             },
-            save: function(toCall) {
+            save: function (toCall) {
                 toCall();
             }
         });
@@ -653,7 +771,7 @@ describe('DiMS48Controller', () => {
         }).then(() => {
             diMS48Controller.getResult(testId).then((result) => {
                 const gottenAge = result.clientInfo.age;
-                
+
                 gottenAge.should.equal(updatedAge);
                 gottenAge.should.not.equal(origionalAge);
                 done();
@@ -665,13 +783,13 @@ describe('DiMS48Controller', () => {
         const testId = 1;
         const originalGender = "v";
         const updatedGender = "m";
-        
+
         const mockModel = makeMockModel({
             "_id": testId,
             "clientInfo": {
                 "gender": originalGender
             },
-            save: function(toCall) {
+            save: function (toCall) {
                 toCall();
             }
         });
@@ -705,7 +823,7 @@ describe('DiMS48Controller', () => {
             "clientInfo": {
                 "schooledTill": originalSchooledTill
             },
-            save: function(toCall) {
+            save: function (toCall) {
                 toCall();
             }
         });
@@ -739,7 +857,7 @@ describe('DiMS48Controller', () => {
             "clientInfo": {
                 "schooledFor": originalSchooledFor
             },
-            "save": function(toCall) {
+            "save": function (toCall) {
                 toCall();
             }
         });
@@ -755,7 +873,7 @@ describe('DiMS48Controller', () => {
         }).then(() => {
             diMS48Controller.getResult(testId).then((result) => {
                 const gottenSchooledFor = result.clientInfo.schooledFor;
-                
+
                 gottenSchooledFor.should.equal(updatedSchooledFor);
                 gottenSchooledFor.should.not.equal(originalSchooledFor);
                 done();
@@ -773,7 +891,7 @@ describe('DiMS48Controller', () => {
             "clientInfo": {
                 "notes": originalNotes
             },
-            "save": function(toCall){
+            "save": function (toCall) {
                 toCall();
             }
         });
@@ -789,7 +907,7 @@ describe('DiMS48Controller', () => {
         }).then(() => {
             diMS48Controller.getResult(testId).then((result) => {
                 const gottenNotes = result.clientInfo.notes;
-                
+
                 gottenNotes.should.equal(originalNotes);
                 gottenNotes.should.not.equal(updatedNote);
                 done();
@@ -819,7 +937,7 @@ describe('DiMS48Controller', () => {
             "clientInfo": {
                 "notes": "someNote"
             },
-            save: function(toCall){
+            save: function (toCall) {
                 toCall("errorMessage");
             }
         });
