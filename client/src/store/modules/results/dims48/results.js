@@ -14,6 +14,9 @@ function compareValues(operator, testValue, inputValue, type) {
     testValue = removeSeconds(testValue);
     inputValue = removeSeconds(inputValue);
   }
+  if (type === Boolean) {
+    operator = "=";
+  }
 
   let value = false;
   switch (operator) {

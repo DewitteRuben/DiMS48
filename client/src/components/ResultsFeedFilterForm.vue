@@ -18,19 +18,29 @@
             solo
             v-model="selectedOperator"
             :items="operations"
+            :disabled="truthFilter"
             item-text="symbol"
             label="Selecteer een operator"
           ></v-select>
         </v-flex>
         <v-flex xs12 md2>
           <v-text-field
-            v-if="!dateFilter"
+            v-if="!dateFilter && !truthFilter"
             v-model="inputValue"
             solo
             name="value"
             label="Vul een waarde in"
             id="value"
           ></v-text-field>
+          <v-select
+            solo
+            v-model="selectedTruth"
+            :items="truthItems"
+            item-text="name"
+            item-value="value"
+            v-if="truthFilter"
+            label="Selecteer een waarheid"
+          ></v-select>
           <v-menu
             v-if="dateFilter"
             ref="menu"
@@ -87,7 +97,7 @@
       <v-layout wrap>
         <v-chip close @input="removeFilter(index)" v-for="(filter, index) in filters" :key="index">
           {{filter.name}} {{filter.operator}}
-          {{filter.type === Date ? new Date(filter.value).toLocaleString("nl") : filter.value}}
+          {{filter.type === Date ? new Date(filter.value).toLocaleString("nl") : filter.value === true ? "Waar" : "Onwaar" }}
         </v-chip>
       </v-layout>
     </v-flex>
@@ -147,9 +157,21 @@ export default {
           property: "timestamp"
         }
       ],
+      truthItems: [
+        {
+          name: "Waar",
+          value: true
+        },
+        {
+          name: "Onwaar",
+          value: false
+        }
+      ],
       selectedFilter: "",
+      selectedTruth: "",
       selectedOperator: "",
       dateFilter: false,
+      truthFilter: false,
       inputValue: "",
       date: new Date().toISOString().substr(0, 10),
       menu: false,
@@ -159,34 +181,43 @@ export default {
   },
   methods: {
     addFilter: function() {
-      if (this.selectedFilter && this.selectedOperator && this.inputValue) {
-        const valueType = this.selectedFilter.type;
-        let input;
-        if (this.dateFilter) {
-          input = calcuateTimeInMsFromString(this.date, this.time);
-        } else {
-          input = this.inputValue.trim();
-        }
+      if (!this.isFilledIn()) return;
 
-        const isValid = this.isValidValue(valueType, input);
+      const valueType = this.selectedFilter.type;
+      let input = this.getInput();
+      const isValid = this.isValidValue(valueType, input);
 
-        if (isValid) {
-          const parsedValue = this.dateFilter ? input : valueType(input);
+      if (!isValid) return;
 
-          this.$store.commit("dimsResults/addFilter", {
-            ...this.selectedFilter,
-            operator: this.selectedOperator,
-            value: parsedValue
-          });
+      const parsedValue = this.dateFilter ? input : valueType(input);
+      const operator = this.selectedOperator;
 
-          this.clearForm();
-        } else {
-          console.log("invalid type");
-        }
-      }
+      this.$store.commit("dimsResults/addFilter", {
+        ...this.selectedFilter,
+        operator: operator,
+        value: parsedValue
+      });
+
+      this.clearForm();
+    },
+    getInput() {
+      if (this.dateFilter)
+        return calcuateTimeInMsFromString(this.date, this.time);
+      if (this.truthFilter) return this.selectedTruth;
+      return this.inputValue.trim();
     },
     removeFilter(id) {
       this.$store.commit("dimsResults/removeFilter", id);
+    },
+    isFilledIn: function() {
+      if (this.selectedFilter) {
+        if (this.selectedFilter.type === Boolean)
+          return this.selectedTruth !== null;
+        if (this.selectedFilter.type === Date)
+          return this.selectedOperator && this.date;
+        return this.selectedOperator && this.inputValue;
+      }
+      return false;
     },
     isValidValue: function(type, value) {
       if (type !== Number) return isNaN(parseInt(type(value)));
@@ -204,6 +235,7 @@ export default {
     },
     switchFilter: function() {
       this.dateFilter = this.selectedFilter.name === "Datum";
+      this.truthFilter = this.selectedFilter.name === "Is test voltooid";
     }
   },
   computed: {
@@ -212,8 +244,8 @@ export default {
     },
     operations: function() {
       let operations = [
-        { symbol: "=", supportedTypes: [Number, String, Date, Boolean] },
-        { symbol: "≠", supportedTypes: [Number, String, Date, Boolean] },
+        { symbol: "=", supportedTypes: [Number, String, Date] },
+        { symbol: "≠", supportedTypes: [Number, String, Date] },
         { symbol: "Bevat", supportedTypes: [String] },
         { symbol: ">", supportedTypes: [Number, Date] },
         { symbol: "<", supportedTypes: [Number, Date] },

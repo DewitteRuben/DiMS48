@@ -88,7 +88,7 @@ export default {
     },
     baseUrl: () => {
       if (process.env.NODE_ENV === "production") return "";
-      return "http://howtotest.howest.be";
+      return "http://localhost:3000";
     },
     currentPhase: function() {
       return this.$store.state.dimsManager.currentPhase;
