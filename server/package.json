@@ -5,8 +5,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development & node ./bin/www",
     "start-production": "cross-env NODE_ENV=production & node ./bin/www",
-    "test": "cross-env NODE_ENV=test & mocha \"./test/**/*.spec.js\" --exit",
-    "cover": "cross-env NODE_ENV=test & nyc --reporter=html npm test"
+    "test": "cross-env-shell NODE_ENV=test \"mocha './test/**/*.spec.js' --exit\"",
+    "cover": "cross-env-shell NODE_ENV=test \"nyc --reporter=html npm test\""
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
