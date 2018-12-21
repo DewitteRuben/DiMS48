@@ -54,12 +54,7 @@
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <a href="https://howtotest.be/" target="_blank">
-        <img
-          src="/images/logo/logo.png"
-          class="App-Logo align-center"
-          alt="logo"
-          title="logo"
-        >
+        <img :src="imageUrl" class="App-Logo align-center" alt="logo" title="logo">
       </a>
     </v-toolbar>
     <router-view></router-view>
@@ -68,27 +63,39 @@
 
 <script>
 import * as howtotestapi from "@/services/api/howtotestapi";
+import { BASE_URL } from "./services/constants";
+
 export default {
   data: () => ({
+    baseUrl: BASE_URL,
     drawer: null,
     admin: false
   }),
   computed: {
-    loggedIn() {return this.$store.getters["user/isLoggedIn"];}
+    loggedIn() {
+      return this.$store.getters["user/isLoggedIn"];
+    },
+    imageUrl: function() {
+      return this.baseUrl + "/images/logo/logo.png";
+    }
   },
   methods: {
-    checkUser: function(){
+    checkUser: function() {
       let self = this;
-      if(this.loggedIn){
-        howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
-          .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
+      if (this.loggedIn) {
+        howtotestapi
+          .isAdmin(self.$store.getters["user/getUser"].email)
+          .then(isAdmin => (self.admin = isAdmin.isAdmin))
+          .catch(err => console.log(err));
       }
     }
   },
-  mounted: function(){
+  mounted: function() {
     let self = this;
-    this.$root.$on('loggedIn', function(){
-      setTimeout(function(){self.checkUser()}, 100)
+    this.$root.$on("loggedIn", function() {
+      setTimeout(function() {
+        self.checkUser();
+      }, 100);
     });
   }
 };

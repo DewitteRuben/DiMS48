@@ -8,7 +8,7 @@
   >
     <h1 class="display-3 mb-3">Instructies</h1>
     <h2 class="display-2 mb-4">{{ currentInstruction.title }}</h2>
-    <v-layout pa-3 justify-center align-center class="headline InstructionForm-message">
+    <v-layout pa-3 justify-center align-center class="InstructionForm-message">
       <v-flex xs8 v-html="currentInstruction.message"></v-flex>
     </v-layout>
     <v-layout justify-center align-center>
@@ -44,6 +44,7 @@ export default {
 
 .InstructionForm-message {
   text-align: justify;
+  font-size: 1.6rem;
 }
 
 .InstructionForm-style {
