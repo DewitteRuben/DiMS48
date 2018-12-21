@@ -1,6 +1,6 @@
 var express = require("express");
-let fs = require('fs');
-let path = require('path');
+let fs = require("fs");
+let path = require("path");
 var router = express.Router();
 
 const UserController = require("../controllers/UserController");
@@ -189,36 +189,35 @@ router.post("/upload/:name", function(req, res) {
   });
 });
 
-router.post("/remove/:name", function(req,res){
+router.delete("/remove/:name", function(req, res) {
   let fileName = req.params.name;
   let filePath = path.join(__dirname, `../uploads/${fileName}`);
-  fs.access(filePath, err=>{
-    if(!err){
-      fs.unlink(filePath, function(err){
-        if(err){
+  fs.access(filePath, err => {
+    if (!err) {
+      fs.unlink(filePath, function(err) {
+        if (err) {
           console.log(err);
           return res.status(500).json({
             msg: "De file kon niet worden verwijderd",
             code: 500
-          })
-        }
-        else{
+          });
+        } else {
           res.json({
-            msg: 'De file werd succesvol verwijderd',
+            msg: "De file werd succesvol verwijderd",
             code: 200,
             status: "ok"
-          })
+          });
         }
       });
-    }else{
+    } else {
       console.log(err);
       return res.status(500).json({
         msg: "De file kon niet worden verwijderd",
         code: 500
-      })
+      });
     }
-  })
-})
+  });
+});
 
 const adminOnlyTestSpecificAction = function(req, res, functionName) {
   if (req.session.userId) {
