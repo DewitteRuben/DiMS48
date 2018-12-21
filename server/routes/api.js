@@ -191,19 +191,19 @@ router.post("/upload/:name", function(req, res) {
 
 router.delete("/remove/:name", function(req, res) {
   let fileName = req.params.name;
-  let filePath = path.join(__dirname, `../uploads/${fileName}`);
+  let filePath = path.join(__dirname, `../uploads/${fileName}.pdf`);
   fs.access(filePath, err => {
     if (!err) {
       fs.unlink(filePath, function(err) {
         if (err) {
           console.log(err);
           return res.status(500).json({
-            msg: "De file kon niet worden verwijderd",
+            msg: "De file kon niet worden verwijderd.",
             code: 500
           });
         } else {
           res.json({
-            msg: "De file werd succesvol verwijderd",
+            msg: "De file werd succesvol verwijderd.",
             code: 200,
             status: "ok"
           });

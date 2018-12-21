@@ -20,9 +20,11 @@
       <v-layout justify-center align-center fill-height>
         <v-flex xs12 md8 lg6>
           <FileUploadForm v-if="!normValues"/>
-          <h3 v-if="downloading">Downloaden...</h3>
-          <v-btn color="error">Verwijder huidige normwaarden</v-btn>
-          <v-btn color="success" @click="downloadNormValues">Download hudige normwaarden</v-btn>
+          <div v-else>
+            <h3 v-if="downloading">Downloaden...</h3>
+            <v-btn color="error" @click="deleteNormValues">Verwijder huidige normwaarden</v-btn>
+            <v-btn color="success" @click="downloadNormValues">Download hudige normwaarden</v-btn>
+          </div>
         </v-flex>
       </v-layout>
     </v-layout>
@@ -108,22 +110,38 @@ export default {
           this.downloading = false;
         });
     },
+    deleteNormValues: async function() {
+      howtotestapi
+        .deleteNormPdf()
+        .then(res => {
+          this.checkNormValues();
+          this.displayDialog(res.msg);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.downloading = false;
+        });
+    },
     updateValues: function(newConfig) {
       this.currentConfig = newConfig;
     },
     displayDialog: function(message) {
       this.dialogMessage = message;
       this.dialog = true;
+    },
+    checkNormValues: function() {
+      howtotestapi.normValuesExist("DiMS48").then(data => {
+        this.normValues = data.exists;
+      });
     }
   },
   mounted() {
     this.$root.$on("messageDialog", message => {
       this.displayDialog(message);
     });
-    howtotestapi.normValuesExist("DiMS48").then(data => {
-      console.log(data);
-      this.normValues = data.exists;
-    });
+    this.checkNormValues();
   }
 };
 </script>
