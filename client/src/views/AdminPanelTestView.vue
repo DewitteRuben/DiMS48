@@ -14,7 +14,7 @@
           </v-form>
         </v-flex>
       </v-layout>
-      <v-layout mt-5 justify-cente column>
+      <v-layout mt-5 justify-center column>
         <h2 class="mb-5">Normwaarden uploaden</h2>
         <FileUploadForm/>
       </v-layout>
