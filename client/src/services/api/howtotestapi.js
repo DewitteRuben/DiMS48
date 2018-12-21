@@ -19,6 +19,7 @@ export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
 export const downloadAllTestResults = test =>
   processBlob(`/results/${test}/excel/all`);
+export const downloadNormValues = () => processBlob("/test/DiMS48/normValues");
 export const removeResult = (test, id) =>
   processReq(`/results/${test}/${id}`, {}, "DELETE");
 export const updateClientInfo = (test, id, data) =>
