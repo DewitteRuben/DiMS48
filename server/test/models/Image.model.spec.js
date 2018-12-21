@@ -1,21 +1,15 @@
-const mongoose = require('mongoose');
 const chai = require('chai');
-const should = require('chai').should();
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const functionFactory = require('./util/functionFactory');
+const functionFactory = require('../testingUtils/functionFactory');
 const defaultModels = require('../../models/defaultModels');
-
-const databaseConnectionManager = require('../testingUtils/databaseConnectionManager');
-databaseConnectionManager.connectDatabase();
 
 describe('Image Model', () => {
     const Image = defaultModels.Image;
 
     beforeEach(functionFactory.createBeforeEach(Image));
     afterEach(functionFactory.createAfterEach(Image));
-    after(async () => {databaseConnectionManager.disconnectDatabase()});
 
     it("should exsist", () => {
         Image.should.not.be.undefined;
