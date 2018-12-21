@@ -19,7 +19,7 @@ const InfoSender = require("../../util/messageSenders/infoSender");
 const infoSender = new InfoSender(errorMessages);
 
 const log4js = require('log4js');
-const logger = log4js.getLogger();
+const errorLogger = log4js.getLogger('error');
 
 const updateConfig = function updateConfig(req, res) {
   const newConfig = req.body.newConfig;
@@ -45,7 +45,7 @@ const getInitial = function getInitial(req, res) {
   getBeginObject("begin")
     .then(data => res.json(data))
     .catch(err => {
-      logger.error("getInitial threw", err);
+      errorLogger.error("getInitial threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -58,7 +58,7 @@ const getPart2 = function getPart2(req, res) {
   getBeginObject("part2")
     .then(data => res.json(data))
     .catch(err => {
-      logger.error("getPart2 threw", err);
+      errorLogger.error("getPart2 threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -71,7 +71,7 @@ const getResults = function getResults(req, res) {
   DiMS48Controller.getResults()
     .then(results => res.json(results))
     .catch(err => {
-      logger.error("getResults threw", err);
+      errorLogger.error("getResults threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -93,7 +93,7 @@ const getResult = function getResult(req, res) {
           errorMessages.results.couldNotGetResult
         );
       } else {
-        logger.error("getResult threw", err);
+        errorLogger.error("getResult threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -121,7 +121,7 @@ const postResultPart1 = function postResultPart1(req, res) {
 
         errorSender.sendInvalidIdSuppliedWithoutDueDetail(req, res, message);
       } else {
-        logger.error("postResultPart1 threw", err);
+        errorLogger.error("postResultPart1 threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -164,7 +164,7 @@ const postResultPart2 = function postResultPart2(req, res) {
           errorMessages.results.couldNotAppend + errorMessages.dues.answersPhase3AlreadyPresent
         );
       } else {
-        logger.error("postResultPart2 threw", err);
+        errorLogger.error("postResultPart2 threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -186,7 +186,7 @@ const deleteResult = function deleteResult(req, res) {
       });
     })
     .catch(err => {
-      logger.error("deleteResult threw", err);
+      errorLogger.error("deleteResult threw", err);
       res.json({
         deleted: false,
         msg: "Kon resultaat niet verwijderen, probeer later opnieuw"
@@ -214,7 +214,7 @@ const getPdf = function getPdf(req, res) {
           errorMessages.fileGenerators.couldNotGeneratePDF
         );
       } else {
-        logger.error("getPdf threw",err);
+        errorLogger.error("getPdf threw",err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -243,7 +243,7 @@ const getExcelAll = function getExcelAll(req, res) {
           errorMessages.fileGenerators.couldNotGenerateExcel
         );
       } else {
-        logger.error("getExcelAll threw", err);
+        errorLogger.error("getExcelAll threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -280,7 +280,7 @@ const getExcel = function getExcel(req, res) {
             errorMessages.fileGenerators.couldNotGenerateExcel
           );
         } else {
-          logger.error("getExcel threw", err);
+          errorLogger.error("getExcel threw", err);
           errorSender.sendInternalServerError(
             req,
             res,
@@ -339,7 +339,7 @@ const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
           invalidFieldValue
         );
       } else {
-        logger.error("patchClientInfoOrNote threw", err);
+        errorLogger.error("patchClientInfoOrNote threw", err);
         errorSender.sendInternalServerError(
           req,
           res,

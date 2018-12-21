@@ -27,7 +27,7 @@ seeder.checkAndSeedAll();
 
 app.use(function(req, res, next) {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  infoLogger.log(ip.toString(), "requested", req.path, "using", req.method);
+  infoLogger.info(ip.toString(), "requested", req.path, "using", req.method);
   next();
 });
 
@@ -52,7 +52,6 @@ app.use('/images', express.static(path.join(__dirname, '/images')));
 app.use(fileupload());
 
 app.use('/api', apiRouter);
-
 
 //if (isProduction) {
 app.use(express.static('./build'));

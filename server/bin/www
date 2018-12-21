@@ -50,6 +50,11 @@ function normalizePort(val) {
 }
 
 /**
+ * Log server events
+ */
+const logGetter = require('log4js');
+
+/**
  * Event listener for HTTP server "error" event.
  */
 
@@ -58,18 +63,22 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      const EACCESMessage = bind + ' requires elevated privileges';
+      console.error(EACCESMessage);
+      logGetter.getLogger('error').error(EACCESMessage);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      const EADDRINUSEMessage = bind + ' is already in use';
+      console.error(EADDRINUSEMessage);
+      logGetter.getLogger('error').error(EADDRINUSEMessage);
       process.exit(1);
       break;
     default:
@@ -83,9 +92,10 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
   debug('Listening on ' + bind);
   console.log('Listening on ' + bind);
+  logGetter.getLogger('info').info("Server started on", bind);
 }
