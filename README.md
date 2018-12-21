@@ -1,11 +1,13 @@
 #Inhoud
-[DiMS48](#dims48)
-[Documentatie Code](#documentatie-code)
--[Front-End](#front-end)
--[Backend](#backend)
-[Documentatie Gebruik](#documentatie-gebruik)
--[Testleiders](#documentatie-testleiders)
--[Admins](#documentatie-admins)
+[DiMS48](#dims48) <br/>
+[Documentatie Code](#documentatie-code) <br/>
+-[Front-End](#front-end) <br/>
+-[Backend](#backend) <br/>
+-[Scripts](#scripts) <br/>
+-[Toevoeging nieuwe test](#toevoegen-van-een-test)
+[Documentatie Gebruik](#documentatie-gebruik) <br/>
+-[Testleiders](#documentatie-testleiders) <br/>
+-[Admins](#documentatie-admins) <br/>
 
 # DiMS48
 
@@ -64,6 +66,9 @@ Er is 1 algemene router: [api.js](server/routes/api.js). Hier komen alle api req
 
 ## Seeders
 De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevindt zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data.
+
+# Scripts
+Voor documentatie over de scripts die de server starten, zie de map [/scripts](scripts)
 
 # Toevoegen van een test
 Demonstratie over hoe er een nieuwe test kan toegevoegd worden. Voor deze demo gebruiken we de DiMS48 als in te voegen test.
