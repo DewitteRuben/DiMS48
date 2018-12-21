@@ -1,0 +1,3 @@
+#!/bin/bash
+email=$1
+python /var/howtotest/DiMS48/scripts/mongo/makeAdmin.py $email

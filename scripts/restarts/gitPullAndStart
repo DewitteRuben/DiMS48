@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo systemctl stop howtotest.service
+cd /var/howtotest/DiMS48
+sudo git pull
+cd /var/howtotest
+/var/howtotest/DiMS48/scripts/restarts/rebuildClientAndStartServer
