@@ -79,7 +79,7 @@
           <v-btn @click="addFilter" color="success">Toevoegen</v-btn>
         </v-flex>
         <v-flex xs4 md2 xl1>
-          <v-btn @click="clearFilters" color="error">Leegmaken</v-btn>
+          <v-btn @click="clearFilters" color="error">Filters Wissen</v-btn>
         </v-flex>
       </v-layout>
     </v-form>
