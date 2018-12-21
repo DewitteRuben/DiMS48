@@ -4,7 +4,10 @@
     <h2 class="text-xs-left mb-2">Voeg een filter toe</h2>
     <ResultsFeedFilterForm/>
     <h2 class="text-xs-left">Resultaten</h2>
-    <v-btn v-if="admin" @click="downloadAllTestResults">Download alle resultaten in Excel</v-btn>
+    <v-btn
+      v-if="admin && hasItems"
+      @click="downloadAllTestResults"
+    >Download alle resultaten in Excel</v-btn>
     <v-layout v-if="loaded" row wrap>
       <ResultListItem
         v-if="loaded"
@@ -72,17 +75,18 @@ export default {
           this.loaded = true;
         });
     },
-    downloadAllTestResults: async function(){
+    downloadAllTestResults: async function() {
       HowToTestApi.downloadAllTestResults("dims48")
-        .then(blob=>{
-          download(blob, "dims48-alle-resultaten")
-        }).catch(err=>console.log(err));
+        .then(blob => {
+          download(blob, "dims48-alle-resultaten");
+        })
+        .catch(err => console.log(err));
     }
   },
   created() {
     this.getTestResults();
   },
-  mounted: function(){
+  mounted: function() {
     let self = this;
     if (this.loggedIn) {
       HowToTestApi.isAdmin(self.$store.getters["user/getUser"].email)
