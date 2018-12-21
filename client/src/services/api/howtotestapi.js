@@ -17,16 +17,25 @@ export const getTestResultsById = (test, id) =>
   processReq(`/results/${test}/${id}`);
 export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
-export const downloadAllTestResults = (test) =>
+export const downloadAllTestResults = test =>
   processBlob(`/results/${test}/excel/all`);
-export const removeResult = (test, id) => processReq(`/results/${test}/${id}`, {}, "DELETE");
+export const removeResult = (test, id) =>
+  processReq(`/results/${test}/${id}`, {}, "DELETE");
 export const updateClientInfo = (test, id, data) =>
   processReq(`/results/${test}/${id}`, data, "PATCH");
 export const getNormValues = name => processReq(`/test/${name}/normValues`);
 export const normValuesExist = name =>
   processReq(`/test/${name}/normValuesExist`);
 
-async function processReq(url, dataObj = {}, method = "GET") {
+async function processReq(
+  url,
+  dataObj = {},
+  method = "GET",
+  headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  }
+) {
   const conf = {
     method: method,
     credentials: "include",
@@ -35,10 +44,7 @@ async function processReq(url, dataObj = {}, method = "GET") {
   };
   if (method.toUpperCase() !== "GET") {
     conf.body = JSON.stringify(dataObj);
-    conf.headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    };
+    conf.headers = headers;
   }
 
   // TODO handle proper response from server
