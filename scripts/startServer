@@ -1,0 +1,4 @@
+#!/bin/bash
+export PORT=80
+cd /var/howtotest/DiMS48/server
+npm run start-production

@@ -1,8 +1,4 @@
 <template>
-  <!-- <form enctype="multipart/form-data" :action="action" method="post">
-    <input type="file" name="toUpload" accept="application/pdf">
-    <v-btn color="primary" type="submit">Upload</v-btn>
-  </form>-->
   <v-form>
     <v-layout xs12 sm8 lg6>
       <v-text-field
@@ -26,6 +22,7 @@
 
 <script>
 import UploadButton from "vuetify-upload-button";
+import * as HowToTestApi from "@/services/api/howtotestapi";
 
 export default {
   data() {
@@ -34,23 +31,31 @@ export default {
       uploadText: ""
     };
   },
-  computed: {
-    action() {
-      return `/api/upload/dims48`;
-    }
-  },
   components: {
     UploadButton
   },
   methods: {
     fileChanged: function(file) {
       this.uploadFile = file;
-      this.uploadText = file.name;
-      // handle file here. File will be an object.
-      // If multiple prop is true, it will return an object array of files.
+      this.uploadText = file ? file.name : "";
+    },
+    displayDialog: function(message) {
+      this.$root.$emit("messageDialog", message);
     },
     uploadPdf: function() {
       if (this.uploadFile) {
+        const formData = new FormData();
+        formData.append("uploadedFile", this.uploadFile);
+        HowToTestApi.uploadNormPdf(formData)
+          .then(e => {
+            this.displayDialog(e.msg);
+          })
+          .catch(e => {
+            this.displayDialog(e.msg);
+          })
+          .finally(() => {
+            this.uploadText = "";
+          });
       }
     }
   }

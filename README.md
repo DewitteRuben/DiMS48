@@ -1,49 +1,74 @@
-#Inhoud
-[DiMS48](#dims48)
-[Documentatie Code](#documentatie-code)
--[Front-End](#front-end)
--[Backend](#backend)
-[Documentatie Gebruik](#documentatie-gebruik)
--[Testleiders](#documentatie-testleiders)
--[Admins](#documentatie-admins)
+#Inhoud <br/>
+[DiMS48](#dims48) <br/>
+[Documentatie Code](#documentatie-code) <br/>
+-[Front-End](#front-end) <br/>
+-[Backend](#backend) <br/>
+-[Scripts](#scripts) <br/>
+-[Toevoeging nieuwe test](#toevoegen-van-een-test) <br/>
+[Documentatie Gebruik](#documentatie-gebruik) <br/>
+-[Testleiders](#documentatie-testleiders) <br/>
+-[Admins](#documentatie-admins) <br/>
 
 # DiMS48
 
-De DIMS48 test bestaat uit drie delen. Deel 1 bestaat uit 48 afbeeldingen. Sommige bestaan uit 3 of minder kleuren, andere uit meer dan 3 kleuren. De proefpersoon dient voor elke afbeelding telkens zo snel mogelijk te bepalen of de tekening uit 3 of minder kleuren bestaat, of uit meer dan 3 kleuren.
+De DiMS48 is een gedigitaliseerde test van de DMS48 test (Barbeau et al., 2004). Het is een visuele geheugentest 
+en bedoeld om impliciet leren te meten.
 
-Na het eerste deel komt een interferentietaak. Tijdens die taak wordt de proefpersoon gevraagd om gedurende drie minuten zo veel mogelijk woorden op te noemen die beginnen met de letter ‘P’. Deze taak dient enkel als afleiding, een registratie ervan is dus niet vereist.
+Een korte Engelse versie van de instructies en normen van de oorspronkelijke DMS48 vind je hier: downloaden
 
-Het tweede deel bestaat uit een reeks van 48 paren van afbeeldingen. Nu dient de proefpersoon aan te geven welke van de beide afbeeldingen hij in het eerste deel van de taak heeft gezien, de linkse of de rechtse. Hier is geen tijdslimiet.
+De DiMS 48 test bestaat uit 3 delen en een interferentietaak:
 
-Deel 3 is een herhaling van deel 2 na een ongedefinieerde tussentijd. Dit deel van de test dient om het lange termijngeheugen te testen van de proefpersoon.
+## Deel 1: verwerkingsfase. 
+Hierin worden 48 afbeeldingen één voor één aangeboden. Sommige bestaan uit 2 of minder kleuren, andere uit 3 of meer kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of ze uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren.
+
+- Voor '2 of minder' kleuren dient de cliënt zo snel mogelijk op de corresponderende linkerknop te klikken of via het toetsenbord de op de ingestelde Linker pijl toets te drukken.
+
+- Voor '3 of meer kleuren' dient de cliënt zo snel mogelijk op de corresponderende rechterknop te klikken of via het toetsenbord op de ingestelde Rechter pijl toets te drukken.
+
+- In de test is het grijze instructiescherm bedoeld voor de testleider en het witte instructiescherm voor de cliënt.
+Interferentietaak: Hier dient de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding; een registratie ervan is dus niet vereist.
+
+## Deel 2: herkenningsfase 
+Tijdens de herkenningsfase worden 48 paren van afbeeldingen aangeboden. Voor elk paar dient de cliënt aan te duiden welke afbeelding uit de verwerkingsfase hij herkent. Hier is geen tijdslimiet.
+## Deel 3 is uitgestelde herkenningsfase (optioneel). 
+Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, 
+daarom kan ze ook overgeslagen worden. Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. 
+Daarvoor gaat u naar TESTRESULTATEN (links bovenaan) en dan klikt u TOON TESTRESULTATEN bij de DiMS48. 
+Daar vindt u alle testen, kies de test van de client en klik op die test. 
+Selecteer dan het ID-nummer, klik er rechts op en klik op 'kopiëren'. Dan gaat u terug naar HOME (links bovenaan), START van DiMS48 en gaat u naar 'Uitgestelde herkennings fase' en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en kies 'plakken' vervolgens drukt u op START. 
+ 
+Op dit moment zijn er nog geen normen voor de DiMS48 beschikbaar. Op het einde van de test zal gevraagd worden of de data waarheidsgetrouw (dus van levensechte cliënten) zijn en dus kunnen gebruikt worden voor normenirgsonderzoek. Als u dat aanklikt zullen die opgenomen worden in de databank, aan de hand waarvan howtotest op termijn normen zal kunnen genereren. Voor het opvragen van de testresultaten dient u op het einde van de test linksboven op 'testresultaten' te klikken.
 
 # Documentatie Code
 De website is een 1 page application geschreven met Vue.js. De inhoud word opgehaald via API calls naar een Node.js server.
 
 ## Front-End
 ### HTML
-Vue.js gebruikt Views en components om de website op te bouwen. Een view bestaat uit verschillende componenten. Deze zijn terug te vinden in de map [/components](client/src/components) en [/views](client/src/views). In deze mappen bevind zich dus alle HTML in de vorm van templates.
+Vue.js gebruikt Views en components om de website op te bouwen. Een view bestaat uit verschillende componenten. Deze zijn terug te vinden in de map [/components](client/src/components) en [/views](client/src/views). In deze mappen bevinden zich dus alle HTML in de vorm van templates.
 ### Javascript
-De Javascript voor elke pagina is te vinden in de bijhorende component of view. De scope is dus telkens beperkt tot die component of view. Data kan meegegeven worden aan de hand van properties op een child-component of via events.
+Javascript voor elke pagina is te vinden in de bijhorende component of view. De scope is dus telkens beperkt tot die component of view. Data kan meegegeven worden aan de hand van properties op een child-component of via events.
 ### Vuex
-Vue.js heeft haar eigen data store. Hier bevind zich alle data van die sessie. Hier wordt bijvoorbeeld de configuratie voor de DiMS48 test opgeslagen. De vuex store is te vinden in de map [/store](client/src/store). In deze map is de data verdeeld in modules. Deze modules zijn te vinden in de map [/modules](client/src/store/modules) en worden in één vuex store gevormd door het bestand [store.js](client/src/store/store.js). De webapplicatie mag niet rechtsreek contact hebben met de data in de vuex store. De data in de vuex store kan opgevraagd worden aan de hand van getters (this.$store.getters["moduleNaam/getterNaam"]). Vanuit de webapplicatie kunnen er actions opgeroepen worden om de data in de vuex store aan te passen (this.$store.dispatch("moduleNaam/actionNaam")). Deze acties zullen dan in de module mutations gebruiken om de data effectief aan te passen.
+Vue.js heeft haar eigen data store. Hier bevindt zich alle data van die sessie. Hier wordt bijvoorbeeld de configuratie voor de DiMS48 test opgeslagen. De vuex store is te vinden in de map [/store](client/src/store). In deze map is de data verdeeld in modules. Deze modules zijn te vinden in de map [/modules](client/src/store/modules) en worden in één vuex store gevormd door het bestand [store.js](client/src/store/store.js). De webapplicatie mag niet rechtsreek contact hebben met de data in de vuex store. De data in de vuex store kan opgevraagd worden aan de hand van getters (this.$store.getters["moduleNaam/getterNaam"]). Vanuit de webapplicatie kunnen er actions opgeroepen worden om de data in de vuex store aan te passen (this.$store.dispatch("moduleNaam/actionNaam")). Deze acties zullen dan in de module mutations gebruiken om de data effectief aan te passen.
 ### API
-Voor de data op te halen die de web applicatie nodig heeft om de testen te tonen, uit te voeren... Maakt de webapplicatie gebruik van [howtotestapi.js](client/src/services/api/howtotestapi.js). Dit bestand exporteert verschillende functies die de requests versturen en hun resultaat ontvangen.
+Om de data op te halen die de web applicatie nodig heeft om de testen te tonen, uit te voeren,... Maakt de webapplicatie gebruik van [howtotestapi.js](client/src/services/api/howtotestapi.js). Dit bestand exporteert verschillende functies die de requests versturen en hun resultaat ontvangen.
 ## Backend
 ### Database
-De Node.js server verbind met verschillende mongodb databanken. Eén databank per test die afgelegd kan worden en één algemene databank. De algemene databank houd bij welke testen er beschikbaar zijn, de beschrijving en hun configuratie. De database per test bevat specifieke data voor die test. Voor de verbinding met de databanken, maken we gebruik van [mongoose](https://github.com/Automattic/mongoose).
+De Node.js server verbind met verschillende mongodb databanken. Eén databank per test die afgelegd kan worden en één algemene databank. De algemene databank houdt bij welke testen er beschikbaar zijn, de beschrijving en hun configuratie. De database per test bevat specifieke data voor die test. Voor de verbinding met de databanken, maken we gebruik van [mongoose](https://github.com/Automattic/mongoose).
 
 #### Models
-Per test zijn er specifieke models, deze gebruikt mongoose voor de CRUD acties. Deze models bevinden zich in de map [/models](server/models) en verder verdeeld volgens hun functie. Bij toevoeging van een test, worden de test specifieke models hier toegevoegd.
+Per test zijn er specifieke models, deze gebruiken mongoose voor de CRUD acties. Deze models bevinden zich in de map [/models](server/models) en verder verdeeld volgens hun functie. Bij toevoeging van een test, worden de test specifieke models hier toegevoegd.
 
 ### Controllers
-De controllers zijn de verbinding tussen de database en de routers. Deze staan in de map [/controllers](server/controllers) De routers gebruiken methodes in de controllers om de data te manipuleren. Bij toevoeging van een test, word er een Controller toegevoegd.
+De controllers zijn de verbinding tussen de database en de routers. Deze staan in de map [/controllers](server/controllers). De routers gebruiken methodes in de controllers om de data te manipuleren. Bij toevoeging van een test, wordt er een Controller toegevoegd.
 
 ## Routers
-Er is 1 algemene router: [api.js](server/routes/api.js). Hier komen alle api requests binnen en worden eventueel doorgestuurd naar de juiste router voor een bepaalde test. De routers die deze requests kunnen afhandelen bevinden zich in de map [/routes/tests](server/routes/tests). Bij toevoeging van een test, word er in die map een Router toegevoegd.
+Er is 1 algemene router: [api.js](server/routes/api.js). Hier komen alle api requests binnen en worden eventueel doorgestuurd naar de juiste router voor een bepaalde test. De routers die deze requests kunnen afhandelen bevinden zich in de map [/routes/tests](server/routes/tests). Bij toevoeging van een test, wordt er in die map een Router toegevoegd.
 
 ## Seeders
-De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevint zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data.
+De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevindt zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data.
+
+# Scripts
+Voor documentatie over de scripts die de server starten, zie de map [/scripts](scripts)
 
 # Toevoegen van een test
 Demonstratie over hoe er een nieuwe test kan toegevoegd worden. Voor deze demo gebruiken we de DiMS48 als in te voegen test.
@@ -52,7 +77,7 @@ Demonstratie over hoe er een nieuwe test kan toegevoegd worden. Voor deze demo g
 Maak in de map [models](server/models) een nieuwe map: DiMS48Models. Maak de nodige models aan die specifiek zijn voor de test. Duid per model aan welke database connectie dit model moet gebruiken. Gebruik de naming convention: X.server.model.js: [*results.server.model.js*](server/models/DiMS48Models/results.server.model.js). Maak een Javascript file waar je de Schema's en models exporteert: [*DiMS48Models.js*](server/models/DiMS48Models.js).
 
 ### Controller
-Maak een nieuwe Javascript file in de map [controllers](server/controllers) en noem deze naar de nieuwe test: [*DiMS48Controller*](server/controllers/DiMS48Controller.js). Maak hier alle functies die data opvragen en/of veranderen in de database. Exporteer alle nodige functies.
+Maak een nieuwe Javascript file in de map [controllers](server/controllers) en hernoem deze naar de nieuwe test: [*DiMS48Controller*](server/controllers/DiMS48Controller.js). Maak hier alle functies die data opvragen en/of veranderen in de database. Exporteer alle nodige functies.
 
 ### Router
 Maak een nieuwe Javascript file in de map [routes/test](server/routes/test) en noem deze naar de nieuwe test: [*DiMS48Router*](server/routes/test/DiMS48Router.js). Maak hier alle functies die te maken hebben met de API calls die met de nieuwe test te maken hebben. De volgende functies moeten ten minste aangemaakt worden:
@@ -76,7 +101,7 @@ Maak een nieuwe Javascript file in de map [routes/test](server/routes/test) en n
   <dd>Voegt de nieuwe waarden in voor de ingevulde velden</dd>
 
   <dt>deleteREsult()</dt>
-  <dd>Verwijderd een resultaat (enkel voor admins)</dd>
+  <dd>Verwijdert een resultaat (enkel voor admins)</dd>
 </dl>
 De volgende functies kunnen aangemaakt worden indien gewenst:
 <dl>
@@ -110,7 +135,7 @@ Maak de benodigde views aan in de map [/views](client/src/views) en de benodigde
 Schrijf bij elke view en component de benodigde functies om de specifieke view of component zijn functie uit te laten voeren. Probeer hier altijd zo modulair mogelijk te werken en elke component zijn eigen en enige functie toe te wijzen.
 
 ### Vuex
-Maak ik de map [/store/modules/test](client/src/store/modules/test) een nieuwe map en noem deze naam de nieuwe test: [dims48](client/src/store/modules/test/dims48). Maak hier de nodige modules aan. Importeer daarna de aangemaakte modules in de [store.js](client/src/store/store.js) en exporteer de nieuwe modules in de Vuex store. Nu zijn de getters en de actions beschikbaar in de hele web applicatie.
+Maak ik de map [/store/modules/test](client/src/store/modules/test) een nieuwe map en deze nieuwe test de naam: [dims48](client/src/store/modules/test/dims48). Maak hier de nodige modules aan. Importeer daarna de aangemaakte modules in de [store.js](client/src/store/store.js) en exporteer de nieuwe modules in de Vuex store. Nu zijn de getters en de actions beschikbaar in de hele web applicatie.
 
 ### API
 Indien er verbinding moet gemaakt worden met de Node.js server, wordt er een nieuwe functie geëxporteerd in de file [howtotestapi.js](client/src/services/api/howtotestapi.js). Om een nieuwe GET request toe te voegen, exporteer een functie ```javascript export const newGETrequest = (someParameter) => processReq(`/url/to/somewhere/${someParameter}`) ```
@@ -120,7 +145,7 @@ Om een file te ontvangen, exporteer een nieuwe functie ```javascript export cons
 ## Documentatie Testleiders
 ### Home
 De test DiMS48 staat hier, in de toekomst kunnen er hier dus meerdere testen staan.
-Onder ‘Details’ vind je <br/>
+Onder ‘Start’ vind je <br/>
 -De pdf waarop de test is gebaseerd (die de testleiders zelf ook kunnen downloaden) <br/>
 -De startknop voor de eerste fase (deel 1, interferentietaak en deel 2) van de test<br/>
 -De startknop voor de tweede fase (deel 3) van de test<br/>
@@ -141,7 +166,7 @@ Onder ‘Details’ vind je <br/>
 ##### Fase 1 interferentie taak tussen deel 1 en deel 2:
 -Na deel 1 volgen er opnieuw instructies voor de testleider. <br/>
 -Dan start de interferentie taak. Je klikt op start om de timer te starten en zolang de tijd loopt kan je niet naar het volgende deel, namelijk deel 2. <br/>
--Na de interferentie taak, krijgen de testleider en testnemer opnieuw beiden instructies.<br/>
+-Na de interferentie taak, krijgen de testleider en testnemer opnieuw instructies.<br/>
 -Wanneer er op volgende geklikt wordt bij de instructies van de testnemer, dan start deel 2 van de test.<br/>
 
 #### Fase 2 Uitgestelde herkenningsfase
@@ -180,7 +205,7 @@ Onder ‘Details’ vind je <br/>
 ### Opties
 Als hoofdgebruiker krijg je toegang tot ‘Opties’ en kan je de instellingen voor komende testen aanpassen. Opgelet: de testen die al in het systeem staan worden niet aangepast. Dit kan eventueel belangrijk zijn om de normwaarden te bepalen!<br/>
 
-De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **blauwe link ‘Upload’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
+De Normscores kunnen bij de ‘Opties’ geupload worden in de vorm van een pdf. Klik hiervoor op de knop ‘Bestand Kiezen’ en kies het pdf bestand. Om dit bestand te uploaden, klik op de **groene knop ‘Uploaden’**. Klikken op ‘Opslaan’ zal het bestand niet uploaden.<br/>
 
 
 Deze zaken zijn aanpasbaar: <br/>

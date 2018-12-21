@@ -1,0 +1,8 @@
+#!/bin/bash
+sudo systemctl stop howtotest
+cd /var/howtotest/DiMS48/client
+sudo npm run build
+cd ..
+rm -rf server/build/*
+mv client/dist/* server/build
+sudo systemctl start howtotest

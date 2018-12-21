@@ -1,0 +1,10 @@
+#!/bin/bash
+sudo systemctl stop howtotest
+cd /var/howtotest/DiMS48
+sudo git pull
+cd client
+sudo npm install --unsafe-perm
+cd ../server
+sudo npm install --unsafe-perm
+cd /var/howtotest
+sudo /var/howtotest/DiMS48/scripts/restarts/rebuildClientAndStartServer

@@ -19,6 +19,7 @@ export const downloadTestResults = (test, format, id) =>
   processBlob(`/results/${test}/${format}/${id}`);
 export const downloadAllTestResults = test =>
   processBlob(`/results/${test}/excel/all`);
+export const downloadNormValues = () => processBlob("/test/DiMS48/normValues");
 export const removeResult = (test, id) =>
   processReq(`/results/${test}/${id}`, {}, "DELETE");
 export const updateClientInfo = (test, id, data) =>
@@ -27,6 +28,9 @@ export const getNormValues = name => processReq(`/test/${name}/normValues`);
 export const normValuesExist = name =>
   processReq(`/test/${name}/normValuesExist`);
 
+export const uploadNormPdf = file =>
+  processReq("/upload/dims48", file, "POST", {}, true);
+
 async function processReq(
   url,
   dataObj = {},
@@ -34,7 +38,8 @@ async function processReq(
   headers = {
     Accept: "application/json",
     "Content-Type": "application/json"
-  }
+  },
+  file = false
 ) {
   const conf = {
     method: method,
@@ -43,7 +48,7 @@ async function processReq(
     cache: "no-cache"
   };
   if (method.toUpperCase() !== "GET") {
-    conf.body = JSON.stringify(dataObj);
+    conf.body = file ? dataObj : JSON.stringify(dataObj);
     conf.headers = headers;
   }
 
