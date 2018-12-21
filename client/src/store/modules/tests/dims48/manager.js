@@ -138,7 +138,6 @@ export default {
             root: true
           });
           state.loadedData = true;
-          console.log(state);
         })
         .catch(err => {
           console.error(err);

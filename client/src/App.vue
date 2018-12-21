@@ -79,7 +79,6 @@ export default {
   methods: {
     checkUser: function(){
       let self = this;
-      console.log(this.loggedIn);
       if(this.loggedIn){
         howtotestapi.isAdmin(self.$store.getters["user/getUser"].email)
           .then(isAdmin=>self.admin = isAdmin.isAdmin).catch(err=>console.log(err));
