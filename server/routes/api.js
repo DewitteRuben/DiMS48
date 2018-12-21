@@ -21,7 +21,7 @@ router.get("/categories", function(req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      sendInternalServerError(
+      errorSender.sendInternalServerError(
         req,
         res,
         errorMessages.categories.couldNotGetCategories
@@ -37,7 +37,7 @@ router.get("/detail/:name", function(req, res) {
       if (err.name && err.name === "notFound") {
         errorSender.sendTestNotFound(req, res);
       } else {
-        sendInternalServerError(
+        errorSender.sendInternalServerError(
           req,
           res,
           errorMessages.details.couldNotGetDetails
