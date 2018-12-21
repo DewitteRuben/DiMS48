@@ -214,7 +214,7 @@ const getPdf = function getPdf(req, res) {
           errorMessages.fileGenerators.couldNotGeneratePDF
         );
       } else {
-        errorLogger.error("getPdf threw",err);
+        errorLogger.error("getPdf threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -299,7 +299,7 @@ const getNormValuesExist = function getNormValuesExist(req, res) {
 
 const getNormValues = function getNormValues(req, res) {
   res.sendFile(path.join(__dirname + "/../../uploads/dims48.pdf"));
-}
+};
 
 const patchClientInfoOrNote = function patchClientInfoOrNote(req, res) {
   const notes = req.body.notes;
@@ -395,7 +395,7 @@ const getBeginObject = function getBeginObject(part) {
         reject(err);
       });
   });
-}
+};
 
 module.exports = {
   updateConfig,
