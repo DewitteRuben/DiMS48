@@ -20,7 +20,7 @@ import { BASE_TEST_ROUTE } from "../services/constants";
 
 export default {
   data() {
-    return { baseUrl: BASE_TEST_URL };
+    return { baseUrl: BASE_TEST_ROUTE };
   },
   computed: {
     testRoute: function() {
