@@ -6,6 +6,7 @@
     <v-btn
       v-if="admin && hasItems"
       @click="downloadAllTestResults"
+      color="primary"
     >Download alle resultaten in Excel</v-btn>
     <h2 class="text-xs-left">Resultaten</h2>
     <v-layout v-if="loaded" row wrap>
