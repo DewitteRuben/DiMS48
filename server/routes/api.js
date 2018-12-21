@@ -1,4 +1,6 @@
 var express = require("express");
+let fs = require('fs');
+let path = require('path');
 var router = express.Router();
 
 const UserController = require("../controllers/UserController");
@@ -185,6 +187,20 @@ router.post("/upload/:name", function(req, res) {
     });
   });
 });
+
+router.post("/remove/:name", function(req,res){
+  let fileName = req.params.name;
+  let filePath = path.join(__dirname, `../uploads/${fileName}`);
+  fs.acces(filePath, err=>{
+    if(!err){
+      fs.unlink(filePath, function(err){
+        console.log(err);
+      });
+    }else{
+      console.log(err);
+    }
+  })
+})
 
 const adminOnlyTestSpecificAction = function(req, res, functionName) {
   if (req.session.userId) {
