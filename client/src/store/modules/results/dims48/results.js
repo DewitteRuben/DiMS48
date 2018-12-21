@@ -10,13 +10,7 @@ function removeSeconds(timestamp, removeTime) {
 }
 
 function hasTimeData(timestamp) {
-  const date = new Date(timestamp);
-  const sum =
-    date.getHours() +
-    date.getMinutes() +
-    date.getSeconds() +
-    date.getMilliseconds();
-  return sum > 0;
+  return new Date(timestamp).getTime() % 100000 !== 0;
 }
 
 function compareValues(operator, testValue, inputValue, type) {
@@ -28,6 +22,7 @@ function compareValues(operator, testValue, inputValue, type) {
     const removeTime = !hasTimeData(inputValue);
     testValue = removeSeconds(testValue, removeTime);
     inputValue = removeSeconds(inputValue, removeTime);
+    console.log(inputValue);
   }
   if (type === Boolean) {
     operator = "=";
