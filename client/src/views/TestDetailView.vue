@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import detail from "@/data/details.json";
 import * as howToTestApi from "@/services/api/howtotestapi";
 import PhaseListItem from "@/components/PhaseListItem.vue";
 import TestDetail from "@/components/TestDetail.vue";
@@ -39,7 +38,7 @@ export default {
       .then(data => {
         self.$store.dispatch("dims48Config/initialize", data.config[0].config);
       })
-      .then(()=>{
+      .then(() => {
         this.getDetails();
       })
       .catch(err => console.log(err));
@@ -62,12 +61,20 @@ export default {
       howToTestApi
         .getTestDetails(category)
         .then(details => {
-          details[0].description = details[0].description.replace('<interferenceDuration>',
-              self.$store.getters["dims48Config/getInterferenceDurationHumanReadable"]);
-          details[0].description = details[0].description.replace('<leftBtnKey>',
-              self.$store.getters["dims48Config/getLeftBtnKey"]);
-          details[0].description = details[0].description.replace('<rightBtnKey>',
-              self.$store.getters["dims48Config/getRightBtnKey"]);
+          details[0].description = details[0].description.replace(
+            "<interferenceDuration>",
+            self.$store.getters[
+              "dims48Config/getInterferenceDurationHumanReadable"
+            ]
+          );
+          details[0].description = details[0].description.replace(
+            "<leftBtnKey>",
+            self.$store.getters["dims48Config/getLeftBtnKey"]
+          );
+          details[0].description = details[0].description.replace(
+            "<rightBtnKey>",
+            self.$store.getters["dims48Config/getRightBtnKey"]
+          );
           this.details = details;
         })
         .catch(e => console.log(e))

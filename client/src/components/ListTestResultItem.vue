@@ -15,8 +15,6 @@
 
 
 <script>
-import config from "@/data/config.json";
-
 export default {
   data() {
     return { config };
@@ -27,12 +25,7 @@ export default {
     duration: { type: Number },
     description: { type: String },
     route: { type: String },
-    btnText: { type: String },
-  },
-  computed: {
-    testRoute: function() {
-      return "testresults/" + this.route;
-    }
+    btnText: { type: String }
   }
 };
 </script>
