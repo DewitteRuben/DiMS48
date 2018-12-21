@@ -273,7 +273,7 @@ function writeAnswers(worksheet, answers, isPhase2, beginColumn){
 }
 
 function getCorrectAnswerPhase2(index){
-  return `A${index};`
+  return `A${index}`
 }
 
 function writeResultsPhase2(worksheet, answers, isPart2){
