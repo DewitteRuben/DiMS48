@@ -17,12 +17,7 @@
 
 
 <script>
-import config from "@/data/config.json";
-
 export default {
-  data() {
-    return { config };
-  },
   props: {
     title: { type: String },
     baseRoute: { type: String },
