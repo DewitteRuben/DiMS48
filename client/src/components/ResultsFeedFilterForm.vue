@@ -97,7 +97,7 @@
       <v-layout wrap>
         <v-chip close @input="removeFilter(index)" v-for="(filter, index) in filters" :key="index">
           {{filter.name}} {{filter.operator}}
-          {{filter.type === Date ? new Date(filter.value).toLocaleString("nl") : filter.value === true ? "Waar" : "Onwaar" }}
+          {{renderValue(filter.value, filter.type)}}
         </v-chip>
       </v-layout>
     </v-flex>
@@ -199,6 +199,16 @@ export default {
       });
 
       this.clearForm();
+    },
+    renderValue(value, type) {
+      switch (type) {
+        case Date:
+          return new Date(value).toLocaleString("nl");
+        case Boolean:
+          return value ? "Waar" : "Onwaar";
+        default:
+          return value;
+      }
     },
     getInput() {
       if (this.dateFilter)
