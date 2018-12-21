@@ -1,6 +1,6 @@
 <template>
-  <v-form>
-    <v-layout xs12 sm8 lg6>
+  <v-layout justify-center>
+    <v-form>
       <v-text-field
         v-model="uploadText"
         solo
@@ -13,11 +13,11 @@
           <v-icon color="white">add</v-icon>
         </template>
       </UploadButton>
-    </v-layout>
-    <v-layout column>
-      <v-btn @click="uploadPdf" color="success">Uploaden</v-btn>
-    </v-layout>
-  </v-form>
+      <v-layout column>
+        <v-btn @click="uploadPdf" color="success">Uploaden</v-btn>
+      </v-layout>
+    </v-form>
+  </v-layout>
 </template>
 
 <script>
