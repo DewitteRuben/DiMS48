@@ -15,7 +15,8 @@ Een korte Engelse versie van de instructies en normen van de oorspronkelijke DMS
 
 De DiMS 48 test bestaat uit 3 delen en een interferentietaak:
 
-    Deel 1: verwerkingsfase. Hierin worden 48 afbeeldingen één voor één aangeboden. Sommige bestaan uit 2 of minder kleuren, andere uit 3 of meer kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of ze uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren.
+Deel 1: verwerkingsfase. 
+Hierin worden 48 afbeeldingen één voor één aangeboden. Sommige bestaan uit 2 of minder kleuren, andere uit 3 of meer kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of ze uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren.
     - Voor '2 of minder' kleuren dient de cliënt zo snel mogelijk op de corresponderende linkerknop te klikken of via het toetsenbord de op de ingestelde Linker pijl toets te drukken.
     - Voor '3 of meer kleuren' dient de cliënt zo snel mogelijk op de corresponderende rechterknop te klikken of via het toetsenbord op de ingestelde Rechter pijl toets te drukken.
     - In de test is het grijze instructiescherm bedoeld voor de testleider en het witte instructiescherm voor de cliënt.
