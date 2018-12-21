@@ -19,7 +19,7 @@
       </v-layout>
       <v-layout justify-center align-center fill-height>
         <v-flex xs12 md8 lg6>
-          <FileUploadForm v-if="!normValues"/>
+          <FileUploadForm v-on:uploadedPdf="() => normValues = true" v-if="!normValues"/>
           <div v-else>
             <h3 v-if="downloading">Downloaden...</h3>
             <v-btn color="error" @click="deleteNormValues">Verwijder huidige normwaarden</v-btn>

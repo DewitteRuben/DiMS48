@@ -49,6 +49,7 @@ export default {
         HowToTestApi.uploadNormPdf(formData)
           .then(e => {
             this.displayDialog(e.msg);
+            this.$emit("uploadedPdf");
           })
           .catch(e => {
             this.displayDialog(e.msg);
