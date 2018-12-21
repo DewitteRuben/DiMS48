@@ -40,6 +40,11 @@ import { mapGetters } from "vuex";
 import { BASE_URL } from "../services/constants";
 
 export default {
+  data() {
+    return {
+      BASE_URL
+    };
+  },
   mounted() {
     window.addEventListener("keyup", e => {
       if (this.hasStarted) {
