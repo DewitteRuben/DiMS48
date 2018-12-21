@@ -18,8 +18,8 @@
       <v-layout mt-5 column>
         <h2 class="mb-5">Normwaarden uploaden</h2>
       </v-layout>
-      <v-layout justify-center>
-        <v-flex xs12 md8 lg6 wrap>
+      <v-layout justify-center align-center fill-height>
+        <v-flex xs12 md8 lg6>
           <FileUploadForm/>
         </v-flex>
       </v-layout>
