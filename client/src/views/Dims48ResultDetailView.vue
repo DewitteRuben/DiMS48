@@ -61,8 +61,8 @@
           <h3>Score</h3>
           <p class="subheading">{{result.phase1.score.toFixed(2)}}%</p>
           <h3>Normscores</h3>
-          <v-btn v-if="normValues" color="success">Download normwaarden</v-btn>
-          <p v-if="!normValues">{{normValuesText}}</p>
+          <v-btn v-if="normValues" @click="downloadNormValues" color="success">Download normscores</v-btn>
+          <p v-else>{{normValuesText}}</p>
         </v-flex>
         <v-flex sm4 xs12>
           <h2>Resultaten Fase 2</h2>
@@ -219,6 +219,19 @@ export default {
         })
         .finally(() => {
           this.loaded = true;
+        });
+    },
+    downloadNormValues: async function() {
+      this.downloading = true;
+      HowToTestApi.downloadNormValues()
+        .then(blob => {
+          download(blob, `DiMS48-normwaarden`);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.downloading = false;
         });
     },
     downloadTestResults: async function(format) {
