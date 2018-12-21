@@ -91,6 +91,11 @@ export default {
       this.dialogMessage = message;
       this.dialog = true;
     }
+  },
+  mounted() {
+    this.$root.$on("messageDialog", message => {
+      this.displayDialog(message);
+    });
   }
 };
 </script>

@@ -39,13 +39,23 @@ export default {
       this.uploadFile = file;
       this.uploadText = file ? file.name : "";
     },
+    displayDialog: function(message) {
+      this.$root.$emit("messageDialog", message);
+    },
     uploadPdf: function() {
       if (this.uploadFile) {
         const formData = new FormData();
         formData.append("uploadedFile", this.uploadFile);
         HowToTestApi.uploadNormPdf(formData)
-          .then(e => console.log(e))
-          .catch(e => console.error(e));
+          .then(e => {
+            this.displayDialog(e.msg);
+          })
+          .catch(e => {
+            this.displayDialog(e.msg);
+          })
+          .finally(() => {
+            this.uploadText = "";
+          });
       }
     }
   }
