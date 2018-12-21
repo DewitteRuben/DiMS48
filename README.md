@@ -29,9 +29,11 @@ Interferentietaak: Hier dient de cliënt gedurende 3 minuten zo veel mogelijk wo
 ## Deel 2: herkenningsfase 
 Tijdens de herkenningsfase worden 48 paren van afbeeldingen aangeboden. Voor elk paar dient de cliënt aan te duiden welke afbeelding uit de verwerkingsfase hij herkent. Hier is geen tijdslimiet.
 ## Deel 3 is uitgestelde herkenningsfase (optioneel). 
-Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, daarom kan ze ook overgeslagen worden. 
-Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. U vindt dat nummer bij TESTRESULTATEN (links bovenaan) en door op de corresponderende test te klikken en dan het ID-nummer te selecteren, rechts te klikken en op 'kopiëren'te klikken. 
-Dan gaat u terug naar HOME (links bovenaan) en gaat u naar 'Uitgestelde herkennings fase en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en 'plakken' kiezen.
+Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, 
+daarom kan ze ook overgeslagen worden. Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. 
+Daarvoor gaat u naar TESTRESULTATEN (links bovenaan) en dan klikt u TOON TESTRESULTATEN bij de DiMS48. 
+Daar vindt u alle testen, kies de test van de client en klik op die test. 
+Selecteer dan het ID-nummer, klik er rechts op en klik op 'kopiëren'. Dan gaat u terug naar HOME (links bovenaan), START van DiMS48 en gaat u naar 'Uitgestelde herkennings fase' en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en kies 'plakken' vervolgens drukt u op START. 
  
 Op dit moment zijn er nog geen normen voor de DiMS48 beschikbaar. Op het einde van de test zal gevraagd worden of de data waarheidsgetrouw (dus van levensechte cliënten) zijn en dus kunnen gebruikt worden voor normenirgsonderzoek. Als u dat aanklikt zullen die opgenomen worden in de databank, aan de hand waarvan howtotest op termijn normen zal kunnen genereren. Voor het opvragen van de testresultaten dient u op het einde van de test linksboven op 'testresultaten' te klikken.
 
