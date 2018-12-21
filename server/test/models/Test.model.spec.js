@@ -2,18 +2,14 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const functionFactory = require('./util/functionFactory');
+const functionFactory = require('../testingUtils/functionFactory');
 const defaultModels = require('../../models/defaultModels');
-
-const databaseConnectionManager = require('../testingUtils/databaseConnectionManager');
-databaseConnectionManager.connectDatabase();
 
 describe('Test Model', () => {
     const Test = defaultModels.Test;
 
     beforeEach(functionFactory.createBeforeEach(Test));
     afterEach(functionFactory.createAfterEach(Test));
-    after(async () => {databaseConnectionManager.disconnectDatabase()});
 
     it("should exsist", () => {
         Test.should.not.be.undefined;
