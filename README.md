@@ -9,21 +9,27 @@
 
 # DiMS48
 
-De DiMS48 is een gedigitaliseerde test van de DMS48 test (Barbeau et al., 2004). Het is een visuele geheugentest en bedoeld om impliciet leren te meten.
+De DiMS48 is een gedigitaliseerde test van de DMS48 test (Barbeau et al., 2004). Het is een visuele geheugentest 
+en bedoeld om impliciet leren te meten.
 
 Een korte Engelse versie van de instructies en normen van de oorspronkelijke DMS48 vind je hier: downloaden
 
 De DiMS 48 test bestaat uit 3 delen en een interferentietaak:
 
-Deel 1: verwerkingsfase. 
+## Deel 1: verwerkingsfase. 
 Hierin worden 48 afbeeldingen één voor één aangeboden. Sommige bestaan uit 2 of minder kleuren, andere uit 3 of meer kleuren. De cliënt dient voor elke afbeelding telkens zo snel mogelijk te bepalen of ze uit 2 of minder kleuren bestaat, of uit 3 of meer kleuren.
     - Voor '2 of minder' kleuren dient de cliënt zo snel mogelijk op de corresponderende linkerknop te klikken of via het toetsenbord de op de ingestelde Linker pijl toets te drukken.
     - Voor '3 of meer kleuren' dient de cliënt zo snel mogelijk op de corresponderende rechterknop te klikken of via het toetsenbord op de ingestelde Rechter pijl toets te drukken.
     - In de test is het grijze instructiescherm bedoeld voor de testleider en het witte instructiescherm voor de cliënt.
     Interferentietaak: Hier dient de cliënt gedurende 3 minuten zo veel mogelijk woorden te benoemen die beginnen met de letter 'P'. Deze taak dient enkel als afleiding; een registratie ervan is dus niet vereist.
-    Deel 2: herkenningsfase Tijdens de herkenningsfase worden 48 paren van afbeeldingen aangeboden. Voor elk paar dient de cliënt aan te duiden welke afbeelding uit de verwerkingsfase hij herkent. Hier is geen tijdslimiet.
-    Deel 3 is uitgestelde herkenningsfase (optioneel). Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, daarom kan ze ook overgeslagen worden. Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. U vindt dat nummer bij TESTRESULTATEN (links bovenaan) en door op de corresponderende test te klikken en dan het ID-nummer te selecteren, rechts te klikken en op 'kopiëren'te klikken. Dan gaat u terug naar HOME (links bovenaan) en gaat u naar 'Uitgestelde herkennings fase en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en 'plakken' kiezen.
-    Op dit moment zijn er nog geen normen voor de DiMS48 beschikbaar. Op het einde van de test zal gevraagd worden of de data waarheidsgetrouw (dus van levensechte cliënten) zijn en dus kunnen gebruikt worden voor normenirgsonderzoek. Als u dat aanklikt zullen die opgenomen worden in de databank, aan de hand waarvan howtotest op termijn normen zal kunnen genereren. Voor het opvragen van de testresultaten dient u op het einde van de test linksboven op 'testresultaten' te klikken.
+## Deel 2: herkenningsfase 
+Tijdens de herkenningsfase worden 48 paren van afbeeldingen aangeboden. Voor elk paar dient de cliënt aan te duiden welke afbeelding uit de verwerkingsfase hij herkent. Hier is geen tijdslimiet.
+## Deel 3 is uitgestelde herkenningsfase (optioneel). 
+Dit is een herhaling van deel 2 na een ongedefinieerde tussentijd. Het is niet noodzakelijk om deel 3 af te nemen, daarom kan ze ook overgeslagen worden. 
+Om deel 3 te starten dient u het 'ID-nummer van de testnemer' te kopiëren. U vindt dat nummer bij TESTRESULTATEN (links bovenaan) en door op de corresponderende test te klikken en dan het ID-nummer te selecteren, rechts te klikken en op 'kopiëren'te klikken. 
+Dan gaat u terug naar HOME (links bovenaan) en gaat u naar 'Uitgestelde herkennings fase en drukt u op start. Dan rechtsklikken op het veldje 'ID-nummer' en 'plakken' kiezen.
+ 
+Op dit moment zijn er nog geen normen voor de DiMS48 beschikbaar. Op het einde van de test zal gevraagd worden of de data waarheidsgetrouw (dus van levensechte cliënten) zijn en dus kunnen gebruikt worden voor normenirgsonderzoek. Als u dat aanklikt zullen die opgenomen worden in de databank, aan de hand waarvan howtotest op termijn normen zal kunnen genereren. Voor het opvragen van de testresultaten dient u op het einde van de test linksboven op 'testresultaten' te klikken.
 
 # Documentatie Code
 De website is een 1 page application geschreven met Vue.js. De inhoud word opgehaald via API calls naar een Node.js server.
