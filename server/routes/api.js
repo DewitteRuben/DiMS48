@@ -21,6 +21,7 @@ router.get("/categories", function(req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
+      errorLogger.error("Categories endpoint threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
