@@ -43,7 +43,6 @@
     },
     methods: {
       submit: function(action){
-        console.log(this.email, this.password, this.valid);
         let self = this;
         if(self.action === "login")
         howtotestapi.loginUser({email: self.email, password: self.password})

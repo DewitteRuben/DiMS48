@@ -40,7 +40,6 @@
           this.value = e.keyCode;
           this.showValue = e.key;
         }
-        console.log(this.value);
         this.$emit('update', {name: this.configurationName, value: this.value});
       }
     }

@@ -97,7 +97,6 @@ export default {
     howtotestapi
       .getDims48()
       .then(data => {
-        console.log(data);
         this.interferenceDuration = data.config[0].config[0].value;
         this.phase1SecondsPerImage = data.config[0].config[1].value;
         this.leftBtnKeyCode = data.config[0].config[2].value;
