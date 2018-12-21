@@ -260,7 +260,7 @@ function writeAnswers(worksheet, answers, isPhase2, beginColumn){
   worksheet.cell(beginRow, beginColumn+1).string(text.answer).style(styleHeading);
   worksheet.cell(beginRow, beginColumn+2).string(text.correctAnswer).style(styleHeading);
   if(isPhase2)worksheet.cell(beginRow, beginColumn+3).string(text.sort).style(styleHeading);
-  let getCorrectAnswer = !isPhase2 ? ImageData.getPhase1Label : ImageData.getPhase2Label;
+  let getCorrectAnswer = !isPhase2 ? ImageData.getPhase1Label : getCorrectAnswerPhase2;
   let currentRow = beginRow+1;
   answers.forEach(answer=>{
     let index = parseInt(answer._id.substring(1));
@@ -270,6 +270,10 @@ function writeAnswers(worksheet, answers, isPhase2, beginColumn){
     if(isPhase2)worksheet.cell(currentRow, beginColumn+3).string(ImageData.getPhase2Label(index));
     currentRow++;
   })
+}
+
+function getCorrectAnswerPhase2(index){
+  return `A${index};`
 }
 
 function writeResultsPhase2(worksheet, answers, isPart2){
