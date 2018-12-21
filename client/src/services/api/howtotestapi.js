@@ -27,9 +27,9 @@ export const updateClientInfo = (test, id, data) =>
 export const getNormValues = name => processReq(`/test/${name}/normValues`);
 export const normValuesExist = name =>
   processReq(`/test/${name}/normValuesExist`);
-
 export const uploadNormPdf = file =>
   processReq("/upload/dims48", file, "POST", {}, true);
+export const deleteNormPdf = () => processReq("/remove/dims48", {}, "DELETE");
 
 async function processReq(
   url,

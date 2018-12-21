@@ -61,10 +61,10 @@ Per test zijn er specifieke models, deze gebruiken mongoose voor de CRUD acties.
 ### Controllers
 De controllers zijn de verbinding tussen de database en de routers. Deze staan in de map [/controllers](server/controllers). De routers gebruiken methodes in de controllers om de data te manipuleren. Bij toevoeging van een test, wordt er een Controller toegevoegd.
 
-## Routers
+### Routers
 Er is 1 algemene router: [api.js](server/routes/api.js). Hier komen alle api requests binnen en worden eventueel doorgestuurd naar de juiste router voor een bepaalde test. De routers die deze requests kunnen afhandelen bevinden zich in de map [/routes/tests](server/routes/tests). Bij toevoeging van een test, wordt er in die map een Router toegevoegd.
 
-## Seeders
+### Seeders
 De testen hebben bepaalde data nodig om te kunnen starten. De seeders zorgen dat deze data in de databanken zit. De seeders bevinden zich in de map [/seeders](server/seeders). De eigenlijke data die geseed wordt, bevindt zich in de map [/data/initial](server/data/initial) Bij toevoeging van een test, indien nodig, worden er seeders toegevoegd met hun bijhorende data.
 
 # Scripts
