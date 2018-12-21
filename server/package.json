@@ -5,8 +5,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development & node ./bin/www",
     "start-production": "cross-env NODE_ENV=production & node ./bin/www",
-    "test": "cross-env NODE_ENV=test & mocha \"./test/**/*.spec.js\" --exit",
-    "cover": "cross-env NODE_ENV=test & nyc --reporter=html npm test"
+    "test": "cross-env-shell NODE_ENV=test \"mocha './test/**/*.spec.js' --exit\"",
+    "cover": "cross-env NODE_ENV=test nyc --reporter=html npm test"
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
@@ -19,6 +19,7 @@
     "express-fileupload": "^1.0.0",
     "express-session": "^1.15.6",
     "fs-extra": "^7.0.1",
+    "log4js": "^3.0.6",
     "mongoose": "^5.3.9",
     "morgan": "~1.9.0",
     "path": "^0.12.7",

@@ -421,7 +421,9 @@ describe('DiMS48Controller', () => {
     });
 
     it('should calculate scores for phase 3 (appendResult)', (done) => {
-        const mockModel = makeMockModel({});
+        const mockModel = makeMockModel({
+            "phase3": null
+        });
 
         const MockDiMS48Model = {
             Result: mockModel,
@@ -439,7 +441,7 @@ describe('DiMS48Controller', () => {
                 done();
             })
             .catch((err) => {
-                throw "not supposed to throw error";
+                done(err);
             });
     });
 

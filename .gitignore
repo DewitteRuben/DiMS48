@@ -13,3 +13,5 @@ server/result\.xlsx
 server/\.jshintrc
 
 server/\.vscode/
+
+server/logs/

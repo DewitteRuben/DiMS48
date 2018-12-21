@@ -16,7 +16,8 @@
         "couldNotSaveResult": "Kon resultaat niet opslaan",
         "couldNotAppendResult": "Kon resultaten niet toevoegen",
         "updatedDocument": "Het document is successvol bijgewerkt",
-        "cloudNotUpdate": "Het resultaat kon niet worden bijgewerkt"
+        "cloudNotUpdate": "Het resultaat kon niet worden bijgewerkt",
+        "couldNotAppend": "Kon resultaat niet bijvoegen"
     },
     "fileGenerators": {
         "couldNotGeneratePDF": "Kon PDF niet genereren",
@@ -25,6 +26,7 @@
     "dues": {
         "internalServerError": " door een interne server error",
         "invalidIdSupplied": " omdat een ongeldig ID gegeven werd",
-        "invalidValueSuppliedFor": " door de ongeldige waarde gegeven voor "
+        "invalidValueSuppliedFor": " door de ongeldige waarde gegeven voor ",
+        "answersPhase3AlreadyPresent": " omdat de resultaten voor fase 3 al gegeven zijn voor de test"
     }
 }
