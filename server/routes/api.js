@@ -23,7 +23,7 @@ router.get("/categories", function(req, res) {
   TestController.getTestCategories()
     .then(tests => res.json(tests))
     .catch(err => {
-      errorLogger.error("Categories endpoint threw", err);
+      errorLogger.error("Testcontroller getCategories endpoint threw", err);
       errorSender.sendInternalServerError(
         req,
         res,
@@ -40,6 +40,7 @@ router.get("/detail/:name", function(req, res) {
       if (err.name && err.name === "notFound") {
         errorSender.sendTestNotFound(req, res);
       } else {
+        errorLogger.error("Testcontroller getDetails endpoint threw", err);
         errorSender.sendInternalServerError(
           req,
           res,
@@ -213,6 +214,7 @@ const adminOnlyTestSpecificAction = function(req, res, functionName) {
         }
       })
       .catch(err => {
+        errorLogger.error("adminOnlyTestSpecificAction threw", err);
         errorSender.sendInternalServerError(req, res, err);
       });
   } else {
