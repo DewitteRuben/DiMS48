@@ -1,0 +1,13 @@
+[Unit]
+Description=Node.js serving score tool for tests
+After=mongod.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/var/howtotest/DiMS48/scripts/startServer
+
+[Install]
+WantedBy=multi-user.target
