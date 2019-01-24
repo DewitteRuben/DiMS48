@@ -86,7 +86,6 @@ router.post("/results/:name/2", function(req, res) {
   testSpecificAction(req, res, "postResultPart2");
 });
 
-//TODO protect against DDOS!
 router.get("/results/:name/pdf/:id", (req, res) => {
   testSpecificAction(req, res, "getPdf");
 });
